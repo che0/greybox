@@ -109,9 +109,13 @@ switch ($_GET['akce']) {
 		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
 		
 		// kontakty
-		$template->make('clovek_detail_kontakty_head');
-		$query = sprintf('select kontakt_ID, druh, tx from kontakt where clovek_ID = %s', $result2['clovek_ID']);
+		$query = sprintf('select kontakt_ID, druh, tx, viditelnost from kontakt where clovek_ID = %s', $result2['clovek_ID']);
 		$result = mysql_query($query);
+
+		unset($viditelnost);
+		$viditelnost[0] = $lang['public'];
+		$viditelnost[1] = $lang['registered'];
+		$viditelnost[2] = $lang['club only'];
 		
 		unset($druh);
 		$druh['DELETE'] = $lang['delete'];
@@ -122,30 +126,37 @@ switch ($_GET['akce']) {
 		$druh['jabber'] = $lang['jabber'];
 		$druh['web'] = $lang['web'];
 		
+		echo '<table class="visible">' . "\n";
 		while ($result3 = mysql_fetch_array($result)) {
-			echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
+			echo '<form name="clovek_kontakt_'.$result3['kontakt_ID'].'" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
 			form_hidden('clovek_ID',$result2['clovek_ID']);	
 			form_hidden('kontakt_ID',$result3['kontakt_ID']);
 			echo '<tr><td>';
 			form_pulldown('','type',$druh,$result3['druh'],'');
 			echo '</td><td>';
 			form_textbox('','tx',30,$result3['tx'],'');
-			echo '</td></tr>' . "\n";
-			printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
+			echo '</td><td>';
+			form_pulldown('','visibility',$viditelnost,$result3['viditelnost'],'');
+			echo '</td><td>' . "\n";
+			printf('<input type="submit" value="%s" name="Submit">' . "\n",$lang['submit']);
+			echo '</td></tr></form>' . "\n";
 		}
 		unset($druh['DELETE']);
 
-		echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
+		echo '<form name="clovek_kontakt_add" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
 		form_hidden('clovek_ID',$result2['clovek_ID']);	
 		form_hidden('kontakt_ID','NEW');
 		echo '<tr><td>';
-		form_pulldown('','type',$druh,$result3['druh'],'');
+		form_pulldown('','type',$druh,'email','');
 		echo '</td><td>';
 		form_textbox('','tx',30,'','');
-		echo '</td></tr>' . "\n";
-		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['add']);
+		echo '</td><td>';
+		form_pulldown('','visibility',$viditelnost,0,'');
+		echo '</td><td>' . "\n";
+		printf('<input type="submit" value="%s" name="Submit">' . "\n",$lang['add']);
+		echo '</td></tr></form>' . "\n";
 		
-		$template->make('clovek_detail_kontakty_tail');
+		echo '</table>' . "\n";
 
 		// todo:
 		// akreditace
@@ -153,7 +164,7 @@ switch ($_GET['akce']) {
 		
 	break;
 
-	case 'uprav.commit.kontrakty':
+	case 'uprav.commit.kontakty':
 		// gets: clovek_ID, kontakt_ID (can be 'NEW'), druh (can be 'DELETE'), tx;
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
 			// kick out people with access level lower than 1, unless the are editing themselves
@@ -181,43 +192,37 @@ switch ($_GET['akce']) {
 
 		if ($_POST['kontakt_ID'] == 'NEW') {
 			// insert new one
-			$query = sprintf('insert into kontakt (clovek_ID, druh, tx) values (%s, %s, %s)',
+			$query = sprintf('insert into kontakt (clovek_ID, viditelnost, druh, tx) values (%s, %s, %s, %s)',
 				get_numeric_field($_POST['clovek_ID']),
+				get_numeric_field($_POST['visibility']),
 				get_text_field($_POST['type']),
 				get_text_field($_POST['tx'])
 			);
-			if (mysql_query($query)) {
-				body_message($lang['edit ok']);
-				$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$result2['clovek_ID']));
-			} else {
-				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
-			}
 		} else {
 			if ($_POST['type'] == 'DELETE') {
 				// delete
 				$query = sprintf('delete from kontakt where kontakt_ID = %s and clovek_ID = %s', $_POST['kontakt_ID'], $_POST['clovek_ID']);
-			
-				if (mysql_query($query)) {
-					body_message($lang['edit ok']);
-					$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$result2['clovek_ID']));
-				} else {
-					body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
-				}
-				
 			} else {
 				// edit
-				$query = sprintf('update kontakt set druh = %s, tx = %s where kontakt_ID = %s and clovek_ID = %s', $_POST['type'], $_POST['tx'], $_POST['kontakt_ID'], $_POST['clovek_ID']);
-				
-				if (mysql_query($query)) {
-					body_message($lang['edit ok']);
-					$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$result2['clovek_ID']));
-				} else {
-					body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
-				}
+				$query = sprintf('update kontakt set druh = %s, viditelnost = %s, tx = %s where kontakt_ID = %s and clovek_ID = %s',
+					get_text_field($_POST['type']),
+					get_numeric_field($_POST['visibility']),
+					get_text_field($_POST['tx']),
+				       	$_POST['kontakt_ID'], $_POST['clovek_ID']
+				);
 			}
+		}
+			
+		if (mysql_query($query)) {
+			body_message($lang['edit ok']);
+			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?akce=uprav&id=%s">',$result2['clovek_ID']));
+		} else {
+			body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 		}
 	
 		echo $template->make('head');
+		print_body_messages();
+	break;
 
 	case 'uprav.commit':
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
@@ -243,7 +248,6 @@ switch ($_GET['akce']) {
 			break;
 		}
 		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
-		echo $template->make('head');
 
 		$query = 'update clovek set ';
 		
@@ -279,7 +283,7 @@ switch ($_GET['akce']) {
 		
 		if (mysql_query($query)) {
 			body_message($lang['edit ok']);
-			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',mysql_insert_id()));
+			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$_POST['clovek_ID']));
 		} else {
 			body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 		}

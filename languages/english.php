@@ -84,6 +84,9 @@ $lang['edit ok'] = 'edit ok';
 $lang['edit failed'] = 'edit failed';
 $lang['delete'] = 'delete';
 $lang['add'] = 'add'; // contact
+$lang['public'] = 'public';
+$lang['registered'] = 'registered';
+$lang['club only'] = 'club only';
 
 // index
 $lang['teams'] = 'teams';

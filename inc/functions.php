@@ -132,11 +132,7 @@ function get_text_field ($text)
 
 function get_numeric_field ($numeric)
 {
-	if ($numeric) {
-		return $numeric;
-	} else {
-		return "NULL";
-	}
+	return strval($numeric);
 }
 
 ?>
