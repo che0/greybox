@@ -206,7 +206,7 @@ if ($can_edit || $self_edit) {
 
 	if ($_SESSION["user_klub_ID"] == $clovek["klub_ID"]) {
 		$thresh = 2;
-	} elseif ($_SESSION["is_loggen_in"]) {
+	} elseif ($_SESSION["is_logged_in"]) {
 		$thresh = 1;
 	} else {
 		$thresh = 0;
