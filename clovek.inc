@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.29 2005/03/29 10:09:49 che0 Exp $
+ * $Id: clovek.inc,v 1.30 2005/03/30 11:07:17 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -199,23 +199,23 @@ if ($GLOBALS["cps_lidi"] >= 2) {
 if ($can_edit || $self_edit) {
 	cph_h2($lang["contacts"]);
 	
-	$accr = new cpykhen;
-	$accr->form_attr["action"] = "./?page=clovek.cont.edit.exec";
-	$accr->select = "select * from kontakt where clovek_ID = :clovek_id";
-	$accr->select_args = array(":clovek_id"=>$clovek_id);
-	$accr->form[] = new cpf_hidden("clovek_id",$clovek_id);
-	$accr->form[] = new cpf_db_hidden("kontakt_id","kontakt_ID");
-	$accr->form[] = new cpf_db_listbox_array("druh", $domain_kontakt_druh);
-	$accr->form[] = new cpf_db_textbox("tx","tx",array("size"=>"40"));
-	$accr->form[] = new cpf_db_listbox_array("viditelnost", $domain_kontakt_viditelnost);
-	$accr->form["b1"] = new cpf_button("save",$lang["save"]);
-	$accr->form["b2"] = new cpf_button("delete",$lang["delete"]);
-	$accr->render_select();
+	$cont = new cpykhen;
+	$cont->form_attr["action"] = "./?page=clovek.cont.edit.exec";
+	$cont->select = "select * from kontakt where clovek_ID = :clovek_id";
+	$cont->select_args = array(":clovek_id"=>$clovek_id);
+	$cont->form[] = new cpf_hidden("clovek_id",$clovek_id);
+	$cont->form[] = new cpf_db_hidden("kontakt_id","kontakt_ID");
+	$cont->form[] = new cpf_db_listbox_array("druh", $domain_kontakt_druh);
+	$cont->form[] = new cpf_db_textbox("tx","tx",array("size"=>40,"maxlength"=>255));
+	$cont->form[] = new cpf_db_listbox_array("viditelnost", $domain_kontakt_viditelnost);
+	$cont->form["b1"] = new cpf_button("save",$lang["save"]);
+	$cont->form["b2"] = new cpf_button("delete",$lang["delete"]);
+	$cont->render_select();
 	
-	$accr->form["b1"] = new cpf_button("add",$lang["add"]);
-	unset($accr->form["b2"]);
-	$accr->load_new();
-	$accr->render_hidden($lang["new contact"]);
+	$cont->form["b1"] = new cpf_button("add",$lang["add"]);
+	unset($cont->form["b2"]);
+	$cont->load_new();
+	$cont->render_hidden($lang["new contact"]);
 } else {
 
 	if (!is_null($clovek["klub_ID"]) && $_SESSION["user_klub_ID"] == $clovek["klub_ID"]) {
@@ -297,7 +297,7 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 	$access->form_attr["action"] = "./?page=clovek.pw.edit.exec";
 	$access->form[] = new cpf_hidden("clovek_id",$clovek_id);
 	$access->form[] = new cpf_text($lang["username"] . ": ");
-	$access->form[] = new cpf_db_textbox("username");
+	$access->form[] = new cpf_db_textbox("username","username",array("maxlength"=>32));
 	$access->form[] = new cpf_nl;
 	$access->form[] = new cpf_text($lang["password"] . ": ");
 	$access->form[] = new cpf_db_password("n1");

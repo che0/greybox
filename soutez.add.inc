@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.add.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ * $Id: soutez.add.inc,v 1.6 2005/03/30 11:07:18 che0 Exp $
  */
 
 if ($GLOBALS["cps_souteze"] < 2) {
@@ -15,7 +15,7 @@ $soutez_f = new cpykhen;
 $soutez_f->form_attr["action"] = "./?page=soutez.edit.exec";
 $soutez_f->form[] = new cpf_db_hidden("soutez_id","soutez_ID");
 $soutez_f->form[] = new cpf_text($lang["competition"] . ": ");
-$soutez_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>"40"));
+$soutez_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>40,"maxlength"=>255));
 $soutez_f->form[] = new cpf_nl;
 $soutez_f->form[] = new cpf_text($lang["language"] . ": ");
 $soutez_f->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"));

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.16 2005/03/23 20:05:48 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.17 2005/03/30 11:07:18 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -24,10 +24,10 @@ if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"));
 	$teze_f->form[] = new cpf_nl;
 	$teze_f->form[] = new cpf_text($lang["resolution"] . ": ");
-	$teze_f->form[] = new cpf_db_textbox("tx","tx",array("size"=>60));
+	$teze_f->form[] = new cpf_db_textbox("tx","tx",array("size"=>60,"maxlength"=>255));
 	$teze_f->form[] = new cpf_nl;
 	$teze_f->form[] = new cpf_text($lang["short text"] . ": ");
-	$teze_f->form[] = new cpf_db_textbox("tx_short","tx_short",array("size"=>40));
+	$teze_f->form[] = new cpf_db_textbox("tx_short","tx_short",array("size"=>40,"maxlength"=>40));
 	$teze_f->form[] = new cpf_nl;
 	$teze_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$teze_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));

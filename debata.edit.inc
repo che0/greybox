@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.inc,v 1.13 2005/03/23 20:05:46 che0 Exp $
+ * $Id: debata.edit.inc,v 1.14 2005/03/30 11:07:18 che0 Exp $
  */
 
 if ($GLOBALS["cps_debaty"] < 1) {
@@ -182,11 +182,11 @@ $dpyk->form[] = new cpf_text($lang["tournament"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("turnaj_id", $sdomain_turnaje, "turnaj_ID");
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["date"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("datum","datum",array("size"=>"20"));
+$dpyk->form[] = new cpf_db_textbox("datum","datum",array("size"=>20,"maxlength"=>19));
 $dpyk->form[] = new cpf_text(" " . $lang["yyyy-mm-dd hh:mm:ss"],array("class"=>"desc"));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["place"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("misto");
+$dpyk->form[] = new cpf_db_textbox("misto","misto",array("maxlength"=>255));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["resolution"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("teze_id", $sdomain_teze, "teze_ID");
@@ -200,17 +200,17 @@ $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["1st speaker"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("a1_id", $sdomain_aff, "a1_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("a1_kidy","a1_kidy",array("size"=>"3"));
+$dpyk->form[] = new cpf_db_textbox("a1_kidy","a1_kidy",array("size"=>3,"maxlength"=>3));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["2nd speaker"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("a2_id", $sdomain_aff, "a2_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("a2_kidy","a2_kidy",array("size"=>"3"));
+$dpyk->form[] = new cpf_db_textbox("a2_kidy","a2_kidy",array("size"=>3,"maxlength"=>3));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["3rd speaker"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("a3_id", $sdomain_aff, "a3_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("a3_kidy","a3_kidy",array("size"=>"3"));
+$dpyk->form[] = new cpf_db_textbox("a3_kidy","a3_kidy",array("size"=>3,"maxlength"=>3));
 $dpyk->form[] = new cpf_nl;
 
 $dpyk->form[] = new cpf_text($lang["negative"],array("class"=>"p_h2"));
@@ -222,17 +222,17 @@ $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["1st speaker"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("n1_id", $sdomain_neg, "n1_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("n1_kidy","n1_kidy",array("size"=>"3"));
+$dpyk->form[] = new cpf_db_textbox("n1_kidy","n1_kidy",array("size"=>3,"maxlength"=>3));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["2nd speaker"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("n2_id", $sdomain_neg, "n2_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("n2_kidy","n2_kidy",array("size"=>"3"));
+$dpyk->form[] = new cpf_db_textbox("n2_kidy","n2_kidy",array("size"=>3,"maxlength"=>3));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["3rd speaker"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("n3_id", $sdomain_neg, "n3_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("n3_kidy","n3_kidy",array("size"=>"3"));
+$dpyk->form[] = new cpf_db_textbox("n3_kidy","n3_kidy",array("size"=>3,"maxlength"=>3));
 $dpyk->form[] = new cpf_nl;
 
 $dpyk->form[] = new cpf_text($lang["result"],array("class"=>"p_h2"));

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.29 2005/03/23 20:05:47 che0 Exp $
+ * $Id: klub.inc,v 1.30 2005/03/30 11:07:18 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -26,13 +26,13 @@ if ($can_edit) {
 	$klub_f->form_attr["action"] = "./?page=klub.edit.exec";
 	$klub_f->form[] = new cpf_db_hidden("klub_id","klub_ID");
 	$klub_f->form[] = new cpf_text($lang["club name"] . ": ");
-	$klub_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>"40"));
+	$klub_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>40,"maxlength"=>255));
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_text($lang["short name"] . ": ");
-	$klub_f->form[] = new cpf_db_textbox("kratky_nazev");
+	$klub_f->form[] = new cpf_db_textbox("kratky_nazev","kratky_nazev",array("maxlength"=>32));
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_text($lang["place"] . ": ");
-	$klub_f->form[] = new cpf_db_textbox("misto","misto",array("size"=>"40"));
+	$klub_f->form[] = new cpf_db_textbox("misto","misto",array("size"=>40,"maxlength"=>255));
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$klub_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
