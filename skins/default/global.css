@@ -73,6 +73,10 @@ table.visible td, table.visible th {
 	padding-right: 5px;
 }
 
+td.sieg, th.sieg {
+	background-color: #dcffd5;
+}
+
 tr.inactive {
 	color: #aaaca9;
 }

@@ -2,6 +2,11 @@
 // teze.inc
 // vypis vsech tezi
 
+if (isset($_REQUEST["teze_id"])) {
+	include("teze.detaily.inc");
+	return;
+}
+
 $lang_choice = (isset ($_REQUEST["lang"])) ? $_REQUEST["lang"] : "cz";
 
 pg_head();

@@ -441,7 +441,7 @@ if (cpdb_fetch_all("
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
 		$result .= " ";
-		if ($debata["presvedcive"] == 1) { $result .= $lang["persuasively"]; } else { $result .= $lang["less persuasively"]; }
+		if ($debata["presvedcive"] == 1) { $result .= $lang["3:0"]; } else { $result .= $lang["2:1"]; }
 		switch ($debata["role"]) {
 			case "o": // organizer
 				$detaily = "";
@@ -504,7 +504,7 @@ if (cpdb_fetch_all("
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
 		$result .= " ";
-		if ($debata["presvedcive"] == 1) { $result .= $lang["persuasively"]; } else { $result .= $lang["less persuasively"]; }
+		if ($debata["presvedcive"] == 1) { $result .= $lang["3:0"]; } else { $result .= $lang["2:1"]; }
 		cph_table_row(array(
 			format_date($debata["datum"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),

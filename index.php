@@ -53,6 +53,7 @@ $GLOBALS["page"]->pages = array(
 	array("tym.add", $lang["add team"]),
 	array("tym.edit.exec", $lang["edit team"]),
 	array("tym.clovek.edit.exec", $lang["edit team"]),
+	array("debata", $lang["debate"]),
 );
 
 $GLOBALS["page"]->render();

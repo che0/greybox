@@ -173,8 +173,6 @@ $lang['pts'] = 'pts';
 $lang['tournament'] = 'tournament';
 $lang['aff'] = 'aff';
 $lang['neg'] = 'neg';
-$lang['persuasively'] = 'persuasively';
-$lang['less persuasively'] = 'less persuasively';
 $lang['debated'] = 'debated';
 $lang['team in the competition'] = 'team in the competition';
 $lang['total points'] = 'total points';
@@ -239,4 +237,8 @@ $lang['N3'] = 'N3';
 $lang['debater'] = 'debater';
 $lang['points overview'] = 'points overview';
 $lang['refusing to set empty password'] = 'refusing to set empty password';
+$lang['3:0'] = '3:0';
+$lang['2:1'] = '2:1';
+$lang['won'] = 'won';
+$lang['debate'] = 'debate';
 ?>

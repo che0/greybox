@@ -169,9 +169,9 @@ if (cpdb_fetch_all("
 		}
 		$result .= " ";
 		if ($debata["presvedcive"] == 1) {
-			$result .= $lang["persuasively"];
+			$result .= $lang["3:0"];
 		} else {
-			$result .= $lang["less persuasively"];
+			$result .= $lang["2:1"];
 		}
 		cph_table_row(array(
 			format_date($debata["datum"]),
