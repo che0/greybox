@@ -30,19 +30,38 @@ CREATE TABLE clovek (
 ) TYPE=MyISAM;
 
 --
--- Table structure for table `clovek_ibody`
+-- Table structure for table `clovek_debata`
 --
 
-CREATE TABLE clovek_ibody (
+CREATE TABLE clovek_debata (
+  dc_ID int(10) unsigned NOT NULL auto_increment,
+  debata_ID int(10) unsigned NOT NULL default '0',
+  clovek_ID int(10) unsigned NOT NULL default '0',
+  role enum('r','o','a1','a2','a3','n1','n2','n3') NOT NULL default 'r',
+  kidy tinyint(3) unsigned default NULL,
+  rozhodnuti tinyint(1) default NULL,
+  presvedcive tinyint(1) default NULL,
+  PRIMARY KEY  (dc_ID),
+  KEY debata_ID (debata_ID),
+  KEY clovek_ID (clovek_ID)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `clovek_debata_ibody`
+--
+
+CREATE TABLE clovek_debata_ibody (
   ci_ID int(10) unsigned NOT NULL auto_increment,
   clovek_ID int(10) unsigned NOT NULL default '0',
+  debata_ID int(10) unsigned NOT NULL default '0',
   rocnik tinyint(3) unsigned NOT NULL default '0',
   ibody_debater decimal(5,2) default NULL,
   ibody_rozhodci decimal(5,2) default NULL,
   ibody_trener decimal(5,2) default NULL,
   ibody_organizator decimal(5,2) default NULL,
   PRIMARY KEY  (ci_ID),
-  KEY clovek_ID (clovek_ID)
+  KEY clovek_ID (clovek_ID),
+  KEY debata_ID (debata_ID)
 ) TYPE=MyISAM;
 
 --
@@ -105,24 +124,6 @@ CREATE TABLE debata (
   PRIMARY KEY  (debata_ID),
   KEY soutez_ID (soutez_ID),
   KEY turnaj_ID (turnaj_ID)
-) TYPE=MyISAM;
-
---
--- Table structure for table `debata_clovek`
---
-
-CREATE TABLE debata_clovek (
-  dc_ID int(10) unsigned NOT NULL auto_increment,
-  debata_ID int(10) unsigned NOT NULL default '0',
-  clovek_ID int(10) unsigned NOT NULL default '0',
-  role enum('r','o','a1','a2','a3','n1','n2','n3') NOT NULL default 'r',
-  kidy tinyint(3) unsigned default NULL,
-  rozhodnuti tinyint(1) default NULL,
-  presvedcive tinyint(1) default NULL,
-  ibody decimal(5,2) default NULL,
-  PRIMARY KEY  (dc_ID),
-  KEY debata_ID (debata_ID),
-  KEY clovek_ID (clovek_ID)
 ) TYPE=MyISAM;
 
 --
