@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: config.inc.example,v 1.2 2005/02/06 17:37:47 che0 Exp $
+ * $Id: config.inc.example,v 1.3 2005/02/06 17:44:20 che0 Exp $
  */
 
 $GLOBALS["cp_config"]["db_server"] = "localhost";
@@ -33,5 +33,7 @@ The database connection has failed. Try again later. Good luck!</p>
 </body>
 </html>
 ';
+
+$GLOBALS["cp_config"]["no database_embed"] = 'database connection has failed';
 
 ?>

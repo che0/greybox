@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS["embed"] = true;
+
 include_once("../lib/config.inc");
 include_once("../lib/cphtml.inc");
 include_once("../lib/dblink.inc");
