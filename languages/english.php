@@ -295,4 +295,5 @@ $lang['competition is locked'] = 'competition is locked';
 $lang['team cannot debate against itself'] = 'team cannot debate against itself';
 $lang['speaker %s is not a member of %s team, dropping'] = 'speaker %s is not a member of %s team, dropping';
 $lang['one person cannot debate twice in one debate (%s==%s), dropping %s'] = 'one person cannot debate twice in one debate (%s==%s), dropping %s';
+$lang['samples'] = 'samples';
 ?>

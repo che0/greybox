@@ -298,4 +298,5 @@ $lang['competition is locked'] = 'soutěž je uzamčena';
 $lang['team cannot debate against itself'] = 'tým nemůže debatovat sám proti sobě';
 $lang['speaker %s is not a member of %s team, dropping'] = 'řečník %s není členem %s týmu, zahazuji';
 $lang['one person cannot debate twice in one debate (%s==%s), dropping %s'] = 'jeden řečník debatovat dvakrát  ve stejné debatě (%s==%s), zahazuji %s';
+$lang['samples'] = 'vzorků';
 ?>
