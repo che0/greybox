@@ -1,7 +1,5 @@
 <?php
 
-//FIXME
-
 $clovek_id = $_REQUEST["clovek_id"];
 $nick = $_REQUEST["nick"];
 $komentar = $_REQUEST["komentar"];

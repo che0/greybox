@@ -8,12 +8,14 @@ include_once("lib/page.inc");
 include_once("lib/session.inc");
 include_once('lib/misc.inc');
 
-$GLOBALS["page"]->links[] = array("./",$lang["link_homepage"]);
-$GLOBALS["page"]->links[] = array("./?page=lide",$lang["link_everyone"]);
+$GLOBALS["page"]->links[] = array("./",$lang["homepage"]);
+$GLOBALS["page"]->links[] = array("./?page=lide",$lang["people"]);
 $GLOBALS["page"]->links[] = array("./?page=kluby",$lang["clubs"]);
-$GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
+$GLOBALS["page"]->links[] = array("./?page=tymy",$lang["teams"]);
 $GLOBALS["page"]->links[] = array("./?page=souteze",$lang["competitions"]);
 $GLOBALS["page"]->links[] = array("./?page=turnaje",$lang["tournaments"]);
+$GLOBALS["page"]->links[] = array("./?page=debaty",$lang["debates"]);
+$GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
 
 $GLOBALS["page"]->default_page = "default";
 
@@ -49,11 +51,13 @@ $GLOBALS["page"]->pages = array(
 	array("turnaj.edit.exec", $lang["edit tournament"]),
 	array("turnaje", $lang["tournaments"]),
 	array("turnaj.clovek.edit.exec", $lang["edit tournament"]),
+	array("tymy", $lang["teams"]),
 	array("tym", $lang["team"]),
 	array("tym.add", $lang["add team"]),
 	array("tym.edit.exec", $lang["edit team"]),
 	array("tym.clovek.edit.exec", $lang["edit team"]),
 	array("debata", $lang["debate"]),
+	array("debaty", $lang["debates"]),
 );
 
 $GLOBALS["page"]->render();

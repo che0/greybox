@@ -1,5 +1,4 @@
 <?php
-// FIXME
 
 $klub_id = $_REQUEST["klub_id"];
 $misto = $_REQUEST["misto"];

@@ -1,5 +1,4 @@
 <?php
-//FIXME
 
 pg_head();
 

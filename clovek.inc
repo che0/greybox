@@ -1,5 +1,6 @@
 <?php
 // clovek.inc
+include_once("i_domeny.inc");
 
 $clovek_id = $_REQUEST["clovek_id"];
 
@@ -19,77 +20,6 @@ $can_edit =
 );
 
 $self_edit = ($clovek["clovek_ID"] == $_SESSION["user_clovek_ID"]);
-
-$domain_klub_role = array(
-	"t"=>$lang["coach"]
-);
-
-$domain_turnaj_role = array(
-	"o"=>$lang["organizer"]
-);
-
-$domain_debata_role = array(
-	"r"=>$lang["adjudicator"],
-	"o"=>$lang["organizer"],
-	"a1"=>$lang["A1"],
-	"a2"=>$lang["A2"],
-	"a3"=>$lang["A3"],
-	"n1"=>$lang["N1"],
-	"n2"=>$lang["N2"],
-	"n3"=>$lang["N3"]
-);
-
-$domain_ibody_role = array(
-	"debater"=>$lang["debater"],
-	"rozhodci"=>$lang["adjudicator"],
-	"trener"=>$lang["coach"],
-	"organizator"=>$lang["organizer"]
-);
-
-$domain_kontakt_viditelnost = array(
-	0=>$lang['public'],
-	1=>$lang['registered'],
-	2=>$lang['club only']
-);
-
-$domain_kontakt_druh = array(
-	'telefon'=>$lang['phone'],
-	'email'=>$lang['email'],
-	'adresa'=>$lang['postal'],
-	'icq'=>$lang['icq'],
-	'jabber'=>$lang['jabber'],
-	'web'=> $lang['web']
-);
-
-$domain_prava_souteze = array(
-	0=>$lang['access competitions0'],
-	1=>$lang['access competitions1'],
-	2=>$lang['access competitions2']
-);
-
-$domain_prava_lidi = array(
-	0=>$lang['access people0'],
-	1=>$lang['access people1'],
-	2=>$lang['access people2'],
-	3=>$lang['access people3']
-);
-
-$domain_prava_kluby = array(
-	0=>$lang['access clubs0'],
-	1=>$lang['access clubs1'],
-	2=>$lang['access clubs2']
-);
-
-$domain_prava_souteze = array(
-	0=>$lang['access competitions0'],
-	1=>$lang['access competitions1'],
-	2=>$lang['access competitions2']
-);
-
-$domain_prava_debaty = array(
-	0=>$lang['access debates0'],
-	1=>$lang['access debates1']
-);
 
 // basic details
 if ($can_edit) {
@@ -423,15 +353,13 @@ if (cpdb_fetch_all("
 	from
 		clovek_debata
 		left join debata on debata.debata_ID = clovek_debata.debata_ID
-		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID
-		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID
+		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
+		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
 		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
 		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
 		left join teze on teze.teze_ID = debata.teze_ID
 	where
-		dt_aff.pozice = 1
-		and dt_neg.pozice = 0
-		and clovek_debata.clovek_ID = :clovek_id
+		clovek_debata.clovek_ID = :clovek_id
 	order by
 		datum desc
 	", array(":clovek_id"=>$clovek_id),$r_debaty)) {
@@ -485,15 +413,13 @@ if (cpdb_fetch_all("
 	from
 		clovek_debata_ibody
 		left join debata on debata.debata_ID = clovek_debata_ibody.debata_ID
-		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID
-		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID
+		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
+		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
 		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
 		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
 		left join teze on teze.teze_ID = debata.teze_ID
 	where
-		dt_aff.pozice = 1
-		and dt_neg.pozice = 0
-		and clovek_debata_ibody.clovek_ID = :clovek_id
+		clovek_debata_ibody.clovek_ID = :clovek_id
 		and clovek_debata_ibody.rocnik = :rocnik
 	order by
 		datum desc

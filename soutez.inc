@@ -146,15 +146,13 @@ if (cpdb_fetch_all("
 		debata.debata_ID
 	from
 		debata
-		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID
-		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID
+		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
+		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
 		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
 		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
 		left join teze on teze.teze_ID = debata.teze_ID
 	where
-		dt_aff.pozice = 1
-		and dt_neg.pozice = 0
-		and debata.soutez_ID = :soutez_id
+		debata.soutez_ID = :soutez_id
 	order by
 		datum desc
 	", array(":soutez_id"=>$soutez_id),$r_debaty)) {
