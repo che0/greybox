@@ -159,7 +159,7 @@ if ($can_edit) {
 	
 	$accr->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($accr->form["b2"]);
-	$accr->load_new();
+	$accr->load_this(array("rocnik"=>$GLOBALS["current_season"]));
 	$accr->render_hidden($lang["new accreditation"]);
 } else {
 	if (cpdb_fetch_all("
