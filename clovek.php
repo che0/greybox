@@ -165,17 +165,17 @@ switch ($_GET['akce']) {
 			get_text_field($_POST['name']),
 			get_text_field($_POST['surname']),
 			get_text_field($_POST['nick']),
-			($prava_lidi >= 2) ? get_numeric_field($_POST['klub_ID']) : $_SESSION['user_klub_ID'];
-			get_text_field($_POST['narozen']);
-			get_numeric_field($_POST['debater']);
-			get_text_field($_POST['komentar']);
+			($prava_lidi >= 2) ? get_numeric_field($_POST['klub_ID']) : $_SESSION['user_klub_ID'],
+			get_text_field($_POST['narozen']),
+			get_numeric_field($_POST['debater']),
+			get_text_field($_POST['komentar'])
 		);
 
 		if (mysql_query($query)) {
 			body_message($lang['add ok']);
-			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',mysql_insert_id());
+			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',mysql_insert_id()));
 		} else {
-			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error());
+			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error()));
 		}
 		
 		echo $template->make('head');
