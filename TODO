@@ -10,7 +10,7 @@ prepocitavani IB a vitezstvi debaty
 kontrola integrity
 
 clovek:
-	seznam podle jmena (+obecne klub a tymy) filtr (debater|aktivni rozhodci)
+	seznam podle jmena (+obecne klub a tymy) filtr (aktivni debater|aktivni rozhodci)
 	seznam podle IB s tymy a filtrem na vek a klub
 	vypis jednoho s kontakty podle stupne uverejneni
 	ve vypisu i akreditace, poradani turnaju, trenerstvi a ucast na debatach
@@ -18,13 +18,15 @@ clovek:
 	editace vlastnich udaju
 
 klub:
+	seznam klubu podle nazvu s mistem, poctem aktivnich debateru a aktivnich rozhodcich
 	seznam tymu, debateru, aktivnich rozhodcich, treneru
 	editace vlastnosti, pridani noveho, pridani/ubirani treneru
 
 soutez:
 	oficialni teze, komentar, rocnik
 	zebricek tymu s body v soutezi
-	seznam debat souteze podle turnaju
+	seznam turnaju (s mistem, terminy, poctem debat)
+	seznam debat podle casu s tymy, tezemi, vysledkem, a turnajem
 	pridani/editace souteze
 
 turnaj:
@@ -42,4 +44,10 @@ debata:
 	
 teze:
 	seznam podle jazyku a abecedy s upozornenim na komentar
+	vypis s komentarem a linky na souteze, kde je oficialni
 	
+homepage:
+	nejaktualnejsi debaty
+	turnaje (do >= date(), data, misto)
+	zebricky aktualnich soutezi (z kazdeho jazyka unlocked nebo alespon nejnovejsi -- podle konce)
+	top10 IB
