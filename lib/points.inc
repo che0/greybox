@@ -10,17 +10,21 @@ function iptsr_internal_deb($debata_id) {
 	$status &= cpdb_exec("delete from clovek_debata_ibody where debata_ID = :debata_id", array(":debata_id"=>$debata_id));
 	
 	// debateri
+	/* podle kidu 
 	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'debater', kidy * 0.01 from clovek_debata where debata_ID = :debata_id and find_in_set(role,'a1,a2,a3,n1,n2,n3')", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
+	*/
+	// debateri podle poharovych bodu
+	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_debata.clovek_ID, clovek_debata.debata_ID, :rocnik, 'debater', debata_tym.body * 0.1 from clovek_debata left join debata_tym on clovek_debata.debata_ID = debata_tym.debata_ID and substring(clovek_debata.role,1,1) = elt(debata_tym.pozice + 1,'n','a') where clovek_debata.debata_ID = :debata_id and find_in_set(clovek_debata.role,'a1,a2,a3,n1,n2,n3')", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
 		
 	// rozhodci
-	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'rozhodci', 0.8 from clovek_debata where debata_ID = :debata_id and role = 'r'", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
+	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'rozhodci', 1 from clovek_debata where debata_ID = :debata_id and role = 'r'", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
 	
 	// treneri
 	$status &= cpdb_exec("
 		insert into
 			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
 		select
-			clovek_klub.clovek_ID as c1, clovek_debata_ibody.debata_ID as c2, :rocnik as c3, 'trener' as c4, sum(clovek_debata_ibody.ibody) * 0.04 as ibody
+			clovek_klub.clovek_ID as c1, clovek_debata_ibody.debata_ID as c2, :rocnik as c3, 'trener' as c4, sum(clovek_debata_ibody.ibody) * 0.1 as ibody
 		from
 			clovek_debata_ibody
 			left join clovek
@@ -40,8 +44,11 @@ function iptsr_internal_deb($debata_id) {
 	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
 	
 	// organizatori
-	// kolik dostanou
+	/* kolik dostanou
 	$dostanou = cpdb_fetch_one_value("select sum(ibody) * 0.05 from clovek_debata_ibody where debata_ID = :debata_id and find_in_set(clovek_debata_ibody.role,'debater,rozhodci')", array(":debata_id"=>$debata_id));
+	*/
+	// ted uz dostavaji konstatni 0.1
+	$dostanou = 0.1;
 	
 	// primi
 	$status &= cpdb_exec("
