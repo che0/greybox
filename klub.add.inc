@@ -1,5 +1,7 @@
 <?php
 
+pg_head();
+
 if ($GLOBALS["cps_kluby"] < 2) {
 	pg_achtung($lang["access denied"]);
 	return;

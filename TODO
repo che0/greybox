@@ -16,7 +16,6 @@ clovek:
 klub:
 	seznam aktivnich rozhodcich, treneru
 	pridani/ubirani treneru
-	mazani klubu
 
 debata:
 	page=debata, debata_id

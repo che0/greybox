@@ -3,9 +3,7 @@
 // print out club list
 pg_head();
 
-if ($prava_kluby >= 2) {
-	cph_p(cphs_link("./?page=klub&akce=pridej",$lang['add club']));
-}
+if ($GLOBALS["cps_kluby"] >= 2) cph_p(cphs_link("./?page=klub.add",$lang['add club']));
 
 cph_table_head(array($lang["club"],$lang["place"],$lang["debaters"]),array("class"=>"visible"));
 cpdb_fetch_all("select klub_ID, nazev, misto from klub order by nazev",array(),$kluby);

@@ -15,7 +15,7 @@ if (!($GLOBALS["cps_kluby"] >= 2
 
 if (isset($_REQUEST["add"])) {
 	// add new
-	if (cpdb_exec("insert into klub (misto, nazev, kratky_nazev, komentar) values (:misto, :nazev, :kratky_nazev, :komentar)", array(":misto"=>$klub_id, ":kratky_nazev"=>$kratky_nazev, ":nazev"=>$nazev, ":komentar"=>$komentar))) {
+	if (cpdb_exec("insert into klub (misto, nazev, kratky_nazev, komentar) values (:misto, :nazev, :kratky_nazev, :komentar)", array(":misto"=>$misto, ":kratky_nazev"=>$kratky_nazev, ":nazev"=>$nazev, ":komentar"=>$komentar))) {
 		pg_achtung("club insert ok");
 		$_REQUEST["klub_id"] = cpdb_insert_id();
 		include("klub.inc");
@@ -32,7 +32,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["delete"])) {
 	// delete
 	
-	if (cpdb_exec("delete from klub where klub_ID = :klub_id", array(":klub_id"=>$tym_id))) {
+	if (cpdb_exec("delete from klub where klub_ID = :klub_id", array(":klub_id"=>$klub_id))) {
 		pg_achtung("club delete ok");
 		include("kluby.inc");
 	}
