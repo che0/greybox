@@ -1,0 +1,38 @@
+body {
+	background-color: white;
+	color: black;
+	font-family: sans-serif;
+	margin: 0px;
+	background-image: url('images/leftbg.png');
+	background-repeat: repeat-y;
+	background-position: top left;
+}
+
+div#main_title {
+	height: 44px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	background-color: #fdfffc;
+	background-image: url('images/titlebg.png');
+}
+
+span#main_title_text {
+	display: block;
+	position: absolute;
+	top: 20px;
+	left: 217px;
+	font-size: x-large;
+	font-weight: bold;
+}
+
+div#leftblock {
+	float: left;
+	width: 180px;
+	padding: 10px;
+}
+
+div#mainbody {
+	margin-left: 200px;
+	padding: 10px;
+}

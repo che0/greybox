@@ -28,6 +28,7 @@ $template = new template($setup['global_skin']);
 
 $template->load('global');
 $template->editvar('page_title',$setup['global_title']);
+$template->editvar('pure_title','');
 $template->editvar('page_headers','');
 
 $lang = array();

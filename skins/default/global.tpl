@@ -5,16 +5,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Language" content="cs">
 {page_headers}
+<link rel="stylesheet" href="skins/default/global.css" media="screen" type="text/css">
 </head>
 
 <body>
-
-<div class="linkblock">
-<p class="login_info">{login_info}</p>
+<div id="main_title"><img src="skins/default/images/titul.png" width="288" height="44" alt="{page_title}"><span id="main_title_text">{pure_title}</span></div>
+<div id="leftblock"><p class="login_info">{login_info}</p>
 <p class="link"><a href="./">root</a></p>
-</div>
-
-<div class="mainbody">
+</div><div id="mainbody">
 <!-- END head -->
 
 <!-- BEGIN tail -->
