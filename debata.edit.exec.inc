@@ -117,7 +117,7 @@ if (isset($_REQUEST["add"])) {
 		recount_debate($debata_id);
 		ipts_recount_debate($debata_id);
 		pg_achtung($lang["debate add ok"]);
-		include("debata.inc");
+		include("debata.edit.inc");
 	} else {
 		cpdb_rollback();
 		include("debata.edit.inc");
