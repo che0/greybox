@@ -143,6 +143,11 @@ td.sieg, th.sieg {
 	background-color: #dcffd5;
 }
 
+table.visible tr:hover td.sieg,
+table.visible tr:hover th.sieg {
+	background-color: #bcffd8;
+}
+
 tr.inactive {
 	/* de-emphasized row */
 	color: #aaaca9;
