@@ -1,43 +1,15 @@
 <?php
-// clovek.php
-require('inc/head.php');
+// clovek.inc
 
-$template->load('clovek');
-$template->editvar('name',$lang['name']);
-$template->editvar('club',$lang['club']);
-$template->editvar('team',$lang['team']);
-$template->editvar('languages',$lang['languages']);
-$template->editvar('place',$lang['place']);
-$template->editvar('ipoints',$lang['ipoints']);
-$template->editvar('line_empty',$lang['no records']);
-$template->editvar('num_rows',$lang['number of records']);
-$template->editvar('list',$lang['list']);
-$template->editvar('everyone',$lang['everyone']);
-$template->editvar('judges',$lang['judges']);
-$template->editvar('debaters',$lang['debaters']);
-$template->editvar('contacts',$lang['contacts']);
-$template->editvar('debates',$lang['debates']);
-$template->editvar('date',$lang['date']);
-$template->editvar('affirmative',$lang['affirmative']);
-$template->editvar('negative',$lang['negative']);
-$template->editvar('result',$lang['result']);
-$template->editvar('season',$lang['season']);
-$template->editvar('accreditations',$lang['accreditations']);
-$template->editvar('tournaments',$lang['tournaments']);
-$template->editvar('date_from',$lang['date_from']);
-$template->editvar('date_to',$lang['date_to']);
-$template->editvar('title',$lang['title']);
-$template->editvar('judging',$lang['judging']);
-$template->editvar('coarching',$lang['coarching']);
-$template->editvar('total',$lang['total']);
-$template->editvar('ipoints_long',$lang['ipoints_long']);
+// stare funkce
+include_once("inc/functions.php");
 
 switch ($_GET['akce']) {
 	case 'uprav':
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_GET['id'])) {
 			// kick out people with access level lower than 1, unless the are editing themselves
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 			break;
 		}
@@ -45,22 +17,21 @@ switch ($_GET['akce']) {
 		if (! $result2 = mysql_fetch_array($result)) {
 			// no found person, go out
 			set_title($lang['no records']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['no records']);
 			break;
 		}
 		if (($prava_lidi == 1) && ($_SESSION['user_klub_ID'] != $result2['klub_ID'])) {
 			// people with access level 1 can edit only member of their club
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 			break;
 		}
 		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
-		echo $template->make('head');
-		echo $template->make('clovek_edit');
+		pg_head();
 
-		echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit" method="post">' . "\n";
+		echo '<form name="clovek.pridej" action="./?page=clovek&akce=uprav.commit" method="post">' . "\n";
 		form_hidden('clovek_ID',$result2['clovek_ID']);
 		if ($prava_lidi > 0) {
 			// normal user can't change his name
@@ -123,7 +94,7 @@ switch ($_GET['akce']) {
 		printf('<h2>%s</h2>',$lang['contacts']);
 		echo '<table class="visible">' . "\n";
 		while ($result3 = mysql_fetch_array($result)) {
-			echo '<form name="clovek_kontakt_'.$result3['kontakt_ID'].'" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
+			echo '<form name="clovek_kontakt_'.$result3['kontakt_ID'].'" action="./?page=clovek&akce=uprav.commit.kontakty" method="post">' . "\n";
 			form_hidden('clovek_ID',$result2['clovek_ID']);	
 			form_hidden('kontakt_ID',$result3['kontakt_ID']);
 			echo '<tr><td>';
@@ -138,7 +109,7 @@ switch ($_GET['akce']) {
 		}
 		unset($druh['DELETE']);
 
-		echo '<form name="clovek_kontakt_add" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
+		echo '<form name="clovek_kontakt_add" action="./?page=clovek&akce=uprav.commit.kontakty" method="post">' . "\n";
 		form_hidden('clovek_ID',$result2['clovek_ID']);	
 		form_hidden('kontakt_ID','NEW');
 		echo '<tr><td>';
@@ -159,7 +130,7 @@ switch ($_GET['akce']) {
 		// delete
 		if ($prava_lidi >= 1) {
 			printf('<h2>%s</h2>',$lang['delete']);
-			echo '<form name="clovek_delete" action="clovek.php?akce=uprav.commit.delete" method="post">';
+			echo '<form name="clovek_delete" action="./?page=clovek&akce=uprav.commit.delete" method="post">';
 			form_hidden('clovek_ID',$_GET['id']);
 			form_pulldown($lang['delete'],'confirm',array('no' => $lang['no'], 'yes' => $lang['im sure']),'no',$lang['delete_desc']);
 			printf('<input type="submit" value="%s" name="Submit">', $lang['delete']);
@@ -174,7 +145,7 @@ switch ($_GET['akce']) {
 
 			if ($result3 = mysql_fetch_array($result)) {
 				if ($prava_lidi >= 3) {
-					echo '<form name="clovek_access_edit" action="clovek.php?akce=uprav.commit.access.edit" method="post">' . "\n";
+					echo '<form name="clovek_access_edit" action="./?page=clovek&akce=uprav.commit.access.edit" method="post">' . "\n";
 					form_hidden('clovek_ID',$_GET['id']);
 					form_textbox($lang['username'],'username',30,$result3['username'],$lang['username_desc']);
 					form_pulldown($lang['access people'], 'prava_lidi',
@@ -204,14 +175,14 @@ switch ($_GET['akce']) {
 					printf('<input type="submit" value="%s" name="Submit">', $lang['submit']);
 					echo '</form>' . "\n";	
 
-					echo '<form name="clovek_access_delete" action="clovek.php?akce=uprav.commit.access.delete" method="post">' . "\n";
+					echo '<form name="clovek_access_delete" action="./?page=clovek&akce=uprav.commit.access.delete" method="post">' . "\n";
 					form_hidden('clovek_ID',$_GET['id']);
 					form_pulldown($lang['delete account'], 'confirm', array('no' => $lang['no'], 'yes' => $lang['im sure']), 'no', $lang['delete account_desc']);
 					printf('<input type="submit" value="%s" name="Submit">', $lang['delete']);
 					echo '</form>' . "\n";	
 				}
 
-				echo '<form name="clovek_access_pw" action="clovek.php?akce=uprav.commit.access.pw" method="post">' . "\n";
+				echo '<form name="clovek_access_pw" action="./?page=clovek&akce=uprav.commit.access.pw" method="post">' . "\n";
 				if ($prava_lidi < 3) form_nothing($lang['username'],$result3['username']);
 				form_hidden('clovek_ID',$_GET['id']);
 				form_password($lang['password'],'pw',30,'',$lang['password_desc']);
@@ -220,7 +191,7 @@ switch ($_GET['akce']) {
 				echo '</form>' . "\n";
 			
 			} else if ($prava_lidi >= 3) {
-				echo '<form name="clovek_access_add" action="clovek.php?akce=uprav.commit.access.add" method="post">' . "\n";
+				echo '<form name="clovek_access_add" action="./?page=clovek&akce=uprav.commit.access.add" method="post">' . "\n";
 				form_hidden('clovek_ID',$_GET['id']);
 				form_textbox($lang['username'],'username',30,'',$lang['username_desc']);
 				form_password($lang['password'],'pw',30,'',$lang['password_desc']);
@@ -241,7 +212,7 @@ switch ($_GET['akce']) {
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
 			// kick out people with access level lower than 1, unless the are editing themselves
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 			break;
 		}
@@ -249,14 +220,14 @@ switch ($_GET['akce']) {
 		if (! $result2 = mysql_fetch_array($result)) {
 			// no found person, go out
 			set_title($lang['no records']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['no records']);
 			break;
 		}
 		if (($prava_lidi == 1) && ($_SESSION['user_klub_ID'] != $result2['klub_ID'])) {
 			// people with access level 1 can edit only member of their club
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 			break;
 		}
@@ -274,7 +245,7 @@ switch ($_GET['akce']) {
 						);
 					if (mysql_query($query)) {
 						body_message($lang['edit ok']);
-						header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+						header_redirect(sprintf('./?page=clovek&akce=uprav&id=%s',$_POST['clovek_ID']));
 					} else {
 						body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 					}
@@ -292,7 +263,7 @@ switch ($_GET['akce']) {
 					$query = sprintf('delete from login where clovek_ID = %s', $_POST['clovek_ID']);
 					if (mysql_query($query)) {
 						body_message($lang['delete ok']);
-						header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+						header_redirect(sprintf('./?page=clovek&akce=uprav&id=%s',$_POST['clovek_ID']));
 					} else {
 						body_message(sprintf('%s<br>%s',$lang['delete failed'], mysql_error()));
 					}
@@ -319,7 +290,7 @@ switch ($_GET['akce']) {
 
 				if (mysql_query($query) && mysql_query($query2)) {
 					body_message($lang['edit ok']);
-					header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+					header_redirect(sprintf('./?page=clovek&akce=uprav&id=%s',$_POST['clovek_ID']));
 				} else {
 					body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 				}
@@ -334,7 +305,7 @@ switch ($_GET['akce']) {
 					$query = sprintf('update login set password = %s where clovek_ID = %s', get_text_field(md5($_POST['pw'])), $_POST['clovek_ID']);
 					if (mysql_query($query)) {
 						body_message($lang['password changed']);
-						header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+						header_redirect(sprintf('./?page=clovek&akce=uprav&id=%s',$_POST['clovek_ID']));
 					} else {
 						body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 					}
@@ -407,7 +378,7 @@ switch ($_GET['akce']) {
 
 			if (mysql_query($query)) {
 				body_message($lang['edit ok']);
-				header_redirect(sprintf('clovek.php?id=%s',$_POST['clovek_ID']));
+				header_redirect(sprintf('./?page=clovek&id=%s',$_POST['clovek_ID']));
 			} else {
 				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 			}
@@ -442,14 +413,14 @@ switch ($_GET['akce']) {
 				
 			if (mysql_query($query)) {
 				body_message($lang['edit ok']);
-				header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$result2['clovek_ID']));
+				header_redirect(sprintf('./?page=clovek&akce=uprav&id=%s',$result2['clovek_ID']));
 			} else {
 				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 			}
 		break;
 		}
-	
-		echo $template->make('head');
+		
+		pg_head();
 		print_body_messages();
 		
 
@@ -458,15 +429,14 @@ switch ($_GET['akce']) {
 	case 'pridej':
 		if ($prava_lidi < 1) {
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 			break;
 		}
 		set_title($lang['add person']);
-		echo $template->make('head');
-		echo $template->make('clovek_new');
-
-		echo '<form name="clovek.pridej" action="clovek.php?akce=pridej.commit" method="post">' . "\n";
+		pg_head();
+		
+		echo '<form name="clovek.pridej" action="./?page=clovek&akce=pridej.commit" method="post">' . "\n";
 		form_textbox($lang['name'],'name', 30, '', $lang['name_desc']);
 		form_textbox($lang['surname'],'surname', 30, '', $lang['surname_desc']);
 		form_textbox($lang['nick'],'nick', 30, '', $lang['nick_desc']);
@@ -490,7 +460,7 @@ switch ($_GET['akce']) {
 	case 'pridej.commit':
 		if ($prava_lidi < 1) {
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 			break;
 		}
@@ -509,12 +479,12 @@ switch ($_GET['akce']) {
 
 		if (mysql_query($query)) {
 			body_message($lang['add ok']);
-			header_redirect(sprintf('clovek.php?id=%s',mysql_insert_id()));
+			header_redirect(sprintf('./?page=clovek&id=%s',mysql_insert_id()));
 		} else {
 			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error()));
 		}
 		
-		echo $template->make('head');
+		pg_head();
 		print_body_messages();
 
 
@@ -523,26 +493,48 @@ switch ($_GET['akce']) {
 	case 'vsichni':
 		// show list of people
 		set_title($lang['people']);
-		echo $template->make('head');
+		pg_head();
 
 		if ($prava_lidi >= 1) {
 			// if user can add new people, this is the page he can do it
-			printf('<p><a href="clovek.php?akce=pridej">%s</a></p>' . "\n", $lang['add person']);
+			printf('<p><a href="./?page=clovek&akce=pridej">%s</a></p>' . "\n", $lang['add person']);
 		}
 		
-		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(clovek_debata_ibody.ibody) as a_ibody';
-		$query .= ' from (((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join clovek_tym on clovek.clovek_ID <=> clovek_tym.clovek_ID) left join tym on clovek_tym.tym_ID <=> tym.tym_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
-		$query .= sprintf(' where (clovek_tym.aktivni is null or clovek_tym.aktivni = 1) and (clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)', get_current_season());
-		$query .= ' group by clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni, clovek.klub_ID, tym.tym_ID, tym.nazev, klub.kratky_nazev';
-		$query .= ' order by clovek.prijmeni, clovek.jmeno, clovek.nick';
+		$query = sprintf('
+			select
+				clovek.clovek_ID as a_clovek_ID,
+				clovek.jmeno as a_jmeno,
+				clovek.nick as a_nick,
+				clovek.prijmeni as a_prijmeni,
+				clovek.klub_ID as a_klub_ID,
+				tym.tym_ID as a_tym_ID,
+				tym.nazev as a_tym,
+				klub.kratky_nazev as a_klub,
+				sum(clovek_debata_ibody.ibody) as a_ibody
+			from 
+				(((clovek
+				left join klub on clovek.klub_ID <=> klub.klub_ID)
+				left join clovek_tym on clovek.clovek_ID <=> clovek_tym.clovek_ID)
+				left join tym on clovek_tym.tym_ID <=> tym.tym_ID)
+				left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID
+			where
+				(clovek_tym.aktivni is null or clovek_tym.aktivni = 1)
+				and (clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)
+			group by 
+				clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni, clovek.klub_ID, tym.tym_ID, tym.nazev, klub.kratky_nazev
+			order by
+				clovek.prijmeni, clovek.jmeno, clovek.nick
+		',get_current_season());
 		$result = mysql_query($query);
 
-		echo $template->make('clovek_list_all_head');
+		printf('<p>%s: %s | <a href="./?page=clovek&akce=rozhodci">%s</a> | <a href="./?page=clovek&akce=debateri">%s</a></p>
+<table class="visible">
+<tr><th>%s</td><th>%s</th><th>%s</th><th>%s</th></tr>', $lang["list"], $lang["everyone"], $lang["judges"], $lang["debaters"], $lang["name"], $lang["club"], $lang["team"], $lang["ipoints"]);
 		
 		$num_rows = 0;
 		if ($result2 = mysql_fetch_array($result)) {
 			$id = $result2['a_clovek_ID'];
-			$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
+			$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 			$ibody = $result2['a_ibody'];
@@ -551,39 +543,31 @@ switch ($_GET['akce']) {
 					// second team for an already read person
 					$tym .= sprintf(', <a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']);
 				} else {
-					$template->editvar('line_name',$name);
-					$template->editvar('line_club',$klub);
-					$template->editvar('line_team',$tym);
-					$template->editvar('line_ipoints',$ibody);
-					echo $template->make('clovek_list_all_line');
+					printf('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',$name, $klub, $tym, $ibody);
 					$num_rows++;
 
 					$id = $result2['a_clovek_ID'];
-					$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
+					$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 					$ibody = $result2['a_ibody'];
 				}
 			}
 			// send the last cached line
-			$template->editvar('line_name',$name);
-			$template->editvar('line_club',$klub);
-			$template->editvar('line_team',$tym);
-			$template->editvar('line_ipoints',$ibody);
-			echo $template->make('clovek_list_all_line');
+			printf('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',$name, $klub, $tym, $ibody);
+			
 			$num_rows++;
 		} else {
-			echo $template->make('clovek_list_all_empty');
+			printf('<tr><td colspan="5">%s</td></tr>',$line_empty);
 		}
-		$template->editvar('line_total',$num_rows);
-		echo $template->make('clovek_list_all_tail');
+		printf('<tr><td colspan="4">%s: %s</td></tr></table>', $lang["total"], $num_rows);
 				
 		break;
 	
 	case 'debateri':
 		// show list of debaters
 		set_title($lang['debaters']);
-		echo $template->make('head');
+		pg_head();
 		
 		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(clovek_debata_ibody.ibody) as a_ibody';
 		$query .= ' from (((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join clovek_tym on clovek.clovek_ID <=> clovek_tym.clovek_ID) left join tym on clovek_tym.tym_ID <=> tym.tym_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
@@ -597,7 +581,7 @@ switch ($_GET['akce']) {
 		$num_rows = 0;
 		if ($result2 = mysql_fetch_array($result)) {
 			$id = $result2['a_clovek_ID'];
-			$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
+			$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 			$ibody = $result2['a_ibody'];
@@ -614,7 +598,7 @@ switch ($_GET['akce']) {
 					$num_rows++;
 
 					$id = $result2['a_clovek_ID'];
-					$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
+					$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 					$ibody = $result2['a_ibody'];
@@ -636,7 +620,7 @@ switch ($_GET['akce']) {
 
 	case 'rozhodci':
 		set_title($lang['judges']);
-		echo $template->make('head');
+		pg_head();
 		
 		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, klub.kratky_nazev as a_klub, sum(clovek_debata_ibody.ibody) as a_ibody';
 		$query .= ' from ((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join rozhodci on clovek.clovek_ID <=> rozhodci.clovek_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
@@ -651,7 +635,7 @@ switch ($_GET['akce']) {
 		$one_line = 0;
 		while ($result2 = mysql_fetch_array($result)) {
 			$one_line = 1;
-			$template->editvar('line_name', sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni'])));
+			$template->editvar('line_name', sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni'])));
 			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 			$template->editvar('line_club',$klub);
 			$template->editvar('line_languages',$result2['a_jazyk']);
@@ -667,7 +651,7 @@ switch ($_GET['akce']) {
 	default:
 		if ($_GET['id'] == "") {
 			if (($_GET['id'] = $_SESSION['user_clovek_ID']) == "") {
-				echo $template->make('head');
+				pg_head();
 				break;
 			}
 		}
@@ -687,13 +671,13 @@ switch ($_GET['akce']) {
 			
 			set_title(join_name($result2['jmeno'], $result2['nick'], $result2['prijmeni']));
 
-			echo $template->make('head');
+			pg_head();
 			if (
 					($prava_lidi > 1)
 					|| (($prava_lidi == 1) && ($result2['klub_ID'] == $_SESSION['user_klub_ID']))
 					|| ($_SESSION['user_clovek_ID'] == $_GET['id'])
 			) {
-				printf('<p><a href="clovek.php?akce=uprav&id=%s">%s</a></p>', $result2['clovek_ID'], $lang['edit']);
+				printf('<p><a href="./?page=clovek&akce=uprav&id=%s">%s</a></p>', $result2['clovek_ID'], $lang['edit']);
 			}
 			print_comment($result2['komentar']);
 
@@ -832,13 +816,10 @@ switch ($_GET['akce']) {
 			body_message($lang['no records']);
 			set_title($lang['no records']);
 
-			echo $template->make('head');
+			pg_head();
 			print_body_messages();
 		}	
 		// end of
 	break;
 }
-
-echo $template->make('tail');
-require('inc/tail.php');
 ?>

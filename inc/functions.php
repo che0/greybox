@@ -3,27 +3,22 @@
 
 function set_title($title)
 {
-	global $template, $setup;
-	$template->editvar('page_title',$setup['global_title'].' '.$title);
-	$template->editvar('pure_title',$title);
+	$GLOBALS["page"]->title = $title;
 }
 
 function body_message($text)
 {
-	global $body_messages;
-	$body_messages .= "<p class=\"body_message\">" . $text . "</p>\n";
+	pg_achtung($text);
 }
 
 function print_one_message($text)
 {
-	printf('<p class="body_message">%s</p>',$text);
+	pg_achtung_now($text);
 }
 
 function print_body_messages()
 {
-	global $body_messages;
-	echo $body_messages;
-	$body_messages = '';
+	pg_flush_achtungs();
 }
 
 function join_name($first, $nick, $last)
@@ -46,8 +41,7 @@ function print_comment($comment)
 function get_current_season()
 {
 	// can be later improved with season selection
-	global $setup;
-	return $setup['current_season'];
+	return $GLOBALS["cp_config"]["current_season"];
 }
 
 function season_to_str($season)
@@ -155,8 +149,7 @@ function get_numeric_field ($numeric)
 
 function header_redirect($page)
 {
-	global $template;
-	$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=%s">',$page));
+	$GLOBALS["page"]->headers[] = sprintf('<meta http-equiv="refresh" content="1;url=%s">',$page);
 }
 
 ?>
