@@ -87,7 +87,7 @@ function cphs_link($href, $text,$attr = array()) {
 }
 
 function cph_link($href, $text,$attr = array()) {
-	echo cphs_link($href, $text,$attr = array());
+	echo cphs_link($href, $text, $attr);
 }
 
 function cphs_p($text, $attr = array()) {
