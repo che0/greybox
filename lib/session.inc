@@ -39,7 +39,7 @@ $GLOBALS["lang"] = & $lang;
 if (isset($_SESSION["current_season"])) {
 	$GLOBALS["current_season"] = $_SESSION["current_season"];
 } else {
-	$GLOBALS["current_season"] = $GLOBALS["default_season"];
+	$GLOBALS["current_season"] = $GLOBALS["cp_config"]["default_season"];
 }
 $GLOBALS["page"]->season_block = cphs_link("./?page=season",season_to_str($GLOBALS["current_season"]));
 
