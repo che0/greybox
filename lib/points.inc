@@ -47,8 +47,8 @@ function iptsr_internal_deb($debata_id) {
 	/* kolik dostanou
 	$dostanou = cpdb_fetch_one_value("select sum(ibody) * 0.05 from clovek_debata_ibody where debata_ID = :debata_id and find_in_set(clovek_debata_ibody.role,'debater,rozhodci')", array(":debata_id"=>$debata_id));
 	*/
-	// ted uz dostavaji konstatni 0.1
-	$dostanou = 0.1;
+	// ted uz dostavaji konstatni 0.15
+	$dostanou = 0.15;
 	
 	// primi
 	$status &= cpdb_exec("
