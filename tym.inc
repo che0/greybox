@@ -21,6 +21,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$tym_f->form[] = new cpf_db_hidden("tym_id","tym_ID");
 	$tym_f->form[] = new cpf_text($lang["club"] . ": ");
 	$tym_f->form[] = new cpf_db_listbox("klub_id",array("select klub_ID, nazev from klub", array()), "klub_ID");
+	$tym_f->form[] = new cpf_db_link("klub_ID","./?page=klub&klub_id=%s","link");
 	$tym_f->form[] = new cpf_nl;
 	$tym_f->form[] = new cpf_text($lang["team name"] . ": ");
 	$tym_f->form[] = new cpf_db_textbox("nazev");

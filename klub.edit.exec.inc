@@ -6,8 +6,10 @@ $nazev = $_REQUEST["nazev"];
 $kratky_nazev = $_REQUEST["kratky_nazev"];
 $komentar = $_REQUEST["komentar"];
 
-if (!($GLOBALS["cps_kluby"] >= 2
-	|| ($GLOBALS["cps_kluby"] == 1 && $klub_id == $_SESSION["user_klub_ID"]))) {
+if (!(
+	$GLOBALS["cps_kluby"] >= 2
+	|| ($GLOBALS["cps_kluby"] == 1 && $klub_id == $_SESSION["user_klub_ID"])
+	)) {
 		pg_achtung($lang["access denied"]);
 		return;
 }
