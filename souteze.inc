@@ -15,7 +15,7 @@ cpdb_fetch_all("select * from soutez where rocnik = :rocnik order by zamceno, ja
 foreach ($souteze as $soutez) {
 	cph_table_row(array(
 		$soutez["nazev"],
-		$soutez["lang"],
+		$soutez["jazyk"],
 		$soutez["zamceno"] ? $lang["no"] : $lang["yes"],
 		cpdb_fetch_one_value("select count(*) from debata where soutez_ID = :soutez_ID",array(":soutez_ID"=>$soutez["soutez_ID"])),
 		cphs_link("./?page=soutez.detaily&soutez_id=" . $soutez["soutez_ID"], $lang["details"])
