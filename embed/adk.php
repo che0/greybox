@@ -49,7 +49,7 @@ foreach ($souteze as $soutez) {
 			cph_table_row(array(
 				$rank,
 				cphs_link("greybox/?page=tym&tym_id=" . $team_rank["tym_ID"], sconv($team_rank["nazev"])),
-				cphs_link("greybox/?page=tym.soutez&tym_id=" . $team_rank["tym_ID"] . "&soutez_id=" . $soutez_id, $team_rank["bodu"])
+				cphs_link("greybox/?page=tym.soutez&tym_id=" . $team_rank["tym_ID"] . "&soutez_id=" . $soutez["soutez_ID"], $team_rank["bodu"])
 			));
 		}
 		cph_table_end();
