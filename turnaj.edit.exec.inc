@@ -1,6 +1,6 @@
 <?php
 
-if ($GLOBALS["cps_souteze"] < 2) {
+if ($GLOBALS["cps_souteze"] < 1) {
 	pg_achtung($lang["access denied"]);
 	return;
 }
