@@ -57,8 +57,8 @@ div#greybox_block img {
 	border: none;
 }
 
-div#greybox_block table.visible td,
-div#greybox_block table.visible th {
+div#greybox_block table td,
+div#greybox_block table th {
 	/* styles for tables that should be visible */
 	border-bottom-style: dotted;
 	border-bottom-width: 1px;
@@ -68,7 +68,12 @@ div#greybox_block table.visible th {
 	padding-right: 5px;
 }
 
-div#greybox_block table.visible tr:hover {
+div#greybox_block table tr.inactive,
+div#greybox_block table tr.inactive a {
+	color: #a0a29f;
+}
+
+div#greybox_block table tr:hover {
 	background-color: #edf6f8;
 }
 
