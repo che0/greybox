@@ -18,7 +18,7 @@ if ($_POST['action'] == 'login') {
 			$result2)
 	) {
 		pg_achtung($lang['login ok']);
-		$GLOBALS["page"]->headers[] = '<meta http-equiv="refresh" content="1;url=' . htmlspecialchars(urldecode($_POST['von'])) . '">';
+		$GLOBALS["page"]->headers[] = '<meta http-equiv="refresh" content="1;url=' . htmlspecialchars(urldecode($_POST['von'])) . '" />';
 
 		// now set all the session variables
 		$_SESSION['is_logged_in'] = true;

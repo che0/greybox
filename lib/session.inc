@@ -13,20 +13,20 @@ array ($lang);
 switch ($_SESSION['language']) {
 	case 'cz':
 		$GLOBALS["page"]->language="cz";
-		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&lang=en&von=%s">en</a>', $url_von);
+		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;lang=en&von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
 
 	case 'en':
 		$GLOBALS["page"]->language="en-us";
-		$GLOBALS["page"]->lang_block = sprintf('<a href="./?page=language&lang=cz&von=%s">cz</a> | en', $url_von);
+		$GLOBALS["page"]->lang_block = sprintf('<a href="./?page=language&amp;lang=cz&amp;von=%s">cz</a> | en', $url_von);
 		require('languages/english.php');
 	break;
 	
 	default:
 		// = cz, set cz
 		$GLOBALS["page"]->language="cz";
-		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&lang=en&von=%s">en</a>', $url_von);
+		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;lang=en&amp;von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
 }
@@ -59,7 +59,7 @@ if ($_SESSION["is_logged_in"] == true) {
 	$GLOBALS["cps_souteze"] = $_SESSION['user_prava_souteze'];
 	$GLOBALS["cps_teze"] = $_SESSION['user_prava_teze'];
 } else {
-	$GLOBALS["page"]->login_block = $lang['anonymous'] . ' <a href="./?page=login&amp;von=' . $url_von .'">'.$lang['log in'].'</a>';
+	$GLOBALS["page"]->login_block = $lang['anonymous'] . ' <a href="./?page=login&amp;amp;von=' . $url_von .'">'.$lang['log in'].'</a>';
 
 	$GLOBALS["cps_lidi"] = -1;
 	$GLOBALS["cps_kluby"] = -1;

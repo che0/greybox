@@ -2,7 +2,7 @@
 
 if (isset($_REQUEST["set_season"])) {
 	$_SESSION["current_season"] = $_REQUEST["set_season"];
-	$GLOBALS["page"]->headers[] = '<meta http-equiv="refresh" content="1;url=./?page=souteze">';
+	$GLOBALS["page"]->headers[] = '<meta http-equiv="refresh" content="1;url=./?page=souteze" />';
 
 	pg_achtung($lang["season changed"]);
 } else {

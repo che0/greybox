@@ -38,21 +38,23 @@ class pg_page {
 		}
 		
 		printf(
-'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html><head>
+'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%s" lang="%s"><head>
 <title>%s</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="Content-Language" content="%s">
-%s<link rel="stylesheet" href="skins/default/global.css" media="screen" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="%s" />
+%s<link rel="stylesheet" href="skins/default/global.css" media="screen" type="text/css" />
 <script type="text/javascript" src="lib/form_hiding.js"></script>
 </head>
 
 <body>
-<div id="main_title"><a href="./"><img src="skins/default/images/titul.png" width="288" height="44" alt="greybox" style="border: none"></a><span id="main_title_text">%s</span></div>
+<div id="main_title"><a href="./"><img src="skins/default/images/titul.png" width="288" height="44" alt="greybox" style="border: none" /></a><span id="main_title_text">%s</span></div>
 <div id="leftblock"><div id="infoblock"><span id="language_info">%s</span>
 | <span id="season_info">%s</span>
 <p id="login_info">%s</p></div>
 %s</div><div id="mainbody">',
+		$this->language,
+		$this->language,
 		(isset($this->title))
 			? ($GLOBALS["cp_config"]["title"] . " ". $this->title)
 			: ($GLOBALS["cp_config"]["title"]),
