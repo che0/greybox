@@ -160,6 +160,11 @@ switch ($_GET['akce']) {
 		// show list of people
 		set_title($lang['people']);
 		echo $template->make('head');
+
+		if ($prava_lidi >= 1) {
+			// if user can add new people, this is the page he can do it
+			printf('<p><a href="clovek.php?akce=pridej">%s</a></p>' . "\n", $lang['add person']);
+		}
 		
 		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(ibody_debater) + sum(ibody_rozhodci) + sum(ibody_trener) + sum(ibody_organizator) as ibody';
 		$query .= ' from (((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join clovek_tym on clovek.clovek_ID <=> clovek_tym.clovek_ID) left join tym on clovek_tym.tym_ID <=> tym.tym_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
