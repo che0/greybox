@@ -11,6 +11,8 @@ $turnaj = de_html_s($turnaj_p);
 $GLOBALS["page"]->title = $turnaj["nazev"];
 pg_head();
 
+if (isset($turnaj["komentar"])) cph_p($turnaj["komentar"]);
+
 if ($GLOBALS["cps_souteze"] >= 1) {
 	// edit/delete competition
 	
@@ -63,7 +65,6 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 } else {
 	// just view
 	
-	if (isset($turnaj["komentar"])) cph_p($turnaj["komentar"]);
 	cph_p(
 		$lang["date_from"] . ": " . format_date($turnaj["datum_od"]) . cphs_br()
 		. $lang["date_to"] . ": " . format_date($turnaj["datum_do"]) . cphs_br()

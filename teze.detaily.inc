@@ -10,6 +10,8 @@ $teze = de_html_s($teze_p);
 $GLOBALS["page"]->title = mb_substr($teze["tx"],0,56);
 pg_head();
 
+if (isset($teze["komentar"])) cph_p($teze["komentar"]);
+
 if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f = new cpykhen;
 	$teze_f->form_attr["action"] = "./?page=teze.edit.exec";
@@ -30,7 +32,6 @@ if ($GLOBALS['cps_teze'] >= 1) {
 } else {
 	cph_p($lang["language"] . ": " . $teze["jazyk"] 
 		. cphs_br() . $lang["resolution"] . ": " . $teze["tx"]);
-	if (isset($teze["komentar"])) cph_p($teze["komentar"]);
 }
 
 if (cpdb_fetch_all("select soutez.soutez_ID as soutez, nazev from soutez_teze left join soutez using (soutez_ID) where teze_ID = :teze_id", array(":teze_id" => $teze_id), $souteze) > 0) {

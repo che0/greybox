@@ -12,6 +12,7 @@ if (!cpdb_fetch_one_row("select * from soutez where soutez_ID = :soutez_id", arr
 $soutez = de_html_s($soutez_p);
 $GLOBALS["page"]->title = $soutez["nazev"];
 pg_head();
+if (isset($soutez["komentar"])) cph_p($soutez["komentar"]);
 
 if ($GLOBALS["cps_souteze"] >= 2) {
 	// edit/delete competition
@@ -67,7 +68,6 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 } else {
 	// just view
 	
-	if (isset($soutez["komentar"])) cph_p($soutez["komentar"]);
 	cph_p($lang["language"] . ": " . $soutez["jazyk"] . cphs_br()
 		. $lang["season"] . ": " . season_to_str($soutez["rocnik"]));
 	

@@ -11,6 +11,8 @@ $tym = de_html_s($tym_p);
 $GLOBALS["page"]->title = $tym["nazev"];
 pg_head();
 
+if (isset($tym["komentar"])) cph_p($tym["komentar"]);
+
 if ($GLOBALS["cps_kluby"] >= 2
 	|| ($GLOBALS["cps_kluby"] == 1 && $tym["klub_ID"] == $_SESSION["user_klub_ID"])
 	|| (cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id", array(":clovek_id"=>$_SESSION["user_clovek_ID"], ":tym_id"=>$tym_id)) == 1)) {
@@ -70,7 +72,6 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$members->render_hidden($lang["add member"]);
 	
 } else {
-	if (isset($tym["komentar"])) cph_p($tym["komentar"]);
 	cph_p(cphs_link("./?page=klub&klub_id=" . $tym["klub_ID"], cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_id", array(":klub_id"=>$tym["klub_ID"]))));
 	
 	cpdb_fetch_all("select clovek_tym.clovek_ID, clovek_tym.aktivni, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc", array(":tym_id"=>$tym_id), $members);

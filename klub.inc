@@ -15,6 +15,7 @@ $can_edit = (($GLOBALS["cps_kluby"] >= 2)
 
 $GLOBALS["page"]->title = $klub['nazev'];
 pg_head();
+if (isset($klub["komentar"])) cph_p($klub["komentar"]);
 
 if ($can_edit) {
 	$klub_f = new cpykhen;
@@ -60,7 +61,6 @@ if ($can_edit) {
 	$klub_clovek->render_hidden($lang["new person"]);
 } else {
 	
-	if (isset($klub["komentar"])) cph_p($klub["komentar"]);
 	if (isset($klub["misto"])) cph_p($lang["place"] . ": " . $klub["misto"]);
 	
 	// coaches

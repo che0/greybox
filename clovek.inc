@@ -12,6 +12,7 @@ $clovek = de_html_s($clovek_p);
 
 $GLOBALS["page"]->title = join_name($clovek["jmeno"], $clovek["nick"], $clovek["prijmeni"]);
 pg_head();
+if (isset($clovek["komentar"])) cph_p($clovek["komentar"]);
 
 $can_edit =
 	($GLOBALS["cps_lidi"] >= 2)
@@ -97,7 +98,6 @@ if ($can_edit) {
 	
 } else {
 	// just view
-	if (isset($clovek["komentar"])) cph_p($clovek["komentar"]);
 	
 	if (isset($clovek["klub_ID"])) cph_p($lang["club"] . ": " . cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_id",array(":klub_id"=>$clovek["klub_ID"]))));
 	
