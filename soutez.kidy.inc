@@ -33,7 +33,7 @@ if ($ukaz == "judges") {
 		having
 			samples > 0
 		order by
-			prijmeni, jmeno, nick
+			avg desc
 		",array(":soutez_id"=>$soutez_id), $r_kidy);
 	
 	de_html($r_kidy);
@@ -74,6 +74,8 @@ if ($ukaz == "judges") {
 			and debata.soutez_ID = :soutez_id
 		group by
 			clovek_ID, jmeno, nick, prijmeni, klub, klub_ID
+		having
+			samples > 0
 		order by
 			%s desc
 		", $ukaz), array(":soutez_id"=>$soutez_id), $r_kidy);
