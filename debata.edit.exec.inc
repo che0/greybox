@@ -50,13 +50,13 @@ if (!isset($_REQUEST["delete"])) {
 			// check for active debater status
 			if (cpdb_fetch_one_value("select debater from clovek where clovek_ID = :clovek_id", array(":clovek_id"=>$speaker["id"])) != 1) {
 				pg_achtung(sprintf($lang["speaker %s is not an active debater, dropping"],$key), 1);
-				$speaker[$key]["id"] = 0;
+				$speakers[$key]["id"] = 0;
 			}
 			
 			// check for active team membership
 			if (cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id",array(":clovek_id"=>$speaker["id"], ":tym_id"=>$teams[$speaker["tym"]]["id"])) != 1) {
 				pg_achtung(sprintf($lang["speaker %s is not active member of %s team, dropping"],$key, $lang[$speaker["tym"]]), 1);
-				$speaker[$key]["id"] = 0;
+				$speakers[$key]["id"] = 0;
 			}
 		}
 	}
@@ -72,10 +72,18 @@ if (!isset($_REQUEST["delete"])) {
 		pg_achtung($lang["resolution language does not match competition language"]);
 		return;
 	}
-	
-	// check the competition is active
+}
+
+// check the competition is active
+if (!isset($_REQUEST["delete"])) {
 	if (cpdb_fetch_one_value("select zamceno from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id)) == 1) {
 		pg_achtung($lang["selected competition is locked"]);
+		return;
+	}
+}
+if (!isset($_REQUEST["add"])) {
+	if (cpdb_fetch_one_value("select zamceno from debata left join soutez using (soutez_ID) where debata_ID = :debata_id", array(":debata_id"=>$debata_id)) == 1) {
+		pg_achtung($lang["competition is locked"]);
 		return;
 	}
 }
@@ -100,7 +108,7 @@ if (isset($_REQUEST["add"])) {
 	
 	// add speakers
 	foreach ($speakers as $role => $speaker) {
-		if ($speaker["id"]) // if speaker wasn't set to null
+		if (isset($speaker["id"]) && $speaker["id"] != 0) // if speaker wasn't set to null
 		$status &= cpdb_exec("insert into clovek_debata (debata_ID, clovek_ID, role, kidy) values (:debata_id, :clovek_id, :role, :kidy)", array(":debata_id"=>$debata_id, ":clovek_id"=>$speaker["id"], ":kidy"=>$speaker["kidy"], ":role"=>$role));
 	}
 	

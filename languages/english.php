@@ -291,4 +291,5 @@ $lang['resolution language does not match competition language'] = 'resolution l
 $lang['selected competition is locked'] = 'selected competition is locked';
 $lang['administrators'] = 'administrators';
 $lang['administrator'] = 'administrator';
+$lang['competition is locked'] = 'competition is locked';
 ?>

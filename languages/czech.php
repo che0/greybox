@@ -294,4 +294,5 @@ $lang['resolution language does not match competition language'] = 'teze není v
 $lang['selected competition is locked'] = 'zvolená soutěž je uzamčena';
 $lang['administrators'] = 'správci';
 $lang['administrator'] = 'správce';
+$lang['competition is locked'] = 'soutěž je uzamčena';
 ?>
