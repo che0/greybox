@@ -24,6 +24,7 @@ CREATE TABLE clovek (
   prava_souteze tinyint(3) unsigned NOT NULL default '0',
   prava_debaty tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (clovek_ID),
+  UNIQUE KEY login_name (login_name),
   KEY klub_ID (klub_ID),
   KEY prijmeni (prijmeni,jmeno,nick)
 ) TYPE=MyISAM;
