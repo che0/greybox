@@ -29,7 +29,7 @@ if ($_POST['action'] == 'login') {
 		$_SESSION['user_prava_kluby'] = $result2['prava_kluby'];
 		$_SESSION['user_prava_souteze'] = $result2['prava_souteze'];
 		$_SESSION['user_prava_debaty'] = $result2['prava_debaty'];
-		$_SESSION['user_prava_teze'] = $result2['prava_souteze'] || $result2['prava_debaty'];
+		$_SESSION['user_prava_teze'] = $result2['prava_souteze'] | $result2['prava_debaty'];
 	} else {
 		pg_achtung($lang['access denied']);
 		$login_default_name = $_POST['username'];

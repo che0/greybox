@@ -27,7 +27,7 @@ switch ($_GET['akce']) {
 				switch ($_GET['akce']) {
 					case 'uprav':
 						pg_head(); $got_header = 1;
-						printf('<form name="klub_uprav" method="post" action="klub.php?akce=uprav.commit&id=%s">' . "\n", $_GET['id']);
+						printf('<form name="klub_uprav" method="post" action="./?page=klub&akce=uprav.commit&id=%s">' . "\n", $_GET['id']);
 						form_textbox($lang['club name'],'nazev', 40, $result2['nazev'], $lang['club name_desc']);
 						form_textbox($lang['short name'],'kratky_nazev', 30, $result2['kratky_nazev'], $lang['short name_desc']);
 						form_textbox($lang['place'],'misto', 30, $result2['misto'], $lang['club place_desc']);
@@ -53,7 +53,7 @@ switch ($_GET['akce']) {
 						
 						if (mysql_query($query)) {
 							body_message($lang['edit ok']);
-							header_redirect(sprintf('klub.php?id=%s',$_GET['id']));
+							header_redirect(sprintf('./?page=klub&id=%s',$_GET['id']));
 						} else {
 							body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 						}
@@ -82,7 +82,7 @@ switch ($_GET['akce']) {
 			set_title($lang['add club']);
 			pg_head();
 
-			echo '<form name="klub_pridej" method="post" action="klub.php?akce=pridej.commit">' . "\n";
+			echo '<form name="klub_pridej" method="post" action="./?page=klub&akce=pridej.commit">' . "\n";
 			form_textbox($lang['club name'],'nazev', 40, '', $lang['club name_desc']);
 			form_textbox($lang['short name'],'kratky_nazev', 30, '', $lang['short name_desc']);
 			form_textbox($lang['place'],'misto', 30, '', $lang['club place_desc']);
@@ -107,7 +107,7 @@ switch ($_GET['akce']) {
 			);
 			if (mysql_query($query)) {
 				body_message($lang['add ok']);
-				header_redirect(sprintf('klub.php?id=%s',mysql_insert_id()));
+				header_redirect(sprintf('./?page=klub&id=%s',mysql_insert_id()));
 			} else {
 				body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error()));
 			}	
@@ -132,7 +132,7 @@ switch ($_GET['akce']) {
 				printf('<p>(%s) %s</p>'."\n",$result2['kratky_nazev'],$result2['misto']);
 
 			       	if ($can_edit) {
-					printf('<p><a href="klub.php?akce=uprav&id=%s">%s</a></p>',$_GET['id'],$lang['edit']);
+					printf('<p><a href="./?page=klub&akce=uprav&id=%s">%s</a></p>',$_GET['id'],$lang['edit']);
 				}
 				print_comment($result2['komentar']);
 
@@ -149,7 +149,7 @@ switch ($_GET['akce']) {
 				if ($can_edit) {
 					$got_header = 1;
 					printf('<h2>%s</h2>',$lang['teams']);
-					printf('<p><a href="klub.php?akce=uprav.pridej.tym&id=%s">%s</a></p>',$_GET['id'],$lang['add team']);
+					printf('<p><a href="./?page=klub&akce=uprav.pridej.tym&id=%s">%s</a></p>',$_GET['id'],$lang['add team']);
 				}
 
 				if (mysql_num_rows($result)) {
@@ -158,7 +158,7 @@ switch ($_GET['akce']) {
 					printf('<tr><th>%s</th><th>%s</th></tr>',$lang['team'],$lang['members']);
 
 					while ($result3 = mysql_fetch_array($result)) {
-						printf('<tr><td><a href="tym.php?id=%s">%s</td><td>%s</td></tr>'."\n",
+						printf('<tr><td><a href="./?page=tym&id=%s">%s</td><td>%s</td></tr>'."\n",
 							$result3['a_tym_ID'],
 							$result3['a_nazev'],
 							$result3['a_clenove']
@@ -171,7 +171,7 @@ switch ($_GET['akce']) {
 				// members
 				printf('<h2>%s</h2>',$lang['members']);
 				if ($can_edit) {
-					printf('<p><a href="clovek.php?akce=pridej&klub=%s">%s</a></p>' . "\n", $_GET['id'] ,$lang['add person']);
+					printf('<p><a href="./?page=clovek&akce=pridej&klub=%s">%s</a></p>' . "\n", $_GET['id'] ,$lang['add person']);
 				}
 				$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.debater as a_debater, tym.tym_ID as a_tym_ID, tym.nazev as a_tym';
 				$query .= ' from clovek left join clovek_tym on clovek.clovek_ID = clovek_tym.clovek_ID left join tym on clovek_tym.tym_ID <=> tym.tym_ID';
@@ -186,9 +186,9 @@ switch ($_GET['akce']) {
 				if ($result3 = mysql_fetch_array($result)) {
 					// first result fetch
 					$r3_clovek_ID = $result3['a_clovek_ID'];
-					$r3_name = sprintf('<a href="clovek.php?id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
+					$r3_name = sprintf('<a href="./?page=clovek&id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
 					if ($result3['a_tym_ID']) {
-						$r3_team = sprintf('<a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+						$r3_team = sprintf('<a href="./?page=tym&id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 					} else {
 						$r3_team = '';
 					}
@@ -197,13 +197,13 @@ switch ($_GET['akce']) {
 					while ($result3 = mysql_fetch_array($result)) {
 						// check for added club, either add club, or print & fetch
 						if ($result3['a_clovek_ID'] == $r3_clovek_ID) {
-							$r3_team .= sprintf(', <a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+							$r3_team .= sprintf(', <a href="./?page=tym&id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 						} else {
 							printf('<tr><td>%s</td><td>%s</td><td>%s</td></tr>'."\n", $r3_name, $r3_team, $r3_debater);
 							$r3_clovek_ID = $result3['a_clovek_ID'];
-							$r3_name = sprintf('<a href="clovek.php?id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
+							$r3_name = sprintf('<a href="./?page=clovek&id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
 							if ($result3['a_tym_ID']) {
-								$r3_team = sprintf('<a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+								$r3_team = sprintf('<a href="./?page=tym&id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 							} else {
 								$r3_team = '';
 							}
@@ -236,18 +236,19 @@ switch ($_GET['akce']) {
 			pg_head();
 
 			if ($prava_kluby >= 2) {
-				printf('<p><a href="klub.php?akce=pridej">%s</a></p>',$lang['add club']);
+				printf('<p><a href="./?page=klub&akce=pridej">%s</a></p>',$lang['add club']);
 			}
 			echo $template->make('club_list_head');
 			$query = 'select klub.klub_ID as a_klub_ID, klub.nazev as a_nazev, klub.misto as a_misto, count(clovek.clovek_ID) as a_debateri';
 			$query .= ' from klub left join clovek using (klub_ID)';
-			$query .= ' where clovek.debater = 1 or clovek.debater is null';
+			//$query .= ' where clovek.debater = 1 or clovek.debater is null';
 			$query .= ' group by a_klub_ID, a_nazev, a_misto';
 			$query .= ' order by a_nazev';
+			// FIXME tohle je blbe
 
 			$result = mysql_query($query);
 			while ($result2 = mysql_fetch_array($result)) {
-				$template->editvar('line_club',sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_nazev']));
+				$template->editvar('line_club',sprintf('<a href="./?page=klub&id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_nazev']));
 				$template->editvar('line_place',$result2['a_misto']);
 				$template->editvar('line_debaters',$result2['a_debateri']);
 				echo $template->make('club_list_line');

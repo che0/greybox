@@ -144,4 +144,16 @@ $lang['short name_desc'] = 'do výpisů a podobně';
 $lang['club place_desc'] = '';
 $lang['release notes'] = 'Tohle je totálně vývojová verze. Narušování designu vkládáním HTML ošetřené není, ale bude. Pokud by někdo uspěl s SQL injection, dejte mi vědět.<br>Už by docela měly fungovat kluby a evidence lidí, a protože formát dat už by též měl být definitivní, můžeme do toho pomalu sunout seznamy členů. O přístup si pište mně, pokud máte seznamy v nějakém slušném formátu a nechce se vám je sem přepisovat ručně, zkuste mi je poslat, asi půjdou vložit hromadně.<br>Petr Novák, mail: jméno.příjmení na doméně cosmoboy.cz';
 $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a> Copyright &copy Petr Novák 2004<br>Distribuováno pod licencí <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>';
+
+// teze
+$lang['language'] = 'jazyk';
+$lang['Language'] = 'Jazyk';
+$lang['resolutions'] = 'teze';
+$lang['resolution'] = 'teze';
+$lang['details'] = 'více';
+$lang['add resolution'] = 'přidej tezi';
+$lang['save'] = 'ulož';
+$lang['resolution details'] = 'detaily teze';
+
+
 ?>

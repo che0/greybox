@@ -12,7 +12,7 @@ class cpykhen {
 	
 	function cpykhen() {
 		$this->form = array();
-		$this->form_attr = array();
+		$this->form_attr = array("method"=>"post");
 		$this->init_done = false;
 	}
 	
@@ -50,8 +50,16 @@ class cpykhen {
 		$this->init();
 		cpdb_fetch_all($this->select, $this->select_args, $result);
 		foreach ($result as $row) {
+		/* FIXME nefunguje, elementy ztrati svoji hodnotu
 			$this->load_this($row);
-			$this->render();
+			$this->render(); */
+			cph_tag_start("form",$this->form_attr);
+			foreach ($this->form as $element) {
+				$element->load_this($row);
+				$element->render();
+			}
+			cph_tag_end("form");
+			cph_nl();
 		}
 	}
 	
@@ -92,11 +100,18 @@ class cpf_text extends cfutral {
 	}
 	
 	function render() {
-		if ($attr != array()) {
-			cph_tag("span", $attr, $tx);
+		if ($this->attr != array()) {
+			cph_tag("span", $this->attr, $this->tx);
 		} else {
-			echo $tx;
+			echo $this->tx;
 		}
+	}
+}
+
+class cpf_nl extends cfutral {
+	
+	function render() {
+		cph_br();
 	}
 }
 
@@ -108,10 +123,10 @@ class cpf_db_text extends cpf_text {
 	}
 	
 	function render() {
-		if ($attr != array()) {
-			cph_tag("span", $attr, $value);
+		if ($this->attr != array()) {
+			cph_tag("span", $this->attr, $this->value);
 		} else {
-			echo $value;
+			echo $this->value;
 		}
 	}
 }
@@ -119,10 +134,14 @@ class cpf_db_text extends cpf_text {
 class cpf_db_listbox_array extends cfutral {
 	var $domain;
 	
-	function cpf_db_listbox_array($name, $domain, $field, $attr = array()) {
+	function cpf_db_listbox_array($name, $domain, $field = "__", $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
 		$this->domain = $domain;
-		$this->field = $field;
+		if ($field == "__") {
+			$this->field = $name;	
+		} else {
+			$this->field = $field;
+		}
 	}
 	
 	function render() {
@@ -162,9 +181,13 @@ class cpf_db_listbox extends cpf_db_listbox_array {
 
 class cpf_db_textbox extends cfutral {
 
-	function cpf_db_textbox($name, $field, $attr = array()) {
+	function cpf_db_textbox($name, $field = "__", $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
-		$this->field = $field;
+		if ($field == "__") {
+			$this->field = $name;	
+		} else {
+			$this->field = $field;
+		}
 	}
 	
 	function render() {
@@ -174,9 +197,13 @@ class cpf_db_textbox extends cfutral {
 
 class cpf_db_textarea extends cfutral {
 
-	function cpf_db_textbox($name, $field, $attr = array()) {
+	function cpf_db_textarea($name, $field = "__", $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
-		$this->field = $field;
+		if ($field == "__") {
+			$this->field = $name;	
+		} else {
+			$this->field = $field;
+		}
 	}
 	
 	function render() {

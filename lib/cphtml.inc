@@ -25,7 +25,7 @@ function cph_tag_end($name) {
 function cphs_tag_single($name, $attr = array()) {
 	$t =  "<" . $name;
 	foreach ($attr as $key => $value) {
-		$t .= " " . $key . "=\"" . htmlspecialchars($value);
+		$t .= " " . $key . "=\"" . htmlspecialchars($value) . "\"";
 	}
 	$t .= " />";
 	return $t;
@@ -65,7 +65,7 @@ function cph_table_head($cols, $attr = array()) {
 	foreach ($cols as $col) {
 		cph_tag("th", array(), $col);
 	}
-	cph_tah_end("tr");
+	cph_tag_end("tr");
 }
 
 function cph_table_row($fields) {
@@ -73,7 +73,7 @@ function cph_table_row($fields) {
 	foreach ($fields as $field) {
 		cph_tag("td", array(), $field);
 	}
-	cph_tah_end("tr");
+	cph_tag_end("tr");
 }
 
 function cph_table_end() {
@@ -94,5 +94,24 @@ function cphs_p($text, $attr = array()) {
 
 function cph_p($text, $attr = array()) {
 	echo cphs_p($text, $attr = array());
+}
+
+// choice['value'] = 'choice_caption'
+function cph_switch($caption, $prefix, $choices, $value) {
+	cph_tag_start("p",array("class"=>"cp_switch"));
+	echo $caption . ": ";
+	$first = true;
+	foreach ($choices as $c_value => $c_caption) {
+		if ($first) {
+			$first = false;
+		} else {
+			echo " | ";
+		}
+		if ($c_value == $value) {
+			echo $c_caption;
+		} else {
+			cph_tag("a",array("href"=>$prefix . $c_value), $c_caption);
+		}
+	}
 }
 ?>

@@ -6,7 +6,6 @@ pocitani sezony a prevod sezony na string
 udrzovani mesic stareho timestampu pro porovnavani uprav debat
 prepocitavani IB a vitezstvi debaty
 kontrola integrity
-kontrola htmlspecialchars a stripslashed
 
 clovek:
 	seznam podle IB s tymy a filtrem na vek
@@ -39,8 +38,8 @@ debata:
 	pridani/editace/mazani i s navaznymi relacemi
 	
 teze:
-	seznam podle jazyku a abecedy s upozornenim na komentar
-	vypis s komentarem a linky na souteze, kde je oficialni
+	vypis detailu, bez editace
+	exec edit, add
 	
 homepage:
 	nejaktualnejsi debaty
