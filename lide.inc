@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.13 2005/02/12 15:26:09 che0 Exp $
+ * $Id: lide.inc,v 1.14 2005/02/13 12:13:57 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -80,9 +80,9 @@ switch ($kdo) {
 				left join klub on clovek.klub_ID = klub.klub_ID
 				left join clovek_debata_ibody
 					on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
-					and clovek_debata_ibody.rocnik = :rocnik
 			where
 				clovek.clen = 1
+				and clovek_debata_ibody.rocnik = :rocnik
 			group by
 				clovek.clovek_ID, clovek.jmeno, clovek.nick,
 				clovek.prijmeni, clovek.klub_ID, klub.kratky_nazev
