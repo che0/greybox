@@ -1,8 +1,10 @@
 <?php
 /*
  * greybox
- * $Id: clovek.edit.exec.inc,v 1.11 2005/02/10 23:57:10 che0 Exp $
+ * $Id: clovek.edit.exec.inc,v 1.12 2005/03/13 17:18:10 che0 Exp $
  */
+
+include_once("lib/points.inc");
 
 $clovek_id = $_REQUEST["clovek_id"];
 $klub_id = $_REQUEST["klub_id"];
@@ -92,6 +94,12 @@ if (isset($_REQUEST["add"])) {
 		)
 	)) {
 		pg_achtung($lang["person update ok"]);
+		
+		if ($klub_id != $cur["klub_ID"]) {
+			// recount ipoints if club changed
+			ipts_recount_clovek($clovek_id);
+		}
+		
 		include("clovek.inc");
 	}
 	

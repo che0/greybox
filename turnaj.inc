@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.17 2005/01/15 15:14:12 che0 Exp $
+ * $Id: turnaj.inc,v 1.18 2005/03/13 17:18:11 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -94,9 +94,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	
 }
 
-cph_p(cphs_link("./?page=turnaj.kidy&turnaj_id=" . $turnaj_id, $lang["kidy overview"]));
-
-// teams w/ points gained
+// teams w/ points gained (+kidy)
 if (cpdb_fetch_all("
 	select
 		tym.tym_ID,
@@ -118,6 +116,9 @@ if (cpdb_fetch_all("
 	order by
 		vitezstvi desc, ballotu desc, bodu desc
 	", array(":turnaj_id"=>$turnaj_id), $ranks)) {
+	
+	// if we have any team rankings, we also have kidy rankings
+	cph_p(cphs_link("./?page=turnaj.kidy&turnaj_id=" . $turnaj_id, $lang["kidy overview"]));
 	
 	cph_h2($lang["teams"]);
 	cph_p($lang["please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament"],array("class"=>"note"));
