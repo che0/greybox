@@ -247,7 +247,7 @@ CREATE TABLE rozhodci (
   clovek_ID int(10) unsigned NOT NULL default '0',
   rocnik tinyint(3) unsigned NOT NULL default '0',
   misto varchar(255) default NULL,
-  jazyk set('cz','en','de','fr') default NULL,
+  jazyk set('cz','en','de','fr') character set utf8 default NULL,
   PRIMARY KEY  (clovek_ID, rocnik),
   KEY clovek_ID (clovek_ID),
   constraint fk_rozhodci_clovek foreign key (clovek_ID) references clovek (clovek_ID) on delete cascade
