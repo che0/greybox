@@ -4,6 +4,8 @@ $klub_id = $_REQUEST["klub_id"];
 
 pg_head();
 
+cph_p($lang['clovek.add.achtung']); // warning about adding already existing people
+
 if ($GLOBALS["cps_lidi"] < 1) {
 	pg_achtung($lang['access denied']);
 	return;
