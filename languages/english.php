@@ -282,4 +282,9 @@ $lang['sum'] = 'sum';
 $lang['average'] = 'average';
 $lang['season changed'] = 'season changed';
 $lang['add member from club'] = 'add member from club';
+$lang['a person has to have at least a name'] = 'a person has to have at least a name';
+$lang['a club has to have a name'] = 'a club has to have a name';
+$lang['a competition has to have a name'] = 'a competition has to have a name';
+$lang['a tournament has to have a name'] = 'a tournament has to have a name';
+$lang['a team has to have a name'] = 'a team has to have a name';
 ?>

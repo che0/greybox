@@ -19,6 +19,11 @@ if (!($GLOBALS["cps_lidi"] >= 2
 		return;
 }
 
+if ($jmeno . $prijmeni == "" && !isset($_REQUEST["delete"])) {
+	pg_achtung($lang["a person has to have at least a name"]);
+	return;
+}
+
 if ($klub_id == 0) $klub_id = NULL;
 
 if (isset($_REQUEST["add"])) {

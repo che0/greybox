@@ -12,6 +12,11 @@ $komentar = $_REQUEST["komentar"];
 $zamceno = $_REQUEST["zamceno"];
 $rocnik = $_REQUEST["rocnik"];
 
+if ($nazev == "" && !isset($_REQUEST["delete"])) {
+	pg_achtung($lang["a competition has to have a name"]);
+	return;
+}
+
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into soutez(nazev, jazyk, komentar, zamceno, rocnik) values (:nazev, :jazyk, :komentar, :zamceno, :rocnik)", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":rocnik" => $rocnik))) {

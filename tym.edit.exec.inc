@@ -7,6 +7,11 @@ $klub_id = $_REQUEST["klub_id"];
 $nazev = $_REQUEST["nazev"];
 $komentar = $_REQUEST["komentar"];
 
+if ($nazev == "" && !isset($_REQUEST["delete"])) {
+	pg_achtung($lang["a team has to have a name"]);
+	return;
+}
+
 if (!(
 	$GLOBALS["cps_kluby"] >= 2
 	|| ($GLOBALS["cps_kluby"] == 1 && cpdb_fetch_one_value("select klub_ID from tym where tym_ID = :tym_id", array(":tym_id"=>$tym_id)) == $_SESSION["user_klub_ID"])

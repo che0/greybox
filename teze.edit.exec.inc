@@ -4,7 +4,6 @@ if ($GLOBALS['cps_teze'] < 1) {
 	return;
 }
 
-
 $teze_id = $_REQUEST["teze_id"];
 $tx = $_REQUEST["tx"];
 $jazyk = $_REQUEST["jazyk"];

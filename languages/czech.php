@@ -285,4 +285,9 @@ $lang['sum'] = 'součet';
 $lang['average'] = 'průměr';
 $lang['season changed'] = 'sezóna změněna';
 $lang['add member from club'] = 'přidat člena z klubu';
+$lang['a person has to have at least a name'] = 'člověk musí mít zadáno alespoň jméno';
+$lang['a club has to have a name'] = 'klub musí mít zadáno jméno';
+$lang['a competition has to have a name'] = 'soutěž musí mít zadáno jméno';
+$lang['a tournament has to have a name'] = 'turnaj musí mít zadáno jméno';
+$lang['a team has to have a name'] = 'tým musí mít zadáno jméno';
 ?>

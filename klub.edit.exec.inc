@@ -14,6 +14,11 @@ if (!(
 		return;
 }
 
+if ($nazev == "" && !isset($_REQUEST["delete"])) {
+	pg_achtung($lang["a club has to have a name"]);
+	return;
+}
+
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into klub (misto, nazev, kratky_nazev, komentar) values (:misto, :nazev, :kratky_nazev, :komentar)", array(":misto"=>$misto, ":kratky_nazev"=>$kratky_nazev, ":nazev"=>$nazev, ":komentar"=>$komentar))) {

@@ -12,6 +12,11 @@ $komentar = $_REQUEST["komentar"];
 $datum_od = deformat_date($_REQUEST["datum_od"]);
 $datum_do = deformat_date($_REQUEST["datum_do"]);
 
+if ($nazev == "" && !isset($_REQUEST["delete"])) {
+	pg_achtung($lang["a tournament has to have a name"]);
+	return;
+}
+
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into turnaj (soutez_ID, nazev, komentar, datum_od, datum_do) values (:soutez_id, :nazev, :komentar, :datum_od, :datum_do)", array(":soutez_id"=>$soutez_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
