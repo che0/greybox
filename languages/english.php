@@ -277,4 +277,5 @@ $lang['kidy overview'] = 'kidy overview';
 $lang['sort'] = 'sort';
 $lang['sum'] = 'sum';
 $lang['average'] = 'average';
+$lang['season changed'] = 'season changed';
 ?>
