@@ -1,1 +1,45 @@
-individual points: http://www.debating.net/ADK/Vysledky/JP04.htm
+individual points: http://www.debating.net/ADK/Vysledky/JP04.htm + mails
+
+TODO:
+sessions, login, nastaveni promennych (+ prava_teze)
+pocitani sezony a prevod sezony na string
+prevod jmen cloveka na jeden string
+fce pro vypis komentare (plaintext, posleze asi s bbkodem) (bude na to blok v sablone, kdyz bude null tak se vubec nevypisuje)
+udrzovani mesic stareho timestampu pro porovnavani uprav debat
+prepocitavani IB a vitezstvi debaty
+kontrola integrity
+
+clovek:
+	seznam podle jmena (+obecne klub a tymy) filtr (debater|aktivni rozhodci)
+	seznam podle IB s tymy a filtrem na vek a klub
+	vypis jednoho s kontakty podle stupne uverejneni
+	ve vypisu i akreditace, poradani turnaju, trenerstvi a ucast na debatach
+	pridani noveho, editace
+	editace vlastnich udaju
+
+klub:
+	seznam tymu, debateru, aktivnich rozhodcich, treneru
+	editace vlastnosti, pridani noveho, pridani/ubirani treneru
+
+soutez:
+	oficialni teze, komentar, rocnik
+	zebricek tymu s body v soutezi
+	seznam debat souteze podle turnaju
+	pridani/editace souteze
+
+turnaj:
+	vypis informaci a prirazenych debat
+	editace/pridani turnaje, nastaveni organizatoru
+
+tym:
+	vypis aktivnich i neaktivnich clenu s body
+	vypis debat podle soutezi se ziskanymi body (razeni podle sozeny desc)
+	pridani/editace tymu (muze admin klubu, jeho clenove muzou upravovat popis)
+
+debata:
+	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru
+	pridani/editace/mazani i s navaznymi relacemi
+	
+teze:
+	seznam podle jazyku a abecedy s upozornenim na komentar
+	
