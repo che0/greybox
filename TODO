@@ -10,8 +10,7 @@ kontrola htmlspecialchars a stripslashed
 clovek:
 	seznam podle IB s tymy a filtrem na vek
 	u cloveka vypisu poradani turnaju a prehled IB
-	pridani noveho, editace
-	editace vlastnich udaju
+	editace akreditaci
 
 klub:
 	seznam klubu podle nazvu s mistem, poctem aktivnich debateru a aktivnich rozhodcich

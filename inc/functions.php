@@ -73,6 +73,19 @@ function form_textbox($title, $name, $size, $default, $desc)
 	printf("</p>\n");
 }
 
+function form_password($title, $name, $size, $default, $desc)
+{
+	printf('<p>');
+	if ($title) {
+		printf('%s: ',$title);
+	}
+	printf('<input type="password" name="%s" size="%s" value="%s">', $name, $size, $default);
+	if ($desc) {
+		printf(' <span class="desc">%s</span>',$desc);
+	}
+	printf("</p>\n");
+}
+
 function form_pulldown($title, $name, $choices, $default, $desc)
 {
 	printf('<p>');
@@ -133,6 +146,12 @@ function get_text_field ($text)
 function get_numeric_field ($numeric)
 {
 	return strval($numeric);
+}
+
+function header_redirect($page)
+{
+	global $template;
+	$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=%s">',$page));
 }
 
 ?>

@@ -80,7 +80,7 @@ switch ($_GET['akce']) {
 		
 		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
 		unset($clubs);
-		$clubs[NULL] = $lang['no club'];
+		$clubs[-1] = $lang['no club'];
 		while ($result3 = mysql_fetch_array($result)) {
 			$clubs[$result3['klub_ID']]=$result3['kratky_nazev'];
 		}
@@ -126,6 +126,7 @@ switch ($_GET['akce']) {
 		$druh['jabber'] = $lang['jabber'];
 		$druh['web'] = $lang['web'];
 		
+		printf('<h2>%s</h2>',$lang['contacts']);
 		echo '<table class="visible">' . "\n";
 		while ($result3 = mysql_fetch_array($result)) {
 			echo '<form name="clovek_kontakt_'.$result3['kontakt_ID'].'" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
@@ -160,71 +161,89 @@ switch ($_GET['akce']) {
 
 		// todo:
 		// akreditace
-		// heslo/login/prava
+
+		// delete
+		if ($prava_lidi >= 1) {
+			printf('<h2>%s</h2>',$lang['delete']);
+			echo '<form name="clovek_delete" action="clovek.php?akce=uprav.commit.delete" method="post">';
+			form_hidden('clovek_ID',$_GET['id']);
+			form_pulldown($lang['delete'],'confirm',array('no' => $lang['no'], 'yes' => $lang['im sure']),'no',$lang['delete_desc']);
+			printf('<input type="submit" value="%s" name="Submit">', $lang['delete']);
+			echo '</form>' . "\n";
+		}
 		
-	break;
+		// heslo/login/prava
+		if (($prava_lidi >= 3) || ($_SESSION['user_clovek_ID'] == $_GET['id'])) {
+			printf('<h2>%s</h2>',$lang['access']);
+			$query = sprintf('select username from login where clovek_ID = %s', $_GET['id']);
+			$result = mysql_query($query);
 
-	case 'uprav.commit.kontakty':
-		// gets: clovek_ID, kontakt_ID (can be 'NEW'), druh (can be 'DELETE'), tx;
-		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
-			// kick out people with access level lower than 1, unless the are editing themselves
-			set_title($lang['access denied']);
-			echo $template->make('head');
-			print_one_message($lang['access denied']);
-			break;
-		}
-		$result = mysql_query(sprintf('select * from clovek where clovek_ID = %s',$_POST['clovek_ID']));
-		if (! $result2 = mysql_fetch_array($result)) {
-			// no found person, go out
-			set_title($lang['no records']);
-			echo $template->make('head');
-			print_one_message($lang['no records']);
-			break;
-		}
-		if (($prava_lidi == 1) && ($_SESSION['user_klub_ID'] != $result2['klub_ID'])) {
-			// people with access level 1 can edit only member of their club
-			set_title($lang['access denied']);
-			echo $template->make('head');
-			print_one_message($lang['access denied']);
-			break;
-		}
-		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+			if ($result3 = mysql_fetch_array($result)) {
+				if ($prava_lidi >= 3) {
+					echo '<form name="clovek_access_edit" action="clovek.php?akce=uprav.commit.access.edit" method="post">' . "\n";
+					form_hidden('clovek_ID',$_GET['id']);
+					form_textbox($lang['username'],'username',30,$result3['username'],$lang['username_desc']);
+					form_pulldown($lang['access people'], 'prava_lidi',
+						array(
+						0 => $lang['access people0'],
+						1 => $lang['access people1'],
+						2 => $lang['access people2'],
+						3 => $lang['access people3']
+						), $result2['prava_lidi'], $lang['access people_desc']);
+					form_pulldown($lang['access clubs'], 'prava_kluby',
+						array(
+						0 => $lang['access clubs0'],
+						1 => $lang['access clubs1'],
+						2 => $lang['access clubs2']
+						), $result2['prava_kluby'], $lang['access clubs_desc']);
+					form_pulldown($lang['access competitions'], 'prava_souteze',
+						array(
+						0 => $lang['access competitions0'],
+						1 => $lang['access competitions1'],
+						2 => $lang['access competitions2']
+						), $result2['prava_souteze'], $lang['access comptetitions_desc']);
+					form_pulldown($lang['access debates'], 'prava_debaty',
+						array(
+						0 => $lang['access debates0'],
+						1 => $lang['access debates1']
+						), $result2['prava_debaty'], $lang['access debates_desc']);
+					printf('<input type="submit" value="%s" name="Submit">', $lang['submit']);
+					echo '</form>' . "\n";	
 
-		if ($_POST['kontakt_ID'] == 'NEW') {
-			// insert new one
-			$query = sprintf('insert into kontakt (clovek_ID, viditelnost, druh, tx) values (%s, %s, %s, %s)',
-				get_numeric_field($_POST['clovek_ID']),
-				get_numeric_field($_POST['visibility']),
-				get_text_field($_POST['type']),
-				get_text_field($_POST['tx'])
-			);
-		} else {
-			if ($_POST['type'] == 'DELETE') {
-				// delete
-				$query = sprintf('delete from kontakt where kontakt_ID = %s and clovek_ID = %s', $_POST['kontakt_ID'], $_POST['clovek_ID']);
-			} else {
-				// edit
-				$query = sprintf('update kontakt set druh = %s, viditelnost = %s, tx = %s where kontakt_ID = %s and clovek_ID = %s',
-					get_text_field($_POST['type']),
-					get_numeric_field($_POST['visibility']),
-					get_text_field($_POST['tx']),
-				       	$_POST['kontakt_ID'], $_POST['clovek_ID']
-				);
+					echo '<form name="clovek_access_delete" action="clovek.php?akce=uprav.commit.access.delete" method="post">' . "\n";
+					form_hidden('clovek_ID',$_GET['id']);
+					form_pulldown($lang['delete account'], 'confirm', array('no' => $lang['no'], 'yes' => $lang['im sure']), 'no', $lang['delete account_desc']);
+					printf('<input type="submit" value="%s" name="Submit">', $lang['delete']);
+					echo '</form>' . "\n";	
+				}
+
+				echo '<form name="clovek_access_pw" action="clovek.php?akce=uprav.commit.access.pw" method="post">' . "\n";
+				if ($prava_lidi < 3) form_nothing($lang['username'],$result3['username']);
+				form_hidden('clovek_ID',$_GET['id']);
+				form_password($lang['password'],'pw',30,'',$lang['password_desc']);
+				form_password($lang['password'],'pw2',30,'',$lang['password_desc2']);
+				printf('<input type="submit" value="%s" name="Submit">', $lang['change password']);
+				echo '</form>' . "\n";
+			
+			} else if ($prava_lidi >= 3) {
+				echo '<form name="clovek_access_add" action="clovek.php?akce=uprav.commit.access.add" method="post">' . "\n";
+				form_hidden('clovek_ID',$_GET['id']);
+				form_textbox($lang['username'],'username',30,'',$lang['username_desc']);
+				form_password($lang['password'],'pw',30,'',$lang['password_desc']);
+				form_password($lang['password'],'pw2',30,'',$lang['password_desc2']);
+				printf('<input type="submit" value="%s" name="Submit">', $lang['add']);
+				echo '</form>' . "\n";	
 			}
 		}
-			
-		if (mysql_query($query)) {
-			body_message($lang['edit ok']);
-			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?akce=uprav&id=%s">',$result2['clovek_ID']));
-		} else {
-			body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
-		}
-	
-		echo $template->make('head');
-		print_body_messages();
 	break;
 
 	case 'uprav.commit':
+	case 'uprav.commit.kontakty':
+	case 'uprav.commit.delete':
+	case 'uprav.commit.access.edit':
+	case 'uprav.commit.access.add':
+	case 'uprav.commit.access.pw':		
+	case 'uprav.commit.access.delete':	
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
 			// kick out people with access level lower than 1, unless the are editing themselves
 			set_title($lang['access denied']);
@@ -248,46 +267,194 @@ switch ($_GET['akce']) {
 			break;
 		}
 		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+		
+		switch ($_GET["akce"]) {
+			
+		case 'uprav.commit.access.add':
+			if ($prava_lidi >= 3) {
+				if ($_POST['pw'] == $_POST['pw2']) {
+					$query = sprintF('insert into login (clovek_ID, username, password) values (%s,%s,%s)',
+						get_numeric_field($_POST['clovek_ID']),
+						get_text_field($_POST['username']),
+						get_text_field(md5($_POST['pw']))
+						);
+					if (mysql_query($query)) {
+						body_message($lang['edit ok']);
+						header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+					} else {
+						body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+					}
+				} else {
+					body_message($lang['passwords do not match']);
+				}
+			} else {
+				body_message($lang['access denied']);
+			}
+		break;
 
-		$query = 'update clovek set ';
-		
-		if ($prava_lidi > 0) {
-			// normal user can't change his name
-			$query .= sprintf('jmeno = %s, ', get_text_field($_POST['name']));
-			$qeury .= sprintf('prijmeni = %s, ', get_text_field($_POST['surname']));
-		}
-		$query .= sprintf('nick = %s, ', get_text_field($_POST['nick']));
-		
-		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
+		case 'uprav.commit.access.delete':
+			if ($prava_lidi >= 3) {
+				if ($_POST['confirm'] == 'yes') {
+					$query = sprintf('delete from login where clovek_ID = %s', $_POST['clovek_ID']);
+					if (mysql_query($query)) {
+						body_message($lang['delete ok']);
+						header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+					} else {
+						body_message(sprintf('%s<br>%s',$lang['delete failed'], mysql_error()));
+					}
+				} else {
+					body_message($lang['no confirm']);
+				}
+			} else {
+				body_message($lang['access denied']);
+			}
+		break;
 
-		if ($prava_lidi >= 2) {
-			// only big boss can move people between clubs
-			$query .= sprintf('klub_ID = %s, ', get_numeric_field($_POST['klub_ID']));
-		}
-		
-		if (($prava_lidi >= 1) || (! $result2['narozen'])) {
-			// i can only insert my birth date, changing needs higher rights
-			$query .= sprintf('narozen = %s, ', get_text_field($_POST['born']));
-		}
-		
-		
-		if ($prava_lidi > 0) {
-			// only editor can switch 'active debater' status. komentar has to be switched because of the comma
-			$query .= sprintf('komentar = %s, ', get_text_field($_POST['comment']));
-			$query .= sprintf('debater = %s ', get_numeric_field($_POST['debater']));
-		} else {
-			$query .= sprintf('komentar = %s ', get_text_field($_POST['comment']));
-		}
+		case 'uprav.commit.access.edit':
+			if ($prava_lidi >= 3) {
+				$query = 'update login set ';
+				$query .= sprintf('username = %s ', get_text_field($_POST['username']));
+				$query .= sprintf('where clovek_ID = %s', $_POST['clovek_ID']);
 
-		$query .= sprintf('where clovek_ID = %s',$_POST['clovek_ID']);
-		
-		if (mysql_query($query)) {
-			body_message($lang['edit ok']);
-			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$_POST['clovek_ID']));
-		} else {
-			body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
-		}
+				$query2 = 'update clovek set ';
+				$query2 .= sprintf('prava_lidi = %s, ', get_numeric_field($_POST['prava_lidi']));
+				$query2 .= sprintf('prava_kluby = %s, ', get_numeric_field($_POST['prava_kluby']));
+				$query2 .= sprintf('prava_souteze = %s, ', get_numeric_field($_POST['prava_souteze']));
+				$query2 .= sprintf('prava_debaty = %s ', get_numeric_field($_POST['prava_debaty']));
+				$query2 .= sprintf('where clovek_ID = %s', $_POST['clovek_ID']);
 
+				if (mysql_query($query) && mysql_query($query2)) {
+					body_message($lang['edit ok']);
+					header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+				} else {
+					body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+				}
+			} else {
+				body_message($lang['access denied']);
+			}
+		break;
+
+		case 'uprav.commit.access.pw':
+			if (($prava_lidi >= 3) || ($_POST['clovek_ID'] == $_SESSION['user_clovek_ID'])) {
+				if ($_POST['pw'] == $_POST['pw2']) {
+					$query = sprintf('update login set password = %s where clovek_ID = %s', get_text_field(md5($_POST['pw'])), $_POST['clovek_ID']);
+					if (mysql_query($query)) {
+						body_message($lang['password changed']);
+						header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$_POST['clovek_ID']));
+					} else {
+						body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+					}
+				} else {
+					body_message($lang['passwords do not match']);
+				}
+			} else {
+				body_message($lang['access denied']);
+			}
+		break;	
+
+		case 'uprav.commit.delete':
+			function kill_da_man($da_man, $table)
+			{
+				global $lang;
+				$kill_query = sprintf('delete from %s where clovek_ID = %s', $table, $da_man);
+				if (mysql_query($kill_query)) {
+					body_message(sprintf($lang['kill table ok'], $table));
+				} else {
+					body_message(sprintf($lang['kill table failed'] . '<br>%s', $table, mysql_error()));
+				}
+			}
+
+			if ($_POST['confirm'] == 'yes') {
+				kill_da_man($_POST['clovek_ID'],'clovek');
+				kill_da_man($_POST['clovek_ID'],'kontakt');
+				kill_da_man($_POST['clovek_ID'],'rozhodci');
+				kill_da_man($_POST['clovek_ID'],'clovek_tym');
+				kill_da_man($_POST['clovek_ID'],'clovek_klub');
+				kill_da_man($_POST['clovek_ID'],'clovek_debata');
+				kill_da_man($_POST['clovek_ID'],'clovek_debata_ibody');
+				kill_da_man($_POST['clovek_ID'],'clovek_turnaj');
+			} else {
+				body_message($lang['no confirm']);
+			}
+		break;
+
+		case 'uprav.commit':
+			$query = 'update clovek set ';
+		
+			if ($prava_lidi > 0) {
+				// normal user can't change his name
+				$query .= sprintf('jmeno = %s, ', get_text_field($_POST['name']));
+				$qeury .= sprintf('prijmeni = %s, ', get_text_field($_POST['surname']));
+			}
+			$query .= sprintf('nick = %s, ', get_text_field($_POST['nick']));
+		
+			$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
+
+			if ($prava_lidi >= 2) {
+				// only big boss can move people between clubs
+				$query .= sprintf('klub_ID = %s, ', get_numeric_field($_POST['club']));
+			}
+		
+			if (($prava_lidi >= 1) || (! $result2['narozen'])) {
+				// i can only insert my birth date, changing needs higher rights
+				$query .= sprintf('narozen = %s, ', get_text_field($_POST['born']));
+			}
+		
+		
+			if ($prava_lidi > 0) {
+				// only editor can switch 'active debater' status. komentar has to be switched because of the comma
+				$query .= sprintf('komentar = %s, ', get_text_field($_POST['comment']));
+				$query .= sprintf('debater = %s ', get_numeric_field($_POST['debater']));
+			} else {
+				$query .= sprintf('komentar = %s ', get_text_field($_POST['comment']));
+			}
+
+			$query .= sprintf('where clovek_ID = %s',$_POST['clovek_ID']);
+
+			if (mysql_query($query)) {
+				body_message($lang['edit ok']);
+				header_redirect(sprintf('clovek.php?id=%s',$_POST['clovek_ID']));
+			} else {
+				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+			}
+		break;
+		
+		case 'uprav.commit.kontakty':
+
+			set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+
+			if ($_POST['kontakt_ID'] == 'NEW') {
+				// insert new one
+				$query = sprintf('insert into kontakt (clovek_ID, viditelnost, druh, tx) values (%s, %s, %s, %s)',
+					get_numeric_field($_POST['clovek_ID']),
+					get_numeric_field($_POST['visibility']),
+					get_text_field($_POST['type']),
+					get_text_field($_POST['tx'])
+				);
+			} else {
+				if ($_POST['type'] == 'DELETE') {
+					// delete
+					$query = sprintf('delete from kontakt where kontakt_ID = %s and clovek_ID = %s', $_POST['kontakt_ID'], $_POST['clovek_ID']);
+				} else {
+					// edit
+					$query = sprintf('update kontakt set druh = %s, viditelnost = %s, tx = %s where kontakt_ID = %s and clovek_ID = %s',
+						get_text_field($_POST['type']),
+						get_numeric_field($_POST['visibility']),
+						get_text_field($_POST['tx']),
+					       	$_POST['kontakt_ID'], $_POST['clovek_ID']
+					);
+				}
+			}
+				
+			if (mysql_query($query)) {
+				body_message($lang['edit ok']);
+				header_redirect(sprintf('clovek.php?akce=uprav&id=%s">',$result2['clovek_ID']));
+			} else {
+				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+			}
+		break;
+		}
+	
 		echo $template->make('head');
 		print_body_messages();
 		
@@ -311,7 +478,7 @@ switch ($_GET['akce']) {
 		form_textbox($lang['nick'],'nick', 30, '', $lang['nick_desc']);
 		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
 		unset($clubs);
-		$clubs[NULL] = $lang['no club'];
+		$clubs[-1] = $lang['no club'];
 		while ($result3 = mysql_fetch_array($result)) {
 			$clubs[$result3['klub_ID']]=$result3['kratky_nazev'];
 		}
@@ -340,7 +507,7 @@ switch ($_GET['akce']) {
 			get_text_field($_POST['name']),
 			get_text_field($_POST['surname']),
 			get_text_field($_POST['nick']),
-			($prava_lidi >= 2) ? get_numeric_field($_POST['klub_ID']) : $_SESSION['user_klub_ID'],
+			($prava_lidi >= 2) ? get_numeric_field($_POST['club']) : $_SESSION['user_klub_ID'],
 			get_text_field($_POST['narozen']),
 			get_numeric_field($_POST['debater']),
 			get_text_field($_POST['komentar'])
@@ -348,7 +515,7 @@ switch ($_GET['akce']) {
 
 		if (mysql_query($query)) {
 			body_message($lang['add ok']);
-			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',mysql_insert_id()));
+			header_redirect(sprintf('clovek.php?id=%s">',mysql_insert_id()));
 		} else {
 			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error()));
 		}
@@ -527,7 +694,11 @@ switch ($_GET['akce']) {
 			set_title(join_name($result2['jmeno'], $result2['nick'], $result2['prijmeni']));
 
 			echo $template->make('head');
-			if ( ($prava_lidi > 1) || (($prava_lidi == 1) && ($result2['klub_ID'] == $_SESSION['user_klub_ID'])) ) {
+			if (
+					($prava_lidi > 1)
+					|| (($prava_lidi == 1) && ($result2['klub_ID'] == $_SESSION['user_klub_ID']))
+					|| ($_SESSION['user_clovek_ID'] == $_GET['id'])
+			) {
 				printf('<p><a href="clovek.php?akce=uprav&id=%s">%s</a></p>', $result2['clovek_ID'], $lang['edit']);
 			}
 			print_comment($result2['komentar']);
