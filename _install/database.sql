@@ -13,8 +13,6 @@ CREATE TABLE clovek (
   jmeno varchar(40) NOT NULL default '',
   nick varchar(255) default NULL,
   prijmeni varchar(60) NOT NULL default '',
-  login_name varchar(32) default NULL,
-  login_pw varchar(32) default NULL,
   narozen date default NULL,
   klub_ID int(10) unsigned default NULL,
   debater tinyint(1) NOT NULL default '0',
@@ -24,7 +22,6 @@ CREATE TABLE clovek (
   prava_souteze tinyint(3) unsigned NOT NULL default '0',
   prava_debaty tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (clovek_ID),
-  UNIQUE KEY login_name (login_name),
   KEY klub_ID (klub_ID),
   KEY prijmeni (prijmeni,jmeno,nick)
 ) TYPE=MyISAM;
@@ -51,7 +48,7 @@ CREATE TABLE clovek_debata (
 --
 
 CREATE TABLE clovek_debata_ibody (
-  ci_ID int(10) unsigned NOT NULL auto_increment,
+  cdi_ID int(10) unsigned NOT NULL auto_increment,
   clovek_ID int(10) unsigned NOT NULL default '0',
   debata_ID int(10) unsigned NOT NULL default '0',
   rocnik tinyint(3) unsigned NOT NULL default '0',
@@ -59,7 +56,7 @@ CREATE TABLE clovek_debata_ibody (
   ibody_rozhodci decimal(5,2) default NULL,
   ibody_trener decimal(5,2) default NULL,
   ibody_organizator decimal(5,2) default NULL,
-  PRIMARY KEY  (ci_ID),
+  PRIMARY KEY  (cdi_ID),
   KEY clovek_ID (clovek_ID),
   KEY debata_ID (debata_ID)
 ) TYPE=MyISAM;
@@ -166,6 +163,20 @@ CREATE TABLE kontakt (
   viditelnost tinyint(3) unsigned NOT NULL default '1',
   PRIMARY KEY  (kontakt_ID),
   KEY clovek_ID (clovek_ID)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `login`
+--
+
+CREATE TABLE login (
+  login_ID int(10) unsigned NOT NULL auto_increment,
+  clovek_ID int(10) unsigned NOT NULL default '0',
+  username varchar(32) NOT NULL default '',
+  password varchar(35) NOT NULL default '',
+  PRIMARY KEY  (login_ID),
+  KEY clovek_ID (clovek_ID),
+  KEY username (username)
 ) TYPE=MyISAM;
 
 --
