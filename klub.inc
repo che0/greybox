@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.27 2005/02/12 15:26:09 che0 Exp $
+ * $Id: klub.inc,v 1.28 2005/03/15 12:09:02 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -158,7 +158,7 @@ cph_h2($lang['members']);
 
 cph_p(
 	(($can_edit) ?
-		cph_p(cphs_link("./?page=clovek.add&klub_id=".$klub_id, $lang['add person'])) . " | "
+		cphs_link("./?page=clovek.add&klub_id=".$klub_id, $lang['add person']) . " | "
 		: ""
 	)
 	. cphs_link("./?page=klub.ib&klub_id=".$klub_id, $lang["points overview"])
