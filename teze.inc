@@ -15,13 +15,31 @@ if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.add&jazyk=" . $lang
 
 cph_switch($lang["language"], "./?page=teze&jazyk=%s", array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"), $lang_choice);
 
-cpdb_fetch_all("select teze_ID, tx, not isnull(komentar) as mame_komentar from teze where jazyk = :lang",array(":lang"=>$lang_choice),$result);
+cpdb_fetch_all("
+	select
+		teze.teze_ID,
+		teze.tx,
+		count(debata_ID) as debates
+	from
+		teze
+		left join debata on teze.teze_ID = debata.teze_ID
+	where
+		jazyk = :lang
+	group by
+		teze.teze_ID,
+		teze.tx
+	order by
+		teze.tx
+	",
+	array(":lang"=>$lang_choice),$result);
 
 de_html($result);
-cph_tag_start("ul");
+cph_table_head(array($lang["resolution"],$lang["debates"]),array("class"=>"visible"));
 foreach ($result as $row) {
-	cph_tag("li", array(), cphs_link("./?page=teze.detaily&teze_id=" . $row["teze_ID"], $row["tx"]));
-	cph_nl();
+	cph_table_row(array(
+		cphs_link("./?page=teze.detaily&teze_id=" . $row["teze_ID"], $row["tx"]),
+		$row["debates"]
+	));
 }
-cph_tag_end("ul");
+cph_table_end();
 ?>

@@ -68,10 +68,32 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	cph_p($lang["language"] . ": " . $soutez["jazyk"] . cphs_br()
 		. $lang["season"] . ": " . season_to_str($soutez["rocnik"]));
 	
-	if (cpdb_fetch_all("select tx, teze.teze_ID from soutez_teze left join teze using (teze_ID) where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id), $r_teze)) {
-		cph_table_head(array($lang["official resolution"]),array("class"=>"visible"));
+	if (cpdb_fetch_all("
+			select 
+				teze.tx,
+				teze.teze_ID,
+				count(debata.debata_ID) as debates
+			from
+				soutez_teze
+				left join teze
+					on soutez_teze.teze_ID = teze.teze_ID
+				left join debata
+					on soutez_teze.teze_ID = debata.teze_ID
+					and soutez_teze.soutez_ID = debata.soutez_ID
+			where
+				soutez_teze.soutez_ID = :soutez_id
+			group by
+				teze.tx,
+				teze.teze_ID
+		",
+		array(":soutez_id"=>$soutez_id), $r_teze)) {
+		
+		cph_table_head(array($lang["official resolution"],$lang["debates"]),array("class"=>"visible"));
 		foreach ($r_teze as $teze) {
-			cph_table_row(array(cphs_link("./?page=teze.detaily&teze_id=" . $teze["teze_ID"], $teze["tx"])));
+			cph_table_row(array(
+				cphs_link("./?page=teze.detaily&teze_id=" . $teze["teze_ID"], $teze["tx"]),
+				$teze["debates"]
+			));
 		}
 		cph_table_end();
 	}
