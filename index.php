@@ -6,13 +6,13 @@ include_once("lib/cpykhen.inc");
 include_once("lib/dblink.inc");
 include_once("lib/page.inc");
 include_once("lib/session.inc");
-
-include_once('inc/functions.php');
+include_once('lib/misc.inc');
 
 $GLOBALS["page"]->links[] = array("./",$lang["link_homepage"]);
 $GLOBALS["page"]->links[] = array("./?page=clovek&akce=vsichni",$lang["link_everyone"]);
 $GLOBALS["page"]->links[] = array("./?page=klub",$lang["clubs"]);
 $GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
+$GLOBALS["page"]->links[] = array("./?page=souteze",$lang["competitions"]);
 
 $GLOBALS["page"]->default_page = "default";
 
@@ -25,7 +25,12 @@ $GLOBALS["page"]->pages = array(
 	array("teze.add", $lang["add resolution"]),
 	array("teze.detaily", $lang["resolution details"]),
 	array("teze.edit.exec", $lang["edit resolution"]),
-	array("teze.add.exec", $lang["add resolution"])
+	array("teze.add.exec", $lang["add resolution"]),
+	array("souteze", $lang["competitions"]),
+	array("soutez.detaily", $lang["competition"]),
+	array("soutez.edit.exec", $lang["edit competition"]),
+	array("soutez.add", $lang["add competition"]),
+	array("soutez.teze.edit.exec", $lang["edit official resolution"]),
 );
 
 $GLOBALS["page"]->render();

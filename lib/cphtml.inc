@@ -96,6 +96,10 @@ function cph_p($text, $attr = array()) {
 	echo cphs_p($text, $attr = array());
 }
 
+function cph_h2($text, $attr = array()) {
+	cph_tag("h2",$attr, $text);
+}
+
 // choice['value'] = 'choice_caption'
 function cph_switch($caption, $prefix, $choices, $value) {
 	cph_tag_start("p",array("class"=>"cp_switch"));

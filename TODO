@@ -18,8 +18,6 @@ klub:
 	mazani klubu
 
 soutez:
-	oficialni teze, komentar, rocnik
-	zebricek tymu s body v soutezi
 	seznam turnaju (s mistem, terminy, poctem debat)
 	seznam debat podle casu s tymy, tezemi, vysledkem, a turnajem
 	pridani/editace souteze
@@ -29,11 +27,16 @@ turnaj:
 	editace/pridani turnaje, nastaveni organizatoru
 
 tym:
+	?page=tym&tym_id=
 	vypis aktivnich i neaktivnich clenu
-	vypis debat podle soutezi se ziskanymi body (tymu) (razeni podle sezony desc, datum_od desc, debaty pak podle data)
 	pridani/editace tymu (muze admin klubu, jeho clenove muzou upravovat popis)
 
+tym.soutez:
+	tym_id, soutez_id
+	pocet bodu a vypis debat razenych podle data s obema tymy, tezi a vitezem
+
 debata:
+	page=debata, debata_id
 	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru
 	pridani/editace/mazani i s navaznymi relacemi
 	

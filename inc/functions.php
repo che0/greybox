@@ -21,15 +21,6 @@ function print_body_messages()
 	pg_flush_achtungs();
 }
 
-function join_name($first, $nick, $last)
-{
-	if ($nick != "") {
-		return $first . ' "' . $nick . '" ' . $last;
-	} else {
-		return $first . ' ' . $last;
-	}
-}
-
 function print_comment($comment)
 {
 	if ($comment != "") {
@@ -41,17 +32,7 @@ function print_comment($comment)
 function get_current_season()
 {
 	// can be later improved with season selection
-	return $GLOBALS["cp_config"]["current_season"];
-}
-
-function season_to_str($season)
-{
-	return ($season + 2000) . "/" . ($season + 2001);
-}
-
-function format_date($date)
-{
-	return $date;
+	return $GLOBALS["current_season"];
 }
 
 function form_textbox($title, $name, $size, $default, $desc)

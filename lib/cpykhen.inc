@@ -17,21 +17,23 @@ class cpykhen {
 	}
 	
 	function load_this($values) {
-		foreach ($this->form as $element) {
-			$element->load_this($values);
+		$this->init();
+		foreach ($this->form as $element=>$neco) {
+			$this->form[$element]->load_this($values);
 		}
 	}
 	
 	function load_new() {
-		foreach ($this->form as $element) {
-			$element->load_new($values);
+		$this->init();
+		foreach ($this->form as $element=>$neco) {
+			$this->form[$element]->load_new($values);
 		}
 	}
 	
 	function init() {
 		if (! $this->init_done) {
-			foreach ($this->form  as $element) {
-				$element->init();
+			foreach ($this->form  as $element=>$neco) {
+				$this->form[$element]->init();
 			}
 			$this->init_done = true;
 		}
@@ -39,32 +41,41 @@ class cpykhen {
 	
 	function render() {
 		cph_tag_start("form",$this->form_attr);
-		foreach ($this->form as $element) {
-			$element->render();
+		foreach ($this->form as $element=>$neco) {
+			$this->form[$element]->render();
 		}
 		cph_tag_end("form");
 		cph_nl();
 	}
 	
+	function render_hidden($button_title = "__") {
+	if ($button_title == "__") $button_title = $lang["add new"];
+	$GLOBALS["hidden_forms"] = $GLOBALS["hidden_forms"] + 1;
+	$form_id = "hidden_form_" . $GLOBALS["hidden_forms"];
+	cph_tag_start("div",array("id"=>$form_id));
+	cph_tag_start("div",array("id"=>$form_id . "_b","style"=>"visibility: hidden; position: absolute; z-index:1"));
+	cph_tag_start("form");
+	cph_tag_single("input", array ("type" => "button", "value" => $button_title, "onclick" => "c_hide('" . $form_id . "_b'); c_show('" . $form_id . "')"));
+	cph_tag_end("form");
+	cph_tag_end("div");
+	
+	$this->render();
+	
+	cph_tag_end("div");
+	cph_tag("script",array("type"=>"text/javascript"),"c_show('" . $form_id . "_b'); c_hide('" . $form_id . "');");
+	echo ;
+	}
+	
+	
 	function render_select() {
-		$this->init();
 		cpdb_fetch_all($this->select, $this->select_args, $result);
 		foreach ($result as $row) {
-		/* FIXME nefunguje, elementy ztrati svoji hodnotu
 			$this->load_this($row);
-			$this->render(); */
-			cph_tag_start("form",$this->form_attr);
-			foreach ($this->form as $element) {
-				$element->load_this($row);
-				$element->render();
-			}
-			cph_tag_end("form");
-			cph_nl();
+			$this->render();
 		}
 	}
 	
 	function render_new() {
-		$this->init();
 		$this->load_new();
 		$this->render();
 	}
@@ -81,6 +92,7 @@ class cfutral {
 	
 	function load_this($values) {
 		$this->value = $values[$this->field];
+		// echo "__" . $this->field . "=>" . $values[$this->field];
 	}
 	
 	function load_new() {
@@ -160,19 +172,19 @@ class cpf_db_listbox_array extends cfutral {
 
 class cpf_db_listbox extends cpf_db_listbox_array {
 	var $select;
-	var $select_attr;
+	var $select_args;
 	
 	function cpf_db_listbox($name, $domain, $field, $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
 		$this->select = $domain[0];
-		$this->select_attr = $domain[1];
+		$this->select_args = $domain[1];
 		$this->field = $field;
 	}
 	
 	function init() {
 		$this->domain = array();
 		
-		cpdb_fetch_all($this->select, $this->select_attr, $my_res);
+		cpdb_fetch_all($this->select, $this->select_args, $my_res);
 		foreach ($my_res as $option) {
 			$this->domain[$option[0]] = $option[1];
 		}

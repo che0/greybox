@@ -43,6 +43,7 @@ class pg_page {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Language" content="%s">
 %s<link rel="stylesheet" href="skins/default/global.css" media="screen" type="text/css">
+<script type="text/javascript" src="lib/form_hiding.js"></script>
 </head>
 
 <body>

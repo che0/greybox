@@ -7,6 +7,6 @@ $GLOBALS["cp_config"]["db_password"] = "greybox";
 
 $GLOBALS["cp_config"]["title"] = "greybox";
 
-$GLOBALS["cp_config"]["current_season"] = 0; // = 2000/2001
+$GLOBALS["current_season"] = 0; // = 2000/2001
  
 ?>
