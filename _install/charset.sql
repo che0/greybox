@@ -1,0 +1,17 @@
+alter table clovek default character set utf8 collate utf8_czech_ci;
+alter table clovek_debata default character set utf8 collate utf8_czech_ci;
+alter table clovek_debata_ibody default character set utf8 collate utf8_czech_ci;
+alter table clovek_klub default character set utf8 collate utf8_czech_ci;
+alter table clovek_turnaj default character set utf8 collate utf8_czech_ci;
+alter table clovek_tym default character set utf8 collate utf8_czech_ci;
+alter table debata default character set utf8 collate utf8_czech_ci;
+alter table debata_tym default character set utf8 collate utf8_czech_ci;
+alter table klub default character set utf8 collate utf8_czech_ci;
+alter table kontakt default character set utf8 collate utf8_czech_ci;
+alter table login default character set utf8 collate utf8_czech_ci;
+alter table rozhodci default character set utf8 collate utf8_czech_ci;
+alter table soutez default character set utf8 collate utf8_czech_ci;
+alter table soutez_teze default character set utf8 collate utf8_czech_ci;
+alter table teze default character set utf8 collate utf8_czech_ci;
+alter table turnaj default character set utf8 collate utf8_czech_ci;
+alter table tym default character set utf8 collate utf8_czech_ci;
