@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.exec.inc,v 1.14 2005/03/23 12:52:28 che0 Exp $
+ * $Id: debata.edit.exec.inc,v 1.15 2005/03/25 14:29:02 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -104,8 +104,8 @@ if (!isset($_REQUEST["delete"])) {
 	
 	// check tournament belongs to the competitions
 	if (($turnaj_id != 0) && ($turnaj_soutez = cpdb_fetch_one_value("select soutez_ID from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id))) != $soutez_id) {
-		pg_achtung($lang["tournament does not match competition, changing competition"],1);
-		$soutez_id = $turnaj_soutez;
+		pg_achtung($lang["tournament does not match competition, unsetting tournament"],1);
+		$turnaj_id = 0;
 	}
 
 	// check resolution is in the right language

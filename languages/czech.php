@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.63 2005/03/23 20:05:49 che0 Exp $
+ * $Id: czech.php,v 1.64 2005/03/25 14:29:05 che0 Exp $
  * czech language definition file
  */
 
@@ -342,4 +342,5 @@ $lang['opponent'] = 'soupeř';
 $lang['gain'] = 'výtěžek';
 $lang['new tab'] = 'nový tab';
 $lang['short text'] = 'krátký text';
+$lang['tournament does not match competition, unsetting tournament'] = 'turnaj nesouhlasí se soutěží, ruším přiřazení';
 ?>
