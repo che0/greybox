@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.51 2005/01/10 01:34:07 che0 Exp $
+ * $Id: czech.php,v 1.52 2005/01/12 20:29:50 che0 Exp $
  * czech language definition file
  */
 
@@ -310,4 +310,15 @@ $lang['Average ballots (aff:neg): %s:%s'] = 'Průměr výsledku (balloty aff:neg
 $lang['factor'] = 'faktor';
 $lang['full member'] = 'člen ADK';
 $lang['ranks only for full members'] = 'V žebříčcích se vyskytují pouze členové ADK.';
+$lang['stats'] = 'statistiky';
+$lang['total number of people in the database'] = 'celkem osob v databázi';
+$lang['active debaters'] = 'aktivní debatéři';
+$lang['active judges'] = 'rozhodčí';
+$lang['full members'] = 'členové ADK';
+$lang['full members by age'] = 'členové ADK podle věku';
+$lang['unset'] = 'nevyplněno';
+$lang['<15'] = '&lt;15';
+$lang['15-18'] = '15-18';
+$lang['18-26'] = '18-26';
+$lang['26+'] = '26+';
 ?>

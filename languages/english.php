@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.58 2005/01/10 01:34:07 che0 Exp $
+ * $Id: english.php,v 1.59 2005/01/12 20:29:51 che0 Exp $
  * english language definition file
  */
 
@@ -307,4 +307,15 @@ $lang['Average ballots (aff:neg): %s:%s'] = 'Average ballots (aff:neg): %s:%s';
 $lang['factor'] = 'factor';
 $lang['full member'] = 'ADK member';
 $lang['ranks only for full members'] = 'These rankings include only ADK members.';
+$lang['stats'] = 'stats';
+$lang['total number of people in the database'] = 'total number of people in the database';
+$lang['active debaters'] = 'active debaters';
+$lang['active judges'] = 'active judges';
+$lang['full members'] = 'ADK members';
+$lang['full members by age'] = 'ADK members by age';
+$lang['unset'] = 'unset';
+$lang['<15'] = '&lt;15';
+$lang['15-18'] = '15-18';
+$lang['18-26'] = '18-26';
+$lang['26+'] = '26+';
 ?>

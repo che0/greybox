@@ -1,12 +1,12 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.11 2005/01/10 02:07:43 che0 Exp $
+ * $Id: lide.inc,v 1.12 2005/01/12 20:29:49 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 
-$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"]);
+$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "stats"=>$lang["stats"]);
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
 
 pg_head();
@@ -269,6 +269,53 @@ switch ($kdo) {
 			));
 		}
 		
+		cph_table_end();
+	break;
+	
+	case 'stats':
+		// show people stats
+		
+		cph_tag_start("table", array("class"=>"visible"));
+		cph_table_row(array(
+			$lang["total number of people in the database"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek")
+		));
+		cph_table_row(array(
+			$lang["active debaters"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where debater = 1")
+		));
+		cph_table_row(array(
+			$lang["active judges"],
+			cpdb_fetch_one_value("select count(distinct clovek_ID) from rozhodci where rocnik = :rocnik", array(":rocnik"=>$GLOBALS["current_season"]))
+		));
+		cph_table_row(array(
+			$lang["full members"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1")
+		));
+		cph_table_end();
+		
+		cph_h2($lang["full members by age"]);
+		cph_tag_start("table", array("class"=>"visible"));
+		cph_table_row(array(
+			$lang["<15"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1 and narozen > date_sub(now(), interval 15 year)")
+		));
+		cph_table_row(array(
+			$lang["15-18"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1 and narozen <= date_sub(now(), interval 15 year) and narozen > date_sub(now(), interval 18 year)")
+		));
+		cph_table_row(array(
+			$lang["18-26"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1 and narozen <= date_sub(now(), interval 18 year) and narozen > date_sub(now(), interval 26 year)")
+		));
+		cph_table_row(array(
+			$lang["26+"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1 and narozen <= date_sub(now(), interval 26 year)")
+		));
+		cph_table_row(array(
+			$lang["unset"],
+			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1 and narozen is null")
+		));
 		cph_table_end();
 	break;
 }
