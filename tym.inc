@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.15 2005/01/09 00:47:32 che0 Exp $
+ * $Id: tym.inc,v 1.16 2005/01/09 14:58:52 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -78,18 +78,19 @@ if ($GLOBALS["cps_kluby"] >= 2
 } else {
 	cph_p(cphs_link("./?page=klub&klub_id=" . $tym["klub_ID"], cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_id", array(":klub_id"=>$tym["klub_ID"]))));
 	
-	cpdb_fetch_all("select clovek_tym.clovek_ID, clovek_tym.aktivni, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc", array(":tym_id"=>$tym_id), $members);
-	
-	de_html($members);
-	cph_h2($lang["members"]);
-	cph_table_head(array($lang["status"],$lang["person"]),array("class"=>"visible"));
-	foreach ($members as $member) {
-		cph_table_row(array(
-			$member["aktivni"] ? $lang["active"] : $lang["disabled"],
-			cphs_link("./?page=clovek&clovek_id=" . $member["clovek_ID"], join_name($member["jmeno"], $member["nick"], $member["prijmeni"]))
-		), $member["aktivni"] ? array() : array("class"=>"inactive"));
+	if (cpdb_fetch_all("select clovek_tym.clovek_ID, clovek_tym.aktivni, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc", array(":tym_id"=>$tym_id), $members)) {
+		
+		de_html($members);
+		cph_h2($lang["members"]);
+		cph_table_head(array($lang["status"],$lang["person"]),array("class"=>"visible"));
+		foreach ($members as $member) {
+			cph_table_row(array(
+				$member["aktivni"] ? $lang["active"] : $lang["disabled"],
+				cphs_link("./?page=clovek&clovek_id=" . $member["clovek_ID"], join_name($member["jmeno"], $member["nick"], $member["prijmeni"]))
+			), $member["aktivni"] ? array() : array("class"=>"inactive"));
+		}
+		cph_table_end();
 	}
-	cph_table_end();
 }
 
 

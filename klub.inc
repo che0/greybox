@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.19 2005/01/09 00:47:32 che0 Exp $
+ * $Id: klub.inc,v 1.20 2005/01/09 14:58:52 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -83,29 +83,34 @@ if ($can_edit) {
 }
 
 // teams
-if (cpdb_fetch_all("select tym_ID, tym.nazev from tym where klub_ID = :klub_id",array(":klub_id"=>$klub_id),$tymy)) {
+if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(debata_tym.dt_ID) as pocet_debat from tym left join debata_tym on tym.tym_ID = debata_tym.tym_ID where tym.klub_ID = :klub_id group by tym.tym_ID, tym.nazev",array(":klub_id"=>$klub_id),$tymy)) {
+
+	cpdb_fetch_all("
+		select
+			tym.tym_ID,
+			count(clovek.clovek_ID) as pocet_debateru
+		from
+			tym
+			left join clovek_tym on tym.tym_ID = clovek_tym.tym_ID and clovek_tym.aktivni = 1
+			left join clovek on clovek_tym.clovek_ID = clovek.clovek_ID and clovek.debater = 1
+		where
+			tym.klub_ID = :klub_id
+		group by
+			clovek_tym.tym_ID
+		",
+		array(":klub_id"=>$klub_id),
+		$tym_debateri, "tym_ID");
 
 	cph_h2($lang["teams"]);
 	if ($can_edit) cph_p(cphs_link("./?page=tym.add&klub_id=" . $klub_id,$lang['add team']));
 
 	de_html($tymy);
-	cph_table_head(array($lang["team"],$lang["debaters"]),array("class"=>"visible"));
+	cph_table_head(array($lang["team"],$lang["debaters"],$lang["debates"]),array("class"=>"visible"));
 	foreach ($tymy as $tym) {
-		$debaters = cpdb_fetch_one_value("
-			select
-				count(clovek.clovek_ID)
-			from
-				clovek_tym
-				left join clovek using(clovek_ID)
-			where
-				clovek_tym.aktivni = 1
-				and clovek.debater = 1
-				and clovek_tym.tym_ID = :tym_id
-			", array(":tym_id"=>$tym["tym_ID"]));
 		cph_table_row(array(
 			cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["nazev"]),
-			$debaters
-		), ($debaters >= 3) ? array() : array("class"=>"inactive"));
+			$tym_debateri[$tym["tym_ID"]]["pocet_debateru"], $tym["pocet_debat"]
+		), ($tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3) ? array() : array("class"=>"inactive"));
 	}
 	cph_table_end();
 } else {
