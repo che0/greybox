@@ -160,7 +160,7 @@ switch ($_GET['akce']) {
 		}
 		set_title($lang['add person']);
 		
-		$query = "insert into clovek (name, surname, nick, klub_ID, narozen, debater, komentar) values ";
+		$query = "insert into clovek (jmeno, prijmeni, nick, klub_ID, narozen, debater, komentar) values ";
 		$query .= sprintf('(%s, %s, %s, %s, %s, %s, %s);',
 			get_text_field($_POST['name']),
 			get_text_field($_POST['surname']),
