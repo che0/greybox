@@ -11,6 +11,7 @@ $_SESSION["dbt_cache"]["soutez_ID"] = $soutez_id = $_REQUEST["soutez_id"];
 $_SESSION["dbt_cache"]["turnaj_ID"] = $turnaj_id = $_REQUEST["turnaj_id"];
 $_SESSION["dbt_cache"]["datum"] = $datum = $_REQUEST["datum"];
 $_SESSION["dbt_cache"]["misto"] = $misto = $_REQUEST["misto"];
+$_SESSION["dbt_cache"]["komentar"] = $komentar = $_REQUEST["komentar"];
 $_SESSION["dbt_cache"]["teze_ID"] = $teze_id = $_REQUEST["teze_id"];
 $_SESSION["dbt_cache"]["aff_ID"] = $teams["aff"]["id"] = $_REQUEST["aff_id"];
 $teams["aff"]["pozice"] = 1;

@@ -23,6 +23,7 @@ if (!cpdb_fetch_one_row("
 		debata.vitez,
 		debata.presvedcive,
 		debata.debata_ID,
+		debata.komentar,
 		soutez.soutez_ID,
 		soutez.nazev as soutez,
 		soutez.jazyk as jazyk,
