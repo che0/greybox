@@ -143,7 +143,7 @@ $lang['short name'] = 'short name';
 $lang['short name_desc'] = '';
 $lang['club place_desc'] = '';
 
-$lang['release notes'] = 'this is totally developing application, don\'t rely on anything';
+$lang['release notes'] = 'This is first version of greybox, That should really do something useful. Heva fun. You can file your problems into <a href="http://sourceforge.net/tracker/?group_id=108503&atid=650817">Bugzilla</a>. P.N.';
 $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a> Copyright &copy Petr Novák 2004<br>Licensed under the terms of <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>';
 $lang['language'] = 'language';
 $lang['Language'] = 'Language';
