@@ -77,6 +77,8 @@ switch ($kdo) {
 			group by
 				clovek.clovek_ID, clovek.jmeno, clovek.nick,
 				clovek.prijmeni, clovek.klub_ID, klub.kratky_nazev
+			having
+				ibody > 0
 			order by
 				ibody desc, clovek.prijmeni, clovek.jmeno, clovek.nick
 		", array(":rocnik"=>$GLOBALS["current_season"]), $lide);
@@ -92,7 +94,7 @@ switch ($kdo) {
 			$count++;
 			if ($pts != $clovek["ibody"]) {
 				$pts = $clovek["ibody"];
-				$rank = ($pts) ? $count : NULL; // no points, no rank :)
+				$rank = $count;
 			}
 			cph_table_row(array(
 				$rank,
