@@ -250,4 +250,5 @@ $lang['decision'] = 'decision';
 $lang['homepage'] = 'homepage';
 $lang['add debate'] = 'add debate';
 $lang['edit debate'] = 'edit debate';
+$lang['duplicate username'] = 'duplicate username';
 ?>
