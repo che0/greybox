@@ -155,7 +155,7 @@ cpdb_fetch_all("
 		tym.nazev as a_tym
 	from
 		clovek
-		left join clovek_tym on clovek.clovek_ID = clovek_tym.clovek_ID
+		left join clovek_tym on clovek.clovek_ID = clovek_tym.clovek_ID and clovek_tym.aktivni = 1
 		left join tym on clovek_tym.tym_ID <=> tym.tym_ID
 	where
 		clovek.klub_ID = :klub_id
