@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.edit.exec.inc,v 1.10 2005/01/31 16:36:32 che0 Exp $
+ * $Id: clovek.edit.exec.inc,v 1.11 2005/02/10 23:57:10 che0 Exp $
  */
 
 $clovek_id = $_REQUEST["clovek_id"];
@@ -87,7 +87,8 @@ if (isset($_REQUEST["add"])) {
 			":narozen"=>deformat_date($narozen),
 			":debater"=>$debater,
 			":clen"=>$GLOBALS["cps_lidi"] >= 3 ? $clen : $cur["clen"],
-			":komentar"=>$komentar
+			":komentar"=>$komentar,
+			":user_klub_id"=>$_SESSION["user_klub_ID"]
 		)
 	)) {
 		pg_achtung($lang["person update ok"]);
@@ -102,10 +103,10 @@ if (isset($_REQUEST["add"])) {
 			clovek
 		where
 			clovek_ID = :clovek_id
-		" . ($GLOBALS["cps_kluby"] < 2 ? "and klub_ID = :cur_klub_id" : ""),
+		" . ($GLOBALS["cps_lidi"] < 2 ? "and klub_ID = :user_klub_id" : ""),
 		array(
 			":clovek_id"=>$clovek_id,
-			":cur_klub_id"=>$cur["klub_ID"]
+			":user_klub_id"=>$_SESSION["user_klub_ID"]
 		)
 	)) {
 		pg_achtung($lang["person delete ok"]);
