@@ -1,13 +1,11 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.57 2005/02/20 11:00:20 che0 Exp $
+ * $Id: czech.php,v 1.58 2005/03/15 12:56:10 che0 Exp $
  * czech language definition file
  */
 
-$lang['release notes'] = 'Tohle už je trochu rozšířená verze greyboxu, s několika novými funkcemi a asi i novými chybami. Příjemnou zábavu.<br />
-Na chyby si stěžujte v <a href="http://sourceforge.net/tracker/?group_id=108503&amp;atid=650817">Bugzille</a>.<br />
-O login si požádejte nějakého <a href="./?page=lide&amp;kdo=spravci">správce</a>, který může upravovat účty.<br /> -- Petr Novák.';
+$lang['release_notes_filename'] = 'relnotes_cz.inc';
 $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a>, &copy;2004 Petr Novák<br />Distribuováno pod licencí <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>. Používá <a href="http://www.php.net/">PHP</a>, <a href="http://www.mysql.com/products/mysql/">MySQL</a> a <a href="http://www.christian-seiler.de/projekte/php/bbcode/">BB-Code parser Christiana Seilera</a>.<br />
 Stránky obsahují <a href="http://validator.w3.org/check?uri=referer">XHTML</a> a <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>, doporučen je tedy <a href="http://www.mozilla.org/products/firefox/">webový prohlížeč</a>.';
 

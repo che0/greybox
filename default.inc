@@ -1,12 +1,12 @@
 <?php
 /*
  * greybox
- * $Id: default.inc,v 1.8 2005/01/09 00:53:08 che0 Exp $
+ * $Id: default.inc,v 1.9 2005/03/15 12:56:01 che0 Exp $
  */
 
 pg_head();
 
-if ($lang['release notes']) cph_p($lang['release notes']);
+@include("languages/" . $lang["release_notes_filename"]);
 
 if ($_SESSION['is_logged_in']) {
 	cph_p(cphs_link("./?page=clovek&clovek_id=" . $_SESSION['user_clovek_ID'] ,$_SESSION['user_name']));
