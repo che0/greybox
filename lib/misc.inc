@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: misc.inc,v 1.6 2005/01/09 00:47:38 che0 Exp $
+ * $Id: misc.inc,v 1.7 2005/03/19 22:10:34 che0 Exp $
  */
 
 function join_name($first, $nick, $last)
@@ -20,8 +20,14 @@ function season_to_str($season)
 
 function format_date($date)
 {
+	return strftime('%Y-%m-%d',strtotime($date));
+}
+
+function format_full_date($date)
+{
 	return $date;
 }
+
 
 function deformat_date($date) {
 	return $date;

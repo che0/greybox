@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.inc,v 1.11 2005/01/09 00:53:08 che0 Exp $
+ * $Id: debata.inc,v 1.12 2005/03/19 22:10:33 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -64,7 +64,7 @@ $info = $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $d
 if (isset($debata["turnaj_ID"])) $info .= cphs_br() . $lang["tournament"] . ": " . cphs_link("./?page=turnaj&turnaj_id=" . $debata["turnaj_ID"], $debata["turnaj"]);
 cph_p($info);
 
-$info = $lang["date"] . ": " . format_date($debata["datum"]);
+$info = $lang["date"] . ": " . format_full_date($debata["datum"]);
 if (isset($debata["misto"])) $info .= cphs_br() . $lang["place"] . ": " . $debata["misto"];
 $info .= cphs_br() . $lang["resolution"] . ": " . cphs_link("./?page=teze&teze_id=" . $debata["teze_ID"], $debata["teze"]);
 $info .= (cpdb_fetch_one_value("select soutez_ID from soutez_teze where teze_ID = :teze_id and soutez_ID = :soutez_id",array(":soutez_id"=>$debata["soutez_ID"], ":teze_id"=>$debata["teze_ID"])) == $debata["soutez_ID"]) ? " (" . $lang["official resolution"] . ")" : "";

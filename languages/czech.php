@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.58 2005/03/15 12:56:10 che0 Exp $
+ * $Id: czech.php,v 1.59 2005/03/19 22:10:34 che0 Exp $
  * czech language definition file
  */
 
@@ -322,4 +322,5 @@ $lang['global rankings'] = 'globální přehled';
 $lang['include panels'] = 'včetně panelů';
 $lang['single judges'] = 'jen samosoudci';
 $lang['filter'] = 'filtr';
+$lang['yyyy-mm-dd hh:mm:ss'] = 'yyyy-mm-dd hh:mm:ss';
 ?>
