@@ -2,7 +2,10 @@
 
 $tym_id = $_REQUEST["tym_id"];
 
-cpdb_fetch_one_row("select * from tym where tym_ID = :tym_id",array(":tym_id"=>$tym_id), $tym);
+if (!cpdb_fetch_one_row("select * from tym where tym_ID = :tym_id",array(":tym_id"=>$tym_id), $tym)) {
+	pg_achtung($lang["no record"]);
+	return;
+}
 
 $GLOBALS["page"]->title = $tym["nazev"];
 pg_head();

@@ -4,7 +4,10 @@
 
 $soutez_id = $_REQUEST["soutez_id"];
 
-cpdb_fetch_one_row("select * from soutez where soutez_ID = :soutez_id", array(":soutez_id" => $soutez_id),$soutez);
+if (!cpdb_fetch_one_row("select * from soutez where soutez_ID = :soutez_id", array(":soutez_id" => $soutez_id),$soutez)) {
+	pg_achtung($lang["no record"]);
+	return;
+}
 
 $GLOBALS["page"]->title = $soutez["nazev"];
 pg_head();
@@ -45,6 +48,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_teze->form[] = new cpf_db_listbox("teze_id",
 		array("select teze_ID, tx from teze where jazyk = :jazyk", array(":jazyk"=>$soutez["jazyk"])),
 		"teze_ID");
+	$soutez_teze->form["link"] = new cpf_db_link("teze_ID","./?page=teze.detaily&teze_id=%s",$lang["link"]);
 	$soutez_teze->form["b1"] = new cpf_button("save",$lang["save"]);
 	$soutez_teze->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$soutez_teze->render_select();
@@ -52,6 +56,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_teze->form["sid"] = new cpf_hidden("soutez_id",$soutez["soutez_ID"]);
 	$soutez_teze->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($soutez_teze->form["b2"]);
+	unset($soutez_teze->form["link"]);
 	$soutez_teze->load_new();
 	$soutez_teze->render_hidden($lang["new official resolution"]);
 	
@@ -116,7 +121,7 @@ cpdb_fetch_all("select turnaj_ID, nazev, datum_od from turnaj where soutez_ID = 
 cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
 foreach ($r_turnaje as $turnaj) {
 	cph_table_row(array(
-		cphs_link("./?page=turnaj&turnaj_id=" . $team_rank["turnaj_ID"], $turnaj["nazev"]),
+		cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),
 		format_date($turnaj["datum_od"]),
 		cpdb_fetch_one_value("select count(*) from debata where turnaj_ID = :turnaj_id",array(":turnaj_id"=>$turnaj["turnaj_ID"]))
 	));

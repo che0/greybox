@@ -124,6 +124,21 @@ class cpf_text extends cfutral {
 	}
 }
 
+class cpf_db_link extends cfutral {
+	var $href;
+	var $tx;
+	
+	function cpf_db_link($field, $href, $tx) {
+		$this->field = $field;
+		$this->href = $href;
+		$this->tx = $tx;
+	}
+	
+	function render() {
+		cph_link(sprintf($this->href,$this->value),$this->tx);
+	}
+}
+
 class cpf_nl extends cfutral {
 	
 	function render() {
@@ -131,7 +146,7 @@ class cpf_nl extends cfutral {
 	}
 }
 
-class cpf_db_text extends cpf_text {
+class cpf_db_text extends cfutral {
 	
 	function cpf_db_text($field, $attr = array()) {
 		$this->field = $field;

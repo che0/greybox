@@ -3,8 +3,10 @@
 $domain_ck_role = array("t"=>$lang["coach"]);
 $klub_id = $_REQUEST["klub_id"];
 
-
-cpdb_fetch_one_row("select * from klub where klub_ID = :klub_id",array(":klub_id"=>$klub_id), $klub);
+if (!cpdb_fetch_one_row("select * from klub where klub_ID = :klub_id",array(":klub_id"=>$klub_id), $klub)) {
+	pg_achtung($lang["no record"]);
+	return;
+}
 
 $can_edit = (($GLOBALS["cps_kluby"] >= 2)
 	|| (($GLOBALS["cps_kluby"] == 1) && ($klub_id == $_SESSION['user_klub_ID'])));
@@ -44,12 +46,14 @@ if ($can_edit) {
 	$klub_clovek->form[] = new cpf_db_listbox("clovek_id",
 		array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id union distinct select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek where klub_ID = :klub_id", array(":klub_id"=>$klub["klub_ID"])),
 		"clovek_ID");
+	$klub_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
 	$klub_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
 	$klub_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$klub_clovek->render_select();
 	
 	$klub_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($klub_clovek->form["b2"]);
+	unset($klub_clovek->form["link"]);
 	$klub_clovek->load_new();
 	$klub_clovek->render_hidden($lang["new person"]);
 } else {
@@ -132,7 +136,7 @@ cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short']
 while ($clen = current($clenove)) {
 	// first result fetch
 	$cl_clovek_ID = $clen['a_clovek_ID'];
-	$cl_name = cphs_link("./?page=clovek&id=" . $clen['a_clovek_ID'], join_name($clen['a_jmeno'], $clen['a_nick'], $clen['a_prijmeni']));
+	$cl_name = cphs_link("./?page=clovek&clovek_id=" . $clen['a_clovek_ID'], join_name($clen['a_jmeno'], $clen['a_nick'], $clen['a_prijmeni']));
 	if ($clen['a_tym_ID']) {
 		$cl_team = cphs_link("./?page=tym&tym_id=" . $clen['a_tym_ID'], $clen['a_tym']);
 	} else {
@@ -148,7 +152,7 @@ while ($clen = current($clenove)) {
 			cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
 			
 			$cl_clovek_ID = $clen['a_clovek_ID'];
-			$cl_name = cphs_link("./?page=clovek&id=" . $clen['a_clovek_ID'], join_name($clen['a_jmeno'], $clen['a_nick'], $clen['a_prijmeni']));
+			$cl_name = cphs_link("./?page=clovek&clovek_id=" . $clen['a_clovek_ID'], join_name($clen['a_jmeno'], $clen['a_nick'], $clen['a_prijmeni']));
 			if ($clen['a_tym_ID']) {
 				$cl_team = cphs_link("./?page=tym&tym_id=" . $clen['a_tym_ID'], $clen['a_tym']);
 			} else {

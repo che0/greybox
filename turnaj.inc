@@ -2,7 +2,10 @@
 
 $turnaj_id = $_REQUEST["turnaj_id"];
 
-cpdb_fetch_one_row("select * from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id" => $turnaj_id),$turnaj);
+if (!cpdb_fetch_one_row("select * from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id" => $turnaj_id),$turnaj)) {
+	pg_achtung($lang["no record"]);
+	return;
+}
 
 $GLOBALS["page"]->title = $turnaj["nazev"];
 pg_head();
@@ -21,6 +24,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_f->form[] = new cpf_nl;
 	$turnaj_f->form[] = new cpf_text($lang["competition"] . ": ");
 	$turnaj_f->form[] = new cpf_db_listbox("soutez_id",array("select soutez_ID, nazev from soutez",array()),"soutez_ID");
+	$turnaj_f->form[] = new cpf_db_link("soutez_ID","./?page=soutez&soutez_id=%s",$lang["link"]);
 	$turnaj_f->form[] = new cpf_nl;
 	$turnaj_f->form[] = new cpf_text($lang["date_from"] . ": ");
 	$turnaj_f->form[] = new cpf_db_textbox("datum_od");
@@ -39,11 +43,11 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_clovek->select_args = array(":turnaj_id"=>$turnaj_id);
 	$turnaj_clovek->form["tid"] = new cpf_db_hidden("turnaj_id","turnaj_ID");
 	$turnaj_clovek->form[] = new cpf_db_hidden("ct_id","ct_ID");
-	$turnaj_clovek->form[] = new cpf_text($lang["person"] . ": ");
+	$turnaj_clovek->form[] = new cpf_db_listbox_array("role", array("o"=>$lang["organizer"]));
 	$turnaj_clovek->form[] = new cpf_db_listbox("clovek_id",
 		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek", array()),
 		"clovek_ID");
-	$turnaj_clovek->form[] = new cpf_db_listbox_array("role", array("o"=>$lang["organizer"]));
+	$turnaj_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
 	$turnaj_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
 	$turnaj_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$turnaj_clovek->render_select();
@@ -51,6 +55,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_clovek->form["tid"] = new cpf_hidden("turnaj_id",$turnaj["turnaj_ID"]);
 	$turnaj_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($turnaj_clovek->form["b2"]);
+	unset($turnaj_clovek->form["link"]);
 	$turnaj_clovek->load_new();
 	$turnaj_clovek->render_hidden($lang["new person"]);
 	

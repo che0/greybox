@@ -104,7 +104,7 @@ CREATE TABLE debata (
   KEY soutez_ID (soutez_ID),
   KEY turnaj_ID (turnaj_ID),
   constraint fk_debata_soutez foreign key (soutez_ID) references soutez (soutez_ID) on delete restrict,
-  constraint fk_debata_turnaj foreign key (turnaj_ID) references turnaj (turnaj_ID) on delete set null
+  constraint fk_debata_turnaj foreign key (turnaj_ID) references turnaj (turnaj_ID) on delete restrict
 ) TYPE=InnoDB;
 
 

@@ -2,7 +2,10 @@
 
 $teze_id = $_REQUEST["teze_id"];
 
-cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":teze_id" => $teze_id), $teze);
+if (!cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":teze_id" => $teze_id), $teze)) {
+	pg_achtung($lang["no record"]);
+	return;
+}
 
 $GLOBALS["page"]->title = $teze["tx"];
 pg_head();

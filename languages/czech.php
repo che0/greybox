@@ -212,4 +212,6 @@ $lang['tournament delete ok'] = 'tournament delete ok';
 $lang['team insert ok'] = 'team insert ok';
 $lang['team delete ok'] = 'team delete ok';
 $lang['coach update ok'] = 'coach update ok';
+$lang['no record'] = 'no record';
+$lang['link'] = 'link';
 ?>
