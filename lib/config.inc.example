@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: config.inc.example,v 1.1 2005/01/15 13:43:31 che0 Exp $
+ * $Id: config.inc.example,v 1.2 2005/02/06 17:37:47 che0 Exp $
  */
 
 $GLOBALS["cp_config"]["db_server"] = "localhost";
@@ -12,5 +12,26 @@ $GLOBALS["cp_config"]["db_password"] = "greybox";
 $GLOBALS["cp_config"]["title"] = "greybox";
 
 $GLOBALS["cp_config"]["default_season"] = 4; // = 2004/2005
+
+$GLOBALS["cp_config"]["no database"] = 
+'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cz" lang="cz"><head>
+<title>greybox chyba</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="cz" />
+<link rel="stylesheet" href="skins/default/global.css" media="screen" type="text/css" />
+<link rel="Shortcut Icon" type="image/png" href="skins/default/images/icon.png" />
+</head>
+
+<body>
+<div id="main_title"><a href="http://adk.debating.net/"><img id="logo_right" src="skins/default/images/adk_logo.png" alt="ADK ČR" width="133" height="44" /></a>
+<a href="./"><img id="logo_main" src="skins/default/images/titul.png" width="288" height="44" alt="greybox" /></a> <span id="main_title_text">chyba</span></div>
+<div id="leftblock"></div><div id="mainbody"><p>Připojení k databázi selhalo. Zkuste to později, snad budete mít větší štěstí.<br/>
+The database connection has failed. Try again later. Good luck!</p>
+<div id="footnote">%s</div></div>
+
+</body>
+</html>
+';
 
 ?>

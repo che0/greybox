@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.53 2005/01/31 16:23:08 che0 Exp $
+ * $Id: czech.php,v 1.54 2005/02/06 17:37:44 che0 Exp $
  * czech language definition file
  */
 
@@ -12,8 +12,6 @@ $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">gre
 Stránky obsahují <a href="http://validator.w3.org/check?uri=referer">XHTML</a> a <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>, doporučen je tedy <a href="http://www.mozilla.org/products/firefox/">webový prohlížeč</a>.';
 
 // general
-$lang['no database'] = 'nelze se připojit k databázi';
-
 $lang['anonymous'] = 'nepřihlášený uživatel';
 $lang['log in'] = 'přihlásit';
 $lang['log out'] = 'odhlásit';

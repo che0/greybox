@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.60 2005/01/31 16:23:08 che0 Exp $
+ * $Id: english.php,v 1.61 2005/02/06 17:37:44 che0 Exp $
  * english language definition file
  */
 
@@ -11,8 +11,6 @@ Licensed under the terms of <a href="http://www.gnu.org/copyleft/gpl.html">GNU G
 This page contains <a href="http://validator.w3.org/check?uri=referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>. It\'s recommended to be viewed with a <a href="http://www.mozilla.org/products/firefox/">web browser</a>.';
 
 // general
-$lang['no database'] = 'can\'t connect to the database';
-
 $lang['anonymous'] = 'anonymous user';
 $lang['log in'] = 'log in';
 $lang['log out'] = 'log out';
