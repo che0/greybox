@@ -43,7 +43,28 @@ $datum = deformat_date($datum);
 
 // sanity tests
 if (!isset($_REQUEST["delete"])) {
+	// check aff != neg
+	if ($teams["aff"]["id"] == $teams["neg"]["id"]) {
+		pg_achtung($lang["team cannot debate against itself"]);
+		return;
+	}
+	
+	// debater sanity tests
 	foreach ($speakers as $key => $speaker) {
+		if (is_null($speaker["id"]) || ($speaker["id"] == 0)) {
+			// speaker is not present, continue
+			continue;
+		}
+		
+		// is debater in the team he's debating for?
+		$in_team = cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id",array(":clovek_id"=>$speaker["id"], ":tym_id"=>$teams[$speaker["tym"]]["id"]));
+		
+		// if he's not there at all...
+		if ($in_team === false) {
+			pg_achtung(sprintf($lang["speaker %s is not a member of %s team, dropping"],$key, $lang[$speaker["tym"]]), 1);
+			$speakers[$key]["id"] = 0;
+		}
+		
 		if (cpdb_fetch_one_value("select clovek_ID from clovek_debata where clovek_ID = :clovek_id and debata_ID = :debata_id", array(":clovek_id"=>$speaker["id"], ":debata_id"=>$debata_id)) != $speaker["id"]) {
 		// the debater wasn't in the debate before
 		
@@ -54,10 +75,24 @@ if (!isset($_REQUEST["delete"])) {
 			}
 			
 			// check for active team membership
-			if (cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id",array(":clovek_id"=>$speaker["id"], ":tym_id"=>$teams[$speaker["tym"]]["id"])) != 1) {
+			if ($in_team != 1) {
 				pg_achtung(sprintf($lang["speaker %s is not active member of %s team, dropping"],$key, $lang[$speaker["tym"]]), 1);
 				$speakers[$key]["id"] = 0;
 			}
+		}
+		
+		// check every debater is in debate only once
+		foreach ($speakers as $role2=>$drop)
+		if (
+			($speakers[$key]["id"] != 0)
+			&& ($speakers[$role2]["id"] != 0) // both speakers are there (= haven't been dropped)
+			&& ($key != $role2)
+			&& ($speakers[$key]["id"] == $speakers[$role2]["id"])
+			)
+			
+			{
+			pg_achtung(sprintf($lang["one person cannot debate twice in one debate (%s==%s), dropping %s"],$key,$role2,$role2), 1);
+			$speakers[$role2]["id"] = 0;
 		}
 	}
 	
