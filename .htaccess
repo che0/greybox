@@ -1,4 +1,3 @@
 <Files "*.inc">
-RewriteEngine on
-RewriteRule \.inc$ - [F]
+deny from all
 </Files>
