@@ -102,12 +102,16 @@ class pg_page {
 		$this->render_tail();
 	}
 	
-	function add_achtung($achtung) {
-		$this->achtungs[] = $achtung;
+	function add_achtung($achtung, $class = 0) {
+		$this->achtungs[] = array($achtung, $class);
 	}
 	
-	function print_achtung($achtung) {
-		cph_tag_start("div",array("class"=>"achtung"));
+	function print_achtung($achtung, $class = 0) {
+		switch($class) {
+			case 0: $class = "achtung"; break;
+			case 1: $class = "warning"; break;
+		}
+		cph_tag_start("div",array("class"=>$class));
 		echo $achtung;
 		cph_tag_end("div");
 		cph_nl();
@@ -115,18 +119,18 @@ class pg_page {
 	
 	function flush_achtungs() {
 		foreach ($this->achtungs as $achtung) {
-			$this->print_achtung($achtung);
+			$this->print_achtung($achtung[0], $achtung[1]);
 		}
 		$this->achtungs = array();
 	}
 }
 
-function pg_achtung($achtung) {
-	$GLOBALS["page"]->add_achtung($achtung);
+function pg_achtung($achtung, $class = 0) {
+	$GLOBALS["page"]->add_achtung($achtung, $class);
 }
 
-function pg_achtung_now($achtung) {
-	$GLOBALS["page"]->print_achtung($achtung);
+function pg_achtung_now($achtung, $class = 0) {
+	$GLOBALS["page"]->print_achtung($achtung, $class);
 }
 
 function pg_flush_achtungs() {

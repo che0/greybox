@@ -101,7 +101,20 @@ form p {
 	margin-bottom: 3px;
 }
 
-.achtung {
+div.achtung {
 	background-color: #ffc5c5;
 	margin-bottom: 5px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+div.warning {
+	background-color: #fffdb9;
+	margin-bottom: 5px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
 }

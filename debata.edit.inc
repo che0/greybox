@@ -62,43 +62,19 @@ $sdomain_tym = array(
 );
 
 // selects for debater domains
-$select_debaters_team = "
-		(
-		select
-			clovek.clovek_ID,
-			concat_ws(' ', clovek.jmeno, clovek.nick, clovek.prijmeni) as clovek,
-			concat(clovek.prijmeni,clovek.jmeno,clovek.nick) as s_clovek
-		from
-			clovek_tym
-			left join clovek using (clovek_ID)
-		where
-			clovek_tym.tym_ID = :tym_id
-			and clovek_tym.aktivni = 1
-			and clovek.debater = 1
-		)
-		union
-		(
-		select
-			0 as clovek_ID,
-			:null as clovek,
-			'' as s_clovek
-		)
-		order by
-			s_clovek
-	";
-	
 $select_debaters = "
 		(
 		select
 			clovek.clovek_ID,
 			concat_ws(' ', clovek.jmeno, clovek.nick, clovek.prijmeni) as clovek,
-			concat(clovek.prijmeni,clovek.jmeno,clovek.nick) as s_clovek
+			concat_ws(' ', clovek.prijmeni,clovek.jmeno,clovek.nick) as s_clovek
 		from
 			clovek_tym
 			left join clovek using (clovek_ID)
 		where
 			clovek_tym.aktivni = 1
 			and clovek.debater = 1
+			%s
 		)
 		union
 		(
@@ -114,19 +90,19 @@ $select_debaters = "
 // build affirmative debaters domain
 if (isset($debata["aff_ID"])) {
 	// choose affirmatives from the team
-	$sdomain_aff = array($select_debaters_team, array(":tym_id"=>$debata["aff_ID"], ":null"=>$lang["N/A"]));
+	$sdomain_aff = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["aff_ID"], ":null"=>$lang["N/A"]));
 } else {
 	// choose from all debaters
-	$sdomain_aff = array($select_debaters, array(":null"=>$lang["N/A"]));
+	$sdomain_aff = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"]));
 }
 
 // build negative debaters domain
 if (isset($debata["neg_ID"])) {
 	// choose negatives from the team
-	$sdomain_neg = array($select_debaters_team, array(":tym_id"=>$debata["neg_ID"], ":null"=>$lang["N/A"]));
+	$sdomain_neg = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["neg_ID"], ":null"=>$lang["N/A"]));
 } else {
 	// choose from all debaters
-	$sdomain_neg = array($select_debaters, array(":null"=>$lang["N/A"]));
+	$sdomain_neg = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"]));
 }
 
 // build resolutions domain
@@ -144,15 +120,9 @@ $sdomain_souteze = array(
 // build tournaments domain
 $sdomain_turnaje = array(
 	sprintf("
-		(
-		select turnaj_ID, nazev, nazev as nazev_s
-		from turnaj
-		%s
-		)
+		(select turnaj_ID, nazev, nazev as nazev_s from turnaj %s)
 		union
-		(
-		select 0, :null, '' as nazev_s
-		)
+		(select 0, :null, '' as nazev_s)
 		order by nazev_s
 	", isset($debata["soutez_ID"]) ? "where soutez_ID = :soutez_id" : ""),
 	array(":soutez_id"=>$debata["soutez_ID"], ":null"=>$lang["N/A"])
@@ -227,17 +197,17 @@ $dpyk->form[] = new cpf_text($lang["team"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("neg_id", $sdomain_tym, "neg_ID");
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["1st speaker"] . ": ");
-$dpyk->form[] = new cpf_db_listbox("n1_id", $sdomain_aff, "n1_ID");
+$dpyk->form[] = new cpf_db_listbox("n1_id", $sdomain_neg, "n1_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
 $dpyk->form[] = new cpf_db_textbox("n1_kidy","n1_kidy",array("size"=>"3"));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["2nd speaker"] . ": ");
-$dpyk->form[] = new cpf_db_listbox("n2_id", $sdomain_aff, "n2_ID");
+$dpyk->form[] = new cpf_db_listbox("n2_id", $sdomain_neg, "n2_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
 $dpyk->form[] = new cpf_db_textbox("n2_kidy","n2_kidy",array("size"=>"3"));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["3rd speaker"] . ": ");
-$dpyk->form[] = new cpf_db_listbox("n3_id", $sdomain_aff, "n3_ID");
+$dpyk->form[] = new cpf_db_listbox("n3_id", $sdomain_neg, "n3_ID");
 $dpyk->form[] = new cpf_text(" " . $lang["kidy"] . ": ");
 $dpyk->form[] = new cpf_db_textbox("n3_kidy","n3_kidy",array("size"=>"3"));
 $dpyk->form[] = new cpf_nl;
