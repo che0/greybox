@@ -86,6 +86,8 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	
 }
 
+cph_p(cphs_link("./?page=turnaj.kidy&turnaj_id=" . $turnaj_id, $lang["kidy overview"]));
+
 // teams w/ points gained
 if (cpdb_fetch_all("
 	select
@@ -93,7 +95,9 @@ if (cpdb_fetch_all("
 		tym.nazev,
 		klub.klub_ID,
 		klub.kratky_nazev,
-		sum(debata_tym.body) as bodu
+		sum(debata_tym.body) as bodu,
+		sum((2+debata.presvedcive) * (debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez))) as ballotu,
+		sum(debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) as vitezstvi
 	from
 		debata_tym
 		left join tym on tym.tym_ID = debata_tym.tym_ID
@@ -104,24 +108,26 @@ if (cpdb_fetch_all("
 	group by
 		tym.tym_ID, tym.nazev
 	order by
-		bodu desc
+		vitezstvi desc, ballotu desc, bodu desc
 	", array(":turnaj_id"=>$turnaj_id), $ranks)) {
 	
 	cph_h2($lang["teams"]);
 	cph_p($lang["please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament"],array("class"=>"note"));
 	de_html($ranks);
-	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["pts"]), array("class"=>"visible"));
+	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["wins"], $lang["ballots"], $lang["pts"]), array("class"=>"visible"));
 	$count = 0; $rank = 1; $pts = -1;
 	foreach ($ranks as $team_rank) {
 		$count++;
-		if ($pts != $team_rank["bodu"]) {
-			$pts = $team_rank["bodu"];
+		if ($pts != $team_rank["vitezstvi"] * 1024 + $team_rank["ballotu"]) {
+			$pts = $team_rank["vitezstvi"] * 1024 + $team_rank["ballotu"];
 			$rank = $count;
 		}
 		cph_table_row(array(
 			$rank,
 			cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
 			cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
+			$team_rank["vitezstvi"],
+			$team_rank["ballotu"],
 			$team_rank["bodu"]
 		));
 	}

@@ -61,7 +61,8 @@ if ($ukaz == "judges") {
 			klub.kratky_nazev as klub,
 			klub.klub_ID,
 			sum(kidy) as sum,
-			avg(kidy) as avg
+			avg(kidy) as avg,
+			count(kidy) as samples
 		from
 			clovek
 			left join klub on clovek.klub_ID = klub.klub_ID
@@ -78,7 +79,7 @@ if ($ukaz == "judges") {
 		", $ukaz), array(":soutez_id"=>$soutez_id), $r_kidy);
 	
 	de_html($r_kidy);
-	cph_table_head(array($lang["rank"], $lang["debater"], $lang["club"], $lang["sum"], $lang["average"]),array("class"=>"visible"));
+	cph_table_head(array($lang["rank"], $lang["debater"], $lang["club"], $lang["sum"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
 	$count = 0; $rank = 1; $pts = -1;
 	foreach ($r_kidy as $kidy) {
 		$count++;
@@ -91,7 +92,8 @@ if ($ukaz == "judges") {
 			cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
 			cphs_link("./?page=klub&klub_id=" . $kidy["klub_ID"], $kidy["klub"]),
 			$kidy["sum"],
-			$kidy["avg"]
+			$kidy["avg"],
+			$kidy["samples"]
 		));
 	}
 	cph_table_end();

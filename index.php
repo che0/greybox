@@ -52,6 +52,7 @@ $GLOBALS["page"]->pages = array(
 	array("soutez.teze.edit.exec", $lang["edit official resolution"], "soutez"),
 	array("tym.soutez", $lang["team in the competition"], "soutez"),
 	array("turnaj", $lang["tournament"], "turnaj"),
+	array("turnaj.kidy", $lang["tournament"]."/".$lang["kidy"], "turnaj"),
 	array("turnaj.add", $lang["add tournament"], "turnaj"),
 	array("turnaj.edit.exec", $lang["edit tournament"], "turnaj"),
 	array("turnaje", $lang["tournaments"], "turnaj"),
