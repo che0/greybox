@@ -40,6 +40,8 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$members->form[] = new cpf_db_hidden("ct_id","ct_ID");
 	$members->form["clovek"] = new cpf_db_text("clovek");
 	$members->form["clovek2"] = new cpf_db_hidden("clovek_id","clovek_ID");
+	$members->form["clovek3"] = new cpf_text(" ");
+	$members->form["clovek4"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s","link");
 	$members->form[] = new cpf_text(" ");
 	$members->form[] = new cpf_db_listbox_array("aktivni",array(1=>$lang["active"], 0=>$lang["disabled"]));
 	$members->form["b1"] = new cpf_button("save",$lang["save"]);
@@ -51,8 +53,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek", array()),
 		"clovek_ID");
 	$members->form["b1"] = new cpf_button("add",$lang["add"]);
-	unset($members->form["b2"]);
-	unset($members->form["clovek2"]);
+	unset($members->form["b2"], $members->form["clovek2"], $members->form["clovek3"], $members->form["clovek4"]);
 	$members->init_force();
 	$members->load_new();
 	$members->render_hidden($lang["add member"]);
@@ -64,7 +65,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 	cpdb_fetch_all("select clovek_tym.clovek_ID, clovek_tym.aktivni, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc", array(":tym_id"=>$tym_id), $members);
 	
 	cph_h2($lang["members"]);
-	cph_table_head(array($lang["person"],$lang["status"]),array("class"=>"visible"));
+	cph_table_head(array($lang["status"],$lang["person"]),array("class"=>"visible"));
 	foreach ($members as $member) {
 		cph_table_row(array(
 			$member["aktivni"] ? $lang["active"] : $lang["disabled"],

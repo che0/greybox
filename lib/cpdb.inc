@@ -43,14 +43,20 @@ function cpdb_fetch_one_value ($query, $args = array()) {
 	}	
 }
 
-function cpdb_fetch_all ($query, $args, & $result) {
+function cpdb_fetch_all ($query, $args, & $result, $primary_key = "__") {
 	$result = array();
 	$numres = 0;
 	
 	$my_res = mysql_query(cpdb_bind($query, $args), $GLOBALS["dblink"]);
 	if ($my_res) {
 		while ($tres = mysql_fetch_array($my_res)) {
-			$result[] = $tres;
+			if ($primary_key == "__") {
+				// normal behaviour
+				$result[] = $tres;
+			} else {
+				// create associative array of rows
+				$result[$tres[$primary_key]] = $tres;
+			}
 			$numres++;
 		}
 	} else {

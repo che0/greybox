@@ -230,6 +230,22 @@ class cpf_db_textbox extends cfutral {
 	}
 }
 
+class cpf_db_password extends cfutral {
+
+	function cpf_db_password($name, $field = "__", $attr = array()) {
+		$this->attr = array_merge(array("name"=>$name), $attr);
+		if ($field == "__") {
+			$this->field = $name;	
+		} else {
+			$this->field = $field;
+		}
+	}
+	
+	function render() {
+		cph_tag_single("input", array_merge(array("type"=>"password", "value"=>$this->value), $this->attr));
+	}
+}
+
 class cpf_db_textarea extends cfutral {
 
 	function cpf_db_textarea($name, $field = "__", $attr = array()) {

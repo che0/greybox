@@ -1,18 +1,15 @@
 individual points: http://www.debating.net/ADK/Vysledky/JP04.htm + mails
 
 TODO:
-++ prefix ke jmenum tabulek
-pocitani sezony a prevod sezony na string
+udrzovani aktualni sezony v session, moznost zmenit
+predelat language.php
 udrzovani mesic stareho timestampu pro porovnavani uprav debat
 prepocitavani IB a vitezstvi debaty
 kontrola integrity
-
-language.php
+stylesheet pro tisk
 
 clovek:
 	seznam podle IB s tymy a filtrem na vek
-	u cloveka vypisu poradani turnaju a prehled IB
-	editace akreditaci
 
 debata:
 	page=debata, debata_id

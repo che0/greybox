@@ -10,8 +10,8 @@ $komentar = $_REQUEST["komentar"];
 $narozen = $_REQUEST["narozen"];
 $debater = $_REQUEST["debater"];
 
-if (!($GLOBALS["cps_kluby"] >= 2
-	|| ($GLOBALS["cps_kluby"] == 1 && (
+if (!($GLOBALS["cps_lidi"] >= 2
+	|| ($GLOBALS["cps_lidi"] == 1 && (
 		($klub_id == $_SESSION["user_klub_ID"])
 		|| ($cur_klub_id == $_SESSION["user_klub_ID"])
 	)))) {
@@ -95,6 +95,34 @@ if (isset($_REQUEST["add"])) {
 	)) {
 		pg_achtung($lang["person delete ok"]);
 		include("klub.inc");
+	}
+} elseif (isset($_REQUEST["access"])) {
+	// update permissions
+	
+	if ($GLOBALS["cps_lidi"] < 3) {
+		pg_achtung($lang["access denied"]);
+		return;	
+	}
+	
+	if (cpdb_exec(
+		"update clovek set
+			prava_lidi = :prava_lidi,
+			prava_kluby = :prava_kluby,
+			prava_souteze = :prava_souteze,
+			prava_debaty = :prava_debaty
+		where
+			clovek_ID = :clovek_id
+		",
+		array(
+			":clovek_id"=>$clovek_id,
+			":prava_lidi"=>$_REQUEST["prava_lidi"],
+			":prava_kluby"=>$_REQUEST["prava_kluby"],
+			":prava_souteze"=>$_REQUEST["prava_souteze"],
+			":prava_debaty"=>$_REQUEST["prava_debaty"]
+		)
+	)) {
+		pg_achtung($lang["permissions update ok"]);
+		include("clovek.inc");
 	}
 }
 

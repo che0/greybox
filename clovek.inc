@@ -24,6 +24,28 @@ $domain_klub_role = array(
 	"t"=>$lang["coach"]
 );
 
+$domain_turnaj_role = array(
+	"o"=>$lang["organizer"]
+);
+
+$domain_debata_role = array(
+	"r"=>$lang["adjudicator"],
+	"o"=>$lang["organizer"],
+	"a1"=>$lang["A1"],
+	"a2"=>$lang["A2"],
+	"a3"=>$lang["A3"],
+	"n1"=>$lang["N1"],
+	"n2"=>$lang["N2"],
+	"n3"=>$lang["N3"]
+);
+
+$domain_ibody_role = array(
+	"debater"=>$lang["debater"],
+	"rozhodci"=>$lang["adjudicator"],
+	"trener"=>$lang["coach"],
+	"organizator"=>$lang["organizer"]
+);
+
 $domain_kontakt_viditelnost = array(
 	0=>$lang['public'],
 	1=>$lang['registered'],
@@ -273,13 +295,228 @@ if ($can_edit || $self_edit) {
 	}
 }
 
+// access
+
+if ($GLOBALS["cps_lidi"] >= 3) {
+	cph_h2($lang["access levels"]);
+	$access = new cpykhen;
+	$access->form_attr["action"] = "./?page=clovek.edit.exec";
+	$access->form[] = new cpf_hidden("clovek_id",$clovek_id);
+	$access->form[] = new cpf_text($lang["people"] . ": ");
+	$access->form[] = new cpf_db_listbox_array("prava_lidi",$domain_prava_lidi);
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["clubs"] . ": ");
+	$access->form[] = new cpf_db_listbox_array("prava_kluby",$domain_prava_kluby);
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["competitions"] . ": ");
+	$access->form[] = new cpf_db_listbox_array("prava_souteze",$domain_prava_souteze);
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["debates"] . ": ");
+	$access->form[] = new cpf_db_listbox_array("prava_debaty",$domain_prava_debaty);
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_button("access",$lang["save"]);
+	$access->load_this($clovek);
+	$access->render();
+	
+} elseif ($clovek["prava_lidi"]+$clovek["prava_kluby"]+$clovek["prava_souteze"]+$clovek["prava_debaty"] > 0) {
+	cph_h2($lang["access levels"]);
+	cph_table_head(array($lang["area"],$lang["access"]),array("class"=>"visible"));
+	cph_table_row(array($lang["people"],$domain_prava_lidi[$clovek["prava_lidi"]]));
+	cph_table_row(array($lang["clubs"],$domain_prava_kluby[$clovek["prava_kluby"]]));
+	cph_table_row(array($lang["competitions"],$domain_prava_souteze[$clovek["prava_souteze"]]));
+	cph_table_row(array($lang["debates"],$domain_prava_debaty[$clovek["prava_debaty"]]));
+	cph_table_end();
+}
+
 // login
+if ($GLOBALS["cps_lidi"] >= 3) {
+	cph_h2($lang["login"]);
+	
+	$access = new cpykhen;
+	$access->form_attr["action"] = "./?page=clovek.pw.edit.exec";
+	$access->form[] = new cpf_hidden("clovek_id",$clovek_id);
+	$access->form[] = new cpf_db_hidden("login_id","login_ID");
+	$access->form[] = new cpf_text($lang["username"] . ": ");
+	$access->form[] = new cpf_db_textbox("username");
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["password"] . ": ");
+	$access->form[] = new cpf_db_password("n1");
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["password"] . ": ");
+	$access->form[] = new cpf_db_password("n2");
+	$access->form[] = new cpf_nl;
+	
+	if (cpdb_fetch_one_row("select login_ID, username from login where clovek_ID = :clovek_id",array(":clovek_id"=>$clovek_id),$login)) {
+		$access->form[] = new cpf_button("save",$lang["save"]);
+		$access->form[] = new cpf_button("delete",$lang["delete"]);
+		$access->load_this($login);
+		$access->render();
+	} else {
+		$access->form[] = new cpf_button("add",$lang["add"]);
+		$access->render_new();
+
+	}
+	
+} elseif ($self_edit) {
+	cph_h2($lang["password"]);
+	$access = new cpykhen;
+	$access->form_attr["action"] = "./?page=clovek.pw.edit.exec";
+	$access->form[] = new cpf_hidden("clovek_id",$clovek_id);
+	$access->form[] = new cpf_text($lang["old"] . ": ");
+	$access->form[] = new cpf_db_password("old");
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["new"] . ": ");
+	$access->form[] = new cpf_db_password("n1");
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_text($lang["new"] . ": ");
+	$access->form[] = new cpf_db_password("n2");
+	$access->form[] = new cpf_nl;
+	$access->form[] = new cpf_button("password",$lang["change password"]);
+	$access->load_this($clovek);
+	$access->render();
+}
 
 // teams
+if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, clovek_tym.aktivni from clovek_tym left join tym using (tym_ID) where clovek_tym.clovek_ID = :clovek_id order by clovek_tym.aktivni desc, tym.nazev", array(":clovek_id"=>$clovek_id),$tymy)) {
+	cph_h2($lang["teams"]);
+	cph_table_head(array($lang["status"],$lang["team"]),array("class"=>"visible"));
+	foreach ($tymy as $tym) {
+		cph_table_row(array(
+			$tym["aktivni"] ? $lang["active"] : $lang["disabled"],
+			cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["nazev"])
+		), $tym["aktivni"] ? array() : array("class"=>"inactive"));
+	}
+	cph_table_end();
+}
 
 // tournaments (org)
-
-// points overview
+if (cpdb_fetch_all("select clovek_turnaj.role, turnaj.nazev, turnaj.datum_od, turnaj.turnaj_ID from clovek_turnaj left join turnaj using (turnaj_ID) where clovek_turnaj.clovek_ID = :clovek_id order by turnaj.datum_od", array(":clovek_id"=>$clovek_id), $turnaje)) {
+	cph_h2($lang["tournaments"]);
+	cph_table_head(array($lang["role"],$lang["tournament"],$lang["date"]), array("class"=>"visible"));
+	foreach ($turnaje as $turnaj) {
+		cph_table_row(array(
+			$domain_turnaj_role[$turnaj["role"]],
+			cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),
+			format_date($turnaj["datum_od"])
+		));
+	}
+	cph_table_end();
+}
 
 // debates
+if (cpdb_fetch_all("
+	select
+		tym_aff.tym_ID as aff_ID,
+		tym_aff.nazev as aff_tym,
+		tym_neg.tym_ID as neg_ID,
+		tym_neg.nazev as neg_tym,
+		teze.tx as teze,
+		teze.teze_ID as teze_ID,
+		debata.datum,
+		debata.vitez,
+		debata.presvedcive,
+		debata.debata_ID,
+		clovek_debata.role,
+		clovek_debata.kidy,
+		clovek_debata.rozhodnuti as adj_rozhodnuti,
+		clovek_debata.presvedcive as adj_presvedcive
+	from
+		clovek_debata
+		left join debata on debata.debata_ID = clovek_debata.debata_ID
+		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID
+		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID
+		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
+		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
+		left join teze on teze.teze_ID = debata.teze_ID
+	where
+		dt_aff.pozice = 1
+		and dt_neg.pozice = 0
+		and clovek_debata.clovek_ID = :clovek_id
+	order by
+		datum desc
+	", array(":clovek_id"=>$clovek_id),$r_debaty)) {
+	
+	cph_h2($lang["debates"]);
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""),array("class"=>"visible"));
+	foreach ($r_debaty as $debata) {
+		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
+		$result .= " ";
+		if ($debata["presvedcive"] == 1) { $result .= $lang["persuasively"]; } else { $result .= $lang["less persuasively"]; }
+		switch ($debata["role"]) {
+			case "o": // organizer
+				$detaily = "";
+			break;
+			case "r": // adjudicator
+				$detaily = ($debata["adj_rozhodnuti"] ? "A" : "N") . ($debata["adj_presvedcive"] ? "+" : "-");
+			break;
+			default: // debater
+				$detaily = $debata["kidy"];
+			break;
+		}
+		cph_table_row(array(
+			format_date($debata["datum"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			$result,
+			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"]),
+			$domain_debata_role[$debata["role"]],
+			$detaily
+		));
+	}
+	cph_table_end();
+}
+
+// points overview
+if (cpdb_fetch_all("
+	select
+		tym_aff.tym_ID as aff_ID,
+		tym_aff.nazev as aff_tym,
+		tym_neg.tym_ID as neg_ID,
+		tym_neg.nazev as neg_tym,
+		teze.tx as teze,
+		teze.teze_ID as teze_ID,
+		debata.datum,
+		debata.vitez,
+		debata.presvedcive,
+		debata.debata_ID,
+		clovek_debata_ibody.role,
+		clovek_debata_ibody.ibody
+	from
+		clovek_debata_ibody
+		left join debata on debata.debata_ID = clovek_debata_ibody.debata_ID
+		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID
+		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID
+		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
+		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
+		left join teze on teze.teze_ID = debata.teze_ID
+	where
+		dt_aff.pozice = 1
+		and dt_neg.pozice = 0
+		and clovek_debata_ibody.clovek_ID = :clovek_id
+		and clovek_debata_ibody.rocnik = :rocnik
+	order by
+		datum desc
+	", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]),$r_debaty)) {
+	
+	cph_h2($lang["points overview"]);
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],$lang["ipoints"]),array("class"=>"visible"));
+	foreach ($r_debaty as $debata) {
+		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
+		$result .= " ";
+		if ($debata["presvedcive"] == 1) { $result .= $lang["persuasively"]; } else { $result .= $lang["less persuasively"]; }
+		cph_table_row(array(
+			format_date($debata["datum"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			$result,
+			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"]),
+			$domain_ibody_role[$debata["role"]],
+			$debata["ibody"]
+		));
+	}
+	cph_table_end();
+}
+
 ?>

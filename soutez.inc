@@ -64,7 +64,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	// just view
 	
 	if (isset($soutez["komentar"])) cph_p($soutez["komentar"]);
-	cph_p($lang["language"] . ": " . $soutez["jazyk"] . cph_br()
+	cph_p($lang["language"] . ": " . $soutez["jazyk"] . cphs_br()
 		. $lang["season"] . ": " . season_to_str($soutez["rocnik"]));
 	
 	cpdb_fetch_all("select tx, teze.teze_ID from soutez_teze left join teze using (teze_ID) where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id), $r_teze);
@@ -79,9 +79,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 
 // team rankings
 
-cph_h2($lang["team rankings"]);
-
-cpdb_fetch_all("
+if (cpdb_fetch_all("
 	select 
 		sum(body) as bodu, tym.tym_ID, tym.nazev, klub.kratky_nazev, klub.klub_ID
 	from
@@ -96,44 +94,45 @@ cpdb_fetch_all("
 	order by
 		bodu desc
 	",
-	array(":soutez_id"=>$soutez_id),$ranks);
-cph_table_head(array($lang["rank"],$lang["team"],$lang["club"],$lang["pts"]),array("class"=>"visible"));
-$count = 0; $rank = 1; $pts = -1;
-foreach ($ranks as $team_rank) {
-	$count++;
-	if ($pts != $team_rank["bodu"]) {
-		$pts = $team_rank["bodu"];
-		$rank = $count;
+	array(":soutez_id"=>$soutez_id),$ranks)) {
+	
+	cph_h2($lang["team rankings"]);
+	cph_table_head(array($lang["rank"],$lang["team"],$lang["club"],$lang["pts"]),array("class"=>"visible"));
+	$count = 0; $rank = 1; $pts = -1;
+	foreach ($ranks as $team_rank) {
+		$count++;
+		if ($pts != $team_rank["bodu"]) {
+			$pts = $team_rank["bodu"];
+			$rank = $count;
+		}
+		cph_table_row(array(
+			$rank,
+			cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
+			cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
+			cphs_link("./?page=tym.soutez&tym_id=" . $team_rank["tym_ID"] . "&soutez_id=" . $soutez_id, $team_rank["bodu"])
+		));
 	}
-	cph_table_row(array(
-		$rank,
-		cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
-		cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
-		cphs_link("./?page=tym.soutez&tym_id=" . $team_rank["tym_ID"] . "&soutez_id=" . $soutez_id, $team_rank["bodu"])
-	));
+	cph_table_end();
 }
-cph_table_end();
 
 // tournaments w/ place, time, no of debates, link
-cph_h2($lang["tournaments"]);
+if (cpdb_fetch_all("select turnaj_ID, nazev, datum_od from turnaj where soutez_ID = :soutez_id order by datum_od", array(":soutez_id"=>$soutez_id),$r_turnaje)) {
 
-cpdb_fetch_all("select turnaj_ID, nazev, datum_od from turnaj where soutez_ID = :soutez_id order by datum_od", array(":soutez_id"=>$soutez_id),$r_turnaje);
-cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
-foreach ($r_turnaje as $turnaj) {
-	cph_table_row(array(
-		cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),
-		format_date($turnaj["datum_od"]),
-		cpdb_fetch_one_value("select count(*) from debata where turnaj_ID = :turnaj_id",array(":turnaj_id"=>$turnaj["turnaj_ID"]))
-	));
+	cph_h2($lang["tournaments"]);	
+	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
+	foreach ($r_turnaje as $turnaj) {
+		cph_table_row(array(
+			cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),
+			format_date($turnaj["datum_od"]),
+			cpdb_fetch_one_value("select count(*) from debata where turnaj_ID = :turnaj_id",array(":turnaj_id"=>$turnaj["turnaj_ID"]))
+		));
+	}
+	cph_table_end();
 }
-cph_table_end();
-
 
 
 // debates w/ teams, resolutions, result, link
-cph_h2($lang["debates"]);
-
-cpdb_fetch_all("
+if (cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,
 		tym_aff.nazev as aff_tym,
@@ -158,29 +157,32 @@ cpdb_fetch_all("
 		and debata.soutez_ID = :soutez_id
 	order by
 		datum desc
-	", array(":soutez_id"=>$soutez_id),$r_debaty);
-cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
-foreach ($r_debaty as $debata) {
-	if ($debata["vitez"] == 1) {
-		$result = $lang["aff"];
-	} else {
-		$result = $lang["neg"];
+	", array(":soutez_id"=>$soutez_id),$r_debaty)) {
+	
+	cph_h2($lang["debates"]);
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
+	foreach ($r_debaty as $debata) {
+		if ($debata["vitez"] == 1) {
+			$result = $lang["aff"];
+		} else {
+			$result = $lang["neg"];
+		}
+		$result .= " ";
+		if ($debata["presvedcive"] == 1) {
+			$result .= $lang["persuasively"];
+		} else {
+			$result .= $lang["less persuasively"];
+		}
+		cph_table_row(array(
+			format_date($debata["datum"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			$result,
+			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
+		));
 	}
-	$result .= " ";
-	if ($debata["presvedcive"] == 1) {
-		$result .= $lang["persuasively"];
-	} else {
-		$result .= $lang["less persuasively"];
-	}
-	cph_table_row(array(
-		format_date($debata["datum"]),
-		cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
-		cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
-		$result,
-		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
-	));
+	cph_table_end();
 }
-cph_table_end();
 
 ?>
