@@ -204,9 +204,9 @@ if ($can_edit || $self_edit) {
 	$accr->render_hidden($lang["new contact"]);
 } else {
 
-	if ($_SESSION["user_klub_ID"] == $clovek["klub_ID"]) {
+	if (!is_null($clovek["klub_ID"]) && $_SESSION["user_klub_ID"] == $clovek["klub_ID"]) {
 		$thresh = 2;
-	} elseif ($_SESSION["is_logged_in"]) {
+	} elseif ($_SESSION["is_logged_in"] == true) {
 		$thresh = 1;
 	} else {
 		$thresh = 0;
