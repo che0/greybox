@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.61 2005/03/23 12:52:32 che0 Exp $
+ * $Id: czech.php,v 1.62 2005/03/23 13:14:18 che0 Exp $
  * czech language definition file
  */
 
@@ -341,4 +341,5 @@ $lang['position'] = 'poz.';
 $lang['opponent'] = 'soupeř';
 $lang['gain'] = 'výtěžek';
 $lang['new tab'] = 'nový tab';
+$lang['short text'] = 'krátký text';
 ?>

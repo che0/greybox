@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.68 2005/03/23 12:52:33 che0 Exp $
+ * $Id: english.php,v 1.69 2005/03/23 13:14:18 che0 Exp $
  * english language definition file
  */
 
@@ -340,4 +340,5 @@ $lang['position'] = 'position';
 $lang['opponent'] = 'opponent';
 $lang['gain'] = 'gain';
 $lang['new tab'] = 'new tab';
+$lang['short text'] = 'short text';
 ?>
