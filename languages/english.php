@@ -271,4 +271,10 @@ $lang['speaker %s is not active member of %s team, dropping'] = 'speaker %s is n
 $lang['tournament does not match competition, changing competition'] = 'tournament does not match competition, changing competition';
 $lang['debate add ok'] = 'debate add ok';
 $lang['debate deleted ok'] = 'debate deleted ok';
+$lang['debate %s: tie votes, leaving default decision: %s'] = 'debate %s: tie votes, leaving default decision: %s';
+$lang['debate %s: recount failed'] = 'debate %s: recount failed';
+$lang['kidy overview'] = 'kidy overview';
+$lang['sort'] = 'sort';
+$lang['sum'] = 'sum';
+$lang['average'] = 'average';
 ?>

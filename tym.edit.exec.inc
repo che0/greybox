@@ -1,5 +1,7 @@
 <?php
 
+include("lib/points.inc");
+
 $tym_id = $_REQUEST["tym_id"];
 $klub_id = $_REQUEST["klub_id"];
 $nazev = $_REQUEST["nazev"];
@@ -24,6 +26,7 @@ if (isset($_REQUEST["add"])) {
 	// update
 	
 	if (cpdb_exec("update tym set klub_ID = :klub_id, nazev = :nazev, komentar = :komentar where tym_ID = :tym_id", array(":tym_id"=>$tym_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":klub_id"=>$klub_id))) {
+		recount_team($tym_id);
 		pg_achtung($lang["team update ok"]);
 		include("tym.inc");
 	}

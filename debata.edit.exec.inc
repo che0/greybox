@@ -34,10 +34,11 @@ $speakers["n2"]["tym"] = "neg";
 $_SESSION["dbt_cache"]["n3_ID"] = $speakers["n3"]["id"] = $_REQUEST["n3_id"];
 $_SESSION["dbt_cache"]["n3_kidy"] = $speakers["n3"]["kidy"] = $_REQUEST["n3_kidy"];
 $speakers["n3"]["tym"] = "neg";
-$_SESSION["dbt_cache"]["result"] = $result = $_REQUEST["result"];
+$_SESSION["dbt_cache"]["vysledek"] = $vysledek = $_REQUEST["vysledek"];
 
-$vitez = substr($result,0,1) == "A" ? 1 : 0;
-$presvedcive = substr($result,1,1) == "+" ? 1 : 0;
+$vitez = substr($vysledek,0,1) == "A" ? 1 : 0;
+$presvedcive = substr($vysledek,1,1) == "+" ? 1 : 0;
+
 $datum = deformat_date($datum);
 
 // sanity tests

@@ -100,6 +100,8 @@ if (cpdb_fetch_all("
 	",
 	array(":soutez_id"=>$soutez_id),$ranks)) {
 	
+	cph_p(cphs_link("./?page=soutez.kidy&soutez_id=" . $soutez_id, $lang["kidy overview"]));
+	
 	de_html($ranks);
 	cph_h2($lang["team rankings"]);
 	
