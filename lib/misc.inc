@@ -49,7 +49,7 @@ function de_html(& $whatever) {
 			if ($key === "komentar") {
 				include_once("bbcode.inc");
 				$whatever["komentar"] = cp_bbcode($value);
-			} elseif (is_string($whatever[$key])) {
+			} else {
 				de_html($whatever[$key]);
 			}
 		}
