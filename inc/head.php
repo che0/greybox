@@ -18,6 +18,7 @@ $setup['current_season'] = 0; // = 2000/2001
 */
 
 set_magic_quotes_runtime(false);
+header('Content-Type: text/html; charset=utf-8');
 
 require('inc/functions.php');
 
