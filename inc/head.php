@@ -37,7 +37,7 @@ $db_link = mysql_connect($setup['db_server'], $setup['db_user'], $setup['db_pass
 mysql_select_db ($setup['db_database'], $db_link);
 
 // language for linkblock
-$template->editvar('link_homepage',$lang['homepage']);
+$template->editvar('link_homepage',$lang['link_homepage']);
 $template->editvar('link_everyone',$lang['link_everyone']);
 $template->editvar('link_clubs',$lang['clubs']);
 

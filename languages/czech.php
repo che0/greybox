@@ -69,7 +69,7 @@ $lang['surname_desc'] = '';
 $lang['nick'] = 'nick';
 $lang['nick_desc'] = 'předzívka pro snadnější identifikaci';
 $lang['club_desc'] = 'klub, pod který patří';
-$lang['born'] = 'nazozen';
+$lang['born'] = 'narozen';
 $lang['born_desc'] = 'yyyy-mm-dd';
 $lang['active debater'] = 'aktivní debatér';
 $lang['active debater_desc'] = 'aktivní debatér, člen ADK';
@@ -137,4 +137,11 @@ $lang['add club'] = 'přidat klub';
 $lang['active debater_short'] = 'debatér';
 $lang['active'] = 'aktivní';
 
+$lang['club name'] = 'jméno klubu';
+$lang['club name_desc'] = '';
+$lang['short name'] = 'zkrácené jméno';
+$lang['short name_desc'] = 'do výpisů a podobně';
+$lang['club place_desc'] = '';
+$lang['release notes'] = 'Tohle je totálně vývojová verze. Už by docela měla fungovat evidence lidí. Narušování designu vkládáním HTML ošetřené není, ale bude. Pokud by někdo uspěl s SQL injection, dejte mi vědět. PN';
+$lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a> Copyright &copy Petr Novák 2004<br>Distribuováno pod licencí <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>';
 ?>

@@ -49,6 +49,16 @@ div#mainbody {
 	padding: 10px;
 }
 
+div#footnote {
+	margin-top: 20px;
+	font-size: x-small;
+	color: #dbddda;
+}
+div#footnote a {
+	text-decoration: none;
+	color: #cbcdca;
+}
+
 table.visible td, table.visible th {
 	border-bottom-style: dotted;
 	border-bottom-width: 1px;

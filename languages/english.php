@@ -76,7 +76,7 @@ $lang['active debater_desc'] = 'is active debater, should be included in stats a
 $lang['yes'] = 'yes';
 $lang['no'] = 'no';
 $lang['comment'] = 'comment';
-$lang['comment_desc'] = 'publicly visible comment, shown at person\'s info page';
+$lang['comment_desc'] = 'publicly visible comment, shown at info page';
 $lang['edit'] = 'edit';
 $lang['no club'] = 'no club';
 $lang['add ok'] = 'add ok';
@@ -137,4 +137,12 @@ $lang['add club'] = 'add club';
 $lang['active debater_short'] = 'debater';
 $lang['active'] = 'active';
 
+$lang['club name'] = 'name';
+$lang['club name_desc'] = '';
+$lang['short name'] = 'short name';
+$lang['short name_desc'] = '';
+$lang['club place_desc'] = '';
+
+$lang['release notes'] = 'this is totally developing application, don\'t rely on anything';
+$lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a> Copyright &copy Petr Novák 2004<br>Licensed under the terms of <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>';
 ?>

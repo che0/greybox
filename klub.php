@@ -11,8 +11,107 @@ switch ($_GET['akce']) {
 	// akce rozdeleni
 	case 'uprav':
 	case 'uprav.tym.pridej':
-		// $_GET['id'] = klub_ID
-		// todo
+	case 'uprav.commit':
+		$got_header = 0;
+		if ( ($prava_kluby >=2) || (($prava_kluby == 1) && ($_SESSION['user_klub_ID'] == $_GET['id'])) ) {
+			$query = sprintf('select * from klub where klub_ID = %s', $_GET['id']);
+			$result = mysql_query($query);
+			
+			if ($result2 = mysql_fetch_array($result)) {
+				set_title($result2['nazev']);
+				switch ($_GET['akce']) {
+					case 'uprav':
+						echo $template->make('head'); $got_header = 1;
+						printf('<form name="klub_uprav" method="post" action="klub.php?akce=uprav.commit&id=%s">' . "\n", $_GET['id']);
+						form_textbox($lang['club name'],'nazev', 40, $result2['nazev'], $lang['club name_desc']);
+						form_textbox($lang['short name'],'kratky_nazev', 30, $result2['kratky_nazev'], $lang['short name_desc']);
+						form_textbox($lang['place'],'misto', 30, $result2['misto'], $lang['club place_desc']);
+						form_textarea($lang['comment'],'komentar', $result2['komentar'], $lang['comment_desc']);
+						form_submit($lang['submit']);
+						echo '</form>';
+
+						if ($prava_kluby >=2) {
+							printf('<h2>%s</h2>' . "\n", $lang['delete']);
+							// TODO
+							body_message('not implemented yet');
+						}
+					break;
+
+					case 'uprav.commit':
+						$query = sprintf('update klub set nazev = %s, kratky_nazev = %s, misto = %s, komentar = %s where klub_ID = %s',
+							get_text_field($_POST['nazev']),
+							get_text_field($_POST['kratky_nazev']),
+							get_text_field($_POST['misto']),
+							get_text_field($_POST['komentar']),
+							$_GET['id']
+						);
+						
+						if (mysql_query($query)) {
+							body_message($lang['edit ok']);
+							header_redirect(sprintf('klub.php?id=%s',$_GET['id']));
+						} else {
+							body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+						}
+					break;
+
+					case 'uprav.tym.pridej':
+						// TODO
+						body_message('not implemented yet');
+					break;
+				}
+			} else {
+				set_title($lang['no records']);
+				body_message($lang['no records']);
+			}
+		} else {
+			set_title($lang['access denied']);
+			body_message($lang['access denied']);
+		}
+		if (! $got_header) echo $template->make('head');
+		print_body_messages();
+	break;
+
+	case 'pridej':
+		// add club
+		if ($prava_kluby >= 2) {
+			set_title($lang['add club']);
+			echo $template->make('head');
+
+			echo '<form name="klub_pridej" method="post" action="klub.php?akce=pridej.commit">' . "\n";
+			form_textbox($lang['club name'],'nazev', 40, '', $lang['club name_desc']);
+			form_textbox($lang['short name'],'kratky_nazev', 30, '', $lang['short name_desc']);
+			form_textbox($lang['place'],'misto', 30, '', $lang['club place_desc']);
+			form_textarea($lang['comment'],'komentar', '', $lang['comment_desc']);
+			form_submit($lang['submit']);
+			echo '</form>';
+		} else {
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+		}
+	break;
+
+	case "pridej.commit":
+		if ($prava_kluby >= 2) {
+			set_title($lang['add club']);
+			$query = sprintf('insert into klub (nazev, kratky_nazev, misto, komentar) values (%s, %s, %s, %s)',
+				get_text_field($_POST['nazev']),
+				get_text_field($_POST['kratky_nazev']),
+				get_text_field($_POST['misto']),
+				get_text_field($_POST['komentar'])
+			);
+			if (mysql_query($query)) {
+				body_message($lang['add ok']);
+				header_redirect(sprintf('klub.php?id=%s',mysql_insert_id()));
+			} else {
+				body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error()));
+			}	
+		} else {
+			set_title($lang['access denied']);
+			body_message($lang['access denied']);
+		}
+		echo $template->make('head');
+		print_body_messages();
 	break;
 
 	default:
@@ -67,7 +166,7 @@ switch ($_GET['akce']) {
 				// members
 				printf('<h2>%s</h2>',$lang['members']);
 				if ($can_edit) {
-					printf('<p><a href="clovek.php?akce=pridej">%s</a></p>' . "\n", $lang['add person']);
+					printf('<p><a href="clovek.php?akce=pridej&klub=%s">%s</a></p>' . "\n", $_GET['id'] ,$lang['add person']);
 				}
 				$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.debater as a_debater, tym.tym_ID as a_tym_ID, tym.nazev as a_tym';
 				$query .= ' from clovek left join clovek_tym on clovek.clovek_ID = clovek_tym.clovek_ID left join tym on clovek_tym.tym_ID <=> tym.tym_ID';
@@ -100,6 +199,8 @@ switch ($_GET['akce']) {
 					}
 					// print last one
 					printf('<tr><td>%s</td><td>%s</td><td>%s</td>', $r3_name, $r3_team, $r3_debater);
+				} else {
+					printf('<tr><td colspan="3">%s</td></tr>',$lang['no records']);
 				}
 
 				echo '</table>' . "\n";

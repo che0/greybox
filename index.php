@@ -6,6 +6,8 @@ $template->editvar('user',$lang['user']);
 
 echo $template->make('head');
 
+if ($lang['release notes']) print_one_message($lang['release notes']);
+
 if ($_SESSION['is_logged_in']) {
 	$template->editvar('index_name',sprintf('<a href="clovek.php">%s</a>',$_SESSION['user_name']));
 	
@@ -38,6 +40,7 @@ if ($_SESSION['is_logged_in']) {
 	echo $template->make('index');	
 }
 
+printf('<div id="footnote">%s</div>', $lang['tail_footnote']);
 
 echo $template->make('tail');
 

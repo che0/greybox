@@ -470,14 +470,14 @@ switch ($_GET['akce']) {
 		form_textbox($lang['name'],'name', 30, '', $lang['name_desc']);
 		form_textbox($lang['surname'],'surname', 30, '', $lang['surname_desc']);
 		form_textbox($lang['nick'],'nick', 30, '', $lang['nick_desc']);
-		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
+		$result = mysql_query('select klub_ID, nazev from klub order by kratky_nazev');
 		unset($clubs);
 		$clubs[-1] = $lang['no club'];
 		while ($result3 = mysql_fetch_array($result)) {
-			$clubs[$result3['klub_ID']]=$result3['kratky_nazev'];
+			$clubs[$result3['klub_ID']]=$result3['nazev'];
 		}
 		if ($prava_lidi >= 2) {
-			form_pulldown($lang['club'],'club',$clubs,$_SESSION['user_klub_ID'],$lang['club_desc']);
+			form_pulldown($lang['club'],'club',$clubs,$_GET['klub'] ? $_GET['klub'] : $_SESSION['user_klub_ID'],$lang['club_desc']);
 		} else {
 			form_nothing($lang['club'],$clubs[$_SESSION['user_klub_ID']]);
 		}

@@ -14,7 +14,8 @@ clovek:
 
 klub:
 	seznam aktivnich rozhodcich, treneru
-	editace vlastnosti, pridani noveho, pridani/ubirani treneru
+	pridani/ubirani treneru
+	mazani klubu
 
 soutez:
 	oficialni teze, komentar, rocnik

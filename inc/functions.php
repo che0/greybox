@@ -125,6 +125,11 @@ function form_hidden($name, $value)
 	printf('<input type="hidden" name="%s" value="%s">' . "\n",$name,$value);
 }
 
+function form_submit($title)
+{
+	printf('<p><input type="submit" name="submit" value="%s"></p>' . "\n", $title);
+}
+
 function form_nothing($title, $value)
 {
 	printf('<p>');
