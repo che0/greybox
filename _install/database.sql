@@ -13,7 +13,7 @@ CREATE TABLE klub (
   misto varchar(255) default NULL,
   nazev varchar(255) NOT NULL default '',
   kratky_nazev varchar(32) NOT NULL default '',
-  komentar blob,
+  komentar text,
   PRIMARY KEY  (klub_ID)
 ) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
 
@@ -25,7 +25,7 @@ CREATE TABLE tym (
   tym_ID int(10) unsigned NOT NULL auto_increment,
   klub_ID int(10) unsigned NOT NULL default '0',
   nazev varchar(255) NOT NULL default '',
-  komentar blob,
+  komentar text,
   PRIMARY KEY  (tym_ID),
   KEY klub_ID (klub_ID),
   constraint fk_tym_klub foreign key (klub_ID) references klub (klub_ID) on delete restrict
@@ -45,7 +45,7 @@ CREATE TABLE clovek (
   klub_ID int(10) unsigned default NULL,
   debater tinyint(1) NOT NULL default '0',
   clen tinyint(1) NOT NULL default '0',
-  komentar blob,
+  komentar text,
   prava_lidi tinyint(3) unsigned NOT NULL default '0',
   prava_kluby tinyint(3) unsigned NOT NULL default '0',
   prava_souteze tinyint(3) unsigned NOT NULL default '0',
@@ -65,7 +65,7 @@ CREATE TABLE soutez (
   rocnik tinyint(3) unsigned NOT NULL default '0',
   jazyk enum('cz','en','de','fr') character set utf8 NOT NULL default 'cz',
   nazev varchar(255) NOT NULL default '',
-  komentar blob,
+  komentar text,
   zamceno tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (soutez_ID)
 ) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -80,7 +80,7 @@ CREATE TABLE turnaj (
   nazev varchar(255) NOT NULL default '',
   datum_od date NOT NULL default '0000-00-00',
   datum_do date NOT NULL default '0000-00-00',
-  komentar blob,
+  komentar text,
   PRIMARY KEY  (turnaj_ID),
   KEY soutez_ID (soutez_ID),
   KEY datum_od (datum_od),
@@ -98,7 +98,7 @@ CREATE TABLE debata (
   teze_ID int(10) unsigned NOT NULL default '0',
   datum date NOT NULL default '0000-00-00',
   misto varchar(255) default NULL,
-  komentar blob,
+  komentar text,
   vitez tinyint(1) NOT NULL default '0',
   presvedcive tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (debata_ID),
@@ -261,7 +261,7 @@ CREATE TABLE teze (
   teze_ID int(10) unsigned NOT NULL auto_increment,
   jazyk enum('cz','en','de','fr') character set utf8 NOT NULL default 'cz',
   tx varchar(255) NOT NULL default '',
-  komentar blob,
+  komentar text,
   PRIMARY KEY  (teze_ID),
   KEY jazyk (jazyk)
 ) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
