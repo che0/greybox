@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.63 2005/02/19 23:25:10 che0 Exp $
+ * $Id: english.php,v 1.64 2005/02/20 11:00:20 che0 Exp $
  * english language definition file
  */
 
@@ -318,4 +318,7 @@ $lang['18-26'] = '18-26';
 $lang['26+'] = '26+';
 $lang['stddev'] = 'deviation';
 $lang['global rankings'] = 'global rankings';
+$lang['include panels'] = 'include panels';
+$lang['single judges'] = 'single judges only';
+$lang['filter'] = 'filter';
 ?>

@@ -1,13 +1,17 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.16 2005/02/15 14:47:40 che0 Exp $
+ * $Id: lide.inc,v 1.17 2005/02/20 11:00:17 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
+$filtr_rozhodci = ($_REQUEST["filtr"] == "samosoudci") ? "samosoudci" : "s_panely";
 
 $kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "kidy"=>$lang["kidy"], "kidy_rozhodci"=>$lang["kidy"]." - ".$lang["judges"], "stats"=>$lang["stats"]);
+$filtr_domain = array("s_panely"=>$lang["include panels"], "samosoudci"=>$lang["single judges"]);
+
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
+
 
 pg_head();
 
@@ -197,7 +201,27 @@ switch ($kdo) {
 	case 'kidy_rozhodci':
 		// show average ranks given by the judges
 		
-		if (! cpdb_fetch_all("
+		switch ($filtr_rozhodci) {
+			case "samosoudci":
+				$filtr_sql = "
+					and (
+						select count(*) 
+						from clovek_debata cd_r2
+						where
+							cd_r2.debata_ID = debata.debata_ID
+							and cd_r2.role = 'r'
+					) = 1
+				";
+			break;
+			
+			case "s_panely":
+				$filtr_sql = "";
+			break;
+		}
+		
+		cph_switch($lang["filter"],"./?page=lide&kdo=kidy_rozhodci&filtr=%s", $filtr_domain, $filtr_rozhodci);
+		
+		if (! cpdb_fetch_all(sprintf("
 			select
 				clovek.clovek_ID,
 				jmeno,
@@ -207,7 +231,9 @@ switch ($kdo) {
 				count(cd_hodnoceni.kidy) as samples,
 				std(cd_hodnoceni.kidy) as stddev
 			from
-				clovek
+				rozhodci
+				left join clovek
+					on rozhodci.clovek_ID = clovek.clovek_ID
 				left join clovek_debata cd_rozhoduje
 					on clovek.clovek_ID = cd_rozhoduje.clovek_ID and cd_rozhoduje.role = 'r'
 				left join debata
@@ -218,13 +244,14 @@ switch ($kdo) {
 					on cd_rozhoduje.debata_ID = cd_hodnoceni.debata_ID and find_in_set(cd_hodnoceni.role,'a1,a2,a3,n1,n2,n3')
 			where
 				soutez.rocnik = :rocnik
+				%s
 			group by
 				clovek.clovek_ID, jmeno, nick, prijmeni
 			having
 				samples > 0
 			order by
 				avg desc
-			", array(":rocnik"=>$GLOBALS["current_season"]), $r_kidy)) {
+			",$filtr_sql), array(":rocnik"=>$GLOBALS["current_season"]), $r_kidy)) {
 			
 			// when there are no results
 			pg_achtung($lang["no record"]);
@@ -323,9 +350,9 @@ switch ($kdo) {
 				rozhodci.jazyk,
 				klub.kratky_nazev as klub
 			from 
-				clovek
+				rozhodci
+				left join clovek on clovek.clovek_ID = rozhodci.clovek_ID
 				left join klub on klub.klub_ID = clovek.klub_ID
-				left join rozhodci on rozhodci.clovek_ID = clovek.clovek_ID
 			where
 				rozhodci.rocnik = :rocnik
 			order by
