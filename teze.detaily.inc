@@ -1,27 +1,30 @@
 <?php
-pg_head();
+
 $teze_id = $_REQUEST["teze_id"];
 
+cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":teze_id" => $teze_id), $teze);
+
+$GLOBALS["page"]->title = $teze["tx"];
+pg_head();
+
 if ($GLOBALS['cps_teze'] >= 1) {
-	$teze = new cpykhen;
-	$teze->select = "select * from teze where teze_ID = :teze_id";
-	$teze->select_args = array (":teze_id" => $teze_id);
-	$teze->form_attr["action"] = "./?page=teze.edit.exec";
-	$teze->form[] = new cpf_db_hidden("teze_id","teze_ID");
-	$teze->form[] = new cpf_text($lang["language"] . ": ");
-	$teze->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"));
-	$teze->form[] = new cpf_nl;
-	$teze->form[] = new cpf_text($lang["resolution"] . ": ");
-	$teze->form[] = new cpf_db_textbox("tx","tx",array("size"=>60));
-	$teze->form[] = new cpf_nl;
-	$teze->form[] = new cpf_text($lang["comment"] . ": ");
-	$teze->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
-	$teze->form[] = new cpf_nl;
-	$teze->form[] = new cpf_button("save",$lang["save"]);
-	$teze->form[] = new cpf_button("delete",$lang["delete"]);
-	$teze->render_select();
+	$teze_f = new cpykhen;
+	$teze_f->form_attr["action"] = "./?page=teze.edit.exec";
+	$teze_f->form[] = new cpf_db_hidden("teze_id","teze_ID");
+	$teze_f->form[] = new cpf_text($lang["language"] . ": ");
+	$teze_f->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"));
+	$teze_f->form[] = new cpf_nl;
+	$teze_f->form[] = new cpf_text($lang["resolution"] . ": ");
+	$teze_f->form[] = new cpf_db_textbox("tx","tx",array("size"=>60));
+	$teze_f->form[] = new cpf_nl;
+	$teze_f->form[] = new cpf_text($lang["comment"] . ": ");
+	$teze_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
+	$teze_f->form[] = new cpf_nl;
+	$teze_f->form[] = new cpf_button("save",$lang["save"]);
+	$teze_f->form[] = new cpf_button("delete",$lang["delete"]);
+	$teze_f->load_this($teze);
+	$teze_f->render();
 } else {
-	cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array (":teze_id" => $teze_id), $teze);
 	cph_p($lang["language"] . ": " . $teze["jazyk"]);
 	cph_p($lang["resolution"] . ": " . $teze["tx"]);
 	if (isset($teze["komentar"])) cph_p($lang["comment"] . ":" . cphs_br() . $teze["komentar"]);
