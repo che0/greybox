@@ -32,10 +32,12 @@ if (isset($_REQUEST["add"])) {
 		"insert into
 			clovek (klub_ID, jmeno, prijmeni, nick, narozen, debater, komentar)
 		values
-			(:klub_id, :jmeno, :prijmeni, :nick, :narozen, :debater, :komentar)
+			(" . ($GLOBALS["cps_lidi"] < 2 ? ":user_klub_id"  : ":klub_id" ) . ",
+			:jmeno, :prijmeni, :nick, :narozen, :debater, :komentar)
 		",
 		array(
 			":klub_id"=>$klub_id,
+			":user_klub_id"=>$_SESSION["user_klub_ID"],
 			":jmeno"=>$jmeno,
 			":prijmeni"=>$prijmeni,
 			":nick"=>$nick,
@@ -58,7 +60,7 @@ if (isset($_REQUEST["add"])) {
 	
 	if (cpdb_exec(
 		"update clovek set
-			klub_ID = :klub_id,
+			klub_ID = " . ($GLOBALS["cps_lidi"] < 2 ? ":user_klub_id"  : ":klub_id" ). ",
 			jmeno = :jmeno,
 			prijmeni = :prijmeni,
 			nick = :nick,
@@ -67,11 +69,11 @@ if (isset($_REQUEST["add"])) {
 			komentar = :komentar
 		where
 			clovek_ID = :clovek_id
-		" . ($GLOBALS["cps_kluby"] < 2 ? "and klub_ID = :cur_klub_id" : ""),
+		" . ($GLOBALS["cps_lidi"] < 2 ? "and klub_ID = :user_klub_id" : ""),
 		array(
 			":clovek_id"=>$clovek_id,
 			":klub_id"=>$klub_id,
-			":cur_klub_id"=>$cur_klub_id,
+			":user_klub_id"=>$_SESSION["user_klub_ID"],
 			":jmeno"=>$jmeno,
 			":prijmeni"=>$prijmeni,
 			":nick"=>$nick,
