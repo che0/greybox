@@ -22,13 +22,13 @@ if ($can_edit) {
 	$klub_f->form_attr["action"] = "./?page=klub.edit.exec";
 	$klub_f->form[] = new cpf_db_hidden("klub_id","klub_ID");
 	$klub_f->form[] = new cpf_text($lang["club name"] . ": ");
-	$klub_f->form[] = new cpf_db_textbox("nazev");
+	$klub_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>"40"));
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_text($lang["short name"] . ": ");
 	$klub_f->form[] = new cpf_db_textbox("kratky_nazev");
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_text($lang["place"] . ": ");
-	$klub_f->form[] = new cpf_db_textbox("misto");
+	$klub_f->form[] = new cpf_db_textbox("misto","misto",array("size"=>"40"));
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$klub_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));

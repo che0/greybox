@@ -21,7 +21,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_f->form_attr["action"] = "./?page=soutez.edit.exec";
 	$soutez_f->form[] = new cpf_db_hidden("soutez_id","soutez_ID");
 	$soutez_f->form[] = new cpf_text($lang["competition"] . ": ");
-	$soutez_f->form[] = new cpf_db_textbox("nazev");
+	$soutez_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>"40"));
 	$soutez_f->form[] = new cpf_nl;
 	$soutez_f->form[] = new cpf_text($lang["language"] . ": ");
 	$soutez_f->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"));

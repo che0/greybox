@@ -14,7 +14,7 @@ $tym_f->form[] = new cpf_text($lang["club"] . ": ");
 $tym_f->form[] = new cpf_db_listbox("klub_id",array("select klub_ID, nazev from klub", array()), "klub_ID");
 $tym_f->form[] = new cpf_nl;
 $tym_f->form[] = new cpf_text($lang["team name"] . ": ");
-$tym_f->form[] = new cpf_db_textbox("nazev");
+$tym_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>"40"));
 $tym_f->form[] = new cpf_nl;
 $tym_f->form[] = new cpf_text($lang["comment"] . ": ");
 $tym_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));

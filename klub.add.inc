@@ -10,7 +10,7 @@ if ($GLOBALS["cps_kluby"] < 2) {
 $klub_f = new cpykhen;
 $klub_f->form_attr["action"] = "./?page=klub.edit.exec";
 $klub_f->form[] = new cpf_text($lang["club name"] . ": ");
-$klub_f->form[] = new cpf_db_textbox("nazev");
+$klub_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>"40"));
 $klub_f->form[] = new cpf_nl;
 $klub_f->form[] = new cpf_text($lang["short name"] . ": ");
 $klub_f->form[] = new cpf_db_textbox("kratky_nazev");

@@ -192,7 +192,7 @@ if ($can_edit || $self_edit) {
 	$accr->form[] = new cpf_hidden("clovek_id",$clovek_id);
 	$accr->form[] = new cpf_db_hidden("kontakt_id","kontakt_ID");
 	$accr->form[] = new cpf_db_listbox_array("druh", $domain_kontakt_druh);
-	$accr->form[] = new cpf_db_textbox("tx");
+	$accr->form[] = new cpf_db_textbox("tx","tx",array("size"=>"40"));
 	$accr->form[] = new cpf_db_listbox_array("viditelnost", $domain_kontakt_viditelnost);
 	$accr->form["b1"] = new cpf_button("save",$lang["save"]);
 	$accr->form["b2"] = new cpf_button("delete",$lang["delete"]);
