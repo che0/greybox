@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: kluby.inc,v 1.6 2005/01/09 00:53:08 che0 Exp $
+ * $Id: kluby.inc,v 1.7 2005/02/12 15:36:03 che0 Exp $
  * print out club list
  */
 
@@ -9,14 +9,45 @@ pg_head();
 
 if ($GLOBALS["cps_kluby"] >= 2) cph_p(cphs_link("./?page=klub.add",$lang['add club']));
 
-cph_table_head(array($lang["club"],$lang["place"],$lang["debaters"]),array("class"=>"visible"));
-cpdb_fetch_all("select klub_ID, nazev, misto from klub order by nazev",array(),$kluby);
+if (! cpdb_fetch_all("
+	select
+		klub.klub_ID, nazev, misto, count(clovek_ID) as debateri
+	from
+		klub
+		left join clovek
+			on clovek.klub_ID = klub.klub_ID
+			and clovek.debater = 1
+	group by
+		klub_ID, nazev, misto
+	order by nazev
+	", array(), $kluby)) {
+	
+	pg_achtung($lang["no record"]);
+	return;
+}
+
+cpdb_fetch_all("
+	select
+		klub.klub_ID, count(clovek_ID) as clenove
+	from
+		klub
+		left join clovek
+			on clovek.klub_ID = klub.klub_ID
+			and clovek.clen = 1
+	group by
+		klub_ID
+	", array(), $klub_clenove, "klub_ID");
+
+
+cph_table_head(array($lang["club"],$lang["place"],$lang["debaters"],$lang["full members"]),array("class"=>"visible"));
+
 de_html($kluby);
 foreach ($kluby as $klub) {
 	cph_table_row(array(
 		cphs_link("./?page=klub&klub_id=" . $klub['klub_ID'],$klub['nazev']),
 		$klub["misto"],
-		cpdb_fetch_one_value("select count(clovek_ID) from clovek where debater = 1 and klub_ID = :klub_id", array(":klub_id"=>$klub["klub_ID"]))
+		$klub["debateri"],
+		$klub_clenove[$klub["klub_ID"]]["clenove"]
 	));
 }
 cph_table_end();
