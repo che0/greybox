@@ -49,7 +49,8 @@ class pg_page {
 </head>
 
 <body>
-<div id="main_title"><a href="http://adk.debating.net/"><img id="logo_right" src="skins/default/images/adk_logo.png" alt="ADK ČR" width="133" height="44" /></a><a href="./"><img id="logo_main" src="skins/default/images/titul.png" width="288" height="44" alt="greybox" /></a><span id="main_title_text">%s</span></div>
+<div id="main_title"><a href="http://adk.debating.net/"><img id="logo_right" src="skins/default/images/adk_logo.png" alt="ADK ČR" width="133" height="44" /></a>
+<a href="./"><img id="logo_main" src="skins/default/images/titul.png" width="288" height="44" alt="greybox" /></a> <span id="main_title_text">%s</span></div>
 <div id="leftblock"><div id="infoblock"><span id="language_info">%s</span>
 | <span id="season_info">%s</span>
 <p id="login_info">%s</p></div>
