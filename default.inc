@@ -4,11 +4,13 @@ pg_head();
 if ($lang['release notes']) pg_achtung_now($lang['release notes']);
 
 if ($_SESSION['is_logged_in']) {
-	cph_tag("h2",array(),cph_link("./?page=clovek",$_SESSION['user_name']));
+	cph_tag("h2",array(),cphs_link("./?page=clovek",$_SESSION['user_name']));
 	
 	$klub_nazev = cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_ID",array(":klub_ID"=>$_SESSION['user_klub_ID']));
 	
-	cph_p(cph_link(sprintf("./?page=klub&klub_id=%s",$_SESSION['user_klub_ID']),$klub_nazev));
+	if ($klub_nazev) {
+		cph_p(cphs_link(sprintf("./?page=klub&klub_id=%s",$_SESSION['user_klub_ID']),$klub_nazev));
+	}
 
 	cpdb_fetch_all(
 		"select tym.tym_ID as a_tym_ID,	tym.nazev as a_tym

@@ -38,8 +38,10 @@ switch ($_SESSION['language']) {
 	break;
 }
 
+$GLOBALS["lang"] = & $lang;
+
 if ($_SESSION["is_logged_in"] == true) {
-	$GLOBALS["page"]->login_block = $_SESSION['user_name'] . ' (<a href="logout.php">'.$lang['log out'].'</a>)';
+	$GLOBALS["page"]->login_block = $_SESSION['user_name'] . ' (<a href="./?page=logout">'.$lang['log out'].'</a>)';
 
 	$GLOBALS["cps_lidi"] = $prava_lidi = $_SESSION['user_prava_lidi'];
 	$GLOBALS["cps_kluby"] = $prava_kluby = $_SESSION['user_prava_kluby'];
@@ -47,7 +49,7 @@ if ($_SESSION["is_logged_in"] == true) {
 	$GLOBALS["cps_souteze"] = $prava_souteze = $_SESSION['user_prava_souteze'];
 	$GLOBALS["cps_teze"] = $prava_teze = $_SESSION['user_prava_teze'];
 } else {
-	$GLOBALS["page"]->login_block =  $lang['anonymous'] . ' <a href="login.php?von=' . $url_von .'">'.$lang['log in'].'</a>';
+	$GLOBALS["page"]->login_block = $lang['anonymous'] . ' <a href="./?page=login&amp;von=' . $url_von .'">'.$lang['log in'].'</a>';
 
 	$GLOBALS["cps_lidi"] = $prava_lidi = -1;
 	$GLOBALS["cps_kluby"] = $prava_kluby = -1;

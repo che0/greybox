@@ -88,6 +88,9 @@ class pg_page {
 	
 	function render_this($module) {
 		
+		// included globals
+		global $lang;
+		
 		include($module . ".inc");
 		
 		if (! $this->was_head) {
@@ -102,9 +105,9 @@ class pg_page {
 	}
 	
 	function print_achtung($achtung) {
-		cph_start_tag("div",array("class"=>"achtung"));
+		cph_tag_start("div",array("class"=>"achtung"));
 		echo $achtung;
-		cph_end_tag("div");
+		cph_tag_end("div");
 		cph_nl();
 	}
 	
@@ -132,5 +135,8 @@ function pg_head() {
 	$GLOBALS["page"]->render_head();
 }
 
+
+// create the page global
+$GLOBALS["page"] = new pg_page;
 
 ?>
