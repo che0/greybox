@@ -136,6 +136,7 @@ switch ($_GET['akce']) {
 		form_textbox($lang['nick'],'surname', 30, '', $lang['nick_desc']);
 		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
 		unset($clubs);
+		$clubs[NULL] = $lang['no club'];
 		while ($result3 = mysql_fetch_array($result)) {
 			$clubs[$result3['klub_ID']]=$result3['kratky_nazev'];
 		}
@@ -143,7 +144,6 @@ switch ($_GET['akce']) {
 			form_pulldown($lang['club'],'club',$clubs,$_SESSION['user_klub_ID'],$lang['club_desc']);
 		} else {
 			form_nothing($lang['club'],$clubs[$_SESSION['user_klub_ID']]);
-			form_hidden('club',$_SESSION['user_klub_ID']);
 		}
 		form_textbox($lang['born'],'born',10,'1999-12-31',$lang['born_desc']);
 		form_textarea($lang['comment'],'comment','',$lang['comment_desc']);
@@ -152,7 +152,35 @@ switch ($_GET['akce']) {
 	break;
 
 	case 'pridej.commit':
-		// todo
+		if ($prava_lidi < 1) {
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		set_title($lang['add person']);
+		
+		$query = "insert into clovek (name, surname, nick, klub_ID, narozen, debater, komentar) values ";
+		$query .= sprintf('(%s, %s, %s, %s, %s, %s, %s);',
+			get_text_field($_POST['name']),
+			get_text_field($_POST['surname']),
+			get_text_field($_POST['nick']),
+			($prava_lidi >= 2) ? get_numeric_field($_POST['klub_ID']) : $_SESSION['user_klub_ID'];
+			get_text_field($_POST['narozen']);
+			get_numeric_field($_POST['debater']);
+			get_text_field($_POST['komentar']);
+		);
+
+		if (mysql_query($query)) {
+			body_message($lang['add ok']);
+			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=\'clovek.php?id=%s\'">',mysql_insert_id());
+		} else {
+			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error());
+		}
+		
+		echo $template->make('head');
+		print_body_messages();
+
 
 	break;
 

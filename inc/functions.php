@@ -120,4 +120,23 @@ function form_nothing($title, $value)
 	}
 	printf("%s</p>\n",$value);
 }
+
+function get_text_field ($text)
+{
+	if ($text) {
+		return sprintf('\'%s\'',$text);
+	} else {
+		return "NULL";
+	}
+}
+
+function get_numeric_field ($numeric)
+{
+	if ($numeric) {
+		return $numeric;
+	} else {
+		return "NULL";
+	}
+}
+
 ?>

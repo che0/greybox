@@ -78,6 +78,8 @@ $lang['comment'] = 'comment';
 $lang['comment_desc'] = 'publicly visible comment, shown at person\'s info page';
 $lang['edit'] = 'edit';
 $lang['no club'] = 'no club';
+$lang['add ok'] = 'add ok';
+$lang['add failed'] = 'add failed';
 
 // index
 $lang['teams'] = 'teams';
