@@ -1,7 +1,5 @@
 <?php
 
-function title_chew($tx)
-
 class pg_page {
 	var $headers;
 	var $title;
@@ -58,11 +56,11 @@ class pg_page {
 		$this->language,
 		$this->language,
 		(isset($this->title)
-			? ($GLOBALS["cp_config"]["title"] . " ". title_chew($this->title))
+			? ($GLOBALS["cp_config"]["title"] . " ". $this->title)
 			: ($GLOBALS["cp_config"]["title"])),
 		$this->language,
 		$headers,
-		title_chew($this->title),
+		$this->title,
 		$this->lang_block,
 		$this->season_block,
 		$this->login_block,
