@@ -66,6 +66,9 @@ if (!isset($_REQUEST["delete"])) {
 		pg_achtung($lang["tournament does not match competition, changing competition"],1);
 		$soutez_id = $turnaj_soutez;
 	}
+
+	// check resolution is in the right language
+	// FIXME
 }
 
 // switch turnaj_ID: 0 => NULL
