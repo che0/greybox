@@ -13,7 +13,12 @@ function cpdb_bind($query, $args = array()) {
 	$repl_from = $repl_to = array();
 	foreach ($args as $key => $value) {
 		$repl_from[] = $key;
-		$repl_to[] = "'" . addslashes($value) . "'";
+		
+		if (!is_int($value)) {
+			$repl_to[] = "'" . mysql_real_escape_string($value) . "'";
+		} else {
+			$repl_to[] = $value;
+		}
 	}
 	
 	return str_replace($repl_from, $repl_to, $query);
