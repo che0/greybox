@@ -1,12 +1,12 @@
 <?php
 require('inc/head.php');
-$template->editvar('page_title','pokus');
+set_title('title');
 
 echo $template->make('head');
-echo $template->make('linkblock');
 
 // kod
 
 echo $template->make('tail');
 
 require('inc/tail.php');
+?>

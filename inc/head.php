@@ -1,26 +1,38 @@
 <?php
+// pre init
+$setup = array();
 
-$dbhost = 'localhost';
-$dbname = 'greybox';
-$dbuser = 'greybox';
-$dbpasswd = 'greybox';
+/******************************************************************
+	you configure this
+*/
+
+$setup['db_host'] = 'localhost';
+$setup['db_name'] = 'greybox';
+$setup['db_user'] = 'greybox';
+$setup['db_passwd'] = 'greybox';
+
+$setup['global_title'] = 'greybox';
+$setup['global_lang'] = 'english';
+$setup['global_skin'] = 'default';
 
 /******************************************************************
 	some initialisation
 */
 
 
-$skin = "default";
+require('inc/functions.php');
 
 require('inc/template.php');
-$template = new template($skin);
+
+$template = new template($setup['global_skin']);
 
 $template->load('global');
+$template->editvar('page_title',$setup['global_title']);
 $template->editvar('page_headers','');
 
-$lang_sel = 'english';
 $lang = array();
-require('inc/language.php');
+require('languages/' . $setup['global_lang'] . '.php');
 
 require('inc/session.php');
 ?>
+

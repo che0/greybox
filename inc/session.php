@@ -20,6 +20,4 @@ if (isset($_SESSION["is_logged_in"])) {
 	$template->editvar('login_info', $lang['anonymous'] . ' <a href="login.php?von=' . urlencode($_SERVER["PHP_SELF"] . (($_SERVER["QUERY_STRING"] != "") ? ("?". $_SERVER["QUERY_STRING"]) : "")) .'">'.$lang['log in'].'</a>');
 }
 
-echo 
-
 ?>

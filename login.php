@@ -1,5 +1,6 @@
 <?php
 require('inc/head.php');
+$template->editvar('page_title','pokus');
 
 echo $template->make('head');
 
@@ -8,4 +9,3 @@ echo $template->make('head');
 echo $template->make('tail');
 
 require('inc/tail.php');
-?>

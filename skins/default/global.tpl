@@ -8,16 +8,18 @@
 </head>
 
 <body>
-<!-- END head -->
 
-<!-- BEGIN linkblock -->
 <div class="linkblock">
 <p class="login_info">{login_info}</p>
 <p class="link"><a href="./">root</a></p>
 </div>
-<!-- END linkblock -->
+
+<div class="mainbody">
+<!-- END head -->
 
 <!-- BEGIN tail -->
+</div>
+
 </body>
 </html>
 <!-- END tail -->
