@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.24 2005/01/15 15:14:12 che0 Exp $
+ * $Id: klub.inc,v 1.25 2005/02/11 18:10:49 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -185,6 +185,14 @@ cpdb_fetch_all("
 de_html($clenove);
 cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short'], $lang["full member"]),array("class"=>"visible"));
 
+function get_cl_ac_array($clen, $debater) {
+	if ($clen) {
+		if ($debater) { return array(); } else { return array("class"=>"special"); }
+	} else {
+		if ($debater) { return array("class"=>"inactive"); } else { return array("class"=>"special inactive"); }
+	}
+}
+
 while ($clen = current($clenove)) {
 	// first result fetch
 	$cl_clovek_ID = $clen['a_clovek_ID'];
@@ -202,7 +210,7 @@ while ($clen = current($clenove)) {
 		if ($clen['a_clovek_ID'] == $cl_clovek_ID) {
 			$cl_team .= ", " . cphs_link("./?page=tym&tym_id=" . $clen['a_tym_ID'], $clen['a_tym']);
 		} else {
-			cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no'], $cl_clen ? $lang['yes'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
+			cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no'], $cl_clen ? $lang['yes'] : $lang['no']), get_cl_ac_array($cl_clen, $cl_debater));
 			
 			$cl_clovek_ID = $clen['a_clovek_ID'];
 			$cl_name = cphs_link("./?page=clovek&clovek_id=" . $clen['a_clovek_ID'], join_name($clen['a_jmeno'], $clen['a_nick'], $clen['a_prijmeni']));
@@ -216,7 +224,7 @@ while ($clen = current($clenove)) {
 		}
 	}
 	// print last one
-	cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no'], $cl_clen ? $lang['yes'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
+	cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no'], $cl_clen ? $lang['yes'] : $lang['no']), get_cl_ac_array($cl_clen, $cl_debater));
 	next($clenove);
 }
 

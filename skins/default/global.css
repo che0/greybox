@@ -158,6 +158,26 @@ tr.inactive a {
 	text-decoration: underline;
 }
 
+tr.special {
+	/* special row */
+	color: #00900E;
+}
+
+tr.special a {
+	color: #009E3A;
+	text-decoration: underline;
+}
+
+tr.special.inactive {
+	/* combination */
+	color: #7DBE71;
+}
+
+tr.special.inactive a {
+	color: #4D9E7C;
+	text-decoration: underline;
+}
+
 form span.desc, p.note {
 	font-size: small;
 }
