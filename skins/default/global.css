@@ -48,3 +48,12 @@ div#mainbody {
 	margin-left: 200px;
 	padding: 10px;
 }
+
+table.visible td, table.visible th {
+	border-bottom-style: dotted;
+	border-bottom-width: 1px;
+	border-bottom-color: #cbcdca;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+	

@@ -1,13 +1,13 @@
 
 <!-- BEGIN clovek_list_debaters_head -->
 <p>{list}: <a href="clovek.php?akce=vsichni">{everyone}</a> | <a href="clovek.php?akce=rozhodci">{judges}</a> | {debaters}</p>
-<table>
+<table class="visible">
 <tr><th>{name}</td><th>{club}</th><th>{team}</th><th>{ipoints}</th></tr>
 <!-- END clovek_list_debaters_head -->
 
 <!-- BEGIN clovek_list_all_head -->
 <p>{list}: {everyone} | <a href="clovek.php?akce=rozhodci">{judges}</a> | <a href="clovek.php?akce=debateri">{debaters}</a></p>
-<table>
+<table class="visible">
 <tr><th>{name}</td><th>{club}</th><th>{team}</th><th>{ipoints}</th></tr>
 <!-- END clovek_list_all_head -->
 
@@ -26,7 +26,7 @@
 
 <!-- BEGIN clovek_list_judges_head -->
 <p>{list}: <a href="clovek.php?akce=vsichni">{everyone}</a> | {judges} | <a href="clovek.php?akce=debateri">{debaters}</a></p>
-<table>
+<table class="visible">
 <tr><th>{name}</td><th>{club}</th><th>{languages}</th><th>{place}</td><th>{ipoints}</th></tr>
 <!-- END clovek_list_judges_head -->
 
@@ -45,7 +45,7 @@
 
 <!-- BEGIN clovek_detail_kontakty_head -->
 <h2>{contacts}</h2>
-<table>
+<table class="visible">
 <!-- END clovek_detail_kontakty_head -->
 
 <!-- BEGIN clovek_detail_kontakty_line -->
