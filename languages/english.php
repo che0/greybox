@@ -278,4 +278,5 @@ $lang['sort'] = 'sort';
 $lang['sum'] = 'sum';
 $lang['average'] = 'average';
 $lang['season changed'] = 'season changed';
+$lang['add member from club'] = 'add member from club';
 ?>

@@ -157,7 +157,7 @@ $lang['resolution details'] = 'detaily teze';
 
 $lang['access competitions_desc'] = '';
 $lang['official in'] = 'oficiální pro';
-$lang['competition'] = 'soutež';
+$lang['competition'] = 'soutěž';
 $lang['edit resolution'] = 'úprava teze';
 $lang['update ok'] = 'upraveno';
 $lang['competitions'] = 'soutěže';
@@ -280,4 +280,5 @@ $lang['sort'] = 'řazení';
 $lang['sum'] = 'součet';
 $lang['average'] = 'průměr';
 $lang['season changed'] = 'sezóna změněna';
+$lang['add member from club'] = 'přidat člena z klubu';
 ?>

@@ -49,12 +49,21 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$members->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$members->render_select();
 	
+	
+	
 	$members->form["tid"] = new cpf_hidden("tym_id",$tym_id);
 	$members->form["clovek"] = new cpf_db_listbox("clovek_id",
-		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek", array()),
+		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni), concat_ws(' ', prijmeni, jmeno, nick) as srt from clovek where clovek.debater = 1 and clovek.klub_ID = :klub_id order by srt", array(":klub_id"=>$tym["klub_ID"])),
 		"clovek_ID");
 	$members->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($members->form["b2"], $members->form["clovek2"], $members->form["clovek3"], $members->form["clovek4"]);
+	$members->init_force();
+	$members->load_this(array("aktivni"=>1));
+	$members->render_hidden($lang["add member from club"]);
+	
+	$members->form["clovek"] = new cpf_db_listbox("clovek_id",
+		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni), concat_ws(' ', prijmeni, jmeno, nick) as srt from clovek where clovek.debater = 1 order by srt", array()),
+		"clovek_ID");
 	$members->init_force();
 	$members->load_this(array("aktivni"=>1));
 	$members->render_hidden($lang["add member"]);
