@@ -1,14 +1,14 @@
 <?php
 /*
  * greybox
- * $Id: debaty.inc,v 1.5 2005/01/09 00:53:08 che0 Exp $
+ * $Id: debaty.inc,v 1.6 2005/01/14 22:37:40 che0 Exp $
  */
 
 pg_head();
 
 if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]));
 
-cpdb_fetch_all("
+if (! cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,
 		tym_aff.nazev as aff_tym,
@@ -22,14 +22,21 @@ cpdb_fetch_all("
 		debata.debata_ID
 	from
 		debata
+		left join soutez on debata.soutez_ID = soutez.soutez_ID
 		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
 		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
 		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
 		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
 		left join teze on teze.teze_ID = debata.teze_ID
+	where
+		soutez.rocnik = :rocnik
 	order by
 		datum desc
-	", array(),$r_debaty);
+	", array(":rocnik"=>$GLOBALS["current_season"]),$r_debaty)) {
+	
+	pg_achtung($lang["no records"]);
+	return;
+}
 	
 de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));

@@ -1,23 +1,27 @@
 <?php
 /*
  * greybox
- * $Id: souteze.inc,v 1.7 2005/01/09 00:53:08 che0 Exp $
+ * $Id: souteze.inc,v 1.8 2005/01/14 22:37:41 che0 Exp $
  * vypis vsech soutezi v sezone
  */
 
 pg_head();
 
-cph_p($lang["season"] . ": " . season_to_str($GLOBALS["current_season"]));
-
 if ($GLOBALS["cps_souteze"] >= 2) cph_p(cphs_link("./?page=soutez.add",$lang["add competition"]));
 
-cph_table_head(array($lang["competition"], $lang["lang"], $lang["active"] ,$lang["debates"],),array("class"=>"visible"));
 
-cpdb_fetch_all("select * from soutez where rocnik = :rocnik order by zamceno, jazyk", array(":rocnik"=>$GLOBALS["current_season"]), $souteze);
+
+if (! cpdb_fetch_all("select * from soutez order by rocnik desc, zamceno, jazyk", array(), $souteze)) {
+	pg_achtung($lang["no records"]);
+	return;
+}
+
 de_html($souteze);
+cph_table_head(array($lang["season"], $lang["competition"], $lang["lang"], $lang["active"] ,$lang["debates"],),array("class"=>"visible"));
 
 foreach ($souteze as $soutez) {
 	cph_table_row(array(
+		season_to_str($soutez["rocnik"]),
 		cphs_link("./?page=soutez&soutez_id=" . $soutez["soutez_ID"], $soutez["nazev"]),
 		$soutez["jazyk"],
 		$soutez["zamceno"] ? $lang["no"] : $lang["yes"],
