@@ -13,7 +13,6 @@ clovek:
 
 debata:
 	page=debata, debata_id
-	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru
 	pridani/editace/mazani i s navaznymi relacemi
 	
 homepage:

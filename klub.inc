@@ -102,6 +102,36 @@ foreach ($tymy as $tym) {
 }
 cph_table_end();
 
+// judges
+if (cpdb_fetch_all("
+	select
+		rozhodci.misto,
+		rozhodci.jazyk,
+		clovek.clovek_ID,
+		clovek.jmeno,
+		clovek.nick,
+		clovek.prijmeni
+	from
+		rozhodci
+		left join clovek using(clovek_ID)
+	where
+		rozhodci.rocnik = :rocnik
+		and clovek.klub_ID = :klub_id
+	",array(":rocnik"=>$GLOBALS["current_season"],":klub_id"=>$klub_id),$r_rozhodci)) {
+	
+	cph_h2($lang["adjudicators"]);
+	cph_table_head(array($lang["adjudicator"],$lang["language"],$lang["place"]), array("class"=>"visible"));
+	foreach ($r_rozhodci as $rozhodci) {
+		cph_table_row(array(
+			cphs_link("./?page=clovek&clovek_id=" . $rozhodci["clovek_ID"], join_name($rozhodci["jmeno"], $rozhodci["nick"], $rozhodci["prijmeni"])),
+			$rozhodci["jazyk"],
+			$rozhodci["misto"]
+		));
+	}
+	cph_table_end();
+	
+	
+}
 
 // members
 cph_h2($lang['members']);
@@ -168,12 +198,5 @@ while ($clen = current($clenove)) {
 }
 
 cph_table_end();
-
-// judges
-// FIXME
-
-// coaches
-// FIXME
-
 
 ?>
