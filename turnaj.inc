@@ -96,7 +96,7 @@ if (cpdb_fetch_all("
 		klub.klub_ID,
 		klub.kratky_nazev,
 		sum(debata_tym.body) as bodu,
-		sum((2+debata.presvedcive) * (debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez))) as ballotu,
+		sum((2+debata.presvedcive) * (debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) + (1-debata.presvedcive) * ((1 - debata_tym.pozice) * debata.vitez + (1 - debata.vitez) * debata_tym.pozice)) as ballotu,
 		sum(debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) as vitezstvi
 	from
 		debata_tym
