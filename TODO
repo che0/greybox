@@ -2,7 +2,7 @@ individual points: http://www.debating.net/ADK/Vysledky/JP04.htm + mails
 
 TODO:
 udrzovani aktualni sezony v session, moznost zmenit
-predelat language.php
+predelat language.php a logout (aby se vracel)
 prepocitavani IB a vitezstvi debaty
 kontrola integrity
 stylesheet pro tisk
@@ -12,7 +12,6 @@ clovek:
 	seznam podle IB s tymy a filtrem na vek
 
 debata:
-	page=debata, debata_id
 	pridani/editace/mazani i s navaznymi relacemi
 	
 homepage:

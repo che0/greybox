@@ -49,6 +49,8 @@ de_html($debata);
 $GLOBALS["page"]->title = format_date($debata["datum"]) . " " . $debata["aff_tym"] . "/" . $debata["neg_tym"];
 pg_head();
 
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.edit&debata_id=" . $debata["debata_ID"],$lang["edit debate"]));
+
 if (isset($debata["komentar"])) cph_p($debata["komentar"]);
 
 $info = $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $debata["soutez_ID"], $debata["soutez"]);

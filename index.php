@@ -59,6 +59,7 @@ $GLOBALS["page"]->pages = array(
 	array("debata", $lang["debate"]),
 	array("debata.add", $lang["add debate"]),
 	array("debata.edit", $lang["edit debate"]),
+	array("debata.clovek.edit.exec", $lang["edit debate"]),
 	array("debata.edit.exec", $lang["edit debate"]),
 	array("debaty", $lang["debates"]),
 );

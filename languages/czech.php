@@ -254,4 +254,13 @@ $lang['add debate'] = 'add debate';
 $lang['edit debate'] = 'edit debate';
 $lang['duplicate username'] = 'duplicate username';
 $lang['N/A'] = 'N/A';
+$lang['yyyy-mm-dd'] = 'yyyy-mm-dd';
+$lang['back to debate'] = 'back to debate';
+$lang['organizers'] = 'organizers';
+$lang['please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual competition'] = 'please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual competition';
+$lang['please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament'] = 'please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament';
+$lang['applies only if there are no adjudicators filled in'] = 'applies only if there are no adjudicators filled in';
+$lang['inherited organizer'] = 'inherited organizer';
+$lang['new adjudicator'] = 'new adjudicator';
+$lang['new organizer'] = 'new organizer';
 ?>

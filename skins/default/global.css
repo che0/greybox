@@ -86,8 +86,14 @@ tr.inactive a {
 	text-decoration: underline;
 }
 
-form span.desc {
+form span.desc, p.note {
 	font-size: small;
+}
+
+form span.p_h2 {
+	display: block;
+	font-size: 1.2em;
+	padding-top: 7px;
 }
 
 form p {

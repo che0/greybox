@@ -45,6 +45,7 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["born"] . ": ");
 	$clovek_f->form[] = new cpf_db_textbox("narozen");
+	$clovek_f->form[] = new cpf_text(" " . $lang["yyyy-mm-dd"],array("class"=>"desc"));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$clovek_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));

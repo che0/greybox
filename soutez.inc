@@ -31,9 +31,12 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$soutez_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 	$soutez_f->form[] = new cpf_nl;
+	/* useless for now
 	$soutez_f->form[] = new cpf_text($lang["active"] . ": ");
 	$soutez_f->form[] = new cpf_db_listbox_array("zamceno",array(0=>$lang["active"], 1=>$lang["locked"]));
 	$soutez_f->form[] = new cpf_nl;
+	*/
+	$soutez_f->form[] = new cpf_hidden("zamceno","0"); // bypass of ^
 	$soutez_f->form[] = new cpf_button("save",$lang["save"]);
 	$soutez_f->form[] = new cpf_button("delete",$lang["delete"]);
 	$soutez_f->load_this($soutez_p);
@@ -99,6 +102,9 @@ if (cpdb_fetch_all("
 	
 	de_html($ranks);
 	cph_h2($lang["team rankings"]);
+	
+	cph_p($lang["please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual competition"],array("class"=>"note"));
+	
 	cph_table_head(array($lang["rank"],$lang["team"],$lang["club"],$lang["pts"]),array("class"=>"visible"));
 	$count = 0; $rank = 1; $pts = -1;
 	foreach ($ranks as $team_rank) {

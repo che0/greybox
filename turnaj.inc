@@ -85,12 +85,50 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	
 }
 
+// teams w/ points gained
+if (cpdb_fetch_all("
+	select
+		tym.tym_ID,
+		tym.nazev,
+		klub.klub_ID,
+		klub.kratky_nazev,
+		sum(debata_tym.body) as bodu
+	from
+		debata_tym
+		left join tym on tym.tym_ID = debata_tym.tym_ID
+		left join klub on klub.klub_ID = tym.klub_ID
+		left join debata on debata.debata_ID = debata_tym.debata_ID
+	where
+		debata.turnaj_ID = :turnaj_id
+	group by
+		tym.tym_ID, tym.nazev
+	order by
+		bodu desc
+	", array(":turnaj_id"=>$turnaj_id), $ranks)) {
+	
+	cph_h2($lang["teams"]);
+	cph_p($lang["please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament"],array("class"=>"note"));
+	de_html($ranks);
+	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["pts"]), array("class"=>"visible"));
+	$count = 0; $rank = 1; $pts = -1;
+	foreach ($ranks as $team_rank) {
+		$count++;
+		if ($pts != $team_rank["bodu"]) {
+			$pts = $team_rank["bodu"];
+			$rank = $count;
+		}
+		cph_table_row(array(
+			$rank,
+			cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
+			cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
+			$team_rank["bodu"]
+		));
+	}
+	cph_table_end();
+}
+
 // debates w/ teams, resolutions, result, link
-cph_h2($lang["debates"]);
-
-if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s&turnaj_id=%s",$turnaj["soutez_ID"],$turnaj_id), $lang["add debate"]));
-
-cpdb_fetch_all("
+if (cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,
 		tym_aff.nazev as aff_tym,
@@ -113,30 +151,36 @@ cpdb_fetch_all("
 		debata.turnaj_ID = :turnaj_id
 	order by
 		datum desc
-	", array(":turnaj_id"=>$turnaj_id),$r_debaty);
-de_html($r_debaty);
-cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
-foreach ($r_debaty as $debata) {
-	if ($debata["vitez"] == 1) {
-		$result = $lang["aff"];
-	} else {
-		$result = $lang["neg"];
+	", array(":turnaj_id"=>$turnaj_id),$r_debaty)) {
+
+	cph_h2($lang["debates"]);
+	de_html($r_debaty);
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
+	foreach ($r_debaty as $debata) {
+		if ($debata["vitez"] == 1) {
+			$result = $lang["aff"];
+		} else {
+			$result = $lang["neg"];
+		}
+		$result .= " ";
+		if ($debata["presvedcive"] == 1) {
+			$result .= $lang["3:0"];
+		} else {
+			$result .= $lang["2:1"];
+		}
+		cph_table_row(array(
+			format_date($debata["datum"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			$result,
+			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
+		));
 	}
-	$result .= " ";
-	if ($debata["presvedcive"] == 1) {
-		$result .= $lang["3:0"];
-	} else {
-		$result .= $lang["2:1"];
-	}
-	cph_table_row(array(
-		format_date($debata["datum"]),
-		cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
-		cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
-		$result,
-		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
-	));
+	cph_table_end();
 }
-cph_table_end();
+
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s&turnaj_id=%s",$turnaj["soutez_ID"],$turnaj_id), $lang["add debate"]));
+
 
 ?>
