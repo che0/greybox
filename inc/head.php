@@ -17,7 +17,7 @@ $setup['current_season'] = 0; // = 2000/2001
 	some initialisation
 */
 
-set_magic_quotes_runtime(true);
+set_magic_quotes_runtime(false);
 
 require('inc/functions.php');
 
