@@ -12,7 +12,7 @@ if (!(($GLOBALS["cps_kluby"] >= 2)
 	|| (($GLOBALS["cps_kluby"] == 1) && ($klub_id == $_SESSION['user_klub_ID'])))) {
 	pg_achtung($lang["access denied"]);
 	return;
-
+}
 
 if (isset($_REQUEST["add"])) {
 	// add new
