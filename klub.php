@@ -182,7 +182,11 @@ switch ($_GET['akce']) {
 					// first result fetch
 					$r3_clovek_ID = $result3['a_clovek_ID'];
 					$r3_name = sprintf('<a href="clovek.php?id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
-					$r3_team = sprintf('<a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+					if ($result3['a_tym_ID']) {
+						$r3_team = sprintf('<a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+					} else {
+						$r3_team = '';
+					}
 					$r3_debater = $result3['a_debater'] ? $lang['active'] : $lang['no'];
 
 					while ($result3 = mysql_fetch_array($result)) {
@@ -190,15 +194,19 @@ switch ($_GET['akce']) {
 						if ($result3['a_clovek_ID'] == $r3_clovek_ID) {
 							$r3_team .= sprintf(', <a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 						} else {
-							printf('<tr><td>%s</td><td>%s</td><td>%s</td>', $r3_name, $r3_team, $r3_debater);
+							printf('<tr><td>%s</td><td>%s</td><td>%s</td>'."\n", $r3_name, $r3_team, $r3_debater);
 							$r3_clovek_ID = $result3['a_clovek_ID'];
 							$r3_name = sprintf('<a href="clovek.php?id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
-							$r3_team = sprintf('<a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+							if ($result3['a_tym_ID']) {
+								$r3_team = sprintf('<a href="tym.php?id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+							} else {
+								$r3_team = '';
+							}
 							$r3_debater = $result3['a_debater'] ? $lang['active'] : $lang['no'];
 						}
 					}
 					// print last one
-					printf('<tr><td>%s</td><td>%s</td><td>%s</td>', $r3_name, $r3_team, $r3_debater);
+					printf('<tr><td>%s</td><td>%s</td><td>%s</td>'."\n", $r3_name, $r3_team, $r3_debater);
 				} else {
 					printf('<tr><td colspan="3">%s</td></tr>',$lang['no records']);
 				}
