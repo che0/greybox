@@ -5,6 +5,12 @@ if($_REQUEST["n1"] != $_REQUEST["n2"]) {
 	return;
 }
 
+if($_REQUEST["n1"] == "") {
+	pg_achtung($lang["refusing to set empty password"]);
+	return;
+
+}
+
 $login_id = $_REQUEST["login_id"];
 $clovek_id = $_REQUEST["clovek_id"];
 $username = $_REQUEST["username"];

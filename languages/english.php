@@ -238,4 +238,5 @@ $lang['N2'] = 'N2';
 $lang['N3'] = 'N3';
 $lang['debater'] = 'debater';
 $lang['points overview'] = 'points overview';
+$lang['refusing to set empty password'] = 'refusing to set empty password';
 ?>
