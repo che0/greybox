@@ -214,3 +214,8 @@ div.warning {
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
+p.cp_switch {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
