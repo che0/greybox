@@ -4,11 +4,12 @@
 
 $soutez_id = $_REQUEST["soutez_id"];
 
-if (!cpdb_fetch_one_row("select * from soutez where soutez_ID = :soutez_id", array(":soutez_id" => $soutez_id),$soutez)) {
+if (!cpdb_fetch_one_row("select * from soutez where soutez_ID = :soutez_id", array(":soutez_id" => $soutez_id),$soutez_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
 
+$soutez = de_html_s($soutez_p);
 $GLOBALS["page"]->title = $soutez["nazev"];
 pg_head();
 
@@ -35,7 +36,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_f->form[] = new cpf_nl;
 	$soutez_f->form[] = new cpf_button("save",$lang["save"]);
 	$soutez_f->form[] = new cpf_button("delete",$lang["delete"]);
-	$soutez_f->load_this($soutez);
+	$soutez_f->load_this($soutez_p);
 	$soutez_f->render();
 	
 	$soutez_teze = new cpykhen;
@@ -96,6 +97,7 @@ if (cpdb_fetch_all("
 	",
 	array(":soutez_id"=>$soutez_id),$ranks)) {
 	
+	de_html($ranks);
 	cph_h2($lang["team rankings"]);
 	cph_table_head(array($lang["rank"],$lang["team"],$lang["club"],$lang["pts"]),array("class"=>"visible"));
 	$count = 0; $rank = 1; $pts = -1;
@@ -118,6 +120,7 @@ if (cpdb_fetch_all("
 // tournaments w/ place, time, no of debates, link
 if (cpdb_fetch_all("select turnaj_ID, nazev, datum_od from turnaj where soutez_ID = :soutez_id order by datum_od", array(":soutez_id"=>$soutez_id),$r_turnaje)) {
 
+	de_html($r_turnaje);
 	cph_h2($lang["tournaments"]);	
 	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
 	foreach ($r_turnaje as $turnaj) {
@@ -157,9 +160,10 @@ if (cpdb_fetch_all("
 		datum desc
 	", array(":soutez_id"=>$soutez_id),$r_debaty)) {
 	
+	de_html($r_debaty);
 	cph_h2($lang["debates"]);
 	
-	if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s",$soutez_id), $lang["add debate"]);
+	if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s",$soutez_id), $lang["add debate"]));
 	
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
 	foreach ($r_debaty as $debata) {

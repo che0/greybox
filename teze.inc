@@ -17,6 +17,7 @@ cph_switch($lang["Language"], "./?page=teze&lang=%s", array("cz"=>"cz", "en"=>"e
 
 cpdb_fetch_all("select teze_ID, tx, not isnull(komentar) as mame_komentar from teze where jazyk = :lang",array(":lang"=>$lang_choice),$result);
 
+de_html($result);
 cph_table_head(array($lang["resolution"],$lang["comment"]),array("class"=>"visible"));
 foreach ($result as $row) {
 	cph_table_row(array(

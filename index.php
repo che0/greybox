@@ -6,7 +6,7 @@ include_once("lib/cpykhen.inc");
 include_once("lib/dblink.inc");
 include_once("lib/page.inc");
 include_once("lib/session.inc");
-include_once('lib/misc.inc');
+include_once("lib/misc.inc");
 
 $GLOBALS["page"]->links[] = array("./",$lang["homepage"]);
 $GLOBALS["page"]->links[] = array("./?page=lide",$lang["people"]);

@@ -7,6 +7,7 @@ udrzovani mesic stareho timestampu pro porovnavani uprav debat
 prepocitavani IB a vitezstvi debaty
 kontrola integrity
 stylesheet pro tisk
+do budoucna: hezke URL http://httpd.apache.org/docs-2.0/mod/mod_rewrite.html, Query String
 
 clovek:
 	seznam podle IB s tymy a filtrem na vek

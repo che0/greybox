@@ -3,8 +3,8 @@
 $tym_id = $_REQUEST["tym_id"];
 $soutez_id = $_REQUEST["soutez_id"];
 
-$tym_name = cpdb_fetch_one_value("select nazev from tym where tym_ID = :tym_id",array(":tym_id"=>$tym_id));
-$soutez_name = cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id",array(":soutez_id"=>$soutez_id));
+$tym_name = de_html_s(cpdb_fetch_one_value("select nazev from tym where tym_ID = :tym_id",array(":tym_id"=>$tym_id)));
+$soutez_name = de_html_s(cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id",array(":soutez_id"=>$soutez_id)));
 
 $GLOBALS["page"]->title = $tym_name . " / " . $soutez_name;
 
@@ -46,6 +46,8 @@ cpdb_fetch_all("
 	order by
 		datum desc
 	", array(":soutez_id"=>$soutez_id, ":tym_id"=>$tym_id),$r_debaty);
+	
+de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],$lang["pts"],""),array("class"=>"visible"));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {

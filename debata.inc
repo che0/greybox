@@ -44,12 +44,12 @@ if (!cpdb_fetch_one_row("
 	return;
 }
 
+de_html($debata);
+
 $GLOBALS["page"]->title = format_date($debata["datum"]) . " " . $debata["aff_tym"] . "/" . $debata["neg_tym"];
 pg_head();
 
 if (isset($debata["komentar"])) cph_p($debata["komentar"]);
-
-if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]);
 
 $info = $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $debata["soutez_ID"], $debata["soutez"]);
 if (isset($debata["turnaj_ID"])) $info .= cphs_br() . $lang["tournament"] . ": " . cphs_link("./?page=turnaj&turnaj_id=" . $debata["turnaj_ID"], $debata["turnaj"]);
@@ -79,6 +79,7 @@ cpdb_fetch_all("
 		and find_in_set(clovek_debata.role,'a1,a2,a3,n1,n2,n3')
 	", array(":debata_id"=>$debata_id), $recnik, "role");
 
+de_html($recnik);
 $pers = $debata["presvedcive"] ? $lang["3:0"] : $lang["2:1"];
 if ($debata["vitez"] == 1) {
 	$a_sieg = array("class"=>"sieg");
@@ -157,6 +158,7 @@ if ($nadj = cpdb_fetch_all("
 		and clovek_debata.role = 'r'
 	", array(":debata_id"=>$debata_id), $r_rozhodci)) {
 	
+	de_html($r_rozhodci);
 	cph_h2($lang["adjudicators"]);
 	
 	cph_tag_start("table",array("class"=>"visible"));
@@ -190,6 +192,7 @@ if (cpdb_fetch_all("
 		clovek_debata_ibody.debata_ID = :debata_id
 	", array(":debata_id"=>$debata_id), $r_ibody)) {
 
+	de_html($r_ibody);
 	cph_h2($lang["ipoints"]);
 	
 	cph_table_head(array($lang["person"],$lang["role"],$lang["ipoints"]),array("class"=>"visible"));

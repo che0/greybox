@@ -2,11 +2,11 @@
 
 $teze_id = $_REQUEST["teze_id"];
 
-if (!cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":teze_id" => $teze_id), $teze)) {
+if (!cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":teze_id" => $teze_id), $teze_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
-
+$teze = de_html_s($teze_p);
 $GLOBALS["page"]->title = $teze["tx"];
 pg_head();
 
@@ -25,15 +25,16 @@ if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f->form[] = new cpf_nl;
 	$teze_f->form[] = new cpf_button("save",$lang["save"]);
 	$teze_f->form[] = new cpf_button("delete",$lang["delete"]);
-	$teze_f->load_this($teze);
+	$teze_f->load_this($teze_p);
 	$teze_f->render();
 } else {
-	cph_p($lang["language"] . ": " . $teze["jazyk"]);
-	cph_p($lang["resolution"] . ": " . $teze["tx"]);
-	if (isset($teze["komentar"])) cph_p($lang["comment"] . ":" . cphs_br() . $teze["komentar"]);
+	//cph_p($lang["language"] . ": " . $teze["jazyk"]);
+	//cph_p($lang["resolution"] . ": " . $teze["tx"]);
+	if (isset($teze["komentar"])) cph_p($teze["komentar"]);
 }
 
 if (cpdb_fetch_all("select soutez.soutez_ID as soutez, nazev from soutez_teze left join soutez using (soutez_ID) where teze_ID = :teze_id", array(":teze_id" => $teze_id), $souteze) > 0) {
+	de_html($souteze);
 	cph_tag("h2",array(),$lang["official in"]);
 	cph_table_head(array($lang["competition"],""),array("class"=>"visible"));
 	foreach ($souteze as $soutez) {
@@ -62,10 +63,12 @@ cpdb_fetch_all("
 		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
 		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
 	where
-		and debata.teze_ID = :teze_id
+		debata.teze_ID = :teze_id
 	order by
 		datum desc
 	", array(":teze_id"=>$teze_id),$r_debaty);
+
+de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["result"],""),array("class"=>"visible"));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {

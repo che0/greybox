@@ -2,10 +2,11 @@
 
 $tym_id = $_REQUEST["tym_id"];
 
-if (!cpdb_fetch_one_row("select * from tym where tym_ID = :tym_id",array(":tym_id"=>$tym_id), $tym)) {
+if (!cpdb_fetch_one_row("select * from tym where tym_ID = :tym_id",array(":tym_id"=>$tym_id), $tym_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
+$tym = de_html_s($tym_p);
 
 $GLOBALS["page"]->title = $tym["nazev"];
 pg_head();
@@ -29,7 +30,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$tym_f->form[] = new cpf_nl;
 	$tym_f->form[] = new cpf_button("save",$lang["save"]);
 	$tym_f->form[] = new cpf_button("delete",$lang["delete"]);
-	$tym_f->load_this($tym);
+	$tym_f->load_this($tym_p);
 	$tym_f->render();
 	
 	$members = new cpykhen;
@@ -64,6 +65,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 	
 	cpdb_fetch_all("select clovek_tym.clovek_ID, clovek_tym.aktivni, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc", array(":tym_id"=>$tym_id), $members);
 	
+	de_html($members);
 	cph_h2($lang["members"]);
 	cph_table_head(array($lang["status"],$lang["person"]),array("class"=>"visible"));
 	foreach ($members as $member) {
@@ -92,6 +94,7 @@ cpdb_fetch_all("
 		soutez.nazev
 ", array(":tym_id"=>$tym_id), $souteze);
 
+de_html($souteze);
 cph_table_head(array($lang["competition"],$lang["pts"]),array("class"=>"visible"));
 foreach ($souteze as $soutez) {
 	cph_table_row(array(
@@ -128,6 +131,8 @@ cpdb_fetch_all("
 	order by
 		datum desc
 	", array(":tym_id"=>$tym_id),$r_debaty);
+
+de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],$lang["pts"],""),array("class"=>"visible"));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {

@@ -32,6 +32,7 @@ switch ($kdo) {
 				clovek.prijmeni, clovek.jmeno, clovek.nick
 		", array(), $lide);
 		
+		de_html($lide);
 		cph_table_head(
 			array($lang["name"], $lang["club"], $lang["ipoints"]),
 			array("class"=>"visible")
@@ -69,6 +70,7 @@ switch ($kdo) {
 				clovek.prijmeni, clovek.jmeno, clovek.nick
 		", array(), $lide);
 		
+		de_html($lide);
 		cph_table_head(
 			array($lang["name"], $lang["club"], $lang["team"], $lang["ipoints"]),
 			array("class"=>"visible")
@@ -84,6 +86,7 @@ switch ($kdo) {
 					clovek_tym.clovek_ID = :clovek_id
 					and clovek_tym.aktivni = 1
 			", array(":clovek_id"=>$clovek["clovek_ID"]), $tymy);
+			de_html($tymy);
 			$prvni = true; $f_tymy = "";
 			foreach ($tymy as $tym) {
 				if ($prvni) {
@@ -127,6 +130,7 @@ switch ($kdo) {
 				clovek.prijmeni, clovek.jmeno, clovek.nick
 		", array(":rocnik"=>$GLOBALS["current_season"]), $lide);
 		
+		de_html($lide);
 		cph_table_head(
 			array($lang["name"], $lang["club"], $lang["languages"], $lang["place"], $lang["ipoints"]),
 			array("class"=>"visible")

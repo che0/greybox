@@ -1,7 +1,7 @@
 <?php
 pg_head();
 
-if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]);
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]));
 
 cpdb_fetch_all("
 	select
@@ -25,6 +25,8 @@ cpdb_fetch_all("
 	order by
 		datum desc
 	", array(),$r_debaty);
+	
+de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {

@@ -2,11 +2,12 @@
 
 $turnaj_id = $_REQUEST["turnaj_id"];
 
-if (!cpdb_fetch_one_row("select * from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id" => $turnaj_id),$turnaj)) {
+if (!cpdb_fetch_one_row("select * from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id" => $turnaj_id),$turnaj_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
 
+$turnaj = de_html_s($turnaj_p);
 $GLOBALS["page"]->title = $turnaj["nazev"];
 pg_head();
 
@@ -34,7 +35,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_f->form[] = new cpf_nl;
 	$turnaj_f->form[] = new cpf_button("save",$lang["save"]);
 	$turnaj_f->form[] = new cpf_button("delete",$lang["delete"]);
-	$turnaj_f->load_this($turnaj);
+	$turnaj_f->load_this($turnaj_p);
 	$turnaj_f->render();
 	
 	$turnaj_clovek = new cpykhen;
@@ -71,6 +72,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	
 	$role_domain = array("o"=>$lang["organizer"]);
 	if (cpdb_fetch_all("select role, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using (clovek_ID) where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id), $r_clovek) > 0) {
+		de_html($r_clovek);
 		cph_table_head(array($lang["role"],$lang["person"]),array("class"=>"visible"));
 		foreach ($r_clovek as $clovek) {
 			cph_table_row(array(
@@ -86,7 +88,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 // debates w/ teams, resolutions, result, link
 cph_h2($lang["debates"]);
 
-if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s&turnaj_id=%s",$turnaj["soutez_ID"],$turnaj_id), $lang["add debate"]);
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s&turnaj_id=%s",$turnaj["soutez_ID"],$turnaj_id), $lang["add debate"]));
 
 cpdb_fetch_all("
 	select
@@ -112,6 +114,7 @@ cpdb_fetch_all("
 	order by
 		datum desc
 	", array(":turnaj_id"=>$turnaj_id),$r_debaty);
+de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {

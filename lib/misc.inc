@@ -23,4 +23,40 @@ function deformat_date($date) {
 	return $date;
 }
 
+
+function de_html_s($whatever) {
+	if (is_array($whatever)) {
+		$result = array();
+		foreach ($whatever as $key => $value) {
+			if ($key == "komentar") {
+				include_once("bbcode.inc");
+				$result["komentar"] = cp_bbcode($value);
+			} else {
+				$result[$key] = de_html_s($value);
+			}
+		}
+		return $result;
+	} elseif (is_string($whatever)) {
+		return htmlspecialchars($whatever);
+	} else {
+		return $whatever;
+	}
+}
+
+function de_html(& $whatever) {
+	if (is_array($whatever)) {
+		foreach ($whatever as $key => $value) {
+			if ($key === "komentar") {
+				include_once("bbcode.inc");
+				$whatever["komentar"] = cp_bbcode($value);
+			} elseif (is_string($whatever[$key])) {
+				de_html($whatever[$key]);
+			}
+		}
+	} elseif (is_string($whatever)) {
+		$whatever = htmlspecialchars($whatever);
+	}
+}
+
+
 ?>

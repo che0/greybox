@@ -135,7 +135,7 @@ class cpf_db_link extends cfutral {
 	}
 	
 	function render() {
-		cph_link(sprintf($this->href,$this->value),$this->tx);
+		cph_link(sprintf($this->href,$this->value),htmlspecialchars($this->tx));
 	}
 }
 
@@ -155,9 +155,9 @@ class cpf_db_text extends cfutral {
 	
 	function render() {
 		if ($this->attr != array()) {
-			cph_tag("span", $this->attr, $this->value);
+			cph_tag("span", $this->attr, htmlspecialchars($this->value));
 		} else {
-			echo $this->value;
+			echo htmlspecialchars($this->value);
 		}
 	}
 }
@@ -179,9 +179,9 @@ class cpf_db_listbox_array extends cfutral {
 		cph_tag_start("select",$this->attr);
 		foreach ($this->domain as $key => $caption) {
 			if ($key == $this->value) {
-				cph_tag("option",array("value" => $key, "selected" => "selected"), $caption);
+				cph_tag("option",array("value" => $key, "selected" => "selected"), htmlspecialchars($caption));
 			} else {
-				cph_tag("option",array("value" => $key), $caption);
+				cph_tag("option",array("value" => $key), htmlspecialchars($caption));
 			}
 		}
 		cph_tag_end("select");
@@ -258,7 +258,7 @@ class cpf_db_textarea extends cfutral {
 	}
 	
 	function render() {
-		cph_tag("textarea", $this->attr, $this->value);
+		cph_tag("textarea", $this->attr, htmlspecialchars($this->value));
 	}
 }
 

@@ -4,10 +4,11 @@ include_once("i_domeny.inc");
 
 $clovek_id = $_REQUEST["clovek_id"];
 
-if (!cpdb_fetch_one_row("select * from clovek where clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id), $clovek)) {
+if (!cpdb_fetch_one_row("select * from clovek where clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id), $clovek_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
+$clovek = de_html_s($clovek_p);
 
 $GLOBALS["page"]->title = join_name($clovek["jmeno"], $clovek["nick"], $clovek["prijmeni"]);
 pg_head();
@@ -53,7 +54,7 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_button("save",$lang["save"]);
 	$clovek_f->form[] = new cpf_button("delete",$lang["delete"]);
-	$clovek_f->load_this($clovek);
+	$clovek_f->load_this($clovek_p);
 	$clovek_f->render();
 	
 } elseif ($self_edit) {
@@ -74,7 +75,7 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_button("save",$lang["save"]);
-	$clovek_f->load_this($clovek);
+	$clovek_f->load_this($clovek_p);
 	$clovek_f->render();
 	
 	if (is_null($clovek["narozen"])) {
@@ -120,6 +121,7 @@ if (cpdb_fetch_all("
 	array(":clovek_id"=>$clovek_id),
 	$positions)) {
 	
+	de_html($positions);
 	cph_h2($lang["club positions"]);
 	cph_table_head(array($lang["role"],$lang["season"],$lang["club"]),array("class"=>"visible"));
 	foreach ($positions as $pos) {
@@ -164,6 +166,7 @@ if ($can_edit) {
 		array(":clovek_id"=>$clovek_id),
 		$accrs)) {
 		
+		de_html($accrs);
 		cph_h2($lang["accreditations"]);
 		cph_table_head(array($lang["season"],$lang["language"],$lang["place"]),array("class"=>"visible"));
 		foreach ($accrs as $accr) {
@@ -213,6 +216,7 @@ if ($can_edit || $self_edit) {
 		array(":clovek_id"=>$clovek_id, ":thresh"=>$thresh),
 		$contacts)) {
 		
+		de_html($contacts);
 		cph_h2($lang["contacts"]);
 		cph_table_head(array($lang["type"],$lang["contact"]),array("class"=>"visible"));
 		foreach ($contacts as $cont) {
@@ -245,7 +249,7 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 	$access->form[] = new cpf_db_listbox_array("prava_debaty",$domain_prava_debaty);
 	$access->form[] = new cpf_nl;
 	$access->form[] = new cpf_button("access",$lang["save"]);
-	$access->load_this($clovek);
+	$access->load_this($clovek_p);
 	$access->render();
 	
 } elseif ($clovek["prava_lidi"]+$clovek["prava_kluby"]+$clovek["prava_souteze"]+$clovek["prava_debaty"] > 0) {
@@ -302,7 +306,7 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 	$access->form[] = new cpf_db_password("n2");
 	$access->form[] = new cpf_nl;
 	$access->form[] = new cpf_button("password",$lang["change password"]);
-	$access->load_this($clovek);
+	$access->load_this($clovek_p);
 	$access->render();
 }
 
@@ -321,6 +325,7 @@ if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, clovek_tym.aktivni from clovek
 
 // tournaments (org)
 if (cpdb_fetch_all("select clovek_turnaj.role, turnaj.nazev, turnaj.datum_od, turnaj.turnaj_ID from clovek_turnaj left join turnaj using (turnaj_ID) where clovek_turnaj.clovek_ID = :clovek_id order by turnaj.datum_od", array(":clovek_id"=>$clovek_id), $turnaje)) {
+	de_html($turnaje);
 	cph_h2($lang["tournaments"]);
 	cph_table_head(array($lang["role"],$lang["tournament"],$lang["date"]), array("class"=>"visible"));
 	foreach ($turnaje as $turnaj) {
@@ -364,6 +369,7 @@ if (cpdb_fetch_all("
 		datum desc
 	", array(":clovek_id"=>$clovek_id),$r_debaty)) {
 	
+	de_html($r_debaty);
 	cph_h2($lang["debates"]);
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""),array("class"=>"visible"));
 	foreach ($r_debaty as $debata) {
@@ -425,6 +431,7 @@ if (cpdb_fetch_all("
 		datum desc
 	", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]),$r_debaty)) {
 	
+	de_html($r_debaty);
 	cph_h2($lang["points overview"]);
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],$lang["ipoints"]),array("class"=>"visible"));
 	foreach ($r_debaty as $debata) {

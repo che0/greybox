@@ -4,6 +4,7 @@ pg_head();
 if ($GLOBALS["cps_kluby"] >= 2) cph_p(cphs_link("./?page=tym.add" . $klub_id,$lang['add team']));
 
 cpdb_fetch_all("select tym_ID, tym.nazev as tym, klub.klub_ID, klub.nazev as klub from tym left join klub using (klub_ID) order by tym.nazev",array(":klub_id"=>$klub_id),$tymy);
+de_html($tymy);
 cph_table_head(array($lang["team"],$lang["club"],$lang["debaters"]),array("class"=>"visible"));
 foreach ($tymy as $tym) {
 	$debaters = cpdb_fetch_one_value("

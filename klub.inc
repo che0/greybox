@@ -3,10 +3,12 @@
 $domain_ck_role = array("t"=>$lang["coach"]);
 $klub_id = $_REQUEST["klub_id"];
 
-if (!cpdb_fetch_one_row("select * from klub where klub_ID = :klub_id",array(":klub_id"=>$klub_id), $klub)) {
+if (!cpdb_fetch_one_row("select * from klub where klub_ID = :klub_id",array(":klub_id"=>$klub_id), $klub_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
+
+$klub = de_html_s($klub_p);
 
 $can_edit = (($GLOBALS["cps_kluby"] >= 2)
 	|| (($GLOBALS["cps_kluby"] == 1) && ($klub_id == $_SESSION['user_klub_ID'])));
@@ -32,7 +34,7 @@ if ($can_edit) {
 	$klub_f->form[] = new cpf_nl;
 	$klub_f->form[] = new cpf_button("save",$lang["save"]);
 	$klub_f->form[] = new cpf_button("delete",$lang["delete"]);
-	$klub_f->load_this($klub);
+	$klub_f->load_this($klub_p);
 	$klub_f->render();
 	
 	$klub_clovek = new cpykhen;
@@ -63,6 +65,7 @@ if ($can_edit) {
 	
 	// coaches
 	if (cpdb_fetch_all("select clovek.jmeno, clovek.prijmeni, clovek.nick, clovek.clovek_ID, clovek_klub.rocnik, clovek_klub.role from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id order by rocnik", array(":klub_id"=>$klub_id), $coaches) > 0) {
+		de_html($coaches);
 		cph_table_head(array($lang["role"], $lang["season"], $lang["person"]),array("class"=>"visible"));
 		foreach ($coaches as $coach) {
 			cph_table_row(array(
@@ -119,6 +122,7 @@ if (cpdb_fetch_all("
 		and clovek.klub_ID = :klub_id
 	",array(":rocnik"=>$GLOBALS["current_season"],":klub_id"=>$klub_id),$r_rozhodci)) {
 	
+	de_html($r_rozhodci);
 	cph_h2($lang["adjudicators"]);
 	cph_table_head(array($lang["adjudicator"],$lang["language"],$lang["place"]), array("class"=>"visible"));
 	foreach ($r_rozhodci as $rozhodci) {
@@ -161,6 +165,7 @@ cpdb_fetch_all("
 		a_nick
 	",array(":klub_id"=>$klub_id), $clenove);
 
+de_html($clenove);
 cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short']),array("class"=>"visible"));
 
 while ($clen = current($clenove)) {

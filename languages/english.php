@@ -248,4 +248,6 @@ $lang['3rd speaker'] = '3rd speaker';
 $lang['adjudicators'] = 'adjudicators';
 $lang['decision'] = 'decision';
 $lang['homepage'] = 'homepage';
+$lang['add debate'] = 'add debate';
+$lang['edit debate'] = 'edit debate';
 ?>

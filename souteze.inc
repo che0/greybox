@@ -11,6 +11,7 @@ if ($GLOBALS["cps_souteze"] >= 2) cph_p(cphs_link("./?page=soutez.add",$lang["ad
 cph_table_head(array($lang["competition"], $lang["lang"], $lang["active"] ,$lang["debates"],),array("class"=>"visible"));
 
 cpdb_fetch_all("select * from soutez where rocnik = :rocnik order by zamceno, jazyk", array(":rocnik"=>$GLOBALS["current_season"]), $souteze);
+de_html($souteze);
 
 foreach ($souteze as $soutez) {
 	cph_table_row(array(

@@ -21,6 +21,7 @@ cpdb_fetch_all("
 		datum_od desc
 	", array(), $turnaje);
 
+de_html($turnaje);
 foreach ($turnaje as $turnaj) {
 	cph_table_row(array(
 		cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], $turnaj["soutez"]),
