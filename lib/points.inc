@@ -20,28 +20,29 @@ function iptsr_internal_deb($debata_id) {
 	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'rozhodci', 1 from clovek_debata where debata_ID = :debata_id and role = 'r'", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
 	
 	// treneri
-	$status &= cpdb_exec("
-		insert into
-			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
-		select
-			clovek_klub.clovek_ID as c1, clovek_debata_ibody.debata_ID as c2, :rocnik as c3, 'trener' as c4, sum(clovek_debata_ibody.ibody) * 0.1 as ibody
-		from
-			clovek_debata_ibody
-			left join clovek
-				on clovek_debata_ibody.clovek_ID = clovek.clovek_ID
-			left join clovek_klub
-				on clovek.klub_ID = clovek_klub.klub_ID
-				and clovek_klub.role = 't'
-				and clovek_klub.rocnik = :rocnik
-		where
-			clovek_klub.clovek_ID is not null
-			and clovek_debata_ibody.debata_ID = :debata_id
-			and clovek_debata_ibody.role = 'debater'
-		group by
-			c1, c2, c3, c4
-		having
-			ibody > 0
-	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
+	$treneri_dostanou = array();
+	
+	if (cpdb_fetch_all("select clovek_ID, ibody from clovek_debata_ibody where debata_ID = :debata_id and role = 'debater'", array(":debata_id"=>$debata_id), $debateri)) {
+		foreach ($debateri as $debater) {
+			$pocet_treneru = cpdb_fetch_all("
+				select
+					dk.clovek_ID as clovek_ID
+				from
+					clovek d
+					left join clovek_klub dk on d.klub_ID = dk.klub_ID and dk.role = 't' and dk.rocnik = :rocnik
+				where
+					d.clovek_ID = :clovek_ID
+				", array(":clovek_ID"=>$debater["clovek_ID"], ":rocnik"=>$rocnik), $treneri);
+			
+			foreach ($treneri as $trener) {
+				$treneri_dostanou[$trener["clovek_ID"]] += 0.1 * $debater["ibody"] / $pocet_treneru;
+			}
+		}
+	}
+	
+	foreach ($treneri_dostanou as $trener_cid => $trener_ib) {
+		$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) values (:clovek_id, :debata_id, :rocnik, 'trener', :ibody)", array(":clovek_id"=>$trener_cid, ":debata_id"=>$debata_id, ":rocnik"=>$rocnik, ":ibody"=>$trener_ib));
+	}
 	
 	// organizatori
 	/* kolik dostanou
