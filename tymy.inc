@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tymy.inc,v 1.5 2005/01/09 14:58:52 che0 Exp $
+ * $Id: tymy.inc,v 1.6 2005/01/09 15:06:37 che0 Exp $
  */
 
 pg_head();
@@ -45,7 +45,10 @@ foreach ($tymy as $tym) {
 		cphs_link("./?page=klub&klub_id=" . $tym["klub_ID"], $tym["klub"]),
 		(int)$tym_debateri[$tym["tym_ID"]]["pocet_debateru"],
 		(int)$tym_debaty[$tym["tym_ID"]]["pocet_debat"]
-	), ((int)$tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3) ? array() : array("class"=>"inactive"));
+	), 
+	(((int)$tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3)
+		&& ((int)$tym_debaty[$tym["tym_ID"]]["pocet_debat"] >= 1))
+		? array() : array("class"=>"inactive"));
 }
 cph_table_end();
 

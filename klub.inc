@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.20 2005/01/09 14:58:52 che0 Exp $
+ * $Id: klub.inc,v 1.21 2005/01/09 15:06:37 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -110,7 +110,10 @@ if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(debata_tym.dt_ID) as poc
 		cph_table_row(array(
 			cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["nazev"]),
 			$tym_debateri[$tym["tym_ID"]]["pocet_debateru"], $tym["pocet_debat"]
-		), ($tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3) ? array() : array("class"=>"inactive"));
+		),
+		(($tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3)
+			&& ($tym["pocet_debat"] >= 1))
+			? array() : array("class"=>"inactive"));
 	}
 	cph_table_end();
 } else {
