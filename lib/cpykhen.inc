@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: cpykhen.inc,v 1.19 2005/01/10 01:34:07 che0 Exp $
+ * $Id: cpykhen.inc,v 1.20 2005/03/15 12:39:10 che0 Exp $
  */
 
 include_once("cpdb.inc");
@@ -93,7 +93,7 @@ class cpykhen {
 			"onclick" => "c_hide('" . $form_id . "_b'); c_show('" . $form_id . "')"));
 		cph_tag_end("div");cph_tag_end("form");
 		cph_tag_end("div");
-		cph_tag_start("div",array("id" => $form_id));
+		cph_tag_start("div",array("id" => $form_id, "class" => "form_hidden"));
 	
 		$this->render();
 	

@@ -197,6 +197,16 @@ form p {
 	margin-bottom: 3px;
 }
 
+div.form_hidden {
+	/* div with by default hidden form */
+}
+
+div.form_hidden select,
+div.form_hidden input,
+div.form_hidden textarea {
+	background-color: #ddffd8;
+}
+
 div.achtung {
 	background-color: #ffc5c5;
 	margin-bottom: 5px;
