@@ -89,6 +89,7 @@ $select_debaters = "
 			left join clovek using (clovek_ID)
 		where
 			clovek_debata.debata_ID = :debata_id
+			and find_in_set(clovek_debata.role,:role_strana)
 		)
 		union distinct
 		(
@@ -104,7 +105,7 @@ $select_debaters = "
 // build affirmative debaters domain
 if (isset($debata["aff_ID"])) {
 	// choose affirmatives from the team
-	$sdomain_aff = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["aff_ID"], ":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
+	$sdomain_aff = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["aff_ID"], ":null"=>$lang["N/A"], ":debata_id"=>$debata_id, ":role_strana"=>"a1,a2,a3"));
 } else {
 	// choose from all debaters
 	$sdomain_aff = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
@@ -113,10 +114,10 @@ if (isset($debata["aff_ID"])) {
 // build negative debaters domain
 if (isset($debata["neg_ID"])) {
 	// choose negatives from the team
-	$sdomain_neg = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["neg_ID"], ":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
+	$sdomain_neg = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["neg_ID"], ":null"=>$lang["N/A"], ":debata_id"=>$debata_id, ":role_strana"=>"n1,n2,n3"));
 } else {
 	// choose from all debaters
-	$sdomain_neg = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
+	$sdomain_neg = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"], ":debata_id"=>$debata_id, ":role_strana"=>"a1,a2,a3,n1,n2,n3"));
 }
 
 // build resolutions domain
