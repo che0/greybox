@@ -3,6 +3,40 @@
 
 // stare funkce
 include_once("inc/functions.php");
+include_once("inc/template.php");
+
+$template = new template("default");
+$template->load("clovek");
+$template->editvar('name',$lang['name']);
+$template->editvar('club',$lang['club']);
+$template->editvar('team',$lang['team']);
+$template->editvar('languages',$lang['languages']);
+$template->editvar('place',$lang['place']);
+$template->editvar('ipoints',$lang['ipoints']);
+$template->editvar('line_empty',$lang['no records']);
+$template->editvar('num_rows',$lang['number of records']);
+$template->editvar('list',$lang['list']);
+$template->editvar('everyone',$lang['everyone']);
+$template->editvar('judges',$lang['judges']);
+$template->editvar('debaters',$lang['debaters']);
+$template->editvar('contacts',$lang['contacts']);
+$template->editvar('debates',$lang['debates']);
+$template->editvar('date',$lang['date']);
+$template->editvar('affirmative',$lang['affirmative']);
+$template->editvar('negative',$lang['negative']);
+$template->editvar('result',$lang['result']);
+$template->editvar('season',$lang['season']);
+$template->editvar('accreditations',$lang['accreditations']);
+$template->editvar('tournaments',$lang['tournaments']);
+$template->editvar('date_from',$lang['date_from']);
+$template->editvar('date_to',$lang['date_to']);
+$template->editvar('title',$lang['title']);
+$template->editvar('judging',$lang['judging']);
+$template->editvar('coarching',$lang['coarching']);
+$template->editvar('total',$lang['total']);
+$template->editvar('ipoints_long',$lang['ipoints_long']);
+
+// 
 
 switch ($_GET['akce']) {
 	case 'uprav':
@@ -535,21 +569,21 @@ switch ($_GET['akce']) {
 		if ($result2 = mysql_fetch_array($result)) {
 			$id = $result2['a_clovek_ID'];
 			$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
-			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
-			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
+			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="./?page=klub&id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
+			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="./?page=tym&id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 			$ibody = $result2['a_ibody'];
 			while($result2 = mysql_fetch_array($result)) {
 				if ($result2['a_clovek_ID'] == $id) {
 					// second team for an already read person
-					$tym .= sprintf(', <a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']);
+					$tym .= sprintf(', <a href="./?page=tym&id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']);
 				} else {
 					printf('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',$name, $klub, $tym, $ibody);
 					$num_rows++;
 
 					$id = $result2['a_clovek_ID'];
 					$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
-					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
-					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
+					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="./?page=klub&id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
+					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="./?page=tym&id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 					$ibody = $result2['a_ibody'];
 				}
 			}
@@ -582,13 +616,13 @@ switch ($_GET['akce']) {
 		if ($result2 = mysql_fetch_array($result)) {
 			$id = $result2['a_clovek_ID'];
 			$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
-			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
-			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
+			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="./?page=klub&id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
+			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="./?page=tym&id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 			$ibody = $result2['a_ibody'];
 			while($result2 = mysql_fetch_array($result)) {
 				if ($result2['a_clovek_ID'] == $id) {
 					// second team for an already read person
-					$tym .= sprintf(', <a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']);
+					$tym .= sprintf(', <a href="./?page=tym&id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']);
 				} else {
 					$template->editvar('line_name',$name);
 					$template->editvar('line_club',$klub);
@@ -599,8 +633,8 @@ switch ($_GET['akce']) {
 
 					$id = $result2['a_clovek_ID'];
 					$name = sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
-					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
-					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
+					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="./?page=klub&id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
+					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="./?page=tym&id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
 					$ibody = $result2['a_ibody'];
 				}
 			}
@@ -636,7 +670,7 @@ switch ($_GET['akce']) {
 		while ($result2 = mysql_fetch_array($result)) {
 			$one_line = 1;
 			$template->editvar('line_name', sprintf('<a href="./?page=clovek&id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni'])));
-			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
+			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="./?page=klub&id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 			$template->editvar('line_club',$klub);
 			$template->editvar('line_languages',$result2['a_jazyk']);
 			$template->editvar('line_place',$result2['a_misto']);
@@ -692,7 +726,7 @@ switch ($_GET['akce']) {
 						$got_club = 1;
 					}
 					$template->editvar('line_role',$lang['member']);
-					$template->editvar('line_club',sprintf('<a href="klub.php?id=%s">%s</a>', $result2['klub_ID'], $result3['nazev']));
+					$template->editvar('line_club',sprintf('<a href="./?page=klub&id=%s">%s</a>', $result2['klub_ID'], $result3['nazev']));
 					$template->editvar('line_season',season_to_str(get_current_season()));
 					echo $template->make('clovek_detail_kluby_line');
 				}
@@ -711,7 +745,7 @@ switch ($_GET['akce']) {
 					break;
 				}
 				$template->editvar('line_role',$role);
-				$template->editvar('line_club',sprintf('<a href="klub.php?id=%s">%s</a>', $result3['a_klub_ID'], $result3['a_nazev']));
+				$template->editvar('line_club',sprintf('<a href="./?page=klub&id=%s">%s</a>', $result3['a_klub_ID'], $result3['a_nazev']));
 				$template->editvar('line_season',season_to_str($result3['a_rocnik']));
 				echo $template->make('clovek_detail_kluby_line');
 
@@ -800,8 +834,8 @@ switch ($_GET['akce']) {
 			}
 			while ($result3 = mysql_fetch_array($result)) {
 				$template->editvar('line_date',sprintf('<a href="debata.php?id=%s">%s</a>',$result3['a_debata_ID'],format_date($result3['a_datum'])));
-				$template->editvar('line_affirmative', sprintf('<a href="tym.php?id=%s">%s</a>',$result3['a_aff_ID'],$result3['a_aff_nazev']));
-				$template->editvar('line_negative', sprintf('<a href="tym.php?id=%s">%s</a>',$result3['a_neg_ID'],$result3['a_neg_nazev']));
+				$template->editvar('line_affirmative', sprintf('<a href="./?page=tym&id=%s">%s</a>',$result3['a_aff_ID'],$result3['a_aff_nazev']));
+				$template->editvar('line_negative', sprintf('<a href="./?page=tym&id=%s">%s</a>',$result3['a_neg_ID'],$result3['a_neg_nazev']));
 				$template->editvar('line_result',$result3['a_vitez'] ? $lang['affirmative'] : $lang['negative']);
 				$template->editvar('line_ipoints',$result3['a_ibody']);
 				echo $template->make('clovek_detail_debaty_line');

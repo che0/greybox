@@ -1,5 +1,10 @@
 <?php
-require('inc/head.php');
+
+// stare veci
+include_once("inc/functions.php");
+include_once("inc/template.php");
+$template = new template("default");
+
 $template->load('klub');
 $template->editvar('clubs',$lang['clubs']);
 $template->editvar('club',$lang['club']);
@@ -21,7 +26,7 @@ switch ($_GET['akce']) {
 				set_title($result2['nazev']);
 				switch ($_GET['akce']) {
 					case 'uprav':
-						echo $template->make('head'); $got_header = 1;
+						pg_head(); $got_header = 1;
 						printf('<form name="klub_uprav" method="post" action="klub.php?akce=uprav.commit&id=%s">' . "\n", $_GET['id']);
 						form_textbox($lang['club name'],'nazev', 40, $result2['nazev'], $lang['club name_desc']);
 						form_textbox($lang['short name'],'kratky_nazev', 30, $result2['kratky_nazev'], $lang['short name_desc']);
@@ -67,7 +72,7 @@ switch ($_GET['akce']) {
 			set_title($lang['access denied']);
 			body_message($lang['access denied']);
 		}
-		if (! $got_header) echo $template->make('head');
+		if (! $got_header) pg_head();
 		print_body_messages();
 	break;
 
@@ -75,7 +80,7 @@ switch ($_GET['akce']) {
 		// add club
 		if ($prava_kluby >= 2) {
 			set_title($lang['add club']);
-			echo $template->make('head');
+			pg_head();
 
 			echo '<form name="klub_pridej" method="post" action="klub.php?akce=pridej.commit">' . "\n";
 			form_textbox($lang['club name'],'nazev', 40, '', $lang['club name_desc']);
@@ -86,7 +91,7 @@ switch ($_GET['akce']) {
 			echo '</form>';
 		} else {
 			set_title($lang['access denied']);
-			echo $template->make('head');
+			pg_head();
 			print_one_message($lang['access denied']);
 		}
 	break;
@@ -110,7 +115,7 @@ switch ($_GET['akce']) {
 			set_title($lang['access denied']);
 			body_message($lang['access denied']);
 		}
-		echo $template->make('head');
+		pg_head();
 		print_body_messages();
 	break;
 
@@ -123,7 +128,7 @@ switch ($_GET['akce']) {
 				$can_edit = (($prava_kluby >= 2) || (($prava_kluby == 1) && ($_GET['id'] == $_SESSION['user_klub_ID'])));
 
 				set_title($result2['nazev']);
-				echo $template->make('head');
+				pg_head();
 				printf('<p>(%s) %s</p>'."\n",$result2['kratky_nazev'],$result2['misto']);
 
 			       	if ($can_edit) {
@@ -222,13 +227,13 @@ switch ($_GET['akce']) {
 				
 			} else {
 				set_title($lang['no records']);
-				echo $template->make('head');
+				pg_head();
 				print_one_message($lang['no records']);
 			}
 		} else {
 			// print out club list
 			set_title($lang['clubs']);
-			echo $template->make('head');
+			pg_head();
 
 			if ($prava_kluby >= 2) {
 				printf('<p><a href="klub.php?akce=pridej">%s</a></p>',$lang['add club']);
@@ -254,8 +259,4 @@ switch ($_GET['akce']) {
 	break;
 }
 
-
-echo $template->make('tail');
-
-require('inc/tail.php');
 ?>
