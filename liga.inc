@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.inc,v 1.3 2005/03/23 20:05:48 che0 Exp $
+ * $Id: liga.inc,v 1.4 2005/03/25 22:33:27 che0 Exp $
  */
 
 include_once("i_liga.inc");
@@ -42,7 +42,18 @@ if (cpdb_fetch_all("
 		tym.nazev,
 		klub.klub_ID,
 		klub.kratky_nazev,
-		liga_tym.liga_vytezek
+		liga_tym.liga_vytezek,
+		(
+			select
+				count(debata.debata_ID)
+			from
+				debata_tym
+				inner join debata on debata_tym.debata_ID = debata.debata_ID
+				inner join turnaj on debata.turnaj_ID = turnaj.turnaj_ID
+			where
+				debata_tym.tym_ID = tym.tym_ID -- vazba na vnejsi dotaz
+				and turnaj.liga_ID = :liga_id
+		) as pocet_debat
 	from
 		liga_tym
 		left join tym on tym.tym_ID = liga_tym.tym_ID
@@ -55,20 +66,33 @@ if (cpdb_fetch_all("
 	
 	cph_h2($lang["teams"]);
 	de_html($ranks);
-	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["tab value"]));
+	cph_table_head(array($lang["rank"], $lang["rank"], $lang["team"], $lang["club"], $lang["tab value"], $lang["debates"]));
 	$count = 0; $rank = 1; $tab = -1;
+	$countF = 0; $rankF = 1; $ptsF = -1;
 	foreach ($ranks as $team_rank) {
 		$count++;
 		if ($tab != $team_rank["liga_vytezek"]) {
 			$tab = $team_rank["liga_vytezek"];
 			$rank = $count;
 		}
+		$fullrank = ($team_rank["pocet_debat"] >= $GLOBALS["cp_config"]["min_league_debates"]);
+		if ($fullrank) {
+			$countF++;
+			if ($ptsF != $team_rank["liga_vytezek"]) {
+			$ptsF = $team_rank["liga_vytezek"];
+			$rankF = $countF;
+			}
+		}
 		cph_table_row(array(
+			$fullrank ? $rankF : "",
 			$rank,
 			cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
 			cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
-			cphs_link(sprintf("./?page=tym.liga&tym_id=%s&liga_id=%s",$team_rank["tym_ID"],$liga_id), $team_rank["liga_vytezek"])
-		));
+			cphs_link(sprintf("./?page=tym.liga&tym_id=%s&liga_id=%s",$team_rank["tym_ID"],$liga_id), $team_rank["liga_vytezek"]),
+			$team_rank["pocet_debat"]
+		),
+			$fullrank ? array() : array("class"=>"inactive")
+		);
 	}
 	cph_table_end();
 }
@@ -77,7 +101,7 @@ if (cpdb_fetch_all("
 if (cpdb_fetch_all("select turnaj_ID, nazev, datum_od, (select count(*) from debata where turnaj_ID = turnaj.turnaj_ID) as debaty from turnaj where liga_ID = :liga_id order by datum_od", array(":liga_id"=>$liga_id),$r_turnaje)) {
 
 	de_html($r_turnaje);
-	cph_h2($lang["tournaments"]);	
+	cph_h2($lang["tournaments"]);
 	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]));
 	foreach ($r_turnaje as $turnaj) {
 		cph_table_row(array(
