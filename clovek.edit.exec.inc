@@ -19,7 +19,7 @@ if (!($GLOBALS["cps_lidi"] >= 2
 		return;
 }
 
-if ($jmeno . $prijmeni == "" && !isset($_REQUEST["delete"])) {
+if ($jmeno . $prijmeni == "" && !isset($_REQUEST["delete"]) && !isset($_REQUEST["access"])) {
 	pg_achtung($lang["a person has to have at least a name"]);
 	return;
 }
@@ -94,7 +94,7 @@ if (isset($_REQUEST["add"])) {
 			clovek_ID = :clovek_id
 		" . ($GLOBALS["cps_kluby"] < 2 ? "and klub_ID = :cur_klub_id" : ""),
 		array(
-			":tym_id"=>$tym_id,
+			":clovek_id"=>$clovek_id,
 			":cur_klub_id"=>$cur_klub_id
 		)
 	)) {
