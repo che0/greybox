@@ -112,7 +112,7 @@ cpdb_fetch_all("select turnaj_ID, nazev, datum_od from turnaj where soutez_ID = 
 cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
 foreach ($r_turnaje as $turnaj) {
 	cph_table_row(array(
-		cphs_link("./?page=turnaj.detaily&turnaj_id=" . $team_rank["turnaj_ID"], $turnaj["nazev"]),
+		cphs_link("./?page=turnaj&turnaj_id=" . $team_rank["turnaj_ID"], $turnaj["nazev"]),
 		format_date($turnaj["datum_od"]),
 		cpdb_fetch_one_value("select count(*) from debata where turnaj_ID = :turnaj_id",array(":turnaj_id"=>$turnaj["turnaj_ID"]))
 	));

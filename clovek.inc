@@ -36,7 +36,7 @@ $template->editvar('coaching',$lang['coaching']);
 $template->editvar('total',$lang['total']);
 $template->editvar('ipoints_long',$lang['ipoints_long']);
 
-// 
+if (!isset($_GET["id"])) $_GET["id"] = $_REQUEST["clovek_id"];
 
 switch ($_GET['akce']) {
 	case 'uprav':

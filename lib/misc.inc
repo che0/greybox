@@ -19,4 +19,8 @@ function format_date($date)
 	return $date;
 }
 
+function deformat_date($date) {
+	return $date;
+}
+
 ?>

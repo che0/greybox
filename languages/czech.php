@@ -181,4 +181,12 @@ $lang['debated'] = 'debated';
 $lang['team in the competition'] = 'team in the competition';
 $lang['total points'] = 'total points';
 $lang['debate details'] = 'debate details';
+$lang['add tournament'] = 'add tournament';
+$lang['edit tournament'] = 'edit tournament';
+$lang['person'] = 'person';
+$lang['organizer'] = 'organizer';
+$lang['new person'] = 'new person';
+$lang['resolution update ok'] = 'resolution update ok';
+$lang['person update ok'] = 'person update ok';
+$lang['role'] = 'role';
 ?>

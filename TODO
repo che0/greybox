@@ -17,19 +17,12 @@ klub:
 	pridani/ubirani treneru
 	mazani klubu
 
-soutez:
-	seznam turnaju (s mistem, terminy, poctem debat)
-	seznam debat podle casu s tymy, tezemi, vysledkem, a turnajem
-	pridani/editace souteze
-
-turnaj:
-	vypis informaci a prirazenych debat
-	editace/pridani turnaje, nastaveni organizatoru
-
 tym:
 	?page=tym&tym_id=
 	vypis aktivnich i neaktivnich clenu
 	pridani/editace tymu (muze admin klubu, jeho clenove muzou upravovat popis)
+	vypis soutezi s ranky
+	vypis debat
 
 debata:
 	page=debata, debata_id

@@ -13,6 +13,7 @@ $GLOBALS["page"]->links[] = array("./?page=clovek&akce=vsichni",$lang["link_ever
 $GLOBALS["page"]->links[] = array("./?page=klub",$lang["clubs"]);
 $GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
 $GLOBALS["page"]->links[] = array("./?page=souteze",$lang["competitions"]);
+$GLOBALS["page"]->links[] = array("./?page=turnaje",$lang["tournaments"]);
 
 $GLOBALS["page"]->default_page = "default";
 
@@ -32,6 +33,11 @@ $GLOBALS["page"]->pages = array(
 	array("soutez.add", $lang["add competition"]),
 	array("soutez.teze.edit.exec", $lang["edit official resolution"]),
 	array("tym.soutez", $lang["team in the competition"]),
+	array("turnaj", $lang["tournament"]),
+	array("turnaj.add", $lang["add tournament"]),
+	array("turnaj.edit.exec", $lang["edit tournament"]),
+	array("turnaje", $lang["tournaments"]),
+	array("turnaj.clovek.edit.exec", $lang["edit tournament"]),
 );
 
 $GLOBALS["page"]->render();

@@ -12,7 +12,8 @@ $teze_id = $_REQUEST["teze_id"];
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into soutez_teze (soutez_ID, teze_ID) values (:soutez_id, :teze_id)", array(":soutez_id"=>$soutez_id, ":teze_id"=>$teze_id))) {
-		pg_achtung("resolution update ok");
+		recount_competition($soutez_id);
+		pg_achtung($lang["resolution update ok"]);
 		include("soutez.detaily.inc");
 	}
 	
@@ -20,7 +21,8 @@ if (isset($_REQUEST["add"])) {
 	// update
 	
 	if (cpdb_exec("update soutez_teze set teze_ID = :teze_id where st_ID = :st_id", array(":teze_id"=>$teze_id, ":st_id"=>$st_id))) {
-		pg_achtung("resolution update ok");
+		recount_competition($soutez_id);
+		pg_achtung($lang["resolution update ok"]);
 		include("soutez.detaily.inc");
 	}
 	
@@ -28,7 +30,8 @@ if (isset($_REQUEST["add"])) {
 	// delete
 	
 	if (cpdb_exec("delete from soutez_teze where st_ID = :st_id", array(":st_id" => $st_id))) {
-		pg_achtung("resolution update ok");
+		recount_competition($soutez_id);
+		pg_achtung($lang["resolution update ok"]);
 		include("soutez.detaily.inc");
 	}
 }

@@ -12,7 +12,7 @@ $template->editvar('place',$lang['place']);
 $template->editvar('debaters',$lang['debaters']);
 $template->editvar('members',$lang['members']);
 
-$_GET["id"] = $_REQUEST["klub_id"];
+if (!isset($_GET["id"])) $_GET["id"] = $_REQUEST["klub_id"];
 
 switch ($_GET['akce']) {
 	// akce rozdeleni

@@ -174,11 +174,15 @@ class cpf_db_listbox extends cpf_db_listbox_array {
 	var $select;
 	var $select_args;
 	
-	function cpf_db_listbox($name, $domain, $field, $attr = array()) {
+	function cpf_db_listbox($name, $domain, $field = "__", $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
 		$this->select = $domain[0];
 		$this->select_args = $domain[1];
-		$this->field = $field;
+		if ($field == "__") {
+			$this->field = $name;	
+		} else {
+			$this->field = $field;
+		}
 	}
 	
 	function init() {
