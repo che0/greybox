@@ -7,7 +7,7 @@ if (!cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":t
 	return;
 }
 $teze = de_html_s($teze_p);
-$GLOBALS["page"]->title = $teze["tx"];
+$GLOBALS["page"]->title = mb_substr($teze["tx"],0,56);
 pg_head();
 
 if ($GLOBALS['cps_teze'] >= 1) {
@@ -28,8 +28,8 @@ if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f->load_this($teze_p);
 	$teze_f->render();
 } else {
-	//cph_p($lang["language"] . ": " . $teze["jazyk"]);
-	//cph_p($lang["resolution"] . ": " . $teze["tx"]);
+	cph_p($lang["language"] . ": " . $teze["jazyk"] 
+		. cphs_br() . $lang["resolution"] . ": " . $teze["tx"]);
 	if (isset($teze["komentar"])) cph_p($teze["komentar"]);
 }
 

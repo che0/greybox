@@ -7,13 +7,13 @@ if (isset($_REQUEST["teze_id"])) {
 	return;
 }
 
-$lang_choice = (isset ($_REQUEST["lang"])) ? $_REQUEST["lang"] : "cz";
+$lang_choice = (isset ($_REQUEST["jazyk"])) ? $_REQUEST["jazyk"] : "cz";
 
 pg_head();
-if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.add&lang=" . $lang_choice,$lang["add resolution"]));
+if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.add&jazyk=" . $lang_choice,$lang["add resolution"]));
 
 
-cph_switch($lang["Language"], "./?page=teze&lang=%s", array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"), $lang_choice);
+cph_switch($lang["language"], "./?page=teze&jazyk=%s", array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"), $lang_choice);
 
 cpdb_fetch_all("select teze_ID, tx, not isnull(komentar) as mame_komentar from teze where jazyk = :lang",array(":lang"=>$lang_choice),$result);
 

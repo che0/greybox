@@ -23,7 +23,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update soutez set nazev = :nazev, jazyk = :jazyk, komentar = :komentar, zamceno = :zamceno, rocnik = :rocnik where soutez_ID = :soutez_id", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":soutez_id" => $soutez_id, ":rocnik" => $rocnik)))) {
+	if (cpdb_exec("update soutez set nazev = :nazev, jazyk = :jazyk, komentar = :komentar, zamceno = :zamceno, rocnik = :rocnik where soutez_ID = :soutez_id", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":soutez_id" => $soutez_id, ":rocnik" => $rocnik))) {
 		pg_achtung($lang["competition update ok"]);
 		include("soutez.inc");
 	}
