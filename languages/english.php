@@ -69,7 +69,13 @@ $lang['nick'] = 'nick';
 $lang['nick_desc'] = 'nickname, for easier identification';
 $lang['club_desc'] = 'choose approprite club';
 $lang['born'] = 'born';
-$lang['born_desc'] = 'yyyy-mm-dd';
+$lang['born_desc'] = 'yyyy-mm-dd, not mandatory';
+$lang['active debater'] = 'active debater';
+$lang['active debater_desc'] = 'is active debater, should be included in stats and team selections';
+$lang['yes'] = 'yes';
+$lang['no'] = 'no';
+$lang['comment'] = 'comment';
+$lang['comment_desc'] = 'publicly visible comment, shown at person\'s info page';
 
 // index
 $lang['teams'] = 'teams';

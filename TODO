@@ -5,6 +5,7 @@ pocitani sezony a prevod sezony na string
 udrzovani mesic stareho timestampu pro porovnavani uprav debat
 prepocitavani IB a vitezstvi debaty
 kontrola integrity
+kontrola htmlspecialchars a stripslashed
 
 clovek:
 	seznam podle IB s tymy a filtrem na vek

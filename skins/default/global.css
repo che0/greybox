@@ -56,4 +56,12 @@ table.visible td, table.visible th {
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
-	
+
+form span.desc {
+	font-size: small;
+}
+
+form p {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}

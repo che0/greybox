@@ -51,7 +51,7 @@ switch ($_GET['akce']) {
 		echo $template->make('head');
 		echo $template->make('clovek_new');
 
-		echo '<form name="clovek.pridej" action="clovek.php?akce=pridej.commit" method="post">';
+		echo '<form name="clovek.pridej" action="clovek.php?akce=pridej.commit" method="post">' . "\n";
 		form_textbox($lang['name'],'name', 30, '', $lang['name_desc']);
 		form_textbox($lang['surname'],'surname', 30, '', $lang['surname_desc']);
 		form_textbox($lang['nick'],'surname', 30, '', $lang['nick_desc']);
@@ -66,11 +66,12 @@ switch ($_GET['akce']) {
 			form_nothing($lang['club'],$clubs[$_SESSION['user_klub_ID']]);
 			form_hidden('club',$_SESSION['user_klub_ID']);
 		}
-		form_textbox($lang['born'],born,10,'1999-12-31',$lang['born_desc']);
-		// desc
+		form_textbox($lang['born'],'born',10,'1999-12-31',$lang['born_desc']);
+		form_textarea($lang['comment'],'comment','',$lang['comment_desc']);
+		form_pulldown($lang['active debater'],'debater',array(1 => $lang['yes'], 0 => $lang['no']),1,$lang['active debater_desc']);
 		// debater
 		
-		printf('<input type="submit" value="%s" name="Submit"></form>',$lang['submit']);
+		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
 
 
 	break;

@@ -62,6 +62,7 @@ function format_date($date)
 
 function form_textbox($title, $name, $size, $default, $desc)
 {
+	printf('<p>');
 	if ($title) {
 		printf('%s: ',$title);
 	}
@@ -69,38 +70,54 @@ function form_textbox($title, $name, $size, $default, $desc)
 	if ($desc) {
 		printf(' <span class="desc">%s</span>',$desc);
 	}
-	printf('<br>');
+	printf("</p>\n");
 }
 
 function form_pulldown($title, $name, $choices, $default, $desc)
 {
+	printf('<p>');
 	if ($title) {
 		printf('%s: ',$title);
 	}
 	printf('<select size="1" name="%s">',$name);
-	foreach ($choices as $key) {
+	foreach ($choices as $key => $value) {
 		if ($key == $default) {
-			printf('<option value="%s" selected>%s</option>',$key,$choices[$key]);
+			printf('<option value="%s" selected>%s</option>',$key,$value);
 		} else {
-			printf('<option value="%s">%s</option>',$key,$choices[$key]);
+			printf('<option value="%s">%s</option>',$key,$value);
 		}
 	}
 	printf('</select>');
 	if ($desc) {
 		printf(' <span class="desc">%s</span>',$desc);
 	}
-	printf('<br>');
+	printf("</p>\n");
+}
+
+function form_textarea($title, $name, $default, $desc)
+{
+	printf('<p>');
+	if ($title) {
+		printf('%s:<br>',$title);
+	}
+	printf('<textarea name="%s" rows="7" cols="70">%s</textarea>',$name,$default);
+	if ($desc) {
+		printf('<br><span class="desc">%s</span>',$desc);
+	}
+	printf("</p>\n");
 }
 
 function form_hidden($name, $value)
 {
+	printf('<input type="hidden" name="%s" value="%s">' . "\n",$name,$value);
 }
 
 function form_nothing($title, $value)
 {
+	printf('<p>');
 	if ($title) {
 		printf('%s: ',$title);
 	}
-	printf('%s<br>',$value);
+	printf("%s</p>\n",$value);
 }
 ?>
