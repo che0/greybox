@@ -40,6 +40,85 @@ if ($_SESSION['is_logged_in']) {
 
 switch ($_GET['akce']) {
 	case 'uprav':
+		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_GET['id'])) {
+			// kick out people with access level lower than 1, unless the are editing themselves
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		$result = mysql_query(sprintf('select * from clovek where clovek_ID = %s',$_GET['id']));
+		if (! $result2 = mysql_fetch_array($result)) {
+			// no found person, go out
+			set_title($lang['no records']);
+			echo $template->make('head');
+			print_one_message($lang['no records']);
+			break;
+		}
+		if (($prava_lidi == 1) && ($_SESSION['user_klub_ID'] != $result2['klub_ID'])) {
+			// people with access level 1 can edit only member of their club
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+		echo $template->make('head');
+		echo $template->make('clovek_edit');
+
+		echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit" method="post">' . "\n";
+		if ($prava_lidi > 0) {
+			// normal user can't change his name
+			form_textbox($lang['name'],'name', 30, $result2['jmeno'], $lang['name_desc']);
+			form_textbox($lang['surname'],'surname', 30, $result2['prijmeni'], $lang['surname_desc']);
+		} else {
+			form_nothing($lang['name'], $result2['jmeno']);
+			form_nothing($lang['surname'], $result2['prijmeni']);
+		}
+		form_textbox($lang['nick'],'nick', 30, $result2['nick'], $lang['nick_desc']);
+		
+		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
+		unset($clubs);
+		$clubs[NULL] = $lang['no club'];
+		while ($result3 = mysql_fetch_array($result)) {
+			$clubs[$result3['klub_ID']]=$result3['kratky_nazev'];
+		}
+		if ($prava_lidi >= 2) {
+			// only big boss can move people between clubs
+			form_pulldown($lang['club'],'club',$clubs,$result2['klub_ID'],$lang['club_desc']);
+		} else {
+			form_nothing($lang['club'],$clubs[$result2['klub_ID']]);
+		}
+		
+		if (($prava_lidi >= 1) || (! $result2['narozen'])) {
+			// i can only insert my birth date, changing needs higher rights
+			form_textbox($lang['born'],'born',10,$result2['narozen'],$lang['born_desc']);
+		} else {
+			form_nothing($lang['born'],$result2['narozen']);
+		}
+		
+		form_textarea($lang['comment'],'comment',$result2['komentar'],$lang['comment_desc']);
+		
+		if ($prava_lidi > 0) {
+			// only editor can switch 'active debater' status
+			form_pulldown($lang['active debater'],'debater',array(1 => $lang['yes'], 0 => $lang['no']),$result2['debater'],$lang['active debater_desc']);
+		} else {
+			form_nothing($lang['active debater'],$result2['debater'] ? $lang['yes'] : $lang['no']);
+		}
+		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
+		
+		// todo:
+		// kontakty
+		// akreditace
+		// heslo/login/prava
+		
+	break;
+
+	case 'uprav.commit':
+		// todo
+
+	break;
+	
 	case 'pridej':
 		if ($prava_lidi < 1) {
 			set_title($lang['access denied']);
@@ -69,10 +148,11 @@ switch ($_GET['akce']) {
 		form_textbox($lang['born'],'born',10,'1999-12-31',$lang['born_desc']);
 		form_textarea($lang['comment'],'comment','',$lang['comment_desc']);
 		form_pulldown($lang['active debater'],'debater',array(1 => $lang['yes'], 0 => $lang['no']),1,$lang['active debater_desc']);
-		// debater
-		
 		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
+	break;
 
+	case 'pridej.commit':
+		// todo
 
 	break;
 

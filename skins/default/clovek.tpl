@@ -108,3 +108,6 @@
 
 <!-- BEGIN clovek_new -->
 <!-- END clovek_new -->
+
+<!-- BEGIN clovek_edit -->
+<!-- END clovek_edit -->
