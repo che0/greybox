@@ -67,6 +67,7 @@ switch ($_GET['akce']) {
 		echo $template->make('clovek_edit');
 
 		echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit" method="post">' . "\n";
+		form_hidden('clovek_ID',$result2['clovek_ID']);
 		if ($prava_lidi > 0) {
 			// normal user can't change his name
 			form_textbox($lang['name'],'name', 30, $result2['jmeno'], $lang['name_desc']);
@@ -115,7 +116,72 @@ switch ($_GET['akce']) {
 	break;
 
 	case 'uprav.commit':
-		// todo
+		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
+			// kick out people with access level lower than 1, unless the are editing themselves
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		$result = mysql_query(sprintf('select * from clovek where clovek_ID = %s',$_POST['clovek_ID']));
+		if (! $result2 = mysql_fetch_array($result)) {
+			// no found person, go out
+			set_title($lang['no records']);
+			echo $template->make('head');
+			print_one_message($lang['no records']);
+			break;
+		}
+		if (($prava_lidi == 1) && ($_SESSION['user_klub_ID'] != $result2['klub_ID'])) {
+			// people with access level 1 can edit only member of their club
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+
+		$query = 'update clovek set ';
+		
+		if ($prava_lidi > 0) {
+			// normal user can't change his name
+			$query .= sprintf('jmeno = %s, ', get_text_field($_POST['name']));
+			$qeury .= sprintf('prijmeni = %s, ', get_text_field($_POST['surname']));
+		}
+		$query .= sprintf('nick = %s, ', get_text_field($_POST['nick']));
+		
+		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
+
+		if ($prava_lidi >= 2) {
+			// only big boss can move people between clubs
+			$query .= sprintf('klub_ID = %s, ', get_numeric_field($_POST['klub_ID']));
+		}
+		
+		if (($prava_lidi >= 1) || (! $result2['narozen'])) {
+			// i can only insert my birth date, changing needs higher rights
+			$query .= sprintf('narozen = %s, ', get_text_field($_POST['born']));
+		}
+		
+		
+		if ($prava_lidi > 0) {
+			// only editor can switch 'active debater' status. komentar has to be switched because of the comma
+			$query .= sprintf('komentar = %s, ', get_text_field($_POST['comment']));
+			$query .= sprintf('debater = %s ', get_numeric_field($_POST['debater']));
+		} else {
+			$query .= sprintf('komentar = %s ', get_text_field($_POST['comment']));
+		}
+
+		$query .= sprintf('where clovek_ID = %s',$_POST['clovek_ID']);
+		
+		if (mysql_query($query)) {
+			body_message($lang['edit ok']);
+			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',mysql_insert_id()));
+		} else {
+			body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+		}
+
+		echo $template->make('head');
+		printf_body_messages();
+		
 
 	break;
 	
@@ -145,7 +211,7 @@ switch ($_GET['akce']) {
 		} else {
 			form_nothing($lang['club'],$clubs[$_SESSION['user_klub_ID']]);
 		}
-		form_textbox($lang['born'],'born',10,'1999-12-31',$lang['born_desc']);
+		form_textbox($lang['born'],'born',10,'',$lang['born_desc']);
 		form_textarea($lang['comment'],'comment','',$lang['comment_desc']);
 		form_pulldown($lang['active debater'],'debater',array(1 => $lang['yes'], 0 => $lang['no']),1,$lang['active debater_desc']);
 		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
@@ -352,6 +418,9 @@ switch ($_GET['akce']) {
 			set_title(join_name($result2['jmeno'], $result2['nick'], $result2['prijmeni']));
 
 			echo $template->make('head');
+			if ( ($prava_lidi > 1) || (($prava_lidi == 1) && ($result2['klub_ID'] == $_SESSION['user_klub_ID'])) ) {
+				printf('<p><a href="clovek.php?akce=uprav&id=%s">%s</a></p>', $result2['clovek_ID'], $lang['edit']);
+			}
 			print_comment($result2['komentar']);
 
 			// club

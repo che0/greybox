@@ -80,6 +80,8 @@ $lang['edit'] = 'edit';
 $lang['no club'] = 'no club';
 $lang['add ok'] = 'add ok';
 $lang['add failed'] = 'add failed';
+$lang['edit ok'] = 'edit ok';
+$lang['edit failed'] = 'edit failed';
 
 // index
 $lang['teams'] = 'teams';
