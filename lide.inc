@@ -2,7 +2,7 @@
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 
-$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"]);
+$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["ipoints"]);
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
 
 pg_head();
@@ -11,7 +11,7 @@ cph_switch($lang["list"],"./?page=lide&kdo=%s", $kdo_domain, $kdo);
 
 switch ($kdo) {
 	case 'vsichni':
-		// show list of people
+	// show list of people
 		if ($GLOBALS["cps_lidi"] >= 1) {
 			// if user can add new people, this is the page he can do it
 			cph_p(cphs_link("./?page=clovek.add&klub_id=" . $_SESSION["user_klub_ID"], $lang['add person']));
@@ -24,13 +24,20 @@ switch ($kdo) {
 				clovek.nick,
 				clovek.prijmeni,
 				clovek.klub_ID,
-				klub.kratky_nazev as klub
+				klub.kratky_nazev as klub,
+				sum(clovek_debata_ibody.ibody) as ibody
 			from 
 				clovek
-				left join klub using (klub_ID)
+				left join klub on clovek.klub_ID = klub.klub_ID
+				left join clovek_debata_ibody
+					on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
+					and clovek_debata_ibody.rocnik = :rocnik
+			group by
+				clovek.clovek_ID, clovek.jmeno, clovek.nick,
+				clovek.prijmeni, clovek.klub_ID, klub.kratky_nazev
 			order by
 				clovek.prijmeni, clovek.jmeno, clovek.nick
-		", array(), $lide);
+		", array(":rocnik"=>$GLOBALS["current_season"]), $lide);
 		
 		de_html($lide);
 		cph_table_head(
@@ -42,13 +49,61 @@ switch ($kdo) {
 			cph_table_row(array(
 				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"],join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
 				cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],$clovek["klub"]),
-				cpdb_fetch_one_value("select sum(ibody) from clovek_debata_ibody where clovek_ID = :clovek_id and rocnik = :rocnik", array(":clovek_id"=>$clovek["clovek_ID"], ":rocnik"=>$GLOBALS["current_season"]))
+				$clovek["ibody"]
 			));
 		}
 		
 		cph_table_end();
 	break;
 	
+	case 'ibody':
+	// show individual points rankings
+		
+		cpdb_fetch_all("
+			select
+				clovek.clovek_ID,
+				clovek.jmeno,
+				clovek.nick,
+				clovek.prijmeni,
+				clovek.klub_ID,
+				klub.kratky_nazev as klub,
+				sum(clovek_debata_ibody.ibody) as ibody
+			from 
+				clovek
+				left join klub on clovek.klub_ID = klub.klub_ID
+				left join clovek_debata_ibody
+					on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
+					and clovek_debata_ibody.rocnik = :rocnik
+			group by
+				clovek.clovek_ID, clovek.jmeno, clovek.nick,
+				clovek.prijmeni, clovek.klub_ID, klub.kratky_nazev
+			order by
+				ibody desc, clovek.prijmeni, clovek.jmeno, clovek.nick
+		", array(":rocnik"=>$GLOBALS["current_season"]), $lide);
+		
+		de_html($lide);
+		cph_table_head(
+			array($lang["rank"], $lang["name"], $lang["club"], $lang["ipoints"]),
+			array("class"=>"visible")
+		);
+		
+		$count = 0; $rank = 1; $pts = -1;
+		foreach ($lide as $clovek) {
+			$count++;
+			if ($pts != $clovek["ibody"]) {
+				$pts = $clovek["ibody"];
+				$rank = ($pts) ? $count : NULL; // no points, no rank :)
+			}
+			cph_table_row(array(
+				$rank,
+				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"],join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
+				cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],$clovek["klub"]),
+				$clovek["ibody"]
+			));
+		}
+		
+		cph_table_end();
+	break;
 	
 	case 'debateri':
 		// show list of debaters
