@@ -28,7 +28,7 @@
           <dia:boolean val="true"/>
         </dia:attribute>
         <dia:attribute name="scaling">
-          <dia:real val="0.510392"/>
+          <dia:real val="0.506368"/>
         </dia:attribute>
         <dia:attribute name="fitto">
           <dia:boolean val="true"/>
@@ -287,13 +287,13 @@ presvedcive [bool]#</dia:string>
     </dia:object>
     <dia:object type="Standard - Line" version="0" id="O7">
       <dia:attribute name="obj_pos">
-        <dia:point val="9.25,32.1"/>
+        <dia:point val="8.55,32.2"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="9.25,30.2145;10.776,32.1"/>
+        <dia:rectangle val="8.55,30.048;10.6541,32.2"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
-        <dia:point val="9.25,32.1"/>
+        <dia:point val="8.55,32.2"/>
         <dia:point val="10.075,30.6"/>
       </dia:attribute>
       <dia:attribute name="numcp">
@@ -917,13 +917,13 @@ komentar [blob|null]#</dia:string>
     </dia:object>
     <dia:object type="Standard - Line" version="0" id="O28">
       <dia:attribute name="obj_pos">
-        <dia:point val="14.95,32.1"/>
+        <dia:point val="14.25,32.2"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="14.1359,12.8994;15.7359,32.1"/>
+        <dia:rectangle val="14.1364,12.8716;15.7354,32.2"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
-        <dia:point val="14.95,32.1"/>
+        <dia:point val="14.25,32.2"/>
         <dia:point val="14.9359,12.9"/>
       </dia:attribute>
       <dia:attribute name="numcp">
@@ -1911,10 +1911,10 @@ presvedcive [bool] (u samosoudce)#</dia:string>
     <dia:group>
       <dia:object type="Standard - Text" version="0" id="O61">
         <dia:attribute name="obj_pos">
-          <dia:point val="3.525,31.8"/>
+          <dia:point val="2.825,31.9"/>
         </dia:attribute>
         <dia:attribute name="obj_bb">
-          <dia:rectangle val="3.525,31.15;6.725,32.2"/>
+          <dia:rectangle val="2.825,31.25;6.025,32.3"/>
         </dia:attribute>
         <dia:attribute name="text">
           <dia:composite type="text">
@@ -1928,7 +1928,7 @@ presvedcive [bool] (u samosoudce)#</dia:string>
               <dia:real val="0.8"/>
             </dia:attribute>
             <dia:attribute name="pos">
-              <dia:point val="3.525,31.8"/>
+              <dia:point val="2.825,31.9"/>
             </dia:attribute>
             <dia:attribute name="color">
               <dia:color val="#000000"/>
@@ -1941,13 +1941,13 @@ presvedcive [bool] (u samosoudce)#</dia:string>
       </dia:object>
       <dia:object type="Standard - Box" version="0" id="O62">
         <dia:attribute name="obj_pos">
-          <dia:point val="3.55,32.1"/>
+          <dia:point val="2.85,32.2"/>
         </dia:attribute>
         <dia:attribute name="obj_bb">
-          <dia:rectangle val="3.55,32.1;14.95,36.7"/>
+          <dia:rectangle val="2.85,32.2;14.25,36.8"/>
         </dia:attribute>
         <dia:attribute name="elem_corner">
-          <dia:point val="3.55,32.1"/>
+          <dia:point val="2.85,32.2"/>
         </dia:attribute>
         <dia:attribute name="elem_width">
           <dia:real val="11.4"/>
@@ -1964,10 +1964,10 @@ presvedcive [bool] (u samosoudce)#</dia:string>
       </dia:object>
       <dia:object type="Standard - Text" version="0" id="O63">
         <dia:attribute name="obj_pos">
-          <dia:point val="3.95,33"/>
+          <dia:point val="3.25,33.1"/>
         </dia:attribute>
         <dia:attribute name="obj_bb">
-          <dia:rectangle val="3.95,32.35;14.55,36.6"/>
+          <dia:rectangle val="3.25,32.45;13.85,36.7"/>
         </dia:attribute>
         <dia:attribute name="text">
           <dia:composite type="text">
@@ -1985,7 +1985,7 @@ body [tinyint unsigned|null] (do poharu)#</dia:string>
               <dia:real val="0.8"/>
             </dia:attribute>
             <dia:attribute name="pos">
-              <dia:point val="3.95,33"/>
+              <dia:point val="3.25,33.1"/>
             </dia:attribute>
             <dia:attribute name="color">
               <dia:color val="#000000"/>
@@ -2156,7 +2156,7 @@ body [tinyint unsigned|null] (do poharu)#</dia:string>
           <dia:point val="-13,3"/>
         </dia:attribute>
         <dia:attribute name="obj_bb">
-          <dia:rectangle val="-13,2.3275;-3.0775,12.245"/>
+          <dia:rectangle val="-13,2.35;-3.1,12.2"/>
         </dia:attribute>
         <dia:attribute name="text">
           <dia:composite type="text">
@@ -2310,6 +2310,44 @@ password#</dia:string>
       <dia:connections>
         <dia:connection handle="0" to="O71" connection="1"/>
         <dia:connection handle="1" to="O67" connection="6"/>
+      </dia:connections>
+    </dia:object>
+    <dia:object type="Standard - ZigZagLine" version="0" id="O74">
+      <dia:attribute name="obj_pos">
+        <dia:point val="13.625,30.6"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="13.625,30.1;15.975,38.15"/>
+      </dia:attribute>
+      <dia:attribute name="orth_points">
+        <dia:point val="13.625,30.6"/>
+        <dia:point val="13.625,30.1"/>
+        <dia:point val="15.175,30.1"/>
+        <dia:point val="15.175,38.15"/>
+      </dia:attribute>
+      <dia:attribute name="orth_orient">
+        <dia:enum val="1"/>
+        <dia:enum val="0"/>
+        <dia:enum val="1"/>
+      </dia:attribute>
+      <dia:attribute name="autorouting">
+        <dia:boolean val="false"/>
+      </dia:attribute>
+      <dia:attribute name="line_width">
+        <dia:real val="0"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow">
+        <dia:enum val="1"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_length">
+        <dia:real val="0.8"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_width">
+        <dia:real val="0.8"/>
+      </dia:attribute>
+      <dia:connections>
+        <dia:connection handle="0" to="O2" connection="7"/>
+        <dia:connection handle="1" to="O21" connection="2"/>
       </dia:connections>
     </dia:object>
   </dia:layer>
