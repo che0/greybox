@@ -56,7 +56,7 @@ if ($can_edit) {
 	$klub_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($klub_clovek->form["b2"]);
 	unset($klub_clovek->form["link"]);
-	$klub_clovek->load_new();
+	$klub_clovek->load_this(array("rocnik"=>$GLOBALS["current_season"]));
 	$klub_clovek->render_hidden($lang["new person"]);
 } else {
 	
