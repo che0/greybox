@@ -1,6 +1,7 @@
 individual points: http://www.debating.net/ADK/Vysledky/JP04.htm + mails
 
 TODO:
+++ prefix ke jmenum tabulek
 pocitani sezony a prevod sezony na string
 udrzovani mesic stareho timestampu pro porovnavani uprav debat
 prepocitavani IB a vitezstvi debaty
