@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaje.inc,v 1.8 2005/01/09 00:47:32 che0 Exp $
+ * $Id: turnaje.inc,v 1.9 2005/03/23 12:52:28 che0 Exp $
  */
 
 pg_head();
@@ -17,10 +17,13 @@ cpdb_fetch_all("
 		turnaj.datum_od,
 		turnaj.datum_do,
 		soutez.soutez_ID,
-		soutez.nazev as soutez
+		soutez.nazev as soutez,
+		liga.liga_ID,
+		liga.nazev as liga
 	from
 		turnaj
-		left join soutez using (soutez_ID)
+		left join soutez on turnaj.soutez_ID = soutez.soutez_ID
+		left join liga on turnaj.liga_ID = liga.liga_ID
 	where
 		soutez.rocnik = :rocnik
 	order by
@@ -33,7 +36,10 @@ foreach ($turnaje as $turnaj) {
 		cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["turnaj"]),
 		$turnaj["datum_od"],
 		$turnaj["datum_do"],
-		cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], $turnaj["soutez"]),
+		cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], $turnaj["soutez"])
+		. ((isset($turnaj["liga_ID"]))
+			? (", " . cphs_link("./?page=liga&liga_id=" . $turnaj["liga_ID"], $turnaj["liga"]))
+			: ""),
 		cpdb_fetch_one_value("select count(*) from debata where turnaj_ID = :turnaj_id",array(":turnaj_id"=>$turnaj["turnaj_ID"])),
 	));
 }

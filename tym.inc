@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.17 2005/01/15 15:14:12 che0 Exp $
+ * $Id: tym.inc,v 1.18 2005/03/23 12:52:28 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -95,9 +95,22 @@ if ($GLOBALS["cps_kluby"] >= 2
 
 if (cpdb_fetch_all("
 	select
-		soutez.soutez_ID,
+		liga.liga_ID as ID,
+		liga.nazev,
+		liga_tym.liga_vytezek as body,
+		1 as liga
+	from
+		liga_tym
+		left join liga using (liga_ID)
+	where
+		liga_tym.tym_ID = :tym_id
+	union
+	
+	select
+		soutez.soutez_ID as ID,
 		soutez.nazev,
-		sum(debata_tym.body) as body
+		sum(debata_tym.body) as body,
+		0 as liga
 	from
 		debata
 		left join soutez on debata.soutez_ID = soutez.soutez_ID
@@ -111,24 +124,32 @@ if (cpdb_fetch_all("
 
 	de_html($souteze);
 	cph_h2($lang["competitions"]);
-	cph_table_head(array($lang["competition"],$lang["pts"]),array("class"=>"visible"));
+	cph_table_head(array($lang["competition"],$lang["pts"]."/".$lang["tab value"]),array("class"=>"visible"));
 	foreach ($souteze as $soutez) {
-		cph_table_row(array(
-			cphs_link("./?page=soutez&soutez_id=" . $soutez["soutez_ID"], $soutez["nazev"]),
-			cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["soutez_ID"],$tym_id),$soutez["body"])
-		));
+		if ($soutez["liga"] == 0) {
+			// cup
+			cph_table_row(array(
+				cphs_link("./?page=soutez&soutez_id=" . $soutez["ID"], $soutez["nazev"]),
+				cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["soutez_ID"],$tym_id),intval($soutez["body"]))
+			));
+		} else {
+			// league
+			cph_table_row(array(
+				cphs_link("./?page=liga&liga_id=" . $soutez["ID"], $soutez["nazev"]),
+				cphs_link(sprintf("./?page=tym.liga&liga_id=%s&tym_id=%s",$soutez["ID"],$tym_id),$soutez["body"])
+			));
+		}
 	}
 	cph_table_end();
 }
 
 if (cpdb_fetch_all("
 	select
-		tym_aff.tym_ID as aff_ID,
-		tym_aff.nazev as aff_tym,
-		dt_aff.body as aff_body,
-		tym_neg.tym_ID as neg_ID,
-		tym_neg.nazev as neg_tym,
-		dt_neg.body as neg_body,
+		tym_oni.tym_ID as oni_ID,
+		tym_oni.nazev as oni_tym,
+		dt_my.pozice,
+		dt_my.body,
+		dt_my.liga_vytezek,
 		teze.tx as teze,
 		teze.teze_ID as teze_ID,
 		datum,
@@ -136,21 +157,20 @@ if (cpdb_fetch_all("
 		presvedcive,
 		debata.debata_ID
 	from
-		debata
-		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
-		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
-		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
-		left join tym tym_neg on dt_neg.tym_ID = tym_neg.tym_ID
+		debata_tym dt_my
+		left join debata on dt_my.debata_ID = debata.debata_ID
+		left join debata_tym dt_oni on dt_oni.debata_ID = debata.debata_ID and dt_oni.pozice != dt_my.pozice
+		left join tym tym_oni on dt_oni.tym_ID = tym_oni.tym_ID
 		left join teze on teze.teze_ID = debata.teze_ID
 	where
-		tym_aff.tym_ID = :tym_id or tym_neg.tym_ID = :tym_id
+		dt_my.tym_ID = :tym_id
 	order by
 		datum desc
 	", array(":tym_id"=>$tym_id),$r_debaty)) {
 
 	de_html($r_debaty);
 	cph_h2($lang["debates"]);
-	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],$lang["pts"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["pts"],$lang["gain"],""),array("class"=>"visible"));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) {
 			$result = $lang["aff"];
@@ -165,11 +185,12 @@ if (cpdb_fetch_all("
 		}
 		cph_table_row(array(
 			format_date($debata["datum"]),
-			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
-			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
+			($debata["pozice"] == 1) ? $lang["aff"] : $lang["neg"],
+			cphs_link("./?page=tym&tym_id=" . $debata["oni_ID"],$debata["oni_tym"]),
 			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
 			$result,
-			( $debata["aff_ID"] == $tym_id ) ? $debata["aff_body"] : $debata["neg_body"],
+			$debata["body"],
+			$debata["liga_vytezek"],
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
 		));
 	}

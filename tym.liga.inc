@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.liga.inc,v 1.1 2005/03/23 10:22:02 che0 Exp $
+ * $Id: tym.liga.inc,v 1.2 2005/03/23 12:52:28 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -23,7 +23,7 @@ cph_p(
 	. $lang["competition"] . ": "
 	. cphs_link("./?page=liga&liga_id=" . $liga_id, $liga_name) . cphs_br()
 	. $lang["current tab"] . ": "
-	. $stav_tymu["liga_vytezek"])
+	. $stav_tymu["liga_vytezek"]
 );
 
 cpdb_fetch_all("
@@ -38,10 +38,18 @@ cpdb_fetch_all("
 		debata.debata_ID,
 		dt_my.pozice,
 		dt_my.liga_vytezek,
-		dt_my.novy_tab
+		(
+			select avg(liga_vytezek)
+			from debata_tym dt_v, debata d_v
+			where 
+				d_v.debata_ID = dt_v.debata_ID
+				and dt_v.tym_ID = dt_my.tym_ID
+				and dt_v.debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID)
+				and d_v.datum <= debata.datum
+		) as novy_tab
 	from
-		debata
-		left join debata_tym dt_my on dt_my.debata_ID = debata.debata_ID
+		debata_tym dt_my
+		left join debata on dt_my.debata_ID = debata.debata_ID
 		left join debata_tym dt_oni on dt_oni.debata_ID = debata.debata_ID and dt_oni.pozice != dt_my.pozice
 		left join tym tym_oni on dt_oni.tym_ID = tym_oni.tym_ID
 		left join teze on teze.teze_ID = debata.teze_ID
@@ -67,9 +75,10 @@ foreach ($r_debaty as $debata) {
 		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
 		$result,
 		$debata["liga_vytezek"],
-		$debata["novy tab"],
+		$debata["novy_tab"],
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
-	));
+	), in_array($debata["debata_ID"], $skrtnute_debaty) ? array("class"=>"inactive") : array()
+	);
 }
 cph_table_end();
 

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.67 2005/03/22 18:18:24 che0 Exp $
+ * $Id: english.php,v 1.68 2005/03/23 12:52:33 che0 Exp $
  * english language definition file
  */
 
@@ -331,4 +331,13 @@ $lang['league update ok'] = 'league update ok';
 $lang['league delete ok'] = 'league delete ok';
 $lang['n/a'] = 'n/a';
 $lang['no league'] = 'no league';
+$lang['league pts'] = 'league pts';
+$lang['team in the league'] = 'team in the league';
+$lang['tab value'] = 'tab value';
+$lang['cup'] = 'cup';
+$lang['current tab'] = 'current tab';
+$lang['position'] = 'position';
+$lang['opponent'] = 'opponent';
+$lang['gain'] = 'gain';
+$lang['new tab'] = 'new tab';
 ?>

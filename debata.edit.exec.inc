@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.exec.inc,v 1.13 2005/01/09 00:53:08 che0 Exp $
+ * $Id: debata.edit.exec.inc,v 1.14 2005/03/23 12:52:28 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -203,8 +203,11 @@ if (isset($_REQUEST["add"])) {
 	
 } elseif (isset($_REQUEST["delete"])) {
 	// delete debate
+	$liga_id = cpdb_fetch_one_value("select liga_ID from debata left join turnaj on turnaj.turnaj_ID = debata.turnaj_ID where debata_ID = :debata_id", array(":debata_id"=>$debata_id));
+	
 	if (cpdb_exec("delete from debata where debata_ID = :debata_id", array(":debata_id"=>$debata_id))) {
 		pg_achtung($lang["debate deleted ok"]);
+		if (isset($liga_id)) { lg_recount_league($liga_id); }
 		include("debaty.inc");
 	}
 }

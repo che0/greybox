@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: points.inc,v 1.13 2005/01/10 00:41:31 che0 Exp $
+ * $Id: points.inc,v 1.14 2005/03/23 12:52:33 che0 Exp $
  */
 
 function iptsr_internal_deb($debata_id) {
@@ -177,7 +177,7 @@ function ipts_recount() {
 }
 
 function recount_debate($debata_id) {
-	// prepocita vysledky a body v debate
+	// prepocita vysledky a body v debate a v pripadne lize
 	global $lang; // for $lang
 	
 	cpdb_fetch_one_row("select teze_ID, vitez, presvedcive from debata where debata_ID = :debata_id",array(":debata_id"=>$debata_id), $debata);
@@ -269,6 +269,12 @@ function recount_debate($debata_id) {
 	$status &= cpdb_exec("update debata set vitez = :vitez, presvedcive = :presvedcive where debata_ID = :debata_id", array(":debata_id"=>$debata_id, ":vitez"=>$vitez, ":presvedcive"=>$presvedcive));
 	$status &= cpdb_exec("update debata_tym set body = :body where debata_ID = :debata_id and pozice = 1", array(":debata_id"=>$debata_id, ":body"=>$points_aff));
 	$status &= cpdb_exec("update debata_tym set body = :body where debata_ID = :debata_id and pozice = 0", array(":debata_id"=>$debata_id, ":body"=>$points_neg));
+	
+	$liga_id = cpdb_fetch_one_value("select liga_ID from debata left join turnaj on turnaj.turnaj_ID = debata.turnaj_ID where debata_ID = :debata_id", array(":debata_id"=>$debata_id));
+	if (isset($liga_id)) {
+		lg_recount_league($liga_id);
+	}
+	
 	if ($status) {
 		cpdb_commit();
 		return true;
@@ -300,6 +306,125 @@ function recount_all_debates() {
 	cpdb_fetch_all("select debata_ID from debata",array(),$debaty);
 	foreach ($debaty as $debata) {
 		recount_debate($debata["debata_ID"]);
+	}
+}
+
+function lg_add_debate($liga_id, $debata_id) {
+	// prida do tabulek ligy dalsi debatu
+	// neresi transakce, vraci true/false
+	
+	$status = true;
+	
+	$status &= cpdb_fetch_one_row("
+		select
+			vitez,
+			presvedcive,
+			dt_aff.tym_ID as aff_ID,
+			dt_neg.tym_ID as neg_ID,
+			(
+				select avg(liga_vytezek) / 2
+				from debata_tym
+				where tym_ID = dt_aff.tym_ID
+					and debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID)
+			) as aff_koef,
+			(
+				select avg(liga_vytezek) / 2
+				from debata_tym
+				where tym_ID = dt_neg.tym_ID
+					and debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID)
+			) as neg_koef
+		from
+			debata
+			left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
+			left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
+		where
+			debata.debata_ID = :debata_id
+	", array(":liga_id"=>$liga_id, ":debata_id"=>$debata_id), $debata);
+	
+	if ($debata["aff_koef"] === NULL) { $debata["aff_koef"] = 25; }
+	if ($debata["neg_koef"] === NULL) { $debata["neg_koef"] = 25; }
+	
+	$rezultat_aff = ($debata["vitez"]) ? (40 + 10 * $debata["presvedcive"]) : (10 * (1 - $debata["presvedcive"]));
+	$rezultat_neg = 50 - $rezultat_aff;
+	
+	// update vytezku
+	$status &= cpdb_exec("update debata_tym set liga_vytezek = :vytezek where debata_ID = :debata_id and tym_ID = :tym_id", array(":debata_id"=>$debata_id, ":tym_id"=>$debata["aff_ID"], ":vytezek"=>$rezultat_aff + $debata["neg_koef"]));
+	$status &= cpdb_exec("update debata_tym set liga_vytezek = :vytezek where debata_ID = :debata_id and tym_ID = :tym_id", array(":debata_id"=>$debata_id, ":tym_id"=>$debata["neg_ID"], ":vytezek"=>$rezultat_neg + $debata["aff_koef"]));
+	
+	return $status;
+}
+
+function lg_finalize($liga_id) {
+	// pro kazdy tym dopocita skrtani vysledku a konecny tab
+	// neresi transakce, vraci true/false
+	
+	$status = true;
+	
+	cpdb_fetch_all("select distinct tym_ID from debata_tym where debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID)", array(":liga_id"=>$liga_id), $r_tymy);
+	
+	foreach ($r_tymy as $tym) {
+		$pocet_debat = cpdb_fetch_all("select debata_ID from debata_tym where tym_ID = :tym_id and debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID) order by liga_vytezek", array(":liga_id"=>$liga_id, ":tym_id"=>$tym["tym_ID"]), $r_debaty);
+		
+		if ($pocet_debat >= 20) { $skrtame = 4; }
+		elseif ($pocet_debat >= 16) { $skrtame = 3; }
+		elseif ($pocet_debat >= 12) { $skrtame = 2; }
+		elseif ($pocet_debat >= 8) { $skrtame = 1; }
+		else { $skrtame = 0; }
+		
+		$skrtnuto = array();
+		for ($i=0; $i < $skrtame; $i++) {
+			$skrtnuto[] = $r_debaty[$i]["debata_ID"];
+		}
+		
+		$status &= cpdb_exec(sprintf("
+			insert into liga_tym(liga_ID, tym_ID, liga_vytezek, skrtnute_debaty)
+			values (
+				:liga_id,
+				:tym_id,
+				(
+					select avg(liga_vytezek)
+					from debata_tym
+					where tym_ID = :tym_id
+						and debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID)
+						%s
+				),
+				:skrtnute_debaty
+			)
+		", ($skrtame > 0) ? "and debata_ID not in (" . implode(",",$skrtnuto) . ")" : ""),
+		array(":liga_id"=>$liga_id, ":tym_id"=>$tym["tym_ID"], ":skrtnute_debaty"=>implode(",",$skrtnuto)));
+		
+	} // konec iterace podle tymu
+	
+	return $status;
+}
+
+function lg_recount_league($liga_id) {
+	// prepocita celou ligu
+	
+	$status = true;
+	cpdb_transaction();
+	
+	// zrusit soucasne vysledky
+	$status &= cpdb_exec("delete from liga_tym where liga_ID = :liga_id", array(":liga_id"=>$liga_id));
+	$status &= cpdb_exec("update debata_tym set liga_vytezek = NULL where debata_ID in (select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and turnaj.turnaj_ID = debata.turnaj_ID) or debata_ID not in (select debata_ID from turnaj, debata where turnaj.liga_ID is not null and turnaj.turnaj_ID = debata.turnaj_ID)", array(":liga_id"=>$liga_id));
+	// ^ tohle taky vycisti vytezky u neligovych debat
+	
+	// pridat postupne vysledky debat
+	cpdb_fetch_all("select debata_ID from turnaj, debata where turnaj.liga_ID = :liga_id and debata.turnaj_ID = turnaj.turnaj_ID order by debata.datum", array(":liga_id"=>$liga_id), $r_debaty);
+	foreach($r_debaty as $debata) {
+		$status &= lg_add_debate($liga_id, $debata["debata_ID"]);
+	}
+	
+	// prepocitat skrtani vysledky a konecny tab
+	$status &= lg_finalize($liga_id);
+	
+	if ($status) {
+		cpdb_commit();
+		return true;
+	} else {
+		pg_achtung(sprintf($lang["league %s: recount failed"],$liga_id));
+		cpdb_rollback();
+		return false;
 	}
 }
 

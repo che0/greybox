@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: souteze.inc,v 1.10 2005/03/23 10:22:02 che0 Exp $
+ * $Id: souteze.inc,v 1.11 2005/03/23 12:52:28 che0 Exp $
  * vypis vsech soutezi v sezone
  */
 
@@ -36,7 +36,7 @@ if (! cpdb_fetch_all("
 			(
 				select count(debata_ID)
 				from turnaj, debata
-				where turnaj.soutez_ID = soutez.soutez_ID
+				where turnaj.liga_ID = liga.liga_ID
 					and debata.turnaj_ID = turnaj.turnaj_ID
 			) as debaty
 		from
@@ -74,7 +74,7 @@ foreach ($souteze as $soutez) {
 			$lang["cup"],
 			$soutez["jazyk"],
 			$soutez["zamceno"] ? $lang["no"] : $lang["yes"],
-			$soutez["debaty"])
+			$soutez["debaty"]
 		));
 	}
 }
