@@ -9,9 +9,11 @@ $dbpasswd = 'greybox';
 	some initialisation
 */
 
-include('inc/template.php');
-$template = new template;
+$skin = "default";
 
-$template->load('default/global');
+require('inc/template.php');
+$template = new template($skin);
+
+$template->load('global');
 $template->editvar('page_headers','');
 ?>

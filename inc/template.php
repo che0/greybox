@@ -7,18 +7,19 @@
 
 class template {
 	
-	var $variables, $templates;
+	var $variables, $templates, $skin;
 
-	function template ()
+	function template ($skin)
 	{
+		$this->skin = $skin;
 		$this->variables = array();
 	}
 
 	function load ($filename)
 	{
 		// Get template file
-		$file = fopen('skins/'.$filename.'.tpl', 'r');
-		$template_file = fread($file, filesize('skins/'.$filename.'.tpl'));
+		$file = fopen('skins/'.$this->skin.'/'.$filename.'.tpl', 'r');
+		$template_file = fread($file, filesize('skins/'.$this->skin.'/'.$filename.'.tpl'));
 		fclose ($file);
 
 		// ok, for every part
