@@ -1,7 +1,5 @@
 <?php
 
-// FIXME
-
 if ($GLOBALS["cps_souteze"] < 2) {
 	pg_achtung($lang["access denied"]);
 	return;

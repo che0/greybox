@@ -32,11 +32,15 @@ class cpykhen {
 	
 	function init() {
 		if (! $this->init_done) {
-			foreach ($this->form  as $element=>$neco) {
-				$this->form[$element]->init();
-			}
-			$this->init_done = true;
+			$this->init_force();
 		}
+	}
+	
+	function init_force() {
+		foreach ($this->form  as $element=>$neco) {
+			$this->form[$element]->init();
+		}
+		$this->init_done = true;
 	}
 	
 	function render() {

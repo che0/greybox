@@ -1,5 +1,4 @@
 <?php
-// FIXME
 
 $turnaj_id = $_REQUEST["turnaj_id"];
 

@@ -98,7 +98,7 @@ foreach ($ranks as $team_rank) {
 	}
 	cph_table_row(array(
 		$rank,
-		cphs_link("./?page=tym.detaily&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
+		cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
 		cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
 		cphs_link("./?page=tym.soutez&tym_id=" . $team_rank["tym_ID"] . "&soutez_id=" . $soutez_id, $team_rank["bodu"])
 	));

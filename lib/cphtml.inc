@@ -68,8 +68,8 @@ function cph_table_head($cols, $attr = array()) {
 	cph_tag_end("tr");
 }
 
-function cph_table_row($fields) {
-	cph_tag_start("tr");
+function cph_table_row($fields, $attr = array()) {
+	cph_tag_start("tr", $attr);
 	foreach ($fields as $field) {
 		cph_tag("td", array(), $field);
 	}

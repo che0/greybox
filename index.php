@@ -38,6 +38,10 @@ $GLOBALS["page"]->pages = array(
 	array("turnaj.edit.exec", $lang["edit tournament"]),
 	array("turnaje", $lang["tournaments"]),
 	array("turnaj.clovek.edit.exec", $lang["edit tournament"]),
+	array("tym", $lang["team"]),
+	array("tym.add", $lang["add team"]),
+	array("tym.edit.exec", $lang["edit team"]),
+	array("tym.clovek.edit.exec", $lang["edit team"]),
 );
 
 $GLOBALS["page"]->render();

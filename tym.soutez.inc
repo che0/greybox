@@ -72,5 +72,4 @@ foreach ($r_debaty as $debata) {
 	));
 }
 cph_table_end();
-
 ?>

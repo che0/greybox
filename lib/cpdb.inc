@@ -25,6 +25,7 @@ function cpdb_bind($query, $args = array()) {
 		}
 	}
 	
+	// cpdb_achtung(str_replace($repl_from, $repl_to, $query));
 	return str_replace($repl_from, $repl_to, $query);
 }
 

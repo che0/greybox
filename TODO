@@ -17,13 +17,6 @@ klub:
 	pridani/ubirani treneru
 	mazani klubu
 
-tym:
-	?page=tym&tym_id=
-	vypis aktivnich i neaktivnich clenu
-	pridani/editace tymu (muze admin klubu, jeho clenove muzou upravovat popis)
-	vypis soutezi s ranky
-	vypis debat
-
 debata:
 	page=debata, debata_id
 	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru

@@ -187,4 +187,11 @@ $lang['new person'] = 'new person';
 $lang['resolution update ok'] = 'resolution update ok';
 $lang['person update ok'] = 'person update ok';
 $lang['role'] = 'role';
+$lang['edit team'] = 'edit team';
+$lang['team name'] = 'team name';
+$lang['disabled'] = 'disabled';
+$lang['add member'] = 'add member';
+$lang['team update ok'] = 'team update ok';
+$lang['refusing to delete member with recorded debates'] = 'refusing to delete member with recorded debates';
+$lang['status'] = 'status';
 ?>

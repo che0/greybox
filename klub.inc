@@ -146,12 +146,12 @@ switch ($_GET['akce']) {
 				$query .= ' order by a_nazev';
 
 				$result = mysql_query($query);
-
 				$got_header = 0;
-				if ($can_edit) {
+				if (($GLOBALS["cps_kluby"] >= 2)
+					|| (($GLOBALS["cps_kluby"] == 1) && ($_GET['id'] == $_SESSION["user_klub_ID"]))) {
 					$got_header = 1;
 					printf('<h2>%s</h2>',$lang['teams']);
-					printf('<p><a href="./?page=klub&akce=uprav.pridej.tym&id=%s">%s</a></p>',$_GET['id'],$lang['add team']);
+					printf('<p><a href="./?page=tym.add&klub_id=%s">%s</a></p>',$_GET['id'],$lang['add team']);
 				}
 
 				if (mysql_num_rows($result)) {
@@ -160,7 +160,7 @@ switch ($_GET['akce']) {
 					printf('<tr><th>%s</th><th>%s</th></tr>',$lang['team'],$lang['members']);
 
 					while ($result3 = mysql_fetch_array($result)) {
-						printf('<tr><td><a href="./?page=tym&id=%s">%s</td><td>%s</td></tr>'."\n",
+						printf('<tr><td><a href="./?page=tym&tym_id=%s">%s</td><td>%s</td></tr>'."\n",
 							$result3['a_tym_ID'],
 							$result3['a_nazev'],
 							$result3['a_clenove']
@@ -190,7 +190,7 @@ switch ($_GET['akce']) {
 					$r3_clovek_ID = $result3['a_clovek_ID'];
 					$r3_name = sprintf('<a href="./?page=clovek&id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
 					if ($result3['a_tym_ID']) {
-						$r3_team = sprintf('<a href="./?page=tym&id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+						$r3_team = sprintf('<a href="./?page=tym&tym_id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 					} else {
 						$r3_team = '';
 					}
@@ -199,13 +199,13 @@ switch ($_GET['akce']) {
 					while ($result3 = mysql_fetch_array($result)) {
 						// check for added club, either add club, or print & fetch
 						if ($result3['a_clovek_ID'] == $r3_clovek_ID) {
-							$r3_team .= sprintf(', <a href="./?page=tym&id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+							$r3_team .= sprintf(', <a href="./?page=tym&tym_id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 						} else {
 							printf('<tr><td>%s</td><td>%s</td><td>%s</td></tr>'."\n", $r3_name, $r3_team, $r3_debater);
 							$r3_clovek_ID = $result3['a_clovek_ID'];
 							$r3_name = sprintf('<a href="./?page=clovek&id=%s">%s</a>', $result3['a_clovek_ID'], join_name($result3['a_jmeno'], $result3['a_nick'], $result3['a_prijmeni']));
 							if ($result3['a_tym_ID']) {
-								$r3_team = sprintf('<a href="./?page=tym&id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
+								$r3_team = sprintf('<a href="./?page=tym&tym_id=%s">%s</a>', $result3['a_tym_ID'], $result3['a_tym']);
 							} else {
 								$r3_team = '';
 							}
