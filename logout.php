@@ -5,7 +5,7 @@ set_title("logout");
 session_destroy();
 
 $template->editvar('login_info',$lang['logging out']);
-$template->editvar('page_headers','<meta http-equiv="refresh" content="1;url=\'index.php\'">');
+$template->editvar('page_headers','<meta http-equiv="refresh" content="1;url=index.php">');
 echo $template->make('head');
 
 

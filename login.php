@@ -20,7 +20,7 @@ if ($_POST['action'] == 'login') {
 	
 	if ($result2 = mysql_fetch_array($result)) {
 		body_message($lang['login ok']);
-		$template->editvar('page_headers','<meta http-equiv="refresh" content="1;url=\'' . htmlspecialchars(urldecode($_POST['von'])) . '\'">');
+		$template->editvar('page_headers','<meta http-equiv="refresh" content="1;url=' . htmlspecialchars(urldecode($_POST['von'])) . '">');
 
 		// now set all the session variables
 		$_SESSION['is_logged_in'] = true;

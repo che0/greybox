@@ -173,7 +173,7 @@ switch ($_GET['akce']) {
 
 		if (mysql_query($query)) {
 			body_message($lang['add ok']);
-			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=\'clovek.php?id=%s\'">',mysql_insert_id());
+			$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',mysql_insert_id());
 		} else {
 			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error());
 		}
