@@ -34,7 +34,8 @@ class pg_page {
 		
 		$links = "";
 		foreach($this->links as $link) {
-			$links .= sprintf("<p class=\"link\"><a href=\"%s\">%s</a></p>\n",htmlspecialchars($link[0]), htmlspecialchars($link[1]));
+			$active = ($this->page[2] == $link[2] ? "class=\"active\"" : "") ;
+			$links .= sprintf("<a href=\"%s\" %s>%s</a>\n",htmlspecialchars($link[0]), $active, htmlspecialchars($link[1]));
 		}
 		
 		printf(
@@ -52,7 +53,7 @@ class pg_page {
 <div id="leftblock"><div id="infoblock"><span id="language_info">%s</span>
 | <span id="season_info">%s</span>
 <p id="login_info">%s</p></div>
-%s</div><div id="mainbody">',
+<p id="links">%s</p></div><div id="mainbody">',
 		$this->language,
 		$this->language,
 		(isset($this->title)
@@ -80,24 +81,23 @@ class pg_page {
 	}
 
 	function render() {
-		$page[0] = $this->default_page;
+		$this->page = $this->default_page;
 		foreach ($this->pages as $candidate) {
 			if ($candidate[0] == $_REQUEST["page"]) {
-				$page = $candidate;
+				$this->page = $candidate;
 			}
 		}
 		
-		$this->title = $page[1];
+		$this->title = $this->page[1];
 		
-		$this->render_this($page[0]);
+		$this->render_real();
 	}
 	
-	function render_this($module) {
-		
+	function render_real() {
 		// included globals
 		global $lang;
 		
-		include($module . ".inc");
+		include($this->page[0] . ".inc");
 		
 		if (! $this->was_head) {
 			$this->render_head();

@@ -61,11 +61,6 @@ div#leftblock {
 	padding: 10px;
 }
 
-div#leftblock p.link {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
 div#leftblock div#infoblock {
 	margin-bottom: 10px;
 }
@@ -80,6 +75,32 @@ div#leftblock p#login_info  {
 	margin-top: 3px;
 }
 
+div#leftblock p#links a {
+	display: block;
+	margin-left: -5px;
+	margin-right: -10px;
+	padding-left: 5px;
+	padding-right: 10px;
+}
+
+div#leftblock p#links a.active {
+	background-color: white;
+	margin-right: -11px;
+	border-bottom-style: dotted;
+	border-bottom-width: 1px;
+	border-bottom-color: #cbcdca;
+	border-top-style: dotted;
+	border-top-width: 1px;
+	border-top-color: #cbcdca;
+	border-left-style: dotted;
+	border-left-width: 1px;
+	border-left-color: #cbcdca;
+}
+
+div#leftblock p#links a:hover,
+div#leftblock p#links a.active:hover {
+	background-color: #edf6f8;
+}
 
 div#mainbody {
 	/* main body area */
@@ -107,6 +128,10 @@ table.visible td, table.visible th {
 	padding-top: 0px;
 	padding-bottom: 0px;
 	padding-right: 5px;
+}
+
+table.visible tr:hover {
+	background-color: #edf6f8;
 }
 
 td.sieg, th.sieg {

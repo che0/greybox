@@ -221,9 +221,22 @@ if ($can_edit || $self_edit) {
 		cph_h2($lang["contacts"]);
 		cph_table_head(array($lang["type"],$lang["contact"]),array("class"=>"visible"));
 		foreach ($contacts as $cont) {
+			switch ($cont["druh"]) {
+				case "email":
+					$tx = cphs_link("mailto:" . $cont["tx"], $cont["tx"]);
+				break;
+				
+				case "web":
+					$tx = cphs_link($cont["tx"], $cont["tx"]);
+				break;
+				
+				default:
+					$tx = $cont["tx"];
+				break;
+			}
 			cph_table_row(array(
 				$domain_kontakt_druh[$cont["druh"]],
-				$cont["tx"]
+				$tx
 			));
 		}
 		cph_table_end();
