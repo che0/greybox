@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.12 2005/02/20 11:00:18 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.13 2005/03/23 20:05:48 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
@@ -74,7 +74,7 @@ switch ($ukaz) {
 			", $filtr_sql), array(":soutez_id"=>$soutez_id), $r_kidy);
 		
 		de_html($r_kidy);
-		cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]),array("class"=>"visible"));
+		cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]));
 		foreach ($r_kidy as $kidy) {
 			cph_table_row(array(
 				cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
@@ -123,7 +123,7 @@ switch ($ukaz) {
 			", array(":soutez_id"=>$soutez_id), $r_kidy);
 		
 		de_html($r_kidy);
-		cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+		cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]));
 		$countF = 0; $rankF = 1; $ptsF = -1;
 		foreach ($r_kidy as $kidy) {
 			$count++;

@@ -1,14 +1,14 @@
 <?php
 /*
  * greybox
- * $Id: turnaje.inc,v 1.9 2005/03/23 12:52:28 che0 Exp $
+ * $Id: turnaje.inc,v 1.10 2005/03/23 20:05:48 che0 Exp $
  */
 
 pg_head();
 
 if ($GLOBALS["cps_souteze"] >= 1) cph_p(cphs_link("./?page=turnaj.add",$lang["add tournament"]));
 
-cph_table_head(array($lang["tournament"], $lang["date_from"], $lang["date_to"] , $lang["competition"], $lang["debates"]),array("class"=>"visible"));
+cph_table_head(array($lang["tournament"], $lang["date_from"], $lang["date_to"] , $lang["competition"], $lang["debates"]));
 
 cpdb_fetch_all("
 	select

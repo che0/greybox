@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.inc,v 1.12 2005/01/09 00:53:08 che0 Exp $
+ * $Id: teze.inc,v 1.13 2005/03/23 20:05:48 che0 Exp $
  * vypis vsech tezi
  */
 
@@ -37,7 +37,7 @@ cpdb_fetch_all("
 	array(":lang"=>$lang_choice),$result);
 
 de_html($result);
-cph_table_head(array($lang["resolution"],$lang["debates"]),array("class"=>"visible"));
+cph_table_head(array($lang["resolution"],$lang["debates"]));
 foreach ($result as $row) {
 	cph_table_row(array(
 		cphs_link("./?page=teze.detaily&teze_id=" . $row["teze_ID"], $row["tx"]),

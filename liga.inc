@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.inc,v 1.2 2005/03/23 10:22:02 che0 Exp $
+ * $Id: liga.inc,v 1.3 2005/03/23 20:05:48 che0 Exp $
  */
 
 include_once("i_liga.inc");
@@ -55,7 +55,7 @@ if (cpdb_fetch_all("
 	
 	cph_h2($lang["teams"]);
 	de_html($ranks);
-	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["tab value"]), array("class"=>"visible"));
+	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["tab value"]));
 	$count = 0; $rank = 1; $tab = -1;
 	foreach ($ranks as $team_rank) {
 		$count++;
@@ -78,7 +78,7 @@ if (cpdb_fetch_all("select turnaj_ID, nazev, datum_od, (select count(*) from deb
 
 	de_html($r_turnaje);
 	cph_h2($lang["tournaments"]);	
-	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
+	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]));
 	foreach ($r_turnaje as $turnaj) {
 		cph_table_row(array(
 			cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),

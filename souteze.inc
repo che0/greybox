@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: souteze.inc,v 1.11 2005/03/23 12:52:28 che0 Exp $
+ * $Id: souteze.inc,v 1.12 2005/03/23 20:05:48 che0 Exp $
  * vypis vsech soutezi v sezone
  */
 
@@ -52,7 +52,7 @@ if (! cpdb_fetch_all("
 }
 
 de_html($souteze);
-cph_table_head(array($lang["season"], $lang["competition"], $lang["type"], $lang["lang"], $lang["active"] ,$lang["debates"],),array("class"=>"visible"));
+cph_table_head(array($lang["season"], $lang["competition"], $lang["type"], $lang["lang"], $lang["active"] ,$lang["debates"]));
 
 foreach ($souteze as $soutez) {
 	if ($soutez["liga"]) {

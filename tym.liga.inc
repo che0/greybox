@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.liga.inc,v 1.3 2005/03/23 13:10:19 che0 Exp $
+ * $Id: tym.liga.inc,v 1.4 2005/03/23 20:05:48 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -20,7 +20,7 @@ $skrtnute_debaty = explode(",",$stav_tymu["skrtnute_debaty"]);
 cph_p(
 	$lang["team"] . ": "
 	. cphs_link("./?page=tym&tym_id=" . $tym_id, $tym_name) . cphs_br()
-	. $lang["competition"] . ": "
+	. $lang["league"] . ": "
 	. cphs_link("./?page=liga&liga_id=" . $liga_id, $liga_name) . cphs_br()
 	. $lang["current tab"] . ": "
 	. $stav_tymu["liga_vytezek"]
@@ -63,7 +63,7 @@ cpdb_fetch_all("
 	
 de_html($r_debaty);
 
-cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["gain"],$lang["new tab"],""),array("class"=>"visible"));
+cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["gain"],$lang["new tab"],""));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
 	$result .= " ";

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tymy.inc,v 1.7 2005/01/15 15:14:12 che0 Exp $
+ * $Id: tymy.inc,v 1.8 2005/03/23 20:05:48 che0 Exp $
  */
 
 pg_head();
@@ -38,7 +38,7 @@ cpdb_fetch_all("
 	array(), $tym_debaty, "tym_ID");
 
 
-cph_table_head(array($lang["team"],$lang["club"],$lang["debaters"],$lang["debates"]),array("class"=>"visible"));
+cph_table_head(array($lang["team"],$lang["club"],$lang["debaters"],$lang["debates"]));
 foreach ($tymy as $tym) {
 	cph_table_row(array(
 		cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["tym"]),

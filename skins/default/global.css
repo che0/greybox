@@ -124,7 +124,7 @@ div#mainbody div#footnote a:hover {
 	color: #898997;
 }
 
-table.visible td, table.visible th {
+table td, table th {
 	/* styles for tables that should be visible */
 	border-bottom-style: dotted;
 	border-bottom-width: 1px;
@@ -134,7 +134,7 @@ table.visible td, table.visible th {
 	padding-right: 5px;
 }
 
-table.visible tr:hover {
+table tr:hover {
 	background-color: #edf6f8;
 }
 
@@ -143,9 +143,14 @@ td.sieg, th.sieg {
 	background-color: #dcffd5;
 }
 
-table.visible tr:hover td.sieg,
-table.visible tr:hover th.sieg {
+table tr:hover td.sieg,
+table tr:hover th.sieg {
 	background-color: #bcffd8;
+}
+
+td.points {
+	/* cell with points */
+	text-align: right;
 }
 
 tr.inactive {

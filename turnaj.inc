@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.21 2005/03/23 15:13:50 che0 Exp $
+ * $Id: turnaj.inc,v 1.22 2005/03/23 20:05:48 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -89,7 +89,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$role_domain = array("o"=>$lang["organizer"]);
 	if (cpdb_fetch_all("select role, mocnost, clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using (clovek_ID) where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id), $r_clovek) > 0) {
 		de_html($r_clovek);
-		cph_table_head(array($lang["role"],$lang["person"],$lang["factor"]),array("class"=>"visible"));
+		cph_table_head(array($lang["role"],$lang["person"],$lang["factor"]));
 		foreach ($r_clovek as $clovek) {
 			cph_table_row(array(
 				$role_domain[$clovek["role"]],
@@ -131,7 +131,7 @@ if (cpdb_fetch_all("
 	cph_h2($lang["teams"]);
 	cph_p($lang["please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament"],array("class"=>"note"));
 	de_html($ranks);
-	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["wins"], $lang["ballots"], $lang["pts"]), array("class"=>"visible"));
+	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["wins"], $lang["ballots"], $lang["pts"]));
 	$count = 0; $rank = 1; $pts = -1;
 	foreach ($ranks as $team_rank) {
 		$count++;
@@ -180,7 +180,7 @@ if (cpdb_fetch_all("
 
 	cph_h2($lang["debates"]);
 	de_html($r_debaty);
-	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) {
 			$result = $lang["aff"];

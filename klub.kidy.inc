@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.kidy.inc,v 1.2 2005/02/19 23:25:07 che0 Exp $
+ * $Id: klub.kidy.inc,v 1.3 2005/03/23 20:05:47 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -56,7 +56,7 @@ if (! cpdb_fetch_all("
 cph_p($lang["ranks only for full members"], array("class"=>"note"));
 
 de_html($r_kidy);
-cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["average"], $lang["samples"]));
 $count = 0; $rank = 1; $pts = -1;
 $countF = 0; $rankF = 1; $ptsF = -1;
 foreach ($r_kidy as $kidy) {

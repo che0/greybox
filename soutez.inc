@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.inc,v 1.20 2005/03/23 13:10:19 che0 Exp $
+ * $Id: soutez.inc,v 1.21 2005/03/23 20:05:48 che0 Exp $
  * vypis informaci o soutezi
  */
 
@@ -91,7 +91,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 		",
 		array(":soutez_id"=>$soutez_id), $r_teze)) {
 		
-		cph_table_head(array($lang["official resolution"],$lang["debates"]),array("class"=>"visible"));
+		cph_table_head(array($lang["official resolution"],$lang["debates"]));
 		foreach ($r_teze as $teze) {
 			cph_table_row(array(
 				cphs_link("./?page=teze.detaily&teze_id=" . $teze["teze_ID"], $teze["tx"]),
@@ -129,7 +129,7 @@ if (cpdb_fetch_all("
 	
 	cph_p($lang["please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual competition"],array("class"=>"note"));
 	
-	cph_table_head(array($lang["rank"],$lang["team"],$lang["club"],$lang["pts"]),array("class"=>"visible"));
+	cph_table_head(array($lang["rank"],$lang["team"],$lang["club"],$lang["pts"]));
 	$count = 0; $rank = 1; $pts = -1;
 	foreach ($ranks as $team_rank) {
 		$count++;
@@ -152,7 +152,7 @@ if (cpdb_fetch_all("select turnaj_ID, nazev, datum_od from turnaj where soutez_I
 
 	de_html($r_turnaje);
 	cph_h2($lang["tournaments"]);	
-	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
+	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]));
 	foreach ($r_turnaje as $turnaj) {
 		cph_table_row(array(
 			cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),
@@ -196,7 +196,7 @@ if (cpdb_fetch_all("
 	
 	if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s",$soutez_id), $lang["add debate"]));
 	
-	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) {
 			$result = $lang["aff"];

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.15 2005/03/23 13:10:19 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.16 2005/03/23 20:05:48 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -45,7 +45,7 @@ if ($GLOBALS['cps_teze'] >= 1) {
 if (cpdb_fetch_all("select soutez.soutez_ID as soutez, nazev from soutez_teze left join soutez using (soutez_ID) where teze_ID = :teze_id", array(":teze_id" => $teze_id), $souteze) > 0) {
 	de_html($souteze);
 	cph_tag("h2",array(),$lang["official in"]);
-	cph_table_head(array($lang["competition"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["competition"],""));
 	foreach ($souteze as $soutez) {
 		cph_table_row(array($soutez["nazev"], cphs_link("./?page=soutez&soutez_id=" .  $soutez["soutez"],$lang["details"])));
 	}
@@ -77,7 +77,7 @@ if (cpdb_fetch_all("
 
 	de_html($r_debaty);
 	cph_h2($lang["debated"]);
-	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["result"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["result"],""));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) {
 			$result = $lang["aff"];

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debaty.inc,v 1.7 2005/03/23 13:10:19 che0 Exp $
+ * $Id: debaty.inc,v 1.8 2005/03/23 20:05:47 che0 Exp $
  */
 
 pg_head();
@@ -40,7 +40,7 @@ if (! cpdb_fetch_all("
 }
 	
 de_html($r_debaty);
-cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
+cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {
 		$result = $lang["aff"];

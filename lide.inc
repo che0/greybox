@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.17 2005/02/20 11:00:17 che0 Exp $
+ * $Id: lide.inc,v 1.18 2005/03/23 20:05:48 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -50,8 +50,7 @@ switch ($kdo) {
 		
 		de_html($lide);
 		cph_table_head(
-			array($lang["name"], $lang["club"], $lang["full member"], 	$lang["ipoints"]),
-			array("class"=>"visible")
+			array($lang["name"], $lang["club"], $lang["full member"], 	$lang["ipoints"])
 		);
 		
 		foreach ($lide as $clovek) {
@@ -105,8 +104,7 @@ switch ($kdo) {
 		
 		de_html($lide);
 		cph_table_head(
-			array($lang["rank"], $lang["name"], $lang["club"], $lang["ipoints"]),
-			array("class"=>"visible")
+			array($lang["rank"], $lang["name"], $lang["club"], $lang["ipoints"])
 		);
 		
 		$count = 0; $rank = 1; $pts = -1;
@@ -166,7 +164,7 @@ switch ($kdo) {
 		cph_p($lang["ranks only for full members"], array("class"=>"note"));
 		
 		de_html($r_kidy);
-		cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+		cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]));
 		$count = 0; $rank = 1; $pts = -1;
 		$countF = 0; $rankF = 1; $ptsF = -1;
 		foreach ($r_kidy as $kidy) {
@@ -260,7 +258,7 @@ switch ($kdo) {
 		
 		
 		de_html($r_kidy);
-		cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]),array("class"=>"visible"));
+		cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]));
 		foreach ($r_kidy as $kidy) {
 			cph_table_row(array(
 				cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
@@ -301,8 +299,7 @@ switch ($kdo) {
 		
 		de_html($lide);
 		cph_table_head(
-			array($lang["name"], $lang["club"], $lang["team"], $lang["ipoints"]),
-			array("class"=>"visible")
+			array($lang["name"], $lang["club"], $lang["team"], $lang["ipoints"])
 		);
 		
 		foreach ($lide as $clovek) {
@@ -361,8 +358,7 @@ switch ($kdo) {
 		
 		de_html($lide);
 		cph_table_head(
-			array($lang["name"], $lang["club"], $lang["languages"], $lang["place"], $lang["ipoints"]),
-			array("class"=>"visible")
+			array($lang["name"], $lang["club"], $lang["languages"], $lang["place"], $lang["ipoints"])
 		);
 		
 		foreach ($lide as $clovek) {
@@ -405,8 +401,7 @@ switch ($kdo) {
 		
 		de_html($lide);
 		cph_table_head(
-			array($lang["administrator"], $lang["people"], $lang["clubs"], $lang["competitions"], $lang["debates"]),
-			array("class"=>"visible")
+			array($lang["administrator"], $lang["people"], $lang["clubs"], $lang["competitions"], $lang["debates"])
 		);
 		
 		foreach ($lide as $clovek) {
@@ -436,7 +431,7 @@ switch ($kdo) {
 	case 'stats':
 		// show people stats
 		
-		cph_tag_start("table", array("class"=>"visible"));
+		cph_tag_start("table");
 		cph_table_row(array(
 			$lang["total number of people in the database"],
 			cpdb_fetch_one_value("select count(clovek_ID) from clovek")
@@ -456,7 +451,7 @@ switch ($kdo) {
 		cph_table_end();
 		
 		cph_h2($lang["full members by age"]);
-		cph_tag_start("table", array("class"=>"visible"));
+		cph_tag_start("table");
 		cph_table_row(array(
 			$lang["<15"],
 			cpdb_fetch_one_value("select count(clovek_ID) from clovek where clen = 1 and narozen > date_sub(now(), interval 15 year)")

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.62 2005/03/23 13:14:18 che0 Exp $
+ * $Id: czech.php,v 1.63 2005/03/23 20:05:49 che0 Exp $
  * czech language definition file
  */
 
@@ -332,7 +332,7 @@ $lang['league update ok'] = 'liga upravena';
 $lang['league delete ok'] = 'liga smazána';
 $lang['n/a'] = 'n/a';
 $lang['no league'] = '-žádná-';
-$lang['league pts'] = 'body do ligy';
+$lang['league pts'] = 'liga - výtěžek';
 $lang['team in the league'] = 'tým v lize';
 $lang['tab value'] = 'tab';
 $lang['cup'] = 'pohár';

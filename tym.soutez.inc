@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.soutez.inc,v 1.9 2005/03/23 13:10:19 che0 Exp $
+ * $Id: tym.soutez.inc,v 1.10 2005/03/23 20:05:48 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -50,7 +50,7 @@ cpdb_fetch_all("
 	", array(":soutez_id"=>$soutez_id, ":tym_id"=>$tym_id),$r_debaty);
 	
 de_html($r_debaty);
-cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["pts"],""),array("class"=>"visible"));
+cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["pts"],""));
 foreach ($r_debaty as $debata) {
 	if ($debata["vitez"] == 1) {
 		$result = $lang["aff"];

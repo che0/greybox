@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.28 2005/03/15 12:09:02 che0 Exp $
+ * $Id: klub.inc,v 1.29 2005/03/23 20:05:47 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -71,7 +71,7 @@ if ($can_edit) {
 	// coaches
 	if (cpdb_fetch_all("select clovek.jmeno, clovek.prijmeni, clovek.nick, clovek.clovek_ID, clovek_klub.rocnik, clovek_klub.role from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id order by rocnik", array(":klub_id"=>$klub_id), $coaches) > 0) {
 		de_html($coaches);
-		cph_table_head(array($lang["role"], $lang["season"], $lang["person"]),array("class"=>"visible"));
+		cph_table_head(array($lang["role"], $lang["season"], $lang["person"]));
 		foreach ($coaches as $coach) {
 			cph_table_row(array(
 				$domain_ck_role[$coach["role"]],
@@ -106,7 +106,7 @@ if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(*) as pocet_debat from t
 	if ($can_edit) cph_p(cphs_link("./?page=tym.add&klub_id=" . $klub_id,$lang['add team']));
 
 	de_html($tymy);
-	cph_table_head(array($lang["team"],$lang["debaters"],$lang["debates"]),array("class"=>"visible"));
+	cph_table_head(array($lang["team"],$lang["debaters"],$lang["debates"]));
 	foreach ($tymy as $tym) {
 		cph_table_row(array(
 			cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["nazev"]),
@@ -140,7 +140,7 @@ if (cpdb_fetch_all("
 	
 	de_html($r_rozhodci);
 	cph_h2($lang["adjudicators"]);
-	cph_table_head(array($lang["adjudicator"],$lang["language"],$lang["place"]), array("class"=>"visible"));
+	cph_table_head(array($lang["adjudicator"],$lang["language"],$lang["place"]));
 	foreach ($r_rozhodci as $rozhodci) {
 		cph_table_row(array(
 			cphs_link("./?page=clovek&clovek_id=" . $rozhodci["clovek_ID"], join_name($rozhodci["jmeno"], $rozhodci["nick"], $rozhodci["prijmeni"])),
@@ -188,7 +188,7 @@ cpdb_fetch_all("
 	",array(":klub_id"=>$klub_id), $clenove);
 
 de_html($clenove);
-cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short'], $lang["full member"]),array("class"=>"visible"));
+cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short'], $lang["full member"]));
 
 function get_cl_ac_array($clen, $debater) {
 	if ($clen) {

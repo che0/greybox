@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.27 2005/03/23 13:10:19 che0 Exp $
+ * $Id: clovek.inc,v 1.28 2005/03/23 20:05:45 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -138,7 +138,7 @@ if (cpdb_fetch_all("
 	
 	de_html($positions);
 	cph_h2($lang["club positions"]);
-	cph_table_head(array($lang["role"],$lang["season"],$lang["club"]),array("class"=>"visible"));
+	cph_table_head(array($lang["role"],$lang["season"],$lang["club"]));
 	foreach ($positions as $pos) {
 		cph_table_row(array(
 			$domain_klub_role[$pos["role"]],
@@ -183,7 +183,7 @@ if ($GLOBALS["cps_lidi"] >= 2) {
 		
 		de_html($accrs);
 		cph_h2($lang["accreditations"]);
-		cph_table_head(array($lang["season"],$lang["language"],$lang["place"]),array("class"=>"visible"));
+		cph_table_head(array($lang["season"],$lang["language"],$lang["place"]));
 		foreach ($accrs as $accr) {
 			cph_table_row(array(
 				season_to_str($accr["rocnik"]),
@@ -233,7 +233,7 @@ if ($can_edit || $self_edit) {
 		
 		de_html($contacts);
 		cph_h2($lang["contacts"]);
-		cph_table_head(array($lang["type"],$lang["contact"]),array("class"=>"visible"));
+		cph_table_head(array($lang["type"],$lang["contact"]));
 		foreach ($contacts as $cont) {
 			switch ($cont["druh"]) {
 				case "email":
@@ -281,7 +281,7 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 	
 } elseif ($clovek["prava_lidi"]+$clovek["prava_kluby"]+$clovek["prava_souteze"]+$clovek["prava_debaty"] > 0) {
 	cph_h2($lang["access levels"]);
-	cph_table_head(array($lang["area"],$lang["access"]),array("class"=>"visible"));
+	cph_table_head(array($lang["area"],$lang["access"]));
 	cph_table_row(array($lang["people"],$domain_prava_lidi[$clovek["prava_lidi"]]));
 	cph_table_row(array($lang["clubs"],$domain_prava_kluby[$clovek["prava_kluby"]]));
 	cph_table_row(array($lang["competitions"],$domain_prava_souteze[$clovek["prava_souteze"]]));
@@ -339,7 +339,7 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 // teams
 if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, clovek_tym.aktivni from clovek_tym left join tym using (tym_ID) where clovek_tym.clovek_ID = :clovek_id order by clovek_tym.aktivni desc, tym.nazev", array(":clovek_id"=>$clovek_id),$tymy)) {
 	cph_h2($lang["teams"]);
-	cph_table_head(array($lang["status"],$lang["team"]),array("class"=>"visible"));
+	cph_table_head(array($lang["status"],$lang["team"]));
 	foreach ($tymy as $tym) {
 		cph_table_row(array(
 			$tym["aktivni"] ? $lang["active"] : $lang["disabled"],
@@ -353,7 +353,7 @@ if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, clovek_tym.aktivni from clovek
 if (cpdb_fetch_all("select clovek_turnaj.role, turnaj.nazev, turnaj.datum_od, turnaj.turnaj_ID from clovek_turnaj left join turnaj using (turnaj_ID) where clovek_turnaj.clovek_ID = :clovek_id order by turnaj.datum_od", array(":clovek_id"=>$clovek_id), $turnaje)) {
 	de_html($turnaje);
 	cph_h2($lang["tournaments"]);
-	cph_table_head(array($lang["role"],$lang["tournament"],$lang["date"]), array("class"=>"visible"));
+	cph_table_head(array($lang["role"],$lang["tournament"],$lang["date"]));
 	foreach ($turnaje as $turnaj) {
 		cph_table_row(array(
 			$domain_turnaj_role[$turnaj["role"]],
@@ -398,7 +398,7 @@ if (cpdb_fetch_all("
 	
 	de_html($r_debaty);
 	cph_h2($lang["debates"]);
-	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
 		$result .= " ";
@@ -462,7 +462,7 @@ if (cpdb_fetch_all("
 	de_html($r_debaty);
 	cph_h2($lang["points overview"]);
 	cph_p($lang["total"] . ": " . cpdb_fetch_one_value("select sum(ibody) from clovek_debata_ibody where clovek_ID = :clovek_id and rocnik = :rocnik",array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"])));
-	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],$lang["ipoints"]),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],$lang["ipoints"]));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
 		$result .= " ";

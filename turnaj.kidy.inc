@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.kidy.inc,v 1.4 2005/01/10 01:34:06 che0 Exp $
+ * $Id: turnaj.kidy.inc,v 1.5 2005/03/23 20:05:48 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -38,7 +38,7 @@ cpdb_fetch_all(sprintf("
 	", $ukaz), array(":turnaj_id"=>$turnaj_id), $r_kidy);
 
 de_html($r_kidy);
-cph_table_head(array($lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+cph_table_head(array($lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]));
 $count = 0; $rank = 1; $pts = -1;
 foreach ($r_kidy as $kidy) {
 	$count++;

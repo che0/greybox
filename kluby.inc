@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: kluby.inc,v 1.7 2005/02/12 15:36:03 che0 Exp $
+ * $Id: kluby.inc,v 1.8 2005/03/23 20:05:48 che0 Exp $
  * print out club list
  */
 
@@ -39,7 +39,7 @@ cpdb_fetch_all("
 	", array(), $klub_clenove, "klub_ID");
 
 
-cph_table_head(array($lang["club"],$lang["place"],$lang["debaters"],$lang["full members"]),array("class"=>"visible"));
+cph_table_head(array($lang["club"],$lang["place"],$lang["debaters"],$lang["full members"]));
 
 de_html($kluby);
 foreach ($kluby as $klub) {

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.inc,v 1.12 2005/03/19 22:10:33 che0 Exp $
+ * $Id: debata.edit.inc,v 1.13 2005/03/23 20:05:46 che0 Exp $
  */
 
 if ($GLOBALS["cps_debaty"] < 1) {
@@ -259,7 +259,7 @@ cph_h2($lang["adjudicators"] . "/" . $lang["organizers"]);
 // inherited organizers
 if (cpdb_fetch_all("select clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using(clovek_ID) where clovek_turnaj.turnaj_ID = :turnaj_id and clovek_turnaj.role = 'o'", array(":turnaj_id"=>$debata["turnaj_ID"]), $orgs)) {
 	de_html($orgs);
-	cph_table_head(array($lang["role"],$lang["person"]),array("class"=>"visible"));
+	cph_table_head(array($lang["role"],$lang["person"]));
 	foreach ($orgs as $clovek) {
 		cph_table_row(array(
 			$lang["inherited organizer"],

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.19 2005/03/23 13:10:19 che0 Exp $
+ * $Id: tym.inc,v 1.20 2005/03/23 20:05:48 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -81,7 +81,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 		
 		de_html($members);
 		cph_h2($lang["members"]);
-		cph_table_head(array($lang["status"],$lang["person"]),array("class"=>"visible"));
+		cph_table_head(array($lang["status"],$lang["person"]));
 		foreach ($members as $member) {
 			cph_table_row(array(
 				$member["aktivni"] ? $lang["active"] : $lang["disabled"],
@@ -124,7 +124,7 @@ if (cpdb_fetch_all("
 
 	de_html($souteze);
 	cph_h2($lang["competitions"]);
-	cph_table_head(array($lang["competition"],$lang["pts"]."/".$lang["tab value"]),array("class"=>"visible"));
+	cph_table_head(array($lang["competition"],$lang["pts"]."/".$lang["tab value"]));
 	foreach ($souteze as $soutez) {
 		if ($soutez["liga"] == 0) {
 			// cup
@@ -171,7 +171,7 @@ if (cpdb_fetch_all("
 
 	de_html($r_debaty);
 	cph_h2($lang["debates"]);
-	cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["pts"],$lang["gain"],""),array("class"=>"visible"));
+	cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["pts"],$lang["gain"],""));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) {
 			$result = $lang["aff"];

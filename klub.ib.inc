@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.ib.inc,v 1.3 2005/02/19 23:25:07 che0 Exp $
+ * $Id: klub.ib.inc,v 1.4 2005/03/23 20:05:47 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -52,10 +52,7 @@ if (! cpdb_fetch_all("
 cph_p($lang["ranks only for full members"], array("class"=>"note"));
 
 de_html($lide);
-cph_table_head(
-	array($lang["rank"], $lang["name"], $lang["ipoints"]),
-	array("class"=>"visible")
-);
+cph_table_head(array($lang["rank"], $lang["name"], $lang["ipoints"]));
 
 $count = 0; $rank = 1; $pts = -1;
 foreach ($lide as $clovek) {
