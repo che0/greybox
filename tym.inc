@@ -88,8 +88,8 @@ if ($GLOBALS["cps_kluby"] >= 2
 	cph_table_end();
 }
 
-cph_h2($lang["competitions"]);
-cpdb_fetch_all("
+
+if (cpdb_fetch_all("
 	select
 		soutez.soutez_ID,
 		soutez.nazev,
@@ -103,20 +103,21 @@ cpdb_fetch_all("
 	group by
 		soutez.soutez_ID,
 		soutez.nazev
-", array(":tym_id"=>$tym_id), $souteze);
+", array(":tym_id"=>$tym_id), $souteze)) {
 
-de_html($souteze);
-cph_table_head(array($lang["competition"],$lang["pts"]),array("class"=>"visible"));
-foreach ($souteze as $soutez) {
-	cph_table_row(array(
-		cphs_link("./?page=soutez&soutez_id=" . $soutez["soutez_ID"], $soutez["nazev"]),
-		cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["soutez_ID"],$tym_id),$soutez["body"])
-	));
+	de_html($souteze);
+	cph_h2($lang["competitions"]);
+	cph_table_head(array($lang["competition"],$lang["pts"]),array("class"=>"visible"));
+	foreach ($souteze as $soutez) {
+		cph_table_row(array(
+			cphs_link("./?page=soutez&soutez_id=" . $soutez["soutez_ID"], $soutez["nazev"]),
+			cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["soutez_ID"],$tym_id),$soutez["body"])
+		));
+	}
+	cph_table_end();
 }
-cph_table_end();
 
-cph_h2($lang["debates"]);
-cpdb_fetch_all("
+if (cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,
 		tym_aff.nazev as aff_tym,
@@ -141,32 +142,34 @@ cpdb_fetch_all("
 		tym_aff.tym_ID = :tym_id or tym_neg.tym_ID = :tym_id
 	order by
 		datum desc
-	", array(":tym_id"=>$tym_id),$r_debaty);
+	", array(":tym_id"=>$tym_id),$r_debaty)) {
 
-de_html($r_debaty);
-cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],$lang["pts"],""),array("class"=>"visible"));
-foreach ($r_debaty as $debata) {
-	if ($debata["vitez"] == 1) {
-		$result = $lang["aff"];
-	} else {
-		$result = $lang["neg"];
+	de_html($r_debaty);
+	cph_h2($lang["debates"]);
+	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],$lang["pts"],""),array("class"=>"visible"));
+	foreach ($r_debaty as $debata) {
+		if ($debata["vitez"] == 1) {
+			$result = $lang["aff"];
+		} else {
+			$result = $lang["neg"];
+		}
+		$result .= " ";
+		if ($debata["presvedcive"] == 1) {
+			$result .= $lang["3:0"];
+		} else {
+			$result .= $lang["2:1"];
+		}
+		cph_table_row(array(
+			format_date($debata["datum"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
+			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			$result,
+			( $debata["aff_ID"] == $tym_id ) ? $debata["aff_body"] : $debata["neg_body"],
+			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
+		));
 	}
-	$result .= " ";
-	if ($debata["presvedcive"] == 1) {
-		$result .= $lang["3:0"];
-	} else {
-		$result .= $lang["2:1"];
-	}
-	cph_table_row(array(
-		format_date($debata["datum"]),
-		cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
-		cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
-		$result,
-		( $debata["aff_ID"] == $tym_id ) ? $debata["aff_body"] : $debata["neg_body"],
-		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
-	));
+	cph_table_end();
 }
-cph_table_end();
 
 ?>

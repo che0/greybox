@@ -71,13 +71,13 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	cph_p($lang["language"] . ": " . $soutez["jazyk"] . cphs_br()
 		. $lang["season"] . ": " . season_to_str($soutez["rocnik"]));
 	
-	cpdb_fetch_all("select tx, teze.teze_ID from soutez_teze left join teze using (teze_ID) where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id), $r_teze);
-	
-	cph_table_head(array($lang["official resolution"]),array("class"=>"visible"));
-	foreach ($r_teze as $teze) {
-		cph_table_row(array(cphs_link("./?page=teze.detaily&teze_id=" . $teze["teze_ID"], $teze["tx"])));
+	if (cpdb_fetch_all("select tx, teze.teze_ID from soutez_teze left join teze using (teze_ID) where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id), $r_teze)) {
+		cph_table_head(array($lang["official resolution"]),array("class"=>"visible"));
+		foreach ($r_teze as $teze) {
+			cph_table_row(array(cphs_link("./?page=teze.detaily&teze_id=" . $teze["teze_ID"], $teze["tx"])));
+		}
+		cph_table_end();
 	}
-	cph_table_end();
 	
 }
 
