@@ -22,7 +22,7 @@ function cph_tag_single($name, $attr = array()) {
 
 function cph_tag($name, $attr, $content) {
 	cph_tag_start($name, $attr);
-	echo htmlspecialchars($content);
+	echo $content;
 	cph_tag_end($name);
 }
 
@@ -58,5 +58,9 @@ function cph_table_end() {
 
 function cph_link($text, $href, $attr = array()) {
 	cph_tag("a",array_merge(array("href"=>$href), $attr), $text);
+}
+
+function cph_p($text, $attr = array()) {
+	cph_tag("p", $attr, $text);
 }
 ?>
