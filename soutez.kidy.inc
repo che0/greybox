@@ -1,14 +1,22 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.10 2005/02/15 14:47:40 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.11 2005/02/19 23:25:07 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
 $ukaz = isset($_REQUEST["ukaz"]) ? $_REQUEST["ukaz"] : "avg";
 
-$GLOBALS["page"]->title = htmlspecialchars(cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id))) . " / " . $lang["kidy"];
+$soutez_nazev = cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id));
+
+$GLOBALS["page"]->title = htmlspecialchars($soutez_nazev) . " / " . $lang["kidy"];
 pg_head();
+
+$j = ($ukaz == "judges") ? "_rozhodci" : "";
+cph_p(
+	$lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $soutez_id, $soutez_nazev)
+	. cphs_br() . $lang["kidy"] . ": " . cphs_link("./?page=lide&kdo=kidy" . $j, $lang["global rankings"])
+);
 
 cph_switch($lang["list"], "./?page=soutez.kidy&soutez_id=" . $soutez_id . "&ukaz=%s", array("avg"=>$lang["average"], "judges"=>$lang["judges"]), $ukaz);
 

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.55 2005/02/15 14:32:47 che0 Exp $
+ * $Id: czech.php,v 1.56 2005/02/19 23:25:10 che0 Exp $
  * czech language definition file
  */
 
@@ -320,4 +320,5 @@ $lang['15-18'] = '15-18';
 $lang['18-26'] = '18-26';
 $lang['26+'] = '26+';
 $lang['stddev'] = 'odchylka';
+$lang['global rankings'] = 'globální přehled';
 ?>

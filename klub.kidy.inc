@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.kidy.inc,v 1.1 2005/02/15 14:33:34 che0 Exp $
+ * $Id: klub.kidy.inc,v 1.2 2005/02/19 23:25:07 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -12,12 +12,16 @@ if ($klub_nazev === false) {
 	return;
 }
 
-$GLOBALS["page"]->title = $klub_nazev . " / " . $lang["kidy overview"];
+$GLOBALS["page"]->title = htmlspecialchars($klub_nazev) . " / " . $lang["kidy overview"];
 
 pg_head();
 
-// show individual rankings
+cph_p(
+	$lang["club"] . ": " . cphs_link("./?page=klub&klub_id=" . $klub_id, $klub_nazev)
+	. cphs_br() . $lang["kidy"] . ": " . cphs_link("./?page=lide&kdo=kidy", $lang["global rankings"])
+);
 
+// show individual rankings
 if (! cpdb_fetch_all("
 	select
 		clovek.clovek_ID,
