@@ -13,20 +13,20 @@ array ($lang);
 switch ($_SESSION['language']) {
 	case 'cz':
 		$GLOBALS["page"]->language="cz";
-		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;lang=en&von=%s">en</a>', $url_von);
+		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;jazyk=en&von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
 
 	case 'en':
-		$GLOBALS["page"]->language="en-us";
-		$GLOBALS["page"]->lang_block = sprintf('<a href="./?page=language&amp;lang=cz&amp;von=%s">cz</a> | en', $url_von);
+		$GLOBALS["page"]->language="en";
+		$GLOBALS["page"]->lang_block = sprintf('<a href="./?page=language&amp;jazyk=cz&amp;von=%s">cz</a> | en', $url_von);
 		require('languages/english.php');
 	break;
 	
 	default:
 		// = cz, set cz
 		$GLOBALS["page"]->language="cz";
-		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;lang=en&amp;von=%s">en</a>', $url_von);
+		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;jazyk=en&amp;von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
 }
