@@ -17,7 +17,7 @@ $rocnik = $_REQUEST["rocnik"];
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into clovek_klub (clovek_ID, klub_ID, role, rocnik) values (:clovek_id, :klub_id, :role, :rocnik)", array(":clovek_id"=>$clovek_id, ":klub_id"=>$klub_id, ":role"=>$role, ":rocnik"=>$rocnik))) {
-		ipts_recount_clovek_role($clovek_id, "trener");
+		ipts_recount_klub($klub_id);
 		pg_achtung($lang["coach update ok"]);
 		include("klub.inc");
 	}
@@ -26,7 +26,8 @@ if (isset($_REQUEST["add"])) {
 	// update
 	
 	if (cpdb_exec("update clovek_klub set clovek_ID = :clovek_id, role = :role, rocnik = :rocnik where ck_ID = :ck_id and klub_id = :klub_id", array(":clovek_id"=>$clovek_id, ":rocnik"=>$rocnik, ":ck_id"=>$ck_id, ":role"=>$role, ":klub_id"=>$klub_id))) {
-		ipts_recount_clovek_role($clovek_id, "trener");
+		ipts_recount_klub($klub_id);
+		ipts_recount_clovek($clovek_id);
 		pg_achtung($lang["coach update ok"]);
 		include("klub.inc");
 	}
@@ -35,7 +36,7 @@ if (isset($_REQUEST["add"])) {
 	// delete
 	
 	if (cpdb_exec("delete from clovek_klub where ck_ID = :ck_id and klub_ID = :klub_id", array(":ck_id"=>$ck_id, ":klub_id"=>$klub_id))) {
-		ipts_recount_clovek_role($clovek_id, "trener");
+		ipts_recount_clovek($clovek_id);
 		pg_achtung($lang["coach update ok"]);
 		include("klub.inc");
 	}

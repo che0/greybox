@@ -84,6 +84,22 @@ function ipts_recount_clovek_role($clovek_id, $role) {
 	ipts_recount_clovek($clovek_id);
 }
 
+function ipts_recount_klub($klub_id) {
+	// vycisti a prepocita vsechny debaty, kde jsou lidi z klubu
+	cpdb_fetch_all("
+		select distinct
+			debata_ID
+		from
+			clovek
+			left join clovek_debata using (clovek_ID)
+		where
+			clovek.klub_ID = :klub_id
+	", array(":klub_id"=>$klub_id), $debaty);
+	foreach ($debaty as $debata) {
+		iptsr_internal_deb($debata["debata_ID"]);
+	}
+}
+
 function ipts_recount_clovek($clovek_id) {
 	// vycisti a prepocita vsechny ibody pro cloveka
 	cpdb_fetch_all("
@@ -103,6 +119,13 @@ function ipts_recount_clovek($clovek_id) {
 		where
 			clovek_turnaj.clovek_ID = :clovek_id
 			and clovek_turnaj.role = 'o'
+		union distinct
+		select distinct
+			debata_ID
+		from
+			clovek_debata_ibody
+		where
+			clovek_ID = :clovek_id
 	", array(":clovek_id"=>$clovek_id), $debaty);
 	foreach ($debaty as $debata) {
 		iptsr_internal_deb($debata["debata_ID"]);
