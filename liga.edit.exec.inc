@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.edit.exec.inc,v 1.1 2005/03/22 18:18:22 che0 Exp $
+ * $Id: liga.edit.exec.inc,v 1.2 2005/03/25 12:56:20 che0 Exp $
  */
 
 if ($GLOBALS["cps_souteze"] < 2) {
@@ -9,7 +9,7 @@ if ($GLOBALS["cps_souteze"] < 2) {
 	return;
 }
 
-$liga_id = $_REQUEST["soutez_id"];
+$liga_id = $_REQUEST["liga_id"];
 $nazev = $_REQUEST["nazev"];
 $rocnik = $_REQUEST["rocnik"];
 $komentar = $_REQUEST["komentar"];
