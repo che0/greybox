@@ -51,10 +51,13 @@ class cpykhen {
 	}
 	
 	function render() {
+		if (!isset($this->form_attr["action"])) $this->form_attr["action"] = "";
 		cph_tag_start("form",$this->form_attr);
+		cph_tag_start("div",array("class"=>"in_form"));
 		foreach ($this->form as $element=>$neco) {
 			$this->form[$element]->render();
 		}
+		cph_tag_end("div");
 		cph_tag_end("form");
 		cph_nl();
 	}
@@ -65,9 +68,9 @@ class cpykhen {
 	$form_id = "hidden_form_" . $GLOBALS["hidden_forms"];
 	cph_tag_start("div",array("id"=>$form_id));
 	cph_tag_start("div",array("id"=>$form_id . "_b","style"=>"visibility: hidden; position: absolute; z-index:1"));
-	cph_tag_start("form");
+	cph_tag_start("form",array("action"=>""));cph_tag_start("div");
 	cph_tag_single("input", array ("type" => "button", "value" => $button_title, "onclick" => "c_hide('" . $form_id . "_b'); c_show('" . $form_id . "')"));
-	cph_tag_end("form");
+	cph_tag_end("div");cph_tag_end("form");
 	cph_tag_end("div");
 	
 	$this->render();

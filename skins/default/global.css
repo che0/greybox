@@ -17,7 +17,12 @@ a {
 	text-decoration: underline;
 }
 
+img {
+	border: none;
+}
+
 div#main_title {
+	/* main title area */
 	height: 44px;
 	width: 100%;
 	padding: 0px;
@@ -29,7 +34,18 @@ div#main_title {
 	border-bottom-color: #cbcdca;
 }
 
-span#main_title_text {
+div#main_title img#logo_main {
+	/* main logo */
+}
+
+div#main_title img#logo_right {
+	/* supplemental logo */
+	float: right;
+	margin-right: 5px;
+}
+
+div#main_title span#main_title_text {
+	/* page title text */
 	display: block;
 	position: absolute;
 	top: 20px;
@@ -39,6 +55,7 @@ span#main_title_text {
 }
 
 div#leftblock {
+	/* left navigation block */
 	float: left;
 	width: 180px;
 	padding: 10px;
@@ -49,22 +66,41 @@ div#leftblock p.link {
 	margin-bottom: 0px;
 }
 
+div#leftblock div#infoblock {
+	margin-bottom: 10px;
+}
+
+div#leftblock span#language_info,
+div#leftblock span#season_info {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+div#leftblock p#login_info  {
+	margin-top: 3px;
+}
+
+
 div#mainbody {
+	/* main body area */
 	margin-left: 200px;
 	padding: 10px;
 }
 
-div#footnote {
+div#mainbody div#footnote {
+	/* footnote in the main body area */
 	margin-top: 20px;
 	font-size: x-small;
 	color: #dbddda;
 }
-div#footnote a {
+
+div#mainbody div#footnote a {
 	text-decoration: none;
 	color: #cbcdca;
 }
 
 table.visible td, table.visible th {
+	/* styles for tables that should be visible */
 	border-bottom-style: dotted;
 	border-bottom-width: 1px;
 	border-bottom-color: #cbcdca;
@@ -74,10 +110,12 @@ table.visible td, table.visible th {
 }
 
 td.sieg, th.sieg {
+	/* emphasis of the winning team in debate info table */
 	background-color: #dcffd5;
 }
 
 tr.inactive {
+	/* de-emphasized row */
 	color: #aaaca9;
 }
 
@@ -94,6 +132,10 @@ form span.p_h2 {
 	display: block;
 	font-size: 1.2em;
 	padding-top: 7px;
+}
+
+form div.in_form {
+	/* div contained in the form element */
 }
 
 form p {
@@ -117,17 +159,4 @@ div.warning {
 	padding-bottom: 1px;
 	padding-left: 3px;
 	padding-right: 3px;
-}
-
-div#infoblock {
-	margin-bottom: 10px;
-}
-
-span#language_info, span#season_info {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-p#login_info  {
-	margin-top: 3px;
 }
