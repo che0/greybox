@@ -140,7 +140,7 @@ cph_tag("tr",array(),
 	. cphs_tag("td", $a_sieg, cphs_link("./?page=clovek&clovek_id=" . $recnik["a3"]["clovek_ID"], join_name($recnik["a3"]["jmeno"],$recnik["a3"]["nick"],$recnik["a3"]["prijmeni"])))
 	. cphs_tag("td", $a_sieg, $recnik["a3"]["kidy"])
 	. cphs_tag("td", $n_sieg, cphs_link("./?page=clovek&clovek_id=" . $recnik["n3"]["clovek_ID"], join_name($recnik["n3"]["jmeno"],$recnik["n3"]["nick"],$recnik["n3"]["prijmeni"])))
-	. cphs_tag("td", $n_sieg, $recnik["n2"]["kidy"])
+	. cphs_tag("td", $n_sieg, $recnik["n3"]["kidy"])
 ); cph_nl();
 cph_tag_end("table");
 
