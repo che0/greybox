@@ -12,6 +12,7 @@
 <div id="main_title"><img src="skins/default/images/titul.png" width="288" height="44" alt="{page_title}"><span id="main_title_text">{pure_title}</span></div>
 <div id="leftblock"><p class="login_info">{login_info}</p>
 <p class="link"><a href="./">root</a></p>
+<p class="link"><a href="clovek.php?akce=vsichni">{link_everyone}</a></p>
 </div><div id="mainbody">
 <!-- END head -->
 

@@ -1,3 +1,3 @@
 <?php
-// nothing yet
+mysql_close($db_link);
 ?>

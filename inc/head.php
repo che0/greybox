@@ -1,19 +1,18 @@
 <?php
-// pre init
-$setup = array();
-
 /******************************************************************
 	you configure this
 */
 
-$setup['db_host'] = 'localhost';
-$setup['db_name'] = 'greybox';
+$setup['db_server'] = 'localhost';
+$setup['db_database'] = 'greybox';
 $setup['db_user'] = 'greybox';
-$setup['db_passwd'] = 'greybox';
+$setup['db_password'] = 'greybox';
 
 $setup['global_title'] = 'greybox';
 $setup['global_lang'] = 'english';
 $setup['global_skin'] = 'default';
+
+$setup['current_season'] = 0; // = 2000/2001
 
 /******************************************************************
 	some initialisation
@@ -21,6 +20,7 @@ $setup['global_skin'] = 'default';
 
 
 require('inc/functions.php');
+
 
 require('inc/template.php');
 
@@ -35,5 +35,12 @@ $lang = array();
 require('languages/' . $setup['global_lang'] . '.php');
 
 require('inc/session.php');
-?>
 
+// connect do the database
+$db_link = mysql_connect($setup['db_server'], $setup['db_user'], $setup['db_password']) or die($lang['no database']);
+mysql_select_db ($setup['db_database'], $db_link);
+
+// language for linkblock
+$template->editvar('link_everyone',$lang['link_everyone']);
+
+?>

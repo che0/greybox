@@ -19,4 +19,28 @@ function print_body_messages()
 	global $body_messages;
 	echo $body_messages;
 }
+
+function join_name($first, $nick, $last)
+{
+	if ($nick != "") {
+		return $first . ' "' . $nick . '" ' . $last;
+	} else {
+		return $first . ' ' . $last;
+	}
+}
+
+function print_comment($comment)
+{
+	if ($comment != "") {
+		// can later make ot process bbcode
+		echo '<div class="comment">' . htmlspecialchars($comment) . '</div>';
+	}
+}
+
+function get_current_season()
+{
+	// can be later improved with season selection
+	global $setup;
+	return $setup['current_season'];
+}
 ?>

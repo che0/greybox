@@ -1,17 +1,14 @@
 individual points: http://www.debating.net/ADK/Vysledky/JP04.htm + mails
 
 TODO:
-sessions, login, nastaveni promennych (+ prava_teze)
 pocitani sezony a prevod sezony na string
-prevod jmen cloveka na jeden string
-fce pro vypis komentare (plaintext, posleze asi s bbkodem) (bude na to blok v sablone, kdyz bude null tak se vubec nevypisuje)
 udrzovani mesic stareho timestampu pro porovnavani uprav debat
 prepocitavani IB a vitezstvi debaty
 kontrola integrity
 
 clovek:
 	seznam podle jmena (+obecne klub a tymy) filtr (aktivni debater|aktivni rozhodci)
-	seznam podle IB s tymy a filtrem na vek a klub
+	seznam podle IB s tymy a filtrem na vek
 	vypis jednoho s kontakty podle stupne uverejneni
 	ve vypisu i akreditace, poradani turnaju, trenerstvi a ucast na debatach
 	pridani noveho, editace

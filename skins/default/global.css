@@ -15,6 +15,9 @@ div#main_title {
 	margin: 0px;
 	background-color: #fdfffc;
 	background-image: url('images/titlebg.png');
+	border-bottom-style: dotted;
+	border-bottom-width: 1px;
+	border-bottom-color: #cbcdca;
 }
 
 span#main_title_text {
@@ -30,6 +33,11 @@ div#leftblock {
 	float: left;
 	width: 180px;
 	padding: 10px;
+}
+
+div#leftblock p.link {
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 div#mainbody {
