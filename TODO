@@ -10,7 +10,6 @@ kontrola integrity
 language.php
 
 clovek:
-	pridani na ?page=clovek.add&klub_id=...
 	seznam podle IB s tymy a filtrem na vek
 	u cloveka vypisu poradani turnaju a prehled IB
 	editace akreditaci

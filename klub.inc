@@ -63,7 +63,7 @@ cph_table_end();
 cph_h2($lang['members']);
 
 if ($can_edit) {
-	cph_p(cphs_link("./?page=clovek&akce=pridej&klub=" . $klub_id ,$lang['add person']));
+	cph_p(cphs_link("./?page=clovek.add&klub_id=" . $klub_id ,$lang['add person']));
 }
 
 cpdb_fetch_all("
