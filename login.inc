@@ -40,12 +40,12 @@ pg_head();
 pg_flush_achtungs();
 
 if (! $_SESSION['is_logged_in']) printf('
-<p><form id="loginform" action="./?page=login" method="post">
-%s: <input type="text" name="username" value="%s"><br>
-%s: <input type="password" name="password"><br>
-<input type="hidden" name="action" value="login">
-<input type="hidden" name="von" value="%s">
-<input type="submit" value="ok">
-</form></p>',$lang['username'], $login_default_name, $lang['password'], $login_von);
+<form id="loginform" action="./?page=login" method="post"><div>
+%s: <input type="text" name="username" value="%s" /><br />
+%s: <input type="password" name="password" /><br />
+<input type="hidden" name="action" value="login" />
+<input type="hidden" name="von" value="%s" />
+<input type="submit" value="ok" />
+</div></form>',$lang['username'], $login_default_name, $lang['password'], $login_von);
 
 ?>
