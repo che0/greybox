@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.add.inc,v 1.5 2005/01/09 00:53:08 che0 Exp $
+ * $Id: debata.add.inc,v 1.6 2005/03/23 14:46:15 che0 Exp $
  */
 
 if ($GLOBALS["cps_debaty"] < 1) {
@@ -107,8 +107,8 @@ $dpyk->form[] = new cpf_text($lang["tournament"] . ": ");
 $dpyk->form[] = new cpf_db_listbox("turnaj_id", $sdomain_turnaje, "turnaj_ID");
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["date"] . ": ");
-$dpyk->form[] = new cpf_db_textbox("datum","datum",array("size"=>"11"));
-$dpyk->form[] = new cpf_text(" " . $lang["yyyy-mm-dd"],array("class"=>"desc"));
+$dpyk->form[] = new cpf_db_textbox("datum","datum",array("size"=>"20"));
+$dpyk->form[] = new cpf_text(" " . $lang["yyyy-mm-dd hh:mm:ss"],array("class"=>"desc"));
 $dpyk->form[] = new cpf_nl;
 $dpyk->form[] = new cpf_text($lang["place"] . ": ");
 $dpyk->form[] = new cpf_db_textbox("misto");
