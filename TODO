@@ -8,7 +8,7 @@ kontrola integrity
 
 clovek:
 	seznam podle IB s tymy a filtrem na vek
-	ve cloveka vypisu i akreditace, poradani turnaju, trenerstvi a ucast na debatach
+	u cloveka vypisu poradani turnaju a prehled IB
 	pridani noveho, editace
 	editace vlastnich udaju
 
@@ -29,8 +29,8 @@ turnaj:
 	editace/pridani turnaje, nastaveni organizatoru
 
 tym:
-	vypis aktivnich i neaktivnich clenu s body
-	vypis debat podle soutezi se ziskanymi body (razeni podle sozeny desc)
+	vypis aktivnich i neaktivnich clenu
+	vypis debat podle soutezi se ziskanymi body (tymu) (razeni podle sezony desc, datum_od desc, debaty pak podle data)
 	pridani/editace tymu (muze admin klubu, jeho clenove muzou upravovat popis)
 
 debata:

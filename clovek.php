@@ -16,6 +16,21 @@ $template->editvar('everyone',$lang['everyone']);
 $template->editvar('judges',$lang['judges']);
 $template->editvar('debaters',$lang['debaters']);
 $template->editvar('contacts',$lang['contacts']);
+$template->editvar('debates',$lang['debates']);
+$template->editvar('date',$lang['date']);
+$template->editvar('affirmative',$lang['affirmative']);
+$template->editvar('negative',$lang['negative']);
+$template->editvar('result',$lang['result']);
+$template->editvar('season',$lang['season']);
+$template->editvar('accreditations',$lang['accreditations']);
+$template->editvar('tournaments',$lang['tournaments']);
+$template->editvar('date_from',$lang['date_from']);
+$template->editvar('date_to',$lang['date_to']);
+$template->editvar('title',$lang['title']);
+$template->editvar('judging',$lang['judging']);
+$template->editvar('coarching',$lang['coarching']);
+$template->editvar('total',$lang['total']);
+$template->editvar('ipoints_long',$lang['ipoints_long']);
 
 switch ($_POST['akce']) {
 	// nothing yet
@@ -167,6 +182,10 @@ switch ($_GET['akce']) {
 		echo $template->make('clovek_list_judges_tail');
 		break;
 
+	case 'dummy':
+		// does nothing, can be set above
+		break;
+
 	default:
 		if ($_GET['id'] == "") {
 			$_GET['id'] = $_SESSION['user_clovek_ID'];
@@ -191,35 +210,51 @@ switch ($_GET['akce']) {
 			print_comment($result2['komentar']);
 
 			// club
-			echo sprintf("<h2>%s</h2>",$lang['club']);
 			$got_club = 0;
 			if ($result2['klub_ID']) {
 				$query = sprintf('select nazev from klub where klub_ID = %s', $result2['klub_ID']);
 				$result = mysql_query($query);
 				if ($result3 = mysql_fetch_array($result)) {
-					$got_club = 1;
-					printf('<p class="klub">%s: <a href="klub.php?id=%s">%s</a></p>',$lang['member'], $result2['klub_ID'], $result3['nazev']);
+					if (!$got_club) {
+						echo $template->make('clovek_detail_kluby_head');
+						$got_club = 1;
+					}
+					$template->editvar('line_role',$lang['member']);
+					$template->editvar('line_club',sprintf('<a href="klub.php?id=%s">%s</a>', $result2['klub_ID'], $result3['nazev']));
+					$template->editvar('line_season',season_to_str(get_current_season()));
+					echo $template->make('clovek_detail_kluby_line');
 				}
 			}
 			// club positions
 			$query = sprintf('select klub.nazev as a_nazev, klub.klub_ID as a_klub_ID, clovek_klub.rocnik as a_rocnik, clovek_klub.role as a_role from clovek_klub left join klub using (klub_ID) where clovek_klub.clovek_ID = %s order by clovek_klub.rocnik desc',$result2['clovek_ID']);
 			$result = mysql_query($query);
 			while ($result3 = mysql_fetch_array($result)) {
-				$got_club = 1;
+				if (!$got_club) {
+					echo $template->make('clovek_detail_kluby_head');
+					$got_club = 1;
+				}
 				switch ($result3['a_role']) {
 					case 't':
 						$role = $lang['coach'];
 						break;
 				}
-				printf('<p class="klub">%s: <a href="klub.php?id=%s">%s</a> (%s)</p>', $role, $result3['a_klub_ID'], $result3['a_nazev'], season_to_str($result3['a_rocnik']));
+				$template->editvar('line_role',$role);
+				$template->editvar('line_club',sprintf('<a href="klub.php?id=%s">%s</a>', $result3['a_klub_ID'], $result3['a_nazev']));
+				$template->editvar('line_season',season_to_str($result3['a_rocnik']));
+				echo $template->make('clovek_detail_kluby_line');
+
 			}
-			if (! $got_club) { printf ('<p class="klub">%s</p>',$lang['no records']); }
+			if ($got_club) {
+				echo $template->make('clovek_detail_kluby_tail');
+			}
 			
 			// contacts
 			$query = sprintf('select druh, tx from kontakt where clovek_ID = %s and viditelnost <= %s order by druh',$result2['clovek_ID'],$adjacency);
 			$result = mysql_query($query);
 
-			echo $template->make('clovek_detail_kontakty_head');
+			if (mysql_num_rows($result) > 0) {
+				echo $template->make('clovek_detail_kontakty_head');
+			}
 			while ($result3 = mysql_fetch_array($result)) {
 				switch ($result3['druh']) {
 					case 'telefon':
@@ -249,11 +284,58 @@ switch ($_GET['akce']) {
 				}
 				echo $template->make('clovek_detail_kontakty_line');
 			}
-			if (mysql_num_rows($result) == 0) {
-				echo $template->make('clovek_detail_kontakty_empty');
+			if (mysql_num_rows($result) > 0) {
+				echo $template->make('clovek_detail_kontakty_tail');
 			}
-			echo $template->make('clovek_detail_kontakty_tail');
+
+			// accreditations
+			$query = sprintf('select rozhodci.rocnik as a_rocnik, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, sum(clovek_debata_ibody.ibody_rozhodci) as a_ibody from rozhodci left join clovek_debata_ibody on rozhodci.rocnik = clovek_debata_ibody.rocnik and rozhodci.clovek_ID = clovek_debata_ibody.clovek_ID where rozhodci.clovek_ID = %s group by a_rocnik, a_misto, a_jazyk order by a_rocnik desc',$result2['clovek_ID']);
+			$result = mysql_query($query);
+
+			if (mysql_num_rows($result) > 0) {
+				echo $template->make('clovek_detail_akreditace_head');
+			}
+			while ($result3 = mysql_fetch_array($result)) {
+				$template->editvar('line_season',season_to_str($result3['a_rocnik']));
+				$template->editvar('line_languages',$result3['a_jazyk']);
+				$template->editvar('line_place',$result3['a_misto']);
+				$template->editvar('line_ipoints',$result3['a_ibody']);
+				echo $template->make('clovek_detail_akreditace_line');
+			}
+			if (mysql_num_rows($result) > 0) {
+				echo $template->make('clovek_detail_akreditace_tail');
+			}
+
+			// tournaments (org)
+			// TODO
+
+			// points overview
+			// TODO
+
+			// debates
+			$query = 'select debata.debata_ID as a_debata_ID, debata.datum as a_datum, clovek_debata.role as a_role, tym_aff.nazev as a_aff_nazev, tym_aff.tym_ID as a_aff_ID, tym_neg.nazev as a_neg_nazev, tym_neg.tym_ID as a_neg_ID, debata.vitez as a_vitez, sum(clovek_debata_ibody.ibody_debater) as a_ibody';
+			$query .= ' from clovek_debata left join debata using(debata_ID) left join debata_tym as dt_aff on debata.debata_ID = dt_aff.debata_ID left join tym as tym_aff on dt_aff.tym_ID = tym_aff.tym_ID left join debata_tym as dt_neg on debata.debata_ID = dt_neg.debata_ID left join tym as tym_neg on dt_neg.tym_ID = tym_neg.tym_ID left join clovek_debata_ibody on clovek_debata.clovek_ID = clovek_debata_ibody.clovek_ID and debata.debata_ID = clovek_debata_ibody.debata_ID';
+			$query .= sprintf(' where clovek_debata.clovek_ID = %s and dt_aff.pozice = 1 and dt_neg.pozice = 0',$result2['clovek_ID']);
+			$query .= ' group by a_debata_ID, a_datum, a_role, a_aff_nazev, a_aff_ID, a_neg_nazev, a_neg_ID, a_vitez';
+			$query .= ' order by a_datum desc';
+			$result = mysql_query($query);
+
+			if (mysql_num_rows($result) > 0) {
+				echo $template->make('clovek_detail_debaty_head');
+			}
+			while ($result3 = mysql_fetch_array($result)) {
+				$template->editvar('line_date',sprintf('<a href="debata.php?id=%s">%s</a>',$result3['a_debata_ID'],format_date($result3['a_datum'])));
+				$template->editvar('line_affirmative', sprintf('<a href="tym.php?id=%s">%s</a>',$result3['a_aff_ID'],$result3['a_aff_nazev']));
+				$template->editvar('line_negative', sprintf('<a href="tym.php?id=%s">%s</a>',$result3['a_neg_ID'],$result3['a_neg_nazev']));
+				$template->editvar('line_result',$result3['a_vitez'] ? $lang['affirmative'] : $lang['negative']);
+				$template->editvar('line_ipoints',$result3['a_ibody']);
+				echo $template->make('clovek_detail_debaty_line');
+			}
+			if (mysql_num_rows($result) > 0) {
+				echo $template->make('clovek_detail_debaty_tail');
+			}
 			
+			// end of 'we found the man'
 			
 		} else {
 			body_message($lang['no records']);
@@ -262,6 +344,7 @@ switch ($_GET['akce']) {
 			echo $template->make('head');
 			print_body_messages();
 		}	
+		// end of
 		break;
 }
 
