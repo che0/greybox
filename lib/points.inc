@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: points.inc,v 1.12 2005/01/10 00:09:51 che0 Exp $
+ * $Id: points.inc,v 1.13 2005/01/10 00:41:31 che0 Exp $
  */
 
 function iptsr_internal_deb($debata_id) {
@@ -156,6 +156,16 @@ function ipts_recount_clovek($clovek_id) {
 function ipts_recount_debate($debata_id) {
 	// vycisti a prepocita vsechny ibody pro debatu
 	iptsr_internal_deb($debata_id);
+}
+
+function ipts_recount_turnaj($turnaj_id) {
+	// vycisti a prepocita vsechny ibody pro turnaj
+	cpdb_fetch_all("select debata_ID from debata where turnaj_ID = :turnaj_id",
+		array(":turnaj_id"=>$turnaj_id), $debaty);
+	
+	foreach ($debaty as $debata) {
+		iptsr_internal_deb($debata["debata_ID"]);
+	}
 }
 
 function ipts_recount() {
