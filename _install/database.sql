@@ -30,6 +30,51 @@ CREATE TABLE clovek (
 ) TYPE=MyISAM;
 
 --
+-- Table structure for table `clovek_ibody`
+--
+
+CREATE TABLE clovek_ibody (
+  ci_ID int(10) unsigned NOT NULL auto_increment,
+  clovek_ID int(10) unsigned NOT NULL default '0',
+  rocnik tinyint(3) unsigned NOT NULL default '0',
+  ibody_debater decimal(5,2) default NULL,
+  ibody_rozhodci decimal(5,2) default NULL,
+  ibody_trener decimal(5,2) default NULL,
+  ibody_organizator decimal(5,2) default NULL,
+  PRIMARY KEY  (ci_ID),
+  KEY clovek_ID (clovek_ID)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `clovek_klub`
+--
+
+CREATE TABLE clovek_klub (
+  ck_ID int(10) unsigned NOT NULL auto_increment,
+  clovek_ID int(10) unsigned NOT NULL default '0',
+  klub_ID int(10) unsigned NOT NULL default '0',
+  rocnik tinyint(3) unsigned NOT NULL default '0',
+  role enum('t') NOT NULL default 't',
+  PRIMARY KEY  (ck_ID),
+  KEY clovek_ID (clovek_ID),
+  KEY klub_ID (klub_ID)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `clovek_turnaj`
+--
+
+CREATE TABLE clovek_turnaj (
+  ct_ID int(10) unsigned NOT NULL auto_increment,
+  clovek_ID int(10) unsigned NOT NULL default '0',
+  turnaj_ID int(10) unsigned NOT NULL default '0',
+  role enum('o') NOT NULL default 'o',
+  PRIMARY KEY  (ct_ID),
+  KEY clovek_ID (clovek_ID),
+  KEY turnaj_ID (turnaj_ID)
+) TYPE=MyISAM;
+
+--
 -- Table structure for table `clovek_tym`
 --
 
@@ -50,6 +95,7 @@ CREATE TABLE clovek_tym (
 CREATE TABLE debata (
   debata_ID int(10) unsigned NOT NULL auto_increment,
   soutez_ID int(10) unsigned NOT NULL default '0',
+  turnaj_ID int(10) unsigned default NULL,
   teze_ID int(10) unsigned NOT NULL default '0',
   datum date NOT NULL default '0000-00-00',
   misto varchar(255) default NULL,
@@ -57,7 +103,8 @@ CREATE TABLE debata (
   vitez tinyint(1) NOT NULL default '0',
   presvedcive tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (debata_ID),
-  KEY soutez_ID (soutez_ID)
+  KEY soutez_ID (soutez_ID),
+  KEY turnaj_ID (turnaj_ID)
 ) TYPE=MyISAM;
 
 --
@@ -68,10 +115,11 @@ CREATE TABLE debata_clovek (
   dc_ID int(10) unsigned NOT NULL auto_increment,
   debata_ID int(10) unsigned NOT NULL default '0',
   clovek_ID int(10) unsigned NOT NULL default '0',
-  pozice enum('r','a1','a2','a3','n1','n2','n3') NOT NULL default 'r',
+  role enum('r','o','a1','a2','a3','n1','n2','n3') NOT NULL default 'r',
   kidy tinyint(3) unsigned default NULL,
   rozhodnuti tinyint(1) default NULL,
   presvedcive tinyint(1) default NULL,
+  ibody decimal(5,2) default NULL,
   PRIMARY KEY  (dc_ID),
   KEY debata_ID (debata_ID),
   KEY clovek_ID (clovek_ID)
@@ -171,6 +219,22 @@ CREATE TABLE teze (
   komentar blob,
   PRIMARY KEY  (teze_ID),
   KEY jazyk (jazyk)
+) TYPE=MyISAM;
+
+--
+-- Table structure for table `turnaj`
+--
+
+CREATE TABLE turnaj (
+  turnaj_ID int(10) unsigned NOT NULL auto_increment,
+  soutez_ID int(10) unsigned NOT NULL default '0',
+  nazev varchar(255) NOT NULL default '',
+  datum_od date NOT NULL default '0000-00-00',
+  datum_do date NOT NULL default '0000-00-00',
+  komentar blob,
+  PRIMARY KEY  (turnaj_ID),
+  KEY soutez_ID (soutez_ID),
+  KEY datum_od (datum_od)
 ) TYPE=MyISAM;
 
 --
