@@ -63,7 +63,7 @@ CREATE TABLE clovek (
 CREATE TABLE soutez (
   soutez_ID int(10) unsigned NOT NULL auto_increment,
   rocnik tinyint(3) unsigned NOT NULL default '0',
-  jazyk enum('cz','en','de','fr') default NULL,
+  jazyk enum('cz','en','de','fr') character set utf8 NOT NULL default 'cz',
   nazev varchar(255) NOT NULL default '',
   komentar blob,
   zamceno tinyint(1) NOT NULL default '0',
@@ -155,7 +155,7 @@ CREATE TABLE clovek_klub (
   clovek_ID int(10) unsigned NOT NULL default '0',
   klub_ID int(10) unsigned NOT NULL default '0',
   rocnik tinyint(3) unsigned NOT NULL default '0',
-  role enum('t') NOT NULL default 't',
+  role enum('t') character set utf8 NOT NULL default 't',
   PRIMARY KEY  (clovek_ID, klub_ID, rocnik),
   KEY clovek_ID (clovek_ID),
   KEY klub_ID (klub_ID),
@@ -170,7 +170,7 @@ CREATE TABLE clovek_klub (
 CREATE TABLE clovek_turnaj (
   clovek_ID int(10) unsigned NOT NULL default '0',
   turnaj_ID int(10) unsigned NOT NULL default '0',
-  role enum('o') NOT NULL default 'o',
+  role enum('o') character set utf8 NOT NULL default 'o',
   mocnost tinyint(3) unsigned NOT NULL default '1',
   PRIMARY KEY  (clovek_ID, turnaj_ID),
   KEY clovek_ID (clovek_ID),
@@ -218,7 +218,7 @@ CREATE TABLE debata_tym (
 CREATE TABLE kontakt (
   kontakt_ID int(10) unsigned NOT NULL auto_increment,
   clovek_ID int(10) unsigned NOT NULL default '0',
-  druh enum('telefon','email','adresa','icq','jabber','web') NOT NULL default 'telefon',
+  druh enum('telefon','email','adresa','icq','jabber','web') character set utf8 NOT NULL default 'telefon',
   tx varchar(255) NOT NULL default '',
   viditelnost tinyint(3) unsigned NOT NULL default '1',
   PRIMARY KEY  (kontakt_ID),
@@ -259,7 +259,7 @@ CREATE TABLE rozhodci (
 
 CREATE TABLE teze (
   teze_ID int(10) unsigned NOT NULL auto_increment,
-  jazyk enum('cz','en','de','fr') NOT NULL default 'cz',
+  jazyk enum('cz','en','de','fr') character set utf8 NOT NULL default 'cz',
   tx varchar(255) NOT NULL default '',
   komentar blob,
   PRIMARY KEY  (teze_ID),
