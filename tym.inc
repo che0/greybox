@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.16 2005/01/09 14:58:52 che0 Exp $
+ * $Id: tym.inc,v 1.17 2005/01/15 15:14:12 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -42,10 +42,9 @@ if ($GLOBALS["cps_kluby"] >= 2
 	
 	$members = new cpykhen;
 	$members->form_attr["action"] = "./?page=tym.clovek.edit.exec";
-	$members->select = "select clovek_tym.ct_ID as ct_ID, clovek_tym.clovek_ID, clovek_tym.tym_ID, clovek_tym.aktivni, concat_ws(' ', clovek.jmeno, clovek.nick, clovek.prijmeni) as clovek from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc";
+	$members->select = "select clovek_tym.clovek_ID, clovek_tym.tym_ID, clovek_tym.aktivni, concat_ws(' ', clovek.jmeno, clovek.nick, clovek.prijmeni) as clovek from clovek_tym left join clovek using(clovek_ID) where tym_ID = :tym_id order by aktivni desc";
 	$members->select_args = array(":tym_id"=>$tym_id);
 	$members->form["tid"] = new cpf_db_hidden("tym_id","tym_ID");
-	$members->form[] = new cpf_db_hidden("ct_id","ct_ID");
 	$members->form["clovek"] = new cpf_db_text("clovek");
 	$members->form["clovek2"] = new cpf_db_hidden("clovek_id","clovek_ID");
 	$members->form["clovek3"] = new cpf_text(" ");

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.pw.edit.exec.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ * $Id: clovek.pw.edit.exec.inc,v 1.6 2005/01/15 15:14:12 che0 Exp $
  */
 
 if($_REQUEST["n1"] != $_REQUEST["n2"]) {
@@ -15,7 +15,6 @@ if($_REQUEST["n1"] == "" && !isset($_REQUEST["delete"])) {
 
 }
 
-$login_id = $_REQUEST["login_id"];
 $clovek_id = $_REQUEST["clovek_id"];
 $username = $_REQUEST["username"];
 $pw_n = md5($_REQUEST["n1"]);
@@ -60,20 +59,20 @@ if (isset($_REQUEST["password"])) {
 		}
 		
 	} elseif (isset($_REQUEST["save"])) {
-		if (cpdb_fetch_one_value("select count(*) from login where username = :username and login_ID != :login_id",array(":username"=>$username, ":login_id"=>$login_id)) > 0) {
+		if (cpdb_fetch_one_value("select count(*) from login where username = :username and clovek_ID != :clovek_id",array(":username"=>$username, ":clovek_id"=>$clovek_id)) > 0) {
 			pg_achtung($lang["duplicate username"]);
 			return;
 		}
 		
 		// change account
-		if (cpdb_exec("update login set username = :username,  password = :password where login_ID = :login_id and clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id, ":username"=>$username, ":password"=>$pw_n, ":login_id"=>$login_id))) {
+		if (cpdb_exec("update login set username = :username,  password = :password where clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id, ":username"=>$username, ":password"=>$pw_n))) {
 			pg_achtung($lang["account update ok"]);
 			include("clovek.inc");
 		}
 		
 	} elseif (isset($_REQUEST["delete"])) {
 		// delete account
-		if (cpdb_exec("delete from login where login_ID = :login_id and clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id, ":login_id"=>$login_id))) {
+		if (cpdb_exec("delete from login where clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id))) {
 			pg_achtung($lang["account delete ok"]);
 			include("clovek.inc");
 		}

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tymy.inc,v 1.6 2005/01/09 15:06:37 che0 Exp $
+ * $Id: tymy.inc,v 1.7 2005/01/15 15:14:12 che0 Exp $
  */
 
 pg_head();
@@ -29,7 +29,7 @@ cpdb_fetch_all("
 cpdb_fetch_all("
 	select
 		tym_ID,
-		count(dt_ID) as pocet_debat
+		count(*) as pocet_debat
 	from
 		debata_tym
 	group by

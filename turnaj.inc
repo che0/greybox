@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.16 2005/01/10 00:09:50 che0 Exp $
+ * $Id: turnaj.inc,v 1.17 2005/01/15 15:14:12 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -49,7 +49,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_clovek->select = "select * from clovek_turnaj where turnaj_ID = :turnaj_id";
 	$turnaj_clovek->select_args = array(":turnaj_id"=>$turnaj_id);
 	$turnaj_clovek->form["tid"] = new cpf_db_hidden("turnaj_id","turnaj_ID");
-	$turnaj_clovek->form[] = new cpf_db_hidden("ct_id","ct_ID");
+	$turnaj_clovek->form["cid"] = new cpf_db_hidden("clovek_old","clovek_ID");
 	$turnaj_clovek->form[] = new cpf_db_listbox_array("role", array("o"=>$lang["organizer"]));
 	$turnaj_clovek->form[] = new cpf_db_listbox("clovek_id",
 		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek", array()),
@@ -62,6 +62,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_clovek->render_select();
 	
 	$turnaj_clovek->form["tid"] = new cpf_hidden("turnaj_id",$turnaj["turnaj_ID"]);
+	unset($turnaj_clovek->form["cid"]);
 	$turnaj_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($turnaj_clovek->form["b2"]);
 	unset($turnaj_clovek->form["link"]);

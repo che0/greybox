@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.clovek.edit.exec.inc,v 1.3 2005/01/09 00:47:32 che0 Exp $
+ * $Id: debata.clovek.edit.exec.inc,v 1.4 2005/01/15 15:14:12 che0 Exp $
  */
 
 include_once("lib/points.inc");
@@ -11,10 +11,11 @@ if ($GLOBALS["cps_debaty"] < 1) {
 	return;
 }
 
-$dc_id = $_REQUEST["dc_id"];
 $debata_id = $_REQUEST["debata_id"];
 $clovek_id = $_REQUEST["clovek_id"];
+$clovek_old = $_REQUEST["clovek_old"];
 $role = $_REQUEST["role"];
+$role_old = $_REQUEST["role_old"];
 $rozhodnuti = $_REQUEST["rozhodnuti"] - 1;
 $presvedcive = $_REQUEST["presvedcive"] - 1;
 
@@ -59,7 +60,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update clovek_debata set clovek_ID = :clovek_id, role = :role, rozhodnuti = :rozhodnuti, presvedcive = :presvedcive where debata_ID = :debata_id and dc_ID = :dc_id", array(":dc_id"=>$dc_id, ":clovek_id"=>$clovek_id, ":debata_id"=>$debata_id, ":role"=>$role, ":rozhodnuti"=>$rozhodnuti, ":presvedcive"=>$presvedcive))) {
+	if (cpdb_exec("update clovek_debata set clovek_ID = :clovek_id, role = :role, rozhodnuti = :rozhodnuti, presvedcive = :presvedcive where debata_ID = :debata_id and clovek_ID = :clovek_old and role = :role_old", array(":clovek_old"=>$clovek_old, ":role_old"=>$role_old, ":debata_id"=>$debata_id, ":clovek_id"=>$clovek_id, ":role"=>$role, ":rozhodnuti"=>$rozhodnuti, ":presvedcive"=>$presvedcive))) {
 		recount_debate($debata_id);
 		ipts_recount_debate($debata_id);
 		pg_achtung($lang["debate update ok"]);
@@ -69,7 +70,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["delete"])) {
 	// delete
 	
-	if (cpdb_exec("delete from clovek_debata where dc_ID = :dc_id and debata_ID = :debata_id", array(":dc_id"=>$dc_id, ":debata_id"=>$debata_id))) {
+	if (cpdb_exec("delete from clovek_debata where debata_ID = :debata_id and clovek_ID = :clovek_old and role = :role_old", array(":clovek_old"=>$clovek_old, ":role_old"=>$role_old, ":debata_id"=>$debata_id))) {
 		recount_debate($debata_id);
 		ipts_recount_debate($debata_id);
 		pg_achtung($lang["debate update ok"]);

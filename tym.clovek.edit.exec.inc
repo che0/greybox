@@ -1,10 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: tym.clovek.edit.exec.inc,v 1.4 2005/01/09 00:47:32 che0 Exp $
+ * $Id: tym.clovek.edit.exec.inc,v 1.5 2005/01/15 15:14:12 che0 Exp $
  */
 
-$ct_id = $_REQUEST["ct_id"];
 $tym_id = $_REQUEST["tym_id"];
 $clovek_id = $_REQUEST["clovek_id"];
 $aktivni = $_REQUEST["aktivni"];
@@ -28,7 +27,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update clovek_tym set aktivni = :aktivni where clovek_ID = :clovek_id and ct_ID = :ct_id", array(":clovek_id"=>$clovek_id, ":tym_id"=>$tym_id, ":aktivni"=>$aktivni, ":ct_id"=>$ct_id))) {
+	if (cpdb_exec("update clovek_tym set aktivni = :aktivni where clovek_ID = :clovek_id and tym_ID = :tym_id", array(":clovek_id"=>$clovek_id, ":tym_id"=>$tym_id, ":aktivni"=>$aktivni))) {
 		pg_achtung($lang["team update ok"]);
 		include("tym.inc");
 	}
@@ -54,7 +53,7 @@ if (isset($_REQUEST["add"])) {
 		", array(":clovek_id"=>$clovek_id, ":tym_id"=>$tym_id)) == 0)
 	{
 		// the person does not have any debates with that team
-		if (cpdb_exec("delete from clovek_tym where ct_ID = :ct_id and clovek_ID = :clovek_id and tym_ID = :tym_id", array(":ct_id"=>$ct_id, ":clovek_id"=>$clovek_id, ":tym_id"=>$tym_id))) {
+		if (cpdb_exec("delete from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id", array(":clovek_id"=>$clovek_id, ":tym_id"=>$tym_id))) {
 			pg_achtung($lang["team update ok"]);
 			include("tym.inc");
 		}

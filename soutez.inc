@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.inc,v 1.18 2005/01/09 00:53:08 che0 Exp $
+ * $Id: soutez.inc,v 1.19 2005/01/15 15:14:12 che0 Exp $
  * vypis informaci o soutezi
  */
 
@@ -48,7 +48,7 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_teze->select = "select * from soutez_teze where soutez_ID = :soutez_id";
 	$soutez_teze->select_args = array(":soutez_id"=>$soutez_id);
 	$soutez_teze->form["sid"] = new cpf_db_hidden("soutez_id","soutez_ID");
-	$soutez_teze->form[] = new cpf_db_hidden("st_id","st_ID");
+	$soutez_teze->form[] = new cpf_db_hidden("teze_old","teze_ID");
 	$soutez_teze->form[] = new cpf_text($lang["official resolution"] . ": ");
 	$soutez_teze->form[] = new cpf_db_listbox("teze_id",
 		array("select teze_ID, tx from teze where jazyk = :jazyk", array(":jazyk"=>$soutez["jazyk"])),

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.24 2005/01/10 01:34:06 che0 Exp $
+ * $Id: clovek.inc,v 1.25 2005/01/15 15:14:12 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -158,7 +158,7 @@ if ($can_edit) {
 	$accr->select = "select * from rozhodci where clovek_ID = :clovek_id";
 	$accr->select_args = array(":clovek_id"=>$clovek_id);
 	$accr->form[] = new cpf_hidden("clovek_id",$clovek_id);
-	$accr->form[] = new cpf_db_hidden("rozhodci_id","rozhodci_ID");
+	$accr->form[] = new cpf_db_hidden("rocnik_old","rocnik");
 	$accr->form[] = new cpf_text($lang["season"] . ": ");
 	$accr->form[] = new cpf_db_listbox_array("rocnik", $GLOBALS["season_domain"]);
 	$accr->form[] = new cpf_text(" " . $lang["language"] . ": ");
@@ -297,7 +297,6 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 	$access = new cpykhen;
 	$access->form_attr["action"] = "./?page=clovek.pw.edit.exec";
 	$access->form[] = new cpf_hidden("clovek_id",$clovek_id);
-	$access->form[] = new cpf_db_hidden("login_id","login_ID");
 	$access->form[] = new cpf_text($lang["username"] . ": ");
 	$access->form[] = new cpf_db_textbox("username");
 	$access->form[] = new cpf_nl;
@@ -308,7 +307,7 @@ if ($GLOBALS["cps_lidi"] >= 3) {
 	$access->form[] = new cpf_db_password("n2");
 	$access->form[] = new cpf_nl;
 	
-	if (cpdb_fetch_one_row("select login_ID, username from login where clovek_ID = :clovek_id",array(":clovek_id"=>$clovek_id),$login)) {
+	if (cpdb_fetch_one_row("select username from login where clovek_ID = :clovek_id",array(":clovek_id"=>$clovek_id),$login)) {
 		$access->form[] = new cpf_button("save",$lang["save"]);
 		$access->form[] = new cpf_button("delete",$lang["delete"]);
 		$access->load_this($login);

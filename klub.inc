@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.23 2005/01/10 17:55:59 che0 Exp $
+ * $Id: klub.inc,v 1.24 2005/01/15 15:14:12 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -47,7 +47,8 @@ if ($can_edit) {
 	$klub_clovek->select = "select * from clovek_klub where klub_ID = :klub_id";
 	$klub_clovek->select_args = array(":klub_id"=>$klub_id);
 	$klub_clovek->form[] = new cpf_hidden("klub_id",$klub["klub_ID"]);
-	$klub_clovek->form[] = new cpf_db_hidden("ck_id","ck_ID");
+	$klub_clovek->form[] = new cpf_db_hidden("clovek_old","clovek_ID");
+	$klub_clovek->form[] = new cpf_db_hidden("rocnik_old","rocnik");
 	$klub_clovek->form[] = new cpf_db_listbox_array("role", $domain_ck_role);
 	$klub_clovek->form[] = new cpf_db_listbox_array("rocnik", $GLOBALS["season_domain"]);
 	$klub_clovek->form[] = new cpf_db_listbox("clovek_id",
@@ -83,7 +84,7 @@ if ($can_edit) {
 }
 
 // teams
-if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(debata_tym.dt_ID) as pocet_debat from tym left join debata_tym on tym.tym_ID = debata_tym.tym_ID where tym.klub_ID = :klub_id group by tym.tym_ID, tym.nazev",array(":klub_id"=>$klub_id),$tymy)) {
+if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(*) as pocet_debat from tym left join debata_tym on tym.tym_ID = debata_tym.tym_ID where tym.klub_ID = :klub_id group by tym.tym_ID, tym.nazev",array(":klub_id"=>$klub_id),$tymy)) {
 
 	cpdb_fetch_all("
 		select

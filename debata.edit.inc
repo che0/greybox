@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.inc,v 1.10 2005/01/09 00:47:32 che0 Exp $
+ * $Id: debata.edit.inc,v 1.11 2005/01/15 15:14:12 che0 Exp $
  */
 
 if ($GLOBALS["cps_debaty"] < 1) {
@@ -272,10 +272,11 @@ if (cpdb_fetch_all("select clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.p
 // adjudicators/organizers
 $dbt_clovek = new cpykhen;
 $dbt_clovek->form_attr["action"] = "./?page=debata.clovek.edit.exec";
-$dbt_clovek->select = "select dc_ID, clovek_ID, role, rozhodnuti + 1 as rozhodnuti, presvedcive + 1 as presvedcive from clovek_debata where debata_ID = :debata_id and find_in_set(role,'r,o') order by role";
+$dbt_clovek->select = "select clovek_ID, role, rozhodnuti + 1 as rozhodnuti, presvedcive + 1 as presvedcive from clovek_debata where debata_ID = :debata_id and find_in_set(role,'r,o') order by role";
 $dbt_clovek->select_args = array(":debata_id"=>$debata_id);
 $dbt_clovek->form[] = new cpf_hidden("debata_id",$debata_id);
-$dbt_clovek->form[] = new cpf_db_hidden("dc_id","dc_ID");
+$dbt_clovek->form[] = new cpf_db_hidden("clovek_old","clovek_ID");
+$dbt_clovek->form[] = new cpf_db_hidden("role_old","role");
 $dbt_clovek->form["role"] = new cpf_db_listbox_array("role", array("r"=>$lang["adjudicator"], "o"=>$lang["organizer"]));
 $dbt_clovek->form["select"] = new cpf_db_listbox("clovek_id",
 	array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek order by prijmeni, jmeno, nick", array()), "clovek_ID");

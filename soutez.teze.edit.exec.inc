@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.teze.edit.exec.inc,v 1.6 2005/01/09 00:53:08 che0 Exp $
+ * $Id: soutez.teze.edit.exec.inc,v 1.7 2005/01/15 15:14:12 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -11,9 +11,9 @@ if ($GLOBALS["cps_souteze"] < 2) {
 	return;
 }
 
-$st_id = $_REQUEST["st_id"];
 $soutez_id = $_REQUEST["soutez_id"];
 $teze_id = $_REQUEST["teze_id"];
+$teze_old = $_REQUEST["teze_old"];
 
 if (isset($_REQUEST["add"])) {
 	// add new
@@ -26,7 +26,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update soutez_teze set teze_ID = :teze_id where st_ID = :st_id", array(":teze_id"=>$teze_id, ":st_id"=>$st_id))) {
+	if (cpdb_exec("update soutez_teze set teze_ID = :teze_id where soutez_ID = :soutez_id and teze_ID = :teze_old", array(":soutez_id"=>$soutez_id, ":teze_old"=>$teze_old, ":teze_id"=>$teze_id))) {
 		recount_competition($soutez_id);
 		pg_achtung($lang["resolution update ok"]);
 		include("soutez.inc");
@@ -35,7 +35,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["delete"])) {
 	// delete
 	
-	if (cpdb_exec("delete from soutez_teze where st_ID = :st_id", array(":st_id" => $st_id))) {
+	if (cpdb_exec("delete from soutez_teze where soutez_ID = :soutez_id and teze_ID = :teze_old", array(":soutez_id"=>$soutez_id, ":teze_old"=>$teze_old))) {
 		recount_competition($soutez_id);
 		pg_achtung($lang["resolution update ok"]);
 		include("soutez.inc");
