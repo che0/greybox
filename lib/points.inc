@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: points.inc,v 1.10 2005/01/09 00:47:38 che0 Exp $
+ * $Id: points.inc,v 1.11 2005/01/09 23:07:52 che0 Exp $
  */
 
 function iptsr_internal_deb($debata_id) {
@@ -32,10 +32,12 @@ function iptsr_internal_deb($debata_id) {
 				select
 					dk.clovek_ID as clovek_ID
 				from
-					clovek d
-					left join clovek_klub dk on d.klub_ID = dk.klub_ID and dk.role = 't' and dk.rocnik = :rocnik
+					clovek d, clovek_klub dk
 				where
 					d.clovek_ID = :clovek_ID
+					and d.klub_ID = dk.klub_ID
+					and dk.role = 't'
+					and dk.rocnik = :rocnik
 				", array(":clovek_ID"=>$debater["clovek_ID"], ":rocnik"=>$rocnik), $treneri);
 			
 			foreach ($treneri as $trener) {
