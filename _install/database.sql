@@ -39,7 +39,7 @@ CREATE TABLE tym (
 CREATE TABLE clovek (
   clovek_ID int(10) unsigned NOT NULL auto_increment,
   jmeno varchar(40) NOT NULL default '',
-  nick varchar(255) default NULL,
+  nick varchar(60) default NULL,
   prijmeni varchar(60) NOT NULL default '',
   narozen date default NULL,
   klub_ID int(10) unsigned default NULL,
