@@ -18,7 +18,7 @@ cpdb_fetch_all("
 		turnaj
 		left join soutez using (soutez_ID)
 	order by
-		datum_od desc
+		turnaj.datum_od desc, soutez.soutez_ID
 	", array(), $turnaje);
 
 de_html($turnaje);
