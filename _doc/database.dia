@@ -1921,13 +1921,13 @@ ibody_organizator [decimal(5,2)|null]#</dia:string>
     </dia:group>
     <dia:object type="Standard - Line" version="0" id="O61">
       <dia:attribute name="obj_pos">
-        <dia:point val="1.42042,0.125"/>
+        <dia:point val="-3.97958,0.125"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="-5.40813,0.125;1.42042,3.82734"/>
+        <dia:rectangle val="-5.82573,0.125;-3.97958,3.37642"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
-        <dia:point val="1.42042,0.125"/>
+        <dia:point val="-3.97958,0.125"/>
         <dia:point val="-5.075,3.1"/>
       </dia:attribute>
       <dia:attribute name="numcp">
@@ -1946,7 +1946,7 @@ ibody_organizator [decimal(5,2)|null]#</dia:string>
         <dia:real val="0.8"/>
       </dia:attribute>
       <dia:connections>
-        <dia:connection handle="0" to="O59" connection="6"/>
+        <dia:connection handle="0" to="O59" connection="5"/>
         <dia:connection handle="1" to="O5" connection="2"/>
       </dia:connections>
     </dia:object>
