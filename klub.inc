@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.22 2005/01/10 01:34:06 che0 Exp $
+ * $Id: klub.inc,v 1.23 2005/01/10 17:55:59 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -109,7 +109,7 @@ if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(debata_tym.dt_ID) as poc
 	foreach ($tymy as $tym) {
 		cph_table_row(array(
 			cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["nazev"]),
-			$tym_debateri[$tym["tym_ID"]]["pocet_debateru"], $tym["pocet_debat"]
+			(int)$tym_debateri[$tym["tym_ID"]]["pocet_debateru"], (int)$tym["pocet_debat"]
 		),
 		(($tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3)
 			&& ($tym["pocet_debat"] >= 1))
