@@ -52,13 +52,12 @@ CREATE TABLE clovek_debata_ibody (
   clovek_ID int(10) unsigned NOT NULL default '0',
   debata_ID int(10) unsigned NOT NULL default '0',
   rocnik tinyint(3) unsigned NOT NULL default '0',
-  ibody_debater decimal(5,2) default NULL,
-  ibody_rozhodci decimal(5,2) default NULL,
-  ibody_trener decimal(5,2) default NULL,
-  ibody_organizator decimal(5,2) default NULL,
+  role enum('debater','rozhodci','trener','organizator') NOT NULL default 'debater',
+  ibody decimal(5,3) NOT NULL default '0.000',
   PRIMARY KEY  (cdi_ID),
   KEY clovek_ID (clovek_ID),
-  KEY debata_ID (debata_ID)
+  KEY debata_ID (debata_ID),
+  KEY role (role)
 ) TYPE=MyISAM;
 
 --

@@ -536,7 +536,7 @@ switch ($_GET['akce']) {
 			printf('<p><a href="clovek.php?akce=pridej">%s</a></p>' . "\n", $lang['add person']);
 		}
 		
-		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(ibody_debater) + sum(ibody_rozhodci) + sum(ibody_trener) + sum(ibody_organizator) as ibody';
+		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(clovek_debata_ibody.ibody) as a_ibody';
 		$query .= ' from (((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join clovek_tym on clovek.clovek_ID <=> clovek_tym.clovek_ID) left join tym on clovek_tym.tym_ID <=> tym.tym_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
 		$query .= sprintf(' where (clovek_tym.aktivni is null or clovek_tym.aktivni = 1) and (clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)', get_current_season());
 		$query .= ' group by clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni, clovek.klub_ID, tym.tym_ID, tym.nazev, klub.kratky_nazev';
@@ -551,7 +551,7 @@ switch ($_GET['akce']) {
 			$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
-			$ibody = $result2['ibody'];
+			$ibody = $result2['a_ibody'];
 			while($result2 = mysql_fetch_array($result)) {
 				if ($result2['a_clovek_ID'] == $id) {
 					// second team for an already read person
@@ -568,7 +568,7 @@ switch ($_GET['akce']) {
 					$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
-					$ibody = $result2['ibody'];
+					$ibody = $result2['a_ibody'];
 				}
 			}
 			// send the last cached line
@@ -591,9 +591,9 @@ switch ($_GET['akce']) {
 		set_title($lang['debaters']);
 		echo $template->make('head');
 		
-		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(ibody_debater) as ibody';
+		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, tym.tym_ID as a_tym_ID, tym.nazev as a_tym, klub.kratky_nazev as a_klub, sum(clovek_debata_ibody.ibody) as a_ibody';
 		$query .= ' from (((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join clovek_tym on clovek.clovek_ID <=> clovek_tym.clovek_ID) left join tym on clovek_tym.tym_ID <=> tym.tym_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
-		$query .= sprintf(' where clovek.debater = 1 and (clovek_tym.aktivni is null or clovek_tym.aktivni = 1) and (clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)', get_current_season());
+		$query .= sprintf(' where (clovek_debata_ibody.role = \'debater\' or clovek_debata_ibody.role is null) and clovek.debater = 1 and (clovek_tym.aktivni is null or clovek_tym.aktivni = 1) and (clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)', get_current_season());
 		$query .= ' group by clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni, clovek.klub_ID, tym.tym_ID, tym.nazev, klub.kratky_nazev';
 		$query .= ' order by clovek.prijmeni, clovek.jmeno, clovek.nick';
 		$result = mysql_query($query);
@@ -606,7 +606,7 @@ switch ($_GET['akce']) {
 			$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 			if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 			if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
-			$ibody = $result2['ibody'];
+			$ibody = $result2['a_ibody'];
 			while($result2 = mysql_fetch_array($result)) {
 				if ($result2['a_clovek_ID'] == $id) {
 					// second team for an already read person
@@ -623,7 +623,7 @@ switch ($_GET['akce']) {
 					$name = sprintf('<a href="clovek.php?id=%s">%s</a>',$result2['a_clovek_ID'],join_name($result2['a_jmeno'],$result2['a_nick'],$result2['a_prijmeni']));
 					if ($result2['a_klub_ID']) { $klub = sprintf('<a href="klub.php?id=%s">%s</a>',$result2['a_klub_ID'],$result2['a_klub']); } else { $klub = ''; }
 					if ($result2['a_tym_ID']) { $tym = sprintf('<a href="tym.php?id=%s">%s</a>',$result2['a_tym_ID'],$result2['a_tym']); } else { $tym = ''; }
-					$ibody = $result2['ibody'];
+					$ibody = $result2['a_ibody'];
 				}
 			}
 			// send the last cached line
@@ -644,9 +644,9 @@ switch ($_GET['akce']) {
 		set_title($lang['judges']);
 		echo $template->make('head');
 		
-		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, klub.kratky_nazev as a_klub, sum(ibody_rozhodci) as ibody';
+		$query = 'select clovek.clovek_ID as a_clovek_ID, clovek.jmeno as a_jmeno, clovek.nick as a_nick, clovek.prijmeni as a_prijmeni, clovek.klub_ID as a_klub_ID, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, klub.kratky_nazev as a_klub, sum(clovek_debata_ibody.ibody) as a_ibody';
 		$query .= ' from ((clovek left join klub on clovek.klub_ID <=> klub.klub_ID) left join rozhodci on clovek.clovek_ID <=> rozhodci.clovek_ID) left join clovek_debata_ibody on clovek.clovek_ID <=> clovek_debata_ibody.clovek_ID';
-		$query .= sprintf(' where (rozhodci.rocnik = %s) and (clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)',get_current_season(),get_current_season());
+		$query .= sprintf(' where (rozhodci.rocnik = %s) and (clovek_debata_ibody.role = \'rozhodci\' or clovek_debata_ibody.role is null) and(clovek_debata_ibody.rocnik is null or clovek_debata_ibody.rocnik = %s)',get_current_season(),get_current_season());
 		$query .= ' group by clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni, clovek.klub_ID, rozhodci.jazyk, klub.kratky_nazev';
 		$query .= ' order by clovek.prijmeni, clovek.jmeno, clovek.nick';
 		$result = mysql_query($query);
@@ -662,7 +662,7 @@ switch ($_GET['akce']) {
 			$template->editvar('line_club',$klub);
 			$template->editvar('line_languages',$result2['a_jazyk']);
 			$template->editvar('line_place',$result2['a_misto']);
-			$template->editvar('line_ipoints', $result2['ibody']);
+			$template->editvar('line_ipoints', $result2['a_ibody']);
 			echo $template->make('clovek_list_judges_line');
 		}
 		if ($one_line == 0) echo $template->make('clovek_list_judges_empty');
@@ -783,7 +783,7 @@ switch ($_GET['akce']) {
 			}
 
 			// accreditations
-			$query = sprintf('select rozhodci.rocnik as a_rocnik, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, sum(clovek_debata_ibody.ibody_rozhodci) as a_ibody from rozhodci left join clovek_debata_ibody on rozhodci.rocnik = clovek_debata_ibody.rocnik and rozhodci.clovek_ID = clovek_debata_ibody.clovek_ID where rozhodci.clovek_ID = %s group by a_rocnik, a_misto, a_jazyk order by a_rocnik desc',$result2['clovek_ID']);
+			$query = sprintf('select rozhodci.rocnik as a_rocnik, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, sum(clovek_debata_ibody.ibody) as a_ibody from rozhodci left join clovek_debata_ibody on rozhodci.rocnik = clovek_debata_ibody.rocnik and rozhodci.clovek_ID = clovek_debata_ibody.clovek_ID where (clovek_debata_ibody.role = \'rozhodci\' or clovek_debata_ibody.role is null) and rozhodci.clovek_ID = %s group by a_rocnik, a_misto, a_jazyk order by a_rocnik desc',$result2['clovek_ID']);
 			$result = mysql_query($query);
 
 			if (mysql_num_rows($result) > 0) {
@@ -807,9 +807,9 @@ switch ($_GET['akce']) {
 			// TODO
 
 			// debates
-			$query = 'select debata.debata_ID as a_debata_ID, debata.datum as a_datum, clovek_debata.role as a_role, tym_aff.nazev as a_aff_nazev, tym_aff.tym_ID as a_aff_ID, tym_neg.nazev as a_neg_nazev, tym_neg.tym_ID as a_neg_ID, debata.vitez as a_vitez, sum(clovek_debata_ibody.ibody_debater) as a_ibody';
+			$query = 'select debata.debata_ID as a_debata_ID, debata.datum as a_datum, clovek_debata.role as a_role, tym_aff.nazev as a_aff_nazev, tym_aff.tym_ID as a_aff_ID, tym_neg.nazev as a_neg_nazev, tym_neg.tym_ID as a_neg_ID, debata.vitez as a_vitez, sum(clovek_debata_ibody.ibody) as a_ibody';
 			$query .= ' from clovek_debata left join debata using(debata_ID) left join debata_tym as dt_aff on debata.debata_ID = dt_aff.debata_ID left join tym as tym_aff on dt_aff.tym_ID = tym_aff.tym_ID left join debata_tym as dt_neg on debata.debata_ID = dt_neg.debata_ID left join tym as tym_neg on dt_neg.tym_ID = tym_neg.tym_ID left join clovek_debata_ibody on clovek_debata.clovek_ID = clovek_debata_ibody.clovek_ID and debata.debata_ID = clovek_debata_ibody.debata_ID';
-			$query .= sprintf(' where clovek_debata.clovek_ID = %s and dt_aff.pozice = 1 and dt_neg.pozice = 0',$result2['clovek_ID']);
+			$query .= sprintf(' where (clovek_debata_ibody.role = \'debater\' or clovek_debata_ibody.role is null) and clovek_debata.clovek_ID = %s and dt_aff.pozice = 1 and dt_neg.pozice = 0',$result2['clovek_ID']);
 			$query .= ' group by a_debata_ID, a_datum, a_role, a_aff_nazev, a_aff_ID, a_neg_nazev, a_neg_ID, a_vitez';
 			$query .= ' order by a_datum desc';
 			$result = mysql_query($query);
