@@ -19,7 +19,7 @@ class template {
 	{
 		// Get template file
 		$file = fopen('skins/'.$this->skin.'/'.$filename.'.tpl', 'r');
-		$template_file = fread($file, filesize('skins/'.$this->skin.'/'.$filename.'.tpl'));
+		$template_file = stripslashes(fread($file, filesize('skins/'.$this->skin.'/'.$filename.'.tpl')));
 		fclose ($file);
 
 		// ok, for every part
