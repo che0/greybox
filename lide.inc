@@ -2,7 +2,7 @@
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 
-$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"]);
+$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"]);
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
 
 pg_head();
@@ -145,6 +145,62 @@ switch ($kdo) {
 				cpdb_fetch_one_value("select sum(ibody) from clovek_debata_ibody where clovek_ID = :clovek_id and rocnik = :rocnik and role = 'rozhodci'", array(":clovek_id"=>$clovek["clovek_ID"], ":rocnik"=>$GLOBALS["current_season"]))
 			));
 		}
+		cph_table_end();
+	break;
+	
+	case 'spravci':
+		// show list of admins
+		
+		include_once("i_domeny.inc");
+		
+		cpdb_fetch_all("
+			select
+				clovek.clovek_ID,
+				clovek.jmeno,
+				clovek.nick,
+				clovek.prijmeni,
+				clovek.klub_ID,
+				klub.kratky_nazev as klub,
+				clovek.prava_lidi,
+				clovek.prava_kluby,
+				clovek.prava_souteze,
+				clovek.prava_debaty
+			from 
+				clovek
+				left join klub using (klub_ID)
+			where
+				clovek.prava_lidi +	clovek.prava_kluby + clovek.prava_souteze + clovek.prava_debaty > 0
+			order by
+				clovek.prijmeni, clovek.jmeno, clovek.nick
+		", array(), $lide);
+		
+		de_html($lide);
+		cph_table_head(
+			array($lang["administrator"], $lang["people"], $lang["clubs"], $lang["competitions"], $lang["debates"]),
+			array("class"=>"visible")
+		);
+		
+		foreach ($lide as $clovek) {
+			if ($clovek["prava_lidi"] == 1) {
+				$prava_lidi = cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"], $clovek["klub"]);
+			} else {
+				$prava_lidi = $domain_prava_lidi[$clovek["prava_lidi"]];
+			}
+			if ($clovek["prava_kluby"] == 1) {
+				$prava_kluby = cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"], $clovek["klub"]);
+			} else {
+				$prava_kluby = $domain_prava_kluby[$clovek["prava_kluby"]];
+			}
+			
+			cph_table_row(array(
+				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"],join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
+				$prava_lidi,
+				$prava_kluby,
+				$domain_prava_souteze[$clovek["prava_souteze"]],
+				$domain_prava_debaty[$clovek["prava_debaty"]]
+			));
+		}
+		
 		cph_table_end();
 	break;
 }

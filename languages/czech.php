@@ -3,7 +3,7 @@
 
 $lang['release notes'] = 'Tohle je první verze greyboxu, která by už mohla doopravdy něco dělat. Užijte si ji.<br />
 Na chyby si stěžujte v <a href="http://sourceforge.net/tracker/?group_id=108503&amp;atid=650817">Bugzille</a>.<br />
-O login si pište na padre.amaro@inkvizice.org<br /> -- Petr Novák.';
+O login si požádejte nějakého <a href="./?page=lide&kdo=spravci">správce</a>, který může upravovat účty.<br /> -- Petr Novák.';
 $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a>, &copy;2004 Petr Novák<br />Distribuováno pod licencí <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>. Používá <a href="http://www.php.net/">PHP</a>, <a href="http://www.mysql.com/products/mysql/">MySQL</a> a <a href="http://www.christian-seiler.de/projekte/php/bbcode/">BB-Code parser Christiana Seilera</a>.<br />
 Stránky obsahují <a href="http://validator.w3.org/check?uri=referer">XHTML</a> a <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>, doporučen je tedy <a href="http://www.mozilla.org/products/firefox/">webový prohlížeč</a>.';
 
@@ -112,9 +112,9 @@ $lang['delete ok'] = 'smazání proběhlo v pořádku';
 $lang['delete failed'] = 'mazání selhalo';
 $lang['access people'] = 'přistup (lidé)';
 $lang['access people0'] = 'normální uživatel';
-$lang['access people1'] = 'správce klubu';
-$lang['access people2'] = 'správce všeho';
-$lang['access people3'] = 'i přístupová práva';
+$lang['access people1'] = 'jen v klubu';
+$lang['access people2'] = 'všichni';
+$lang['access people3'] = 'včetně přístupů';
 $lang['access people_desc'] = '';
 $lang['access clubs'] = 'přístup (kluby)';
 $lang['access clubs0'] = 'nic';
@@ -124,7 +124,7 @@ $lang['access clubs_desc'] = '';
 $lang['access competitions'] = 'přístup (soutěže)';
 $lang['access competitions0'] = 'nic';
 $lang['access competitions1'] = 'turnaje';
-$lang['access competitions2'] = 'soutěže';
+$lang['access competitions2'] = 'turnaje a soutěže';
 $lang['access competetions_desc'] = '';
 $lang['access debates'] = 'přístup (debaty)';
 $lang['access debates0'] = 'nic';
@@ -292,4 +292,6 @@ $lang['a tournament has to have a name'] = 'turnaj musí mít zadáno jméno';
 $lang['a team has to have a name'] = 'tým musí mít zadáno jméno';
 $lang['resolution language does not match competition language'] = 'teze není v jazyce soutěže';
 $lang['selected competition is locked'] = 'zvolená soutěž je uzamčena';
+$lang['administrators'] = 'správci';
+$lang['administrator'] = 'správce';
 ?>
