@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.add.inc,v 1.6 2005/01/09 00:53:08 che0 Exp $
+ * $Id: teze.add.inc,v 1.7 2005/03/23 13:10:19 che0 Exp $
  */
 
 pg_head();
@@ -13,6 +13,9 @@ $teze->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "
 $teze->form[] = new cpf_nl;
 $teze->form[] = new cpf_text($lang["resolution"] . ": ");
 $teze->form[] = new cpf_db_textbox("tx","tx",array("size"=>60));
+$teze->form[] = new cpf_nl;
+$teze->form[] = new cpf_text($lang["short text"] . ": ");
+$teze->form[] = new cpf_db_textbox("tx_short","tx_short",array("size"=>40));
 $teze->form[] = new cpf_nl;
 $teze->form[] = new cpf_text($lang["comment"] . ": ");
 $teze->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.soutez.inc,v 1.8 2005/03/23 12:52:28 che0 Exp $
+ * $Id: tym.soutez.inc,v 1.9 2005/03/23 13:10:19 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -30,6 +30,7 @@ cpdb_fetch_all("
 		tym_oni.tym_ID as oni_ID,
 		tym_oni.nazev as oni_tym,
 		teze.tx as teze,
+		teze.tx_short as teze_short,
 		teze.teze_ID as teze_ID,
 		datum,
 		vitez,
@@ -66,7 +67,7 @@ foreach ($r_debaty as $debata) {
 		format_date($debata["datum"]),
 		($debata["pozice"] == 1) ? $lang["aff"] : $lang["neg"],
 		cphs_link("./?page=tym&tym_id=" . $debata["oni_ID"],$debata["oni_tym"]),
-		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 		$result,
 		$debata["body"],
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])

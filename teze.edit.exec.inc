@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.edit.exec.inc,v 1.4 2005/01/09 00:53:08 che0 Exp $
+ * $Id: teze.edit.exec.inc,v 1.5 2005/03/23 13:10:19 che0 Exp $
  */
 
 if ($GLOBALS['cps_teze'] < 1) {
@@ -11,6 +11,7 @@ if ($GLOBALS['cps_teze'] < 1) {
 
 $teze_id = $_REQUEST["teze_id"];
 $tx = $_REQUEST["tx"];
+$tx_short = $_REQUEST["tx_short"];
 $jazyk = $_REQUEST["jazyk"];
 $komentar = $_REQUEST["komentar"];
 
@@ -23,8 +24,8 @@ if (isset($_REQUEST["delete"])) {
 } else {
 	// update
 	if (cpdb_exec(
-		"update teze set jazyk = :jazyk, tx = :tx, komentar = :komentar where teze_ID = :teze_id", 
-		array(":teze_id"=>$teze_id, ":jazyk"=>$jazyk, ":tx" => $tx, ":komentar"=>$komentar))
+		"update teze set jazyk = :jazyk, tx = :tx, tx_short = :short, komentar = :komentar where teze_ID = :teze_id", 
+		array(":teze_id"=>$teze_id, ":jazyk"=>$jazyk, ":tx" => $tx, ":short"=>$tx_short, ":komentar"=>$komentar))
 	) {
 		pg_achtung($lang["update ok"]);
 		include("teze.detaily.inc");

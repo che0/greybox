@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.26 2005/01/31 16:23:07 che0 Exp $
+ * $Id: clovek.inc,v 1.27 2005/03/23 13:10:19 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -372,6 +372,7 @@ if (cpdb_fetch_all("
 		tym_neg.tym_ID as neg_ID,
 		tym_neg.nazev as neg_tym,
 		teze.tx as teze,
+		teze.tx_short as teze_short,
 		teze.teze_ID as teze_ID,
 		debata.datum,
 		debata.vitez,
@@ -417,7 +418,7 @@ if (cpdb_fetch_all("
 			format_date($debata["datum"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 			$result,
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"]),
 			$domain_debata_role[$debata["role"]],
@@ -435,6 +436,7 @@ if (cpdb_fetch_all("
 		tym_neg.tym_ID as neg_ID,
 		tym_neg.nazev as neg_tym,
 		teze.tx as teze,
+		teze.tx_short as teze_short,
 		teze.teze_ID as teze_ID,
 		debata.datum,
 		debata.vitez,
@@ -469,7 +471,7 @@ if (cpdb_fetch_all("
 			format_date($debata["datum"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 			$result,
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"]),
 			$domain_ibody_role[$debata["role"]],

@@ -292,6 +292,7 @@ CREATE TABLE teze (
   teze_ID int(10) unsigned NOT NULL auto_increment,
   jazyk enum('cz','en','de','fr') character set utf8 NOT NULL default 'cz',
   tx varchar(255) NOT NULL default '',
+  tx_short varchar(40) NOT NULL default '',
   komentar text,
   PRIMARY KEY  (teze_ID),
   KEY jazyk (jazyk)

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.19 2005/03/22 18:18:22 che0 Exp $
+ * $Id: turnaj.inc,v 1.20 2005/03/23 13:10:19 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -155,6 +155,7 @@ if (cpdb_fetch_all("
 		tym_neg.tym_ID as neg_ID,
 		tym_neg.nazev as neg_tym,
 		teze.tx as teze,
+		teze.tx_short as teze_short,
 		teze.teze_ID as teze_ID,
 		datum,
 		vitez,
@@ -192,7 +193,7 @@ if (cpdb_fetch_all("
 			format_date($debata["datum"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 			$result,
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
 		));

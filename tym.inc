@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.18 2005/03/23 12:52:28 che0 Exp $
+ * $Id: tym.inc,v 1.19 2005/03/23 13:10:19 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -130,7 +130,7 @@ if (cpdb_fetch_all("
 			// cup
 			cph_table_row(array(
 				cphs_link("./?page=soutez&soutez_id=" . $soutez["ID"], $soutez["nazev"]),
-				cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["soutez_ID"],$tym_id),intval($soutez["body"]))
+				cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["ID"],$tym_id),intval($soutez["body"]))
 			));
 		} else {
 			// league
@@ -151,6 +151,7 @@ if (cpdb_fetch_all("
 		dt_my.body,
 		dt_my.liga_vytezek,
 		teze.tx as teze,
+		teze.tx_short as teze_short,
 		teze.teze_ID as teze_ID,
 		datum,
 		vitez,
@@ -187,7 +188,7 @@ if (cpdb_fetch_all("
 			format_date($debata["datum"]),
 			($debata["pozice"] == 1) ? $lang["aff"] : $lang["neg"],
 			cphs_link("./?page=tym&tym_id=" . $debata["oni_ID"],$debata["oni_tym"]),
-			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze"]),
+			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 			$result,
 			$debata["body"],
 			$debata["liga_vytezek"],

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.14 2005/01/09 00:47:32 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.15 2005/03/23 13:10:19 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -26,6 +26,9 @@ if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f->form[] = new cpf_text($lang["resolution"] . ": ");
 	$teze_f->form[] = new cpf_db_textbox("tx","tx",array("size"=>60));
 	$teze_f->form[] = new cpf_nl;
+	$teze_f->form[] = new cpf_text($lang["short text"] . ": ");
+	$teze_f->form[] = new cpf_db_textbox("tx_short","tx_short",array("size"=>40));
+	$teze_f->form[] = new cpf_nl;
 	$teze_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$teze_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 	$teze_f->form[] = new cpf_nl;
@@ -35,7 +38,8 @@ if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f->render();
 } else {
 	cph_p($lang["language"] . ": " . $teze["jazyk"] 
-		. cphs_br() . $lang["resolution"] . ": " . $teze["tx"]);
+		. cphs_br() . $lang["resolution"] . ": " . $teze["tx"]
+		. cphs_br() . $lang["short text"] . ": " . $teze["tx_short"]);
 }
 
 if (cpdb_fetch_all("select soutez.soutez_ID as soutez, nazev from soutez_teze left join soutez using (soutez_ID) where teze_ID = :teze_id", array(":teze_id" => $teze_id), $souteze) > 0) {
