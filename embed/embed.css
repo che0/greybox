@@ -1,0 +1,96 @@
+div#greybox_block {
+	color: black;
+	font-family: sans-serif;
+	font-size: 0.6em;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: -5px;
+	margin-right: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: #fdfffc;
+	background-image: url('../skins/default/images/titlebg.png');
+	/*border-style: dotted;
+	border-width: 1px;
+	border-color: #cbcdca;*/
+}
+
+div#greybox_block th {
+	text-align: left;
+}
+
+div#greybox_block p {
+	margin-top: 0px;
+	margin-bottom: 1px;
+}
+
+div#greybox_block a {
+	color: black;
+	text-decoration: underline;
+}
+
+div#greybox_block h2#greybox_title {
+	margin-top: -5px;
+	margin-left: -5px;
+	margin-right: -5px;
+	padding: 5px;
+	color: black;
+	text-decoration: none;
+	font-size: 1.2em;
+	background-color: #fdfffc;
+	background-image: url('../skins/default/images/titul.png');
+	background-position: right bottom;
+	border-bottom-style: dotted;
+	border-bottom-width: 1px;
+	border-bottom-color: #cbcdca;
+}
+
+div#greybox_block h2#greybox_title a {
+	color: black;
+	text-decoration: none;
+	font-size: 1.2em;
+}
+
+div#greybox_block h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+div#greybox_block img {
+	border: none;
+}
+
+div#greybox_block table.visible td,
+div#greybox_block table.visible th {
+	/* styles for tables that should be visible */
+	border-bottom-style: dotted;
+	border-bottom-width: 1px;
+	border-bottom-color: #cbcdca;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 5px;
+}
+
+div#greybox_block table.visible tr:hover {
+	background-color: #edf6f8;
+}
+
+div#greybox_block div.achtung {
+	background-color: #ffc5c5;
+	margin-bottom: 5px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+div#greybox_block div.warning {
+	background-color: #fffdb9;
+	margin-bottom: 5px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+}
