@@ -1,5 +1,10 @@
 <?php
 
+if ($GLOBALS["cps_kluby"] < 1) {
+	pg_achtung($lang["access denied"]);
+	return;
+}
+
 pg_head();
 
 $tym_f = new cpykhen;
