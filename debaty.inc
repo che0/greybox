@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: debaty.inc,v 1.4 2005/01/09 00:47:32 che0 Exp $
+ */
 pg_head();
 
 if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]));

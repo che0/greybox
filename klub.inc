@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: klub.inc,v 1.19 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
 $klub_id = $_REQUEST["klub_id"];

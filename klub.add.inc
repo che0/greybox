@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: klub.add.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ */
 
 pg_head();
 

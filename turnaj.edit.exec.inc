@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: turnaj.edit.exec.inc,v 1.6 2005/01/09 00:47:32 che0 Exp $
+ */
 
 if ($GLOBALS["cps_souteze"] < 1) {
 	pg_achtung($lang["access denied"]);

@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: turnaj.kidy.inc,v 1.3 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
 

@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: clovek.accr.edit.exec.inc,v 1.3 2005/01/09 00:47:31 che0 Exp $
+ */
 
 $rozhodci_id = $_REQUEST["rozhodci_id"];
 $clovek_id = $_REQUEST["clovek_id"];

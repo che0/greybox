@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: souteze.inc,v 1.6 2005/01/09 00:47:32 che0 Exp $
+ */
 // souteze.inc
 // vypis vsech soutezi v sezone
 

@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: clovek.cont.edit.exec.inc,v 1.3 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $kontakt_id = $_REQUEST["kontakt_id"];
 $clovek_id = $_REQUEST["clovek_id"];

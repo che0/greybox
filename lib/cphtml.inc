@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: cphtml.inc,v 1.13 2005/01/09 00:47:38 che0 Exp $
+ */
 
 function cphs_tag_start($name, $attr = array()) {
 	$t = "<" . $name;

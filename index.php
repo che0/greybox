@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: index.php,v 1.32 2005/01/09 00:47:32 che0 Exp $
+ */
 
 include_once("lib/de_magic_quotes.inc");
 include_once("lib/config.inc");

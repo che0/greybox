@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: dblink.inc,v 1.3 2005/01/09 00:47:38 che0 Exp $
+ */
 
 $GLOBALS["dblink"] = mysql_connect(
 	$GLOBALS["cp_config"]["db_server"],

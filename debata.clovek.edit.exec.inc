@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: debata.clovek.edit.exec.inc,v 1.3 2005/01/09 00:47:32 che0 Exp $
+ */
 
 include_once("lib/points.inc");
 

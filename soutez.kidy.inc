@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: soutez.kidy.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $soutez_id = $_REQUEST["soutez_id"];
 $ukaz = isset($_REQUEST["ukaz"]) ? $_REQUEST["ukaz"] : "sum";

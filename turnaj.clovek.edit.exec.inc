@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: turnaj.clovek.edit.exec.inc,v 1.2 2005/01/09 00:47:32 che0 Exp $
+ */
 
 include_once("lib/points.inc");
 

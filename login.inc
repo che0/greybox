@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: login.inc,v 1.6 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $GLOBALS["page"]->login_block = $lang['on login page'];
 

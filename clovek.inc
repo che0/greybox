@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: clovek.inc,v 1.22 2005/01/09 00:47:32 che0 Exp $
+ */
 // clovek.inc
 include_once("i_domeny.inc");
 

@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: teze.inc,v 1.11 2005/01/09 00:47:32 che0 Exp $
+ */
 // teze.inc
 // vypis vsech tezi
 

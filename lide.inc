@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: lide.inc,v 1.9 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 

@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: tym.clovek.edit.exec.inc,v 1.4 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $ct_id = $_REQUEST["ct_id"];
 $tym_id = $_REQUEST["tym_id"];

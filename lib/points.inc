@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: points.inc,v 1.10 2005/01/09 00:47:38 che0 Exp $
+ */
 
 function iptsr_internal_deb($debata_id) {
 	$rocnik = cpdb_fetch_one_value("select rocnik from debata left join soutez using (soutez_ID) where debata_ID = :debata_id", array(":debata_id"=>$debata_id));

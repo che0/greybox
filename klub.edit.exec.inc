@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: klub.edit.exec.inc,v 1.7 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $klub_id = $_REQUEST["klub_id"];
 $misto = $_REQUEST["misto"];

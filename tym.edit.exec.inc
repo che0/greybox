@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: tym.edit.exec.inc,v 1.7 2005/01/09 00:47:32 che0 Exp $
+ */
 
 include("lib/points.inc");
 

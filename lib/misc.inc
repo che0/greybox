@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: misc.inc,v 1.6 2005/01/09 00:47:38 che0 Exp $
+ */
 
 function join_name($first, $nick, $last)
 {

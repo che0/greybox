@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: teze.edit.exec.inc,v 1.3 2005/01/09 00:47:32 che0 Exp $
+ */
 if ($GLOBALS['cps_teze'] < 1) {
 	pg_achtung($lang['access denied']);
 	return;

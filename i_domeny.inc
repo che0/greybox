@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: i_domeny.inc,v 1.2 2005/01/09 00:47:32 che0 Exp $
+ */
 
 global $domain_klub_role;
 $domain_klub_role = array(

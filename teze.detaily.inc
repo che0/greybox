@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: teze.detaily.inc,v 1.14 2005/01/09 00:47:32 che0 Exp $
+ */
 
 $teze_id = $_REQUEST["teze_id"];
 

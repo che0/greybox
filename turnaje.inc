@@ -1,4 +1,8 @@
 <?php
+/*
+ * greybox
+ * $Id: turnaje.inc,v 1.8 2005/01/09 00:47:32 che0 Exp $
+ */
 
 pg_head();
 
