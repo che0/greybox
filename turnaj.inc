@@ -72,7 +72,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	);
 	
 	$role_domain = array("o"=>$lang["organizer"]);
-	if (cpdb_fetch_all("select role, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using (clovek_ID) where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id), $r_clovek) > 0) {
+	if (cpdb_fetch_all("select role, clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using (clovek_ID) where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id), $r_clovek) > 0) {
 		de_html($r_clovek);
 		cph_table_head(array($lang["role"],$lang["person"]),array("class"=>"visible"));
 		foreach ($r_clovek as $clovek) {
