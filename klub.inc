@@ -46,7 +46,7 @@ if ($can_edit) {
 	$klub_clovek->form[] = new cpf_db_listbox_array("role", $domain_ck_role);
 	$klub_clovek->form[] = new cpf_db_listbox_array("rocnik", $GLOBALS["season_domain"]);
 	$klub_clovek->form[] = new cpf_db_listbox("clovek_id",
-		array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id union distinct select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek where klub_ID = :klub_id", array(":klub_id"=>$klub["klub_ID"])),
+		array("(select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni), concat_ws(' ', prijmeni, jmeno, nick) as srt from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id) union distinct (select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni), concat_ws(' ', prijmeni, jmeno, nick) as srt from clovek where klub_ID = :klub_id) order by srt", array(":klub_id"=>$klub["klub_ID"])),
 		"clovek_ID");
 	$klub_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
 	$klub_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
