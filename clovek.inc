@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.25 2005/01/15 15:14:12 che0 Exp $
+ * $Id: clovek.inc,v 1.26 2005/01/31 16:23:07 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -150,7 +150,7 @@ if (cpdb_fetch_all("
 }
 
 // accreditations
-if ($can_edit) {
+if ($GLOBALS["cps_lidi"] >= 2) {
 	cph_h2($lang["accreditations"]);
 	
 	$accr = new cpykhen;
@@ -258,7 +258,6 @@ if ($can_edit || $self_edit) {
 }
 
 // access
-
 if ($GLOBALS["cps_lidi"] >= 3) {
 	cph_h2($lang["access levels"]);
 	$access = new cpykhen;

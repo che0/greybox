@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.accr.edit.exec.inc,v 1.4 2005/01/15 15:14:12 che0 Exp $
+ * $Id: clovek.accr.edit.exec.inc,v 1.5 2005/01/31 16:23:07 che0 Exp $
  */
 
 $clovek_id = $_REQUEST["clovek_id"];
@@ -10,7 +10,7 @@ $jazyk = $_REQUEST["jazyk"];
 $misto = $_REQUEST["misto"];
 $rocnik = $_REQUEST["rocnik"];
 
-if (!(($GLOBALS["cps_lidi"] >= 2) || ($GLOBALS["cps_lidi"] == 1 && cpdb_fetch_one_value("select klub_ID from clovek where clovek_ID = :clovek_id",array(":clovek_id"=>$clovek_id)) == $_SESSION["user_klub_ID"]))) {
+if (! ($GLOBALS["cps_lidi"] >= 2)) {
 	pg_achtung($lang["access denied"]);
 	return;
 }

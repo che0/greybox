@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.59 2005/01/12 20:29:51 che0 Exp $
+ * $Id: english.php,v 1.60 2005/01/31 16:23:08 che0 Exp $
  * english language definition file
  */
 
@@ -115,9 +115,9 @@ $lang['delete ok'] = 'delete ok';
 $lang['delete failed'] = 'delete failed';
 $lang['access people'] = 'access (people)';
 $lang['access people0'] = 'regular user';
-$lang['access people1'] = 'can edit own club';
-$lang['access people2'] = 'can edit everyone';
-$lang['access people3'] = 'can edit accounts';
+$lang['access people1'] = 'own club';
+$lang['access people2'] = 'everyone + accreditations';
+$lang['access people3'] = 'everything, including accounts';
 $lang['access people_desc'] = '';
 $lang['access clubs'] = 'access (clubs)';
 $lang['access clubs0'] = 'none';

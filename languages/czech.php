@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.52 2005/01/12 20:29:50 che0 Exp $
+ * $Id: czech.php,v 1.53 2005/01/31 16:23:08 che0 Exp $
  * czech language definition file
  */
 
@@ -117,8 +117,8 @@ $lang['delete failed'] = 'mazání selhalo';
 $lang['access people'] = 'přistup (lidé)';
 $lang['access people0'] = 'normální uživatel';
 $lang['access people1'] = 'jen v klubu';
-$lang['access people2'] = 'všichni';
-$lang['access people3'] = 'včetně přístupů';
+$lang['access people2'] = 'všichni, vč.akreditací';
+$lang['access people3'] = 'úplně vše, vč. přístupů';
 $lang['access people_desc'] = '';
 $lang['access clubs'] = 'přístup (kluby)';
 $lang['access clubs0'] = 'nic';
