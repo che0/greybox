@@ -58,4 +58,12 @@ $lang['judging'] = 'judging';
 $lang['coaching'] = 'coaching';
 $lang['total'] = 'total';
 $lang['ipoints_long'] = 'individual points';
+
+// index
+$lang['teams'] = 'teams';
+$lang['user'] = 'user';
+
+// klub
+$lang['clubs'] = 'clubs';
+
 ?>
