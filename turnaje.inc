@@ -4,7 +4,7 @@ pg_head();
 
 if ($GLOBALS["cps_souteze"] >= 1) cph_p(cphs_link("./?page=turnaj.add",$lang["add tournament"]));
 
-cph_table_head(array($lang["tournament"], $lang["date_from"], $lang["date_to"] , $lang["competition"], $lang["debates"], ""),array("class"=>"visible"));
+cph_table_head(array($lang["tournament"], $lang["date_from"], $lang["date_to"] , $lang["competition"], $lang["debates"]),array("class"=>"visible"));
 
 cpdb_fetch_all("
 	select
@@ -17,9 +17,11 @@ cpdb_fetch_all("
 	from
 		turnaj
 		left join soutez using (soutez_ID)
+	where
+		soutez.rocnik = :rocnik
 	order by
-		turnaj.datum_od desc, soutez.soutez_ID
-	", array(), $turnaje);
+		turnaj.datum_od, soutez.jazyk
+	", array(":rocnik"=>$GLOBALS["current_season"]), $turnaje);
 
 de_html($turnaje);
 foreach ($turnaje as $turnaj) {
