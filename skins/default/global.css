@@ -120,6 +120,10 @@ div#mainbody div#footnote a {
 	color: #9a9c9a;
 }
 
+div#mainbody div#footnote a:hover {
+	color: #898997;
+}
+
 table.visible td, table.visible th {
 	/* styles for tables that should be visible */
 	border-bottom-style: dotted;
