@@ -89,7 +89,7 @@ function cpdb_exec($query, $args) {
 	if (!! $my_res) {
 		return true;
 	} else {
-		cpdb_achtung(mysql_error() . cphs_br() . $query);
+		cpdb_achtung(mysql_error());
 		return false;
 	}
 }
