@@ -112,6 +112,7 @@ CREATE TABLE kontakt (
   clovek_ID int(10) unsigned NOT NULL default '0',
   druh enum('telefon','email','adresa','icq','jabber','web') NOT NULL default 'telefon',
   tx varchar(255) NOT NULL default '',
+  viditelnost tinyint(3) unsigned NOT NULL default '1',
   PRIMARY KEY  (kontakt_ID),
   KEY clovek_ID (clovek_ID)
 ) TYPE=MyISAM;
