@@ -19,28 +19,28 @@ array ($lang);
 
 switch ($_SESSION['language']) {
 	case 'cz':
-		$templace->editvar('page_header_language','cs');
-		$template->editvar('header_language',sprintf('cz | <a href="language.php?lang=en&von=%s">en</a>', $url_von));
+		$_GLOBALS["page"]->language="cz";
+		$_GLOBALS["page"]->lang_block = sprintf('cz | <a href="language.php?lang=en&von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
 
 	case 'en':
-		$template->editvar('page_header_language','en-us');
-		$template->editvar('header_language',sprintf('<a href="language.php?lang=cz&von=%s">cz</a> | en', $url_von));
+		$_GLOBALS["page"]->language="en-us";
+		$_GLOBALS["page"]->lang_block = sprintf('<a href="language.php?lang=cz&von=%s">cz</a> | en', $url_von);
 		require('languages/english.php');
 	break;
 	
 	default:
 		// = cz, set cz
-		$_SESSION['language']='cz';
+		$_GLOBALS["page"]->language="cz";
 		$template->editvar('page_header_language','cs');
-		$template->editvar('header_language',sprintf('cz | <a href="language.php?lang=en&von=%s">en</a>', $url_von));
+		$_GLOBALS["page"]->lang_block = sprintf('cz | <a href="language.php?lang=en&von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
 }
 
 if ($_SESSION["is_logged_in"] == true) {
-	$template->editvar('login_info', $_SESSION['user_name'] . ' (<a href="logout.php">'.$lang['log out'].'</a>)');
+	$_GLOBALS["page"]->login_block = $_SESSION['user_name'] . ' (<a href="logout.php">'.$lang['log out'].'</a>)';
 
 	$prava_lidi = $_SESSION['user_prava_lidi'];
 	$prava_kluby = $_SESSION['user_prava_kluby'];
@@ -48,7 +48,7 @@ if ($_SESSION["is_logged_in"] == true) {
 	$prava_souteze = $_SESSION['user_prava_souteze'];
 	$prava_teze = $_SESSION['user_prava_teze'];
 } else {
-	$template->editvar('login_info', $lang['anonymous'] . ' <a href="login.php?von=' . $url_von .'">'.$lang['log in'].'</a>');
+	$_GLOBALS["page"]->login_block =  $lang['anonymous'] . ' <a href="login.php?von=' . $url_von .'">'.$lang['log in'].'</a>';
 
 	$prava_lidi = -1;
 	$prava_kluby = -1;

@@ -1,48 +1,28 @@
 <?php
-require('inc/head.php');
-$template->load('index');
-$template->editvar('teams',$lang['teams']);
-$template->editvar('user',$lang['user']);
 
-echo $template->make('head');
+include_once("lib/de_magic_quotes.inc");
+include_once("lib/config.inc");
+include_once("lib/cpykhen.inc");
+include_once("lib/dblink.inc");
+include_once("lib/page.inc");
 
-if ($lang['release notes']) print_one_message($lang['release notes']);
+$_GLOBALS["page"] = new pg_page();
+include_once("lib/session.inc");
 
-if ($_SESSION['is_logged_in']) {
-	$template->editvar('index_name',sprintf('<a href="clovek.php">%s</a>',$_SESSION['user_name']));
-	
-	$query = sprintf('select nazev from klub where klub_ID = %s', $_SESSION['user_klub_ID']);
-	$result = mysql_query($query);
 
-	if ($result2 = mysql_fetch_array($result)) {
-		$template->editvar('index_club',sprintf(', <a href="klub.php?id=%s">%s</a>',$_SESSION['user_klub_ID'], $result2['nazev']));
-	} else {
-		$template->editvar('index_club','');
-	}
+include_once('inc/functions.php');
 
-	$query = sprintf('select tym.tym_ID as a_tym_ID, tym.nazev as a_tym from clovek_tym left join tym using (tym_ID) where clovek_tym.clovek_ID = %s and clovek_tym.aktivni = 1', $_SESSION['user_clovek_ID']);
-	$result = mysql_query($query);
+/*
+<p class="link"><a href="./">{link_homepage}</a></p>
+<p class="link"><a href="clovek.php?akce=vsichni">{link_everyone}</a></p>
+<p class="link"><a href="klub.php">{link_clubs}</a></p>
+*/
 
-	$teams = '';
-	$num_teams = 0;
-	while ($result2 = mysql_fetch_array($result)) {
-		if ($num_teams > 0) {
-			$teams .= ', ';
-		}
-		$num_teams++;
-		$teams .= sprintf('<a href="tym.php?id=%s">%s</a>', $result2['a_tym_ID'], $result2['a_tym']);
-	}
-	if ($num_teams == 0) {
-		$teams = $lang['no records'];
-	}
-	$template->editvar('index_teams',$teams);
-	
-	echo $template->make('index');	
-}
 
-printf('<div id="footnote">%s</div>', $lang['tail_footnote']);
+$fw_stranky = array(
+	//array(modul, titulek)
+);
 
-echo $template->make('tail');
 
-require('inc/tail.php');
+
 ?>

@@ -4,7 +4,7 @@ function cpdb_exec($query, $args = array()) {
 	$repl_from = $repl_to = array();
 	foreach ($args as $key => $value) {
 		$repl_from[] = $key;
-		$repl_to[] = addslashes($value)
+		$repl_to[] = addslashes($value);
 	}
 	return mysql_query(str_replace($str_from, $str_to, $query));
 }
@@ -16,6 +16,7 @@ function cpdb_fetch_one_value ($query, $args = array()) {
 			return $row[0];
 		} else {
 			return NULL;
+		}
 	} else {
 		return NULL;
 	}	
@@ -47,4 +48,4 @@ function cpdb_rollback() {
 	return mysql_query("rollback");
 }	
 
-?> 
+?>

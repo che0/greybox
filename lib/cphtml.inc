@@ -59,4 +59,4 @@ function cph_table_end() {
 function cph_link($text, $href, $attr = array()) {
 	cph_tag("a",array_merge(array("href"=>$href), $attr), $text);
 }
-?> 
+?>

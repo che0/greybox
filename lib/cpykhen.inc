@@ -3,14 +3,14 @@
 include_once("cpdb.inc");
 include_once("cphtml.inc");
 
-class c-pykhen {
-	var form;
-	var form_attr;
-	var select;
-	var select_args;
-	var init_done;
+class cpykhen {
+	var $form;
+	var $form_attr;
+	var $select;
+	var $select_args;
+	var $init_done;
 	
-	function c-pykhen() {
+	function cpykhen() {
 		$this->form = array();
 		$this->form_attr = array();
 		$this->init_done = false;
@@ -40,7 +40,7 @@ class c-pykhen {
 	function render() {
 		cph_tag_start("form",$this->form_attr);
 		foreach ($this->form as $element) {
-			$element->render());
+			$element->render();
 		}
 		cph_tag_end("form");
 		cph_nl();
@@ -63,7 +63,7 @@ class c-pykhen {
 }
 
 
-class c-futral {
+class cfutral {
 	var $value;
 	var $field;
 	var $attr;
@@ -83,7 +83,7 @@ class c-futral {
 	}
 }
 
-class cpf_text extends c-futral {
+class cpf_text extends cfutral {
 	var $tx;
 	
 	function cpf_text($content, $attr = array()) {
@@ -116,7 +116,7 @@ class cpf_db_text extends cpf_text {
 	}
 }
 
-class cpf_db_listbox_array extends c-futral {
+class cpf_db_listbox_array extends cfutral {
 	var $domain;
 	
 	function cpf_db_listbox_array($name, $domain, $field, $attr = array()) {
@@ -140,8 +140,8 @@ class cpf_db_listbox_array extends c-futral {
 }
 
 class cpf_db_listbox extends cpf_db_listbox_array {
-	var select;
-	var select_attr;
+	var $select;
+	var $select_attr;
 	
 	function cpf_db_listbox($name, $domain, $field, $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
@@ -160,7 +160,7 @@ class cpf_db_listbox extends cpf_db_listbox_array {
 	}
 }
 
-class cpf_db_textbox extends c-futral {
+class cpf_db_textbox extends cfutral {
 
 	function cpf_db_textbox($name, $field, $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
@@ -172,7 +172,7 @@ class cpf_db_textbox extends c-futral {
 	}
 }
 
-class cpf_db_textarea extends c-futral {
+class cpf_db_textarea extends cfutral {
 
 	function cpf_db_textbox($name, $field, $attr = array()) {
 		$this->attr = array_merge(array("name"=>$name), $attr);
@@ -184,12 +184,12 @@ class cpf_db_textarea extends c-futral {
 	}
 }
 
-class cpf_hidden extends c-futral {
+class cpf_hidden extends cfutral {
 	var $tx;
 	
 	function cpf_hidden($name, $value) {
 		$this->tx = $value;
-		$this->attr = array_merge(array("name"=>$name),$this->attr));
+		$this->attr = array_merge(array("name"=>$name),$this->attr);
 	}
 	
 	function render() {
@@ -197,7 +197,7 @@ class cpf_hidden extends c-futral {
 	}
 }
 
-class cpf_db_hidden extends c-futral {
+class cpf_db_hidden extends cfutral {
 	
 	function cpf_db_hidden($name, $field = NULL) {
 		if ($field == NULL) {
@@ -205,7 +205,7 @@ class cpf_db_hidden extends c-futral {
 		} else {
 			$this->field = $field;
 		}
-		$this->attr = array_merge(array("name"=>$name),$this->attr));
+		$this->attr = array_merge(array("name"=>$name),$this->attr);
 	}
 	
 	function render() {
@@ -213,7 +213,7 @@ class cpf_db_hidden extends c-futral {
 	}
 }
 
-class cpf_button() {
+class cpf_button extends cfutral {
 	
 	function cpf_button($name,$caption) {
 		$this->attr = array("name"=>$name, "value"=>$caption, "type"=>"submit");
@@ -224,4 +224,4 @@ class cpf_button() {
 	}
 }
 
-?> 
+?>
