@@ -174,7 +174,7 @@ switch ($_GET['akce']) {
 				$query .= ' order by a_prijmeni, a_jmeno, a_nick';
 
 				echo '<table class="visible">';
-				printf ('<tr><th>%s</th><th>%s</th><th>%s</th></tr>' . "\n", $lang['name'], $lang['debater'], $lang['team']);
+				printf ('<tr><th>%s</th><th>%s</th><th>%s</th></tr>' . "\n", $lang['name'], $lang['team'], $lang['active debater_short']);
 
 				$result = mysql_query($query);
 
