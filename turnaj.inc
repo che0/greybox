@@ -1,8 +1,10 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.22 2005/03/23 20:05:48 che0 Exp $
+ * $Id: turnaj.inc,v 1.23 2005/03/29 10:09:50 che0 Exp $
  */
+
+include_once("i_turnaj.inc");
 
 $turnaj_id = $_REQUEST["turnaj_id"];
 
@@ -20,29 +22,7 @@ if (isset($turnaj["komentar"])) cph_p($turnaj["komentar"]);
 if ($GLOBALS["cps_souteze"] >= 1) {
 	// edit/delete competition
 	
-	$turnaj_f = new cpykhen;
-	$turnaj_f->form_attr["action"] = "./?page=turnaj.edit.exec";
-	$turnaj_f->form[] = new cpf_db_hidden("turnaj_id","turnaj_ID");
-	$turnaj_f->form[] = new cpf_text($lang["title"] . ": ");
-	$turnaj_f->form[] = new cpf_db_textbox("nazev");
-	$turnaj_f->form[] = new cpf_nl;
-	$turnaj_f->form[] = new cpf_text($lang["comment"] . ": ");
-	$turnaj_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
-	$turnaj_f->form[] = new cpf_nl;
-	$turnaj_f->form[] = new cpf_text($lang["competition"] . ": ");
-	$turnaj_f->form[] = new cpf_db_listbox("soutez_id",array("select soutez_ID, nazev from soutez",array()),"soutez_ID");
-	$turnaj_f->form[] = new cpf_db_link("soutez_ID","./?page=soutez&soutez_id=%s",$lang["link"]);
-	$turnaj_f->form[] = new cpf_nl;
-	$turnaj_f->form[] = new cpf_text($lang["league"] . ": ");
-	$turnaj_f->form[] = new cpf_db_listbox("liga_id",array("select 0, :no_league union select liga_ID, nazev from liga",array(":no_league"=>$lang["no league"])),"liga_ID");
-	$turnaj_f->form[] = new cpf_db_link("liga_ID","./?page=liga&liga_id=%s",$lang["link"]);
-	$turnaj_f->form[] = new cpf_nl;
-	$turnaj_f->form[] = new cpf_text($lang["date_from"] . ": ");
-	$turnaj_f->form[] = new cpf_db_textbox("datum_od");
-	$turnaj_f->form[] = new cpf_nl;
-	$turnaj_f->form[] = new cpf_text($lang["date_to"] . ": ");
-	$turnaj_f->form[] = new cpf_db_textbox("datum_do");
-	$turnaj_f->form[] = new cpf_nl;
+	$turnaj_f = get_pykhen_turnaj();
 	$turnaj_f->form[] = new cpf_button("save",$lang["save"]);
 	$turnaj_f->form[] = new cpf_button("delete",$lang["delete"]);
 	$turnaj_f->load_this($turnaj_p);
@@ -60,7 +40,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 		"clovek_ID");
 	$turnaj_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
 	$turnaj_clovek->form[] = new cpf_text(" " . $lang["factor"] . ": ");
-	$turnaj_clovek->form[] = new cpf_db_textbox("mocnost","mocnost",array("size"=>"3"));
+	$turnaj_clovek->form[] = new cpf_db_textbox("mocnost","mocnost",array("size"=>3,"maxlength"=>3));
 	$turnaj_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
 	$turnaj_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$turnaj_clovek->render_select();

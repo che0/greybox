@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: i_liga.inc,v 1.1 2005/03/22 18:18:22 che0 Exp $
+ * $Id: i_liga.inc,v 1.2 2005/03/29 10:09:50 che0 Exp $
  */
 
 function get_pykhen_liga() {
@@ -11,7 +11,7 @@ function get_pykhen_liga() {
 	$liga_f->form_attr["action"] = "./?page=liga.edit.exec";
 	$liga_f->form[] = new cpf_db_hidden("liga_id","liga_ID");
 	$liga_f->form[] = new cpf_text($lang["title"] . ": ");
-	$liga_f->form[] = new cpf_db_textbox("nazev");
+	$liga_f->form[] = new cpf_db_textbox("nazev","nazev",array("maxlength"=>255));
 	$liga_f->form[] = new cpf_nl;
 	$liga_f->form[] = new cpf_text($lang["season"] . ": ");
 	$liga_f->form[] = new cpf_db_listbox_array("rocnik",$GLOBALS["season_domain"]);

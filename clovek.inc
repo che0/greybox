@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.28 2005/03/23 20:05:45 che0 Exp $
+ * $Id: clovek.inc,v 1.29 2005/03/29 10:09:49 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -34,13 +34,13 @@ if ($can_edit) {
 	$clovek_f->form_attr["action"] = "./?page=clovek.edit.exec";
 	$clovek_f->form[] = new cpf_hidden("clovek_id",$clovek["clovek_ID"]);
 	$clovek_f->form[] = new cpf_text($lang["name"] . ": ");
-	$clovek_f->form[] = new cpf_db_textbox("jmeno");
+	$clovek_f->form[] = new cpf_db_textbox("jmeno","jmeno",array("maxlength"=>40));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["surname"] . ": ");
-	$clovek_f->form[] = new cpf_db_textbox("prijmeni");
+	$clovek_f->form[] = new cpf_db_textbox("prijmeni","prijmeni",array("maxlength"=>60));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["nick"] . ": ");
-	$clovek_f->form[] = new cpf_db_textbox("nick");
+	$clovek_f->form[] = new cpf_db_textbox("nick","nick",array("maxlength"=>60));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["club"] . ": ");
 	$clovek_f->form[] = new cpf_db_listbox("klub_id",array(
@@ -48,7 +48,7 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_db_link("klub_ID","./?page=klub&klub_id=%s",$lang["link"]);
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["born"] . ": ");
-	$clovek_f->form[] = new cpf_db_textbox("narozen");
+	$clovek_f->form[] = new cpf_db_textbox("narozen","narozen",array("maxlength"=>10);
 	$clovek_f->form[] = new cpf_text(" " . $lang["yyyy-mm-dd"],array("class"=>"desc"));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["comment"] . ": ");
@@ -82,7 +82,7 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_db_text("prijmeni");
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["nick"] . ": ");
-	$clovek_f->form[] = new cpf_db_textbox("nick");
+	$clovek_f->form[] = new cpf_db_textbox("nick","nick",array("maxlength"=>60));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$clovek_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
@@ -96,7 +96,7 @@ if ($can_edit) {
 		$clovek_f->form_attr["action"] = "./?page=clovek.self.exec";
 		$clovek_f->form[] = new cpf_hidden("clovek_id",$clovek["clovek_ID"]);
 		$clovek_f->form[] = new cpf_text($lang["born"] . ": ");
-		$clovek_f->form[] = new cpf_db_textbox("narozen");
+		$clovek_f->form[] = new cpf_db_textbox("narozen","narozen",array("maxlength"=>10));
 		$clovek_f->form[] = new cpf_button("born",$lang["save"]);
 		$clovek_f->render_new();
 	} else {
@@ -166,7 +166,7 @@ if ($GLOBALS["cps_lidi"] >= 2) {
 	$accr->form[] = new cpf_text(" " . $lang["separate by commas: en,cz"],array("class"=>"desc"));
 	$accr->form[] = new cpf_nl;
 	$accr->form[] = new cpf_text($lang["place"] . ": ");
-	$accr->form[] = new cpf_db_textbox("misto");
+	$accr->form[] = new cpf_db_textbox("misto","misto",array("maxlength"=>255));
 	$accr->form["b1"] = new cpf_button("save",$lang["save"]);
 	$accr->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$accr->render_select();

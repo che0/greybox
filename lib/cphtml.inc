@@ -1,13 +1,13 @@
 <?php
 /*
  * greybox
- * $Id: cphtml.inc,v 1.13 2005/01/09 00:47:38 che0 Exp $
+ * $Id: cphtml.inc,v 1.14 2005/03/29 10:09:54 che0 Exp $
  */
 
 function cphs_tag_start($name, $attr = array()) {
 	$t = "<" . $name;
 	foreach ($attr as $key => $value) {
-		$t .= " " . $key . "=\"" . htmlspecialchars($value) . "\"";
+		$t .= " " . $key . "=\"" . htmlspecialchars(is_array($value) ? implode(" ",$value) : $value) . "\"";
 	}
 	$t .= ">";
 	return $t;
