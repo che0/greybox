@@ -1,23 +1,125 @@
 <?php
 
+function iptsr_internal_deb($debata_id) {
+	$rocnik = cpdb_fetch_one_value("select rocnik from debata left join soutez using (soutez_ID) where debata_ID = :debata_id", array(":debata_id"=>$debata_id));
+	
+	$status = true;
+	cpdb_transaction();
+	
+	// vycistit
+	$status &= cpdb_exec("delete from clovek_debata_ibody where debata_ID = :debata_id", array(":debata_id"=>$debata_id));
+	
+	// debateri
+	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'debater', kidy * 0.01 from clovek_debata where debata_ID = :debata_id and find_in_set(role,'a1,a2,a3,n1,n2,n3')", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
+		
+	// rozhodci
+	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'rozhodci', 0.8 from clovek_debata where debata_ID = :debata_id and role = 'r'", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
+	
+	// treneri
+	$status &= cpdb_exec("
+		insert into
+			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
+		select
+			clovek_klub.clovek_ID as c1, clovek_debata_ibody.debata_ID as c2, :rocnik as c3, 'trener' as c4, sum(clovek_debata_ibody.ibody) * 0.04 as ibody
+		from
+			clovek_debata_ibody
+			left join clovek
+				on clovek_debata_ibody.clovek_ID = clovek.clovek_ID
+			left join clovek_klub
+				on clovek.klub_ID = clovek_klub.klub_ID
+				and clovek_klub.role = 't'
+				and clovek_klub.rocnik = :rocnik
+		where
+			clovek_klub.clovek_ID is not null
+			and clovek_debata_ibody.debata_ID = :debata_id
+			and clovek_debata_ibody.role = 'debater'
+		group by
+			c1, c2, c3, c4
+		having
+			ibody > 0
+	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
+	
+	// organizatori
+	// kolik dostanou
+	$dostanou = cpdb_fetch_one_value("select sum(ibody) * 0.05 from clovek_debata_ibody where debata_ID = :debata_id and find_in_set(clovek_debata_ibody.role,'debater,rozhodci')", array(":debata_id"=>$debata_id));
+	
+	// primi
+	$status &= cpdb_exec("
+		insert into
+			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
+		select
+			clovek_ID, :debata_id, :rocnik, 'organizator', :ibody
+		from
+			clovek_debata
+		where
+			clovek_debata.role = 'o'
+			and clovek_debata.debata_ID = :debata_id
+	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik, ":ibody"=>$dostanou));
+	
+	// neprimi
+	$status &= cpdb_exec("
+		insert into
+			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
+		select
+			clovek_turnaj.clovek_ID, :debata_id, :rocnik, 'organizator', :ibody
+		from
+			debata
+			left join clovek_turnaj
+				on clovek_turnaj.turnaj_ID = debata.turnaj_ID
+				and clovek_turnaj.role = 'o'
+		where
+			debata.debata_ID = :debata_id
+			and clovek_turnaj.clovek_ID is not null
+	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik, ":ibody"=>$dostanou));
+	
+	if ($status) {
+		cpdb_commit();
+	} else {
+		cpdb_rollback();
+	}
+}
+
 function ipts_recount_clovek_role($clovek_id, $role) {
 	// vycisti vsechny ibody dane role pro cloveka a spocita je znovu
-	// FIXME
+	ipts_recount_clovek($clovek_id);
 }
 
 function ipts_recount_clovek($clovek_id) {
 	// vycisti a prepocita vsechny ibody pro cloveka
-	// FIXME
+	cpdb_fetch_all("
+		select distinct
+			debata_ID
+		from
+			clovek_debata
+		where
+			clovek_ID = :clovek_id
+		union distinct
+		select distinct
+			clovek_ID
+		from
+			clovek_turnaj
+			left join turnaj on clovek_turnaj.turnaj_ID = turnaj.turnaj_ID
+			left join debata on turnaj.turnaj_ID = debata.turnaj_ID
+		where
+			clovek_turnaj.clovek_ID = :clovek_id
+			and clovek_turnaj.role = 'o'
+	", array(":clovek_id"=>$clovek_id), $debaty);
+	foreach ($debaty as $debata) {
+		iptsr_internal_deb($debata["debata_ID"]);
+	}
 }
 
 function ipts_recount_debate($debata_id) {
 	// vycisti a prepocita vsechny ibody pro debatu
-	// FIXME
+	iptsr_internal_deb($debata_id);
 }
 
 function ipts_recount() {
 	// vycisti a prepocita vsechny ibody
-	// FIXME
+	cpdb_fetch_all("select debata_ID from debata", array(), $debaty);
+	foreach ($debaty as $debata) {
+		iptsr_internal_deb($debata["debata_ID"]);
+	}
 }
 
 function recount_debate($debata_id) {
