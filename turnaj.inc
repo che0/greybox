@@ -1,12 +1,12 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.20 2005/03/23 13:10:19 che0 Exp $
+ * $Id: turnaj.inc,v 1.21 2005/03/23 15:13:50 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
 
-if (!cpdb_fetch_one_row("select * from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id" => $turnaj_id),$turnaj_p)) {
+if (!cpdb_fetch_one_row("select turnaj.*, soutez.nazev as soutez, liga.nazev as liga from turnaj left join soutez on turnaj.soutez_ID = soutez.soutez_ID left join liga on turnaj.liga_ID = liga.liga_ID where turnaj_ID = :turnaj_id", array(":turnaj_id" => $turnaj_id),$turnaj_p)) {
 	pg_achtung($lang["no record"]);
 	return;
 }
@@ -79,7 +79,11 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	cph_p(
 		$lang["date_from"] . ": " . format_date($turnaj["datum_od"]) . cphs_br()
 		. $lang["date_to"] . ": " . format_date($turnaj["datum_do"]) . cphs_br()
-		. $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$turnaj["soutez_ID"])))
+		. $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], $turnaj["soutez"])
+		. ((isset($turnaj["liga_ID"])) 
+			? (cphs_br() . $lang["league"] . ": " . cphs_link("./?page=liga&liga_id=" . $turnaj["liga_ID"], $turnaj["liga"]))
+			: ""
+		)
 	);
 	
 	$role_domain = array("o"=>$lang["organizer"]);
