@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.15 2005/02/15 14:32:45 che0 Exp $
+ * $Id: lide.inc,v 1.16 2005/02/15 14:47:40 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -240,7 +240,10 @@ switch ($kdo) {
 				$kidy["avg"],
 				$kidy["samples"],
 				$kidy["stddev"]
-			));
+			),
+				$kidy["samples"] >= $GLOBALS["cp_config"]["min_kidy_judge"] ?
+					array() : array("class"=>"inactive") 
+			);
 		}
 		cph_table_end();
 	break;

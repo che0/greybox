@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.9 2005/02/15 14:32:45 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.10 2005/02/15 14:47:40 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
@@ -49,7 +49,10 @@ if ($ukaz == "judges") {
 			$kidy["avg"],
 			$kidy["samples"],
 			$kidy["stddev"]
-		));
+		),
+			$kidy["samples"] >= $GLOBALS["cp_config"]["min_kidy_judge"] ?
+				array() : array("class"=>"inactive") 
+		);
 	}
 	cph_table_end();
 
