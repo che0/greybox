@@ -133,7 +133,7 @@ switch ($_GET['akce']) {
 		echo '<form name="clovek.pridej" action="clovek.php?akce=pridej.commit" method="post">' . "\n";
 		form_textbox($lang['name'],'name', 30, '', $lang['name_desc']);
 		form_textbox($lang['surname'],'surname', 30, '', $lang['surname_desc']);
-		form_textbox($lang['nick'],'surname', 30, '', $lang['nick_desc']);
+		form_textbox($lang['nick'],'nick', 30, '', $lang['nick_desc']);
 		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
 		unset($clubs);
 		$clubs[NULL] = $lang['no club'];
