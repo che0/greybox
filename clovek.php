@@ -32,12 +32,6 @@ $template->editvar('coarching',$lang['coarching']);
 $template->editvar('total',$lang['total']);
 $template->editvar('ipoints_long',$lang['ipoints_long']);
 
-if ($_SESSION['is_logged_in']) {
-	$prava_lidi = $_SESSION['user_prava_lidi'];
-} else {
-	$prava_lidi = -1;
-}
-
 switch ($_GET['akce']) {
 	case 'uprav':
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_GET['id'])) {
@@ -781,6 +775,9 @@ switch ($_GET['akce']) {
 			if (mysql_num_rows($result) > 0) {
 				echo $template->make('clovek_detail_kontakty_tail');
 			}
+
+			// teams
+			// TODO
 
 			// accreditations
 			$query = sprintf('select rozhodci.rocnik as a_rocnik, rozhodci.jazyk as a_jazyk, rozhodci.misto as a_misto, sum(clovek_debata_ibody.ibody) as a_ibody from rozhodci left join clovek_debata_ibody on rozhodci.rocnik = clovek_debata_ibody.rocnik and rozhodci.clovek_ID = clovek_debata_ibody.clovek_ID where (clovek_debata_ibody.role = \'rozhodci\' or clovek_debata_ibody.role is null) and rozhodci.clovek_ID = %s group by a_rocnik, a_misto, a_jazyk order by a_rocnik desc',$result2['clovek_ID']);

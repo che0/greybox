@@ -9,7 +9,6 @@ $setup['db_user'] = 'greybox';
 $setup['db_password'] = 'greybox';
 
 $setup['global_title'] = 'greybox';
-$setup['global_lang'] = 'english';
 $setup['global_skin'] = 'default';
 
 $setup['current_season'] = 0; // = 2000/2001
@@ -31,9 +30,6 @@ $template->editvar('page_title',$setup['global_title']);
 $template->editvar('pure_title','');
 $template->editvar('page_headers','');
 
-$lang = array();
-require('languages/' . $setup['global_lang'] . '.php');
-
 require('inc/session.php');
 
 // connect do the database
@@ -41,6 +37,8 @@ $db_link = mysql_connect($setup['db_server'], $setup['db_user'], $setup['db_pass
 mysql_select_db ($setup['db_database'], $db_link);
 
 // language for linkblock
+$template->editvar('link_homepage',$lang['homepage']);
 $template->editvar('link_everyone',$lang['link_everyone']);
+$template->editvar('link_clubs',$lang['clubs']);
 
 ?>

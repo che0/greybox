@@ -8,9 +8,11 @@ $lang['anonymous'] = 'anonymous user';
 $lang['log in'] = 'log in';
 $lang['log out'] = 'log out';
 
+$lang['link_homepage'] = 'homepage';
 $lang['link_everyone'] = 'people';
 
 $lang['submit'] = 'submit';
+$lang['language changed'] = 'language changed';
 
 // login/logout
 $lang['logout ok'] = 'logout ok';
@@ -61,7 +63,6 @@ $lang['coaching'] = 'coaching';
 $lang['total'] = 'total';
 $lang['ipoints_long'] = 'individual points';
 $lang['add person'] = 'add person';
-$lang['name'] = 'name';
 $lang['name_desc'] = 'first name';
 $lang['surname'] = 'surname';
 $lang['surname_desc'] = '';
@@ -87,7 +88,6 @@ $lang['add'] = 'add'; // contact
 $lang['public'] = 'public';
 $lang['registered'] = 'registered';
 $lang['club only'] = 'club only';
-$lang['delete'] = 'delete';
 $lang['delete_desc'] = 'use this to delete the user';
 $lang['im sure'] = 'delete, i\'m sure';
 $lang['kill table ok'] = 'deleting from table \'%s\' ok';
@@ -131,5 +131,10 @@ $lang['user'] = 'user';
 
 // klub
 $lang['clubs'] = 'clubs';
+$lang['members'] = 'members';
+$lang['add team'] = 'add team';
+$lang['add club'] = 'add club';
+$lang['active debater_short'] = 'debater';
+$lang['active'] = 'active';
 
 ?>

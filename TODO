@@ -13,8 +13,7 @@ clovek:
 	editace akreditaci
 
 klub:
-	seznam klubu podle nazvu s mistem, poctem aktivnich debateru a aktivnich rozhodcich
-	seznam tymu, debateru, aktivnich rozhodcich, treneru
+	seznam aktivnich rozhodcich, treneru
 	editace vlastnosti, pridani noveho, pridani/ubirani treneru
 
 soutez:
