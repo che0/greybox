@@ -10,7 +10,7 @@ pg_head();
 $soutez_f = new cpykhen;
 $soutez_f->form_attr["action"] = "./?page=soutez.edit.exec";
 $soutez_f->form[] = new cpf_db_hidden("soutez_id","soutez_ID");
-$soutez_f->form[] = new cpf_text($lang["title"] . ": ");
+$soutez_f->form[] = new cpf_text($lang["competition"] . ": ");
 $soutez_f->form[] = new cpf_db_textbox("nazev");
 $soutez_f->form[] = new cpf_nl;
 $soutez_f->form[] = new cpf_text($lang["language"] . ": ");
