@@ -415,7 +415,7 @@ if (cpdb_fetch_all("
 	cph_table_end();
 }
 
-// points overview
+// ipoints overview
 if (cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,
@@ -447,6 +447,7 @@ if (cpdb_fetch_all("
 	
 	de_html($r_debaty);
 	cph_h2($lang["points overview"]);
+	cph_p($lang["total"] . ": " . cpdb_fetch_one_value("select sum(ibody) from clovek_debata_ibody where clovek_ID = :clovek_id and rocnik = :rocnik",array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"])));
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],$lang["ipoints"]),array("class"=>"visible"));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
