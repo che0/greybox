@@ -1,0 +1,70 @@
+<?php
+/*
+ * greybox
+ * $Id: klub.ib.inc,v 1.1 2005/02/12 14:50:30 che0 Exp $
+ */
+
+$klub_id = $_REQUEST["klub_id"];
+$klub_nazev = cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_id", array(":klub_id"=>$klub_id));
+
+if ($klub_nazev === false) {
+	pg_achtung($lang["no record"]);
+	return;
+}
+
+$GLOBALS["page"]->title = $klub_nazev . " / " . $lang["points overview"];
+
+pg_head();
+
+// show individual points rankings
+cph_p($lang["ranks only for full members"], array("class"=>"note"));
+
+if (! cpdb_fetch_all("
+	select
+		clovek.clovek_ID,
+		clovek.jmeno,
+		clovek.nick,
+		clovek.prijmeni,
+		sum(clovek_debata_ibody.ibody) as ibody
+	from 
+		clovek
+		left join clovek_debata_ibody
+			on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
+			and clovek_debata_ibody.rocnik = :rocnik
+	where
+		clovek.clen = 1
+		and clovek.klub_ID = :klub_id
+	group by
+		clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni
+	having
+		ibody > 0
+	order by
+		ibody desc, clovek.prijmeni, clovek.jmeno, clovek.nick
+", array(":rocnik"=>$GLOBALS["current_season"], ":klub_id"=>$klub_id), $lide)) {
+	pg_achtung($lang["no record"]);
+	return;
+}
+
+de_html($lide);
+cph_table_head(
+	array($lang["rank"], $lang["name"], $lang["ipoints"]),
+	array("class"=>"visible")
+);
+
+$count = 0; $rank = 1; $pts = -1;
+foreach ($lide as $clovek) {
+	$count++;
+	if ($pts != $clovek["ibody"]) {
+		$pts = $clovek["ibody"];
+		$rank = $count;
+	}
+	cph_table_row(array(
+		$rank,
+		cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"],join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
+		$clovek["ibody"]
+	));
+}
+
+cph_table_end();
+
+?>
