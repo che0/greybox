@@ -302,4 +302,5 @@ $lang['samples'] = 'vzorků';
 $lang['clovek.add.achtung'] = 'Prosím ujistěte se, že člověk, kterého se snažíte přidat, v systému ještě není. Seznam všech lidí je <a href="./?page=lide">zde</a>. Upozorňuji, že pro přidání člena týmu není nutné, aby tento byl v klubu, do nějž tým přísluší. Děkuji. P.N.';
 $lang['wins'] = 'výhry';
 $lang['ballots'] = 'balloty';
+$lang['Average ballots (aff:neg): %s:%s'] = 'Průměr výsledku (balloty aff:neg): %s:%s';
 ?>

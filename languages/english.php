@@ -299,4 +299,5 @@ $lang['samples'] = 'samples';
 $lang['clovek.add.achtung'] = 'Please make sure that the person you\'re about to add isn\'t aready in the system. Complete list of all people is available <a href="/?page=lide">here</a>. Note that in order to add a new member a team, it\'s not necessary (s)he is in the club to which the team belongs. Thank you.';
 $lang['wins'] = 'wins';
 $lang['ballots'] = 'ballots';
+$lang['Average ballots (aff:neg): %s:%s'] = 'Average ballots (aff:neg): %s:%s';
 ?>

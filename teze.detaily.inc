@@ -92,4 +92,18 @@ if (cpdb_fetch_all("
 	}
 	cph_table_end();
 }
+
+// average result aff:neg
+cpdb_fetch_one_row("
+	select
+		avg(2 * vitez + vitez * presvedcive + (1-vitez) * (1-presvedcive)) as aff,
+		avg(2 * (1-vitez) + (1-vitez) * presvedcive + vitez * (1-presvedcive)) as neg
+	from
+		debata
+	where
+		teze_ID = :teze_id
+	", array(":teze_id"=>$teze_id), $r_vysledky);
+cph_p(sprintf($lang["Average ballots (aff:neg): %s:%s"], $r_vysledky["aff"], $r_vysledky["neg"]));
+
+
 ?>

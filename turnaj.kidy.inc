@@ -26,6 +26,8 @@ cpdb_fetch_all(sprintf("
 		and debata.turnaj_ID = :turnaj_id
 	group by
 		clovek_ID, jmeno, nick, prijmeni, klub, klub_ID
+	having
+		samples > 0
 	order by
 		avg desc
 	", $ukaz), array(":turnaj_id"=>$turnaj_id), $r_kidy);
