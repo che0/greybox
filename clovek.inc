@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.30 2005/03/30 11:07:17 che0 Exp $
+ * $Id: clovek.inc,v 1.31 2005/03/30 11:54:01 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -48,7 +48,7 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_db_link("klub_ID","./?page=klub&klub_id=%s",$lang["link"]);
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["born"] . ": ");
-	$clovek_f->form[] = new cpf_db_textbox("narozen","narozen",array("maxlength"=>10);
+	$clovek_f->form[] = new cpf_db_textbox("narozen","narozen",array("maxlength"=>10));
 	$clovek_f->form[] = new cpf_text(" " . $lang["yyyy-mm-dd"],array("class"=>"desc"));
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["comment"] . ": ");
