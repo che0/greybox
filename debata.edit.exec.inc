@@ -59,12 +59,6 @@ if (!isset($_REQUEST["delete"])) {
 		// is debater in the team he's debating for?
 		$in_team = cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id",array(":clovek_id"=>$speaker["id"], ":tym_id"=>$teams[$speaker["tym"]]["id"]));
 		
-		// if he's not there at all...
-		if ($in_team === false) {
-			pg_achtung(sprintf($lang["speaker %s is not a member of %s team, dropping"],$key, $lang[$speaker["tym"]]), 1);
-			$speakers[$key]["id"] = 0;
-		}
-		
 		if (cpdb_fetch_one_value("select clovek_ID from clovek_debata where clovek_ID = :clovek_id and debata_ID = :debata_id", array(":clovek_id"=>$speaker["id"], ":debata_id"=>$debata_id)) != $speaker["id"]) {
 		// the debater wasn't in the debate before
 		
@@ -77,6 +71,12 @@ if (!isset($_REQUEST["delete"])) {
 			// check for active team membership
 			if ($in_team != 1) {
 				pg_achtung(sprintf($lang["speaker %s is not active member of %s team, dropping"],$key, $lang[$speaker["tym"]]), 1);
+				$speakers[$key]["id"] = 0;
+			}
+		} else {
+			// if he's not there at all...
+			if ($in_team === false) {
+				pg_achtung(sprintf($lang["speaker %s is not a member of %s team, dropping"],$key, $lang[$speaker["tym"]]), 1);
 				$speakers[$key]["id"] = 0;
 			}
 		}
