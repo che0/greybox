@@ -216,7 +216,7 @@ switch ($_GET['akce']) {
 
 	default:
 		if ($_GET['id'] == "") {
-			if ($_GET['id'] = $_SESSION['user_clovek_ID'] == "") {
+			if (($_GET['id'] = $_SESSION['user_clovek_ID']) == "") {
 				echo $template->make('head');
 				break;
 			}
