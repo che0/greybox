@@ -1,5 +1,7 @@
 <?php
 
+include_once("cphtml.inc");
+
 class pg_page {
 	var $headers;
 	var $title;
@@ -34,8 +36,8 @@ class pg_page {
 		
 		$links = "";
 		foreach($this->links as $link) {
-			$active = ($this->page[2] == $link[2] ? "class=\"active\"" : "") ;
-			$links .= sprintf("<a href=\"%s\" %s>%s</a>\n",htmlspecialchars($link[0]), $active, htmlspecialchars($link[1]));
+			$active = $this->page[2] == $link[2] ? array("class"=>"active") : array();
+			$links .= cphs_link($link[0], $link[1], $active) . "\n";
 		}
 		
 		printf(
