@@ -31,6 +31,7 @@ $GLOBALS["page"]->pages = array(
 	array("soutez.edit.exec", $lang["edit competition"]),
 	array("soutez.add", $lang["add competition"]),
 	array("soutez.teze.edit.exec", $lang["edit official resolution"]),
+	array("tym.soutez", $lang["team in the competition"]),
 );
 
 $GLOBALS["page"]->render();

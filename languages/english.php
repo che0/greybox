@@ -176,4 +176,7 @@ $lang['neg'] = 'neg';
 $lang['persuasively'] = 'persuasively';
 $lang['less persuasively'] = 'less persuasively';
 $lang['debated'] = 'debated';
+$lang['team in the competition'] = 'team in the competition';
+$lang['total points'] = 'total points';
+$lang['debate details'] = 'debate details';
 ?>

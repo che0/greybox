@@ -31,10 +31,6 @@ tym:
 	vypis aktivnich i neaktivnich clenu
 	pridani/editace tymu (muze admin klubu, jeho clenove muzou upravovat popis)
 
-tym.soutez:
-	tym_id, soutez_id
-	pocet bodu a vypis debat razenych podle data s obema tymy, tezi a vitezem
-
 debata:
 	page=debata, debata_id
 	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru
