@@ -1,5 +1,9 @@
 <?php
-// english language definition file
+/*
+ * greybox
+ * $Id: english.php,v 1.57 2005/01/10 00:09:51 che0 Exp $
+ * english language definition file
+ */
 
 $lang['release notes'] = 'This is first version of greybox, that should really do something useful. Have fun.<br />You can file your problems into <a href="http://sourceforge.net/tracker/?group_id=108503&amp;atid=650817">Bugzilla</a>.<br />For account, ask any of <a href="./?page=lide&amp;kdo=spravci">admins</a> that can edit accounts. P.N.';
 $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a>, &copy;2004 Petr Novák<br />
@@ -300,4 +304,5 @@ $lang['clovek.add.achtung'] = 'Please make sure that the person you\'re about to
 $lang['wins'] = 'wins';
 $lang['ballots'] = 'ballots';
 $lang['Average ballots (aff:neg): %s:%s'] = 'Average ballots (aff:neg): %s:%s';
+$lang['factor'] = 'factor';
 ?>

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.clovek.edit.exec.inc,v 1.2 2005/01/09 00:47:32 che0 Exp $
+ * $Id: turnaj.clovek.edit.exec.inc,v 1.3 2005/01/10 00:09:50 che0 Exp $
  */
 
 include_once("lib/points.inc");
@@ -15,10 +15,11 @@ $ct_id = $_REQUEST["ct_id"];
 $turnaj_id = $_REQUEST["turnaj_id"];
 $clovek_id = $_REQUEST["clovek_id"];
 $role = $_REQUEST["role"];
+$mocnost = $_REQUEST["mocnost"];
 
 if (isset($_REQUEST["add"])) {
 	// add new
-	if (cpdb_exec("insert into clovek_turnaj (clovek_ID, turnaj_ID, role) values (:clovek_id, :turnaj_id, :role)", array(":clovek_id"=>$clovek_id, ":turnaj_id"=>$turnaj_id, ":role"=>$role))) {
+	if (cpdb_exec("insert into clovek_turnaj (clovek_ID, turnaj_ID, role, mocnost) values (:clovek_id, :turnaj_id, :role, :mocnost)", array(":clovek_id"=>$clovek_id, ":turnaj_id"=>$turnaj_id, ":role"=>$role, ":mocnost"=>$mocnost))) {
 		ipts_recount_clovek_role($clovek_id, "organizator");
 		pg_achtung($lang["person update ok"]);
 		include("turnaj.inc");
@@ -27,7 +28,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update clovek_turnaj set clovek_ID = :clovek_id, role = :role where ct_ID = :ct_id", array(":clovek_id"=>$clovek_id, ":ct_id"=>$ct_id, ":role"=>$role))) {
+	if (cpdb_exec("update clovek_turnaj set clovek_ID = :clovek_id, role = :role, mocnost = :mocnost where ct_ID = :ct_id", array(":clovek_id"=>$clovek_id, ":ct_id"=>$ct_id, ":role"=>$role, ":mocnost"=>$mocnost))) {
 		ipts_recount_clovek_role($clovek_id, "organizator");
 		pg_achtung($lang["person update ok"]);
 		include("turnaj.inc");

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: points.inc,v 1.11 2005/01/09 23:07:52 che0 Exp $
+ * $Id: points.inc,v 1.12 2005/01/10 00:09:51 che0 Exp $
  */
 
 function iptsr_internal_deb($debata_id) {
@@ -13,17 +13,14 @@ function iptsr_internal_deb($debata_id) {
 	// vycistit
 	$status &= cpdb_exec("delete from clovek_debata_ibody where debata_ID = :debata_id", array(":debata_id"=>$debata_id));
 	
-	// debateri
-	/* podle kidu 
-	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'debater', kidy * 0.01 from clovek_debata where debata_ID = :debata_id and find_in_set(role,'a1,a2,a3,n1,n2,n3')", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
-	*/
-	// debateri podle poharovych bodu
+	// --- debateri
+	// (podle poharovych bodu)
 	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_debata.clovek_ID, clovek_debata.debata_ID, :rocnik, 'debater', debata_tym.body * 0.1 from clovek_debata left join debata_tym on clovek_debata.debata_ID = debata_tym.debata_ID and substring(clovek_debata.role,1,1) = elt(debata_tym.pozice + 1,'n','a') where clovek_debata.debata_ID = :debata_id and find_in_set(clovek_debata.role,'a1,a2,a3,n1,n2,n3')", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
 		
-	// rozhodci
+	// --- rozhodci
 	$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) select clovek_ID, debata_ID, :rocnik, 'rozhodci', 1 from clovek_debata where debata_ID = :debata_id and role = 'r'", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik));
 	
-	// treneri
+	// --- treneri
 	$treneri_dostanou = array();
 	
 	if (cpdb_fetch_all("select clovek_ID, ibody from clovek_debata_ibody where debata_ID = :debata_id and role = 'debater'", array(":debata_id"=>$debata_id), $debateri)) {
@@ -50,42 +47,52 @@ function iptsr_internal_deb($debata_id) {
 		$status &= cpdb_exec("insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) values (:clovek_id, :debata_id, :rocnik, 'trener', :ibody)", array(":clovek_id"=>$trener_cid, ":debata_id"=>$debata_id, ":rocnik"=>$rocnik, ":ibody"=>$trener_ib));
 	}
 	
-	// organizatori
-	/* kolik dostanou
-	$dostanou = cpdb_fetch_one_value("select sum(ibody) * 0.05 from clovek_debata_ibody where debata_ID = :debata_id and find_in_set(clovek_debata_ibody.role,'debater,rozhodci')", array(":debata_id"=>$debata_id));
-	*/
-	// ted uz dostavaji konstatni 0.15
-	$dostanou = 0.15;
+	// --- organizatori
+	$dostanou = 0.15; // kolik IB je z debaty
+	$zasluhy_primych = 1; // defaultni zasluhy u primych ogranizatoru
+	$celkem_zasluhy = 0;
+	$zasluhy = array();
 	
 	// primi
-	$status &= cpdb_exec("
-		insert into
-			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
-		select
-			clovek_ID, :debata_id, :rocnik, 'organizator', :ibody
-		from
-			clovek_debata
-		where
-			clovek_debata.role = 'o'
-			and clovek_debata.debata_ID = :debata_id
-	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik, ":ibody"=>$dostanou));
+	cpdb_fetch_all(
+		"select clovek_ID from clovek_debata where clovek_debata.role = 'o' and debata_ID = :debata_id", array(":debata_id"=>$debata_id), $res_primi);
+	
+	foreach ($res_primi as $org) {
+		$celkem_zasluhy += $zasluhy_primych;
+		$zasluhy[$org["clovek_ID"]] += $zasluhy_primych;
+	}
 	
 	// neprimi
-	$status &= cpdb_exec("
-		insert into
-			clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody)
+	cpdb_fetch_all("
 		select
-			clovek_turnaj.clovek_ID, :debata_id, :rocnik, 'organizator', :ibody
+			clovek_turnaj.clovek_ID,
+			clovek_turnaj.mocnost
 		from
-			debata
-			left join clovek_turnaj
-				on clovek_turnaj.turnaj_ID = debata.turnaj_ID
-				and clovek_turnaj.role = 'o'
+			debata, clovek_turnaj
 		where
 			debata.debata_ID = :debata_id
-			and clovek_turnaj.clovek_ID is not null
-	", array(":debata_id"=>$debata_id, ":rocnik"=>$rocnik, ":ibody"=>$dostanou));
+			and clovek_turnaj.turnaj_ID = debata.turnaj_ID
+			and clovek_turnaj.role = 'o'
+	", array(":debata_id"=>$debata_id), $res_neprimi);
 	
+	foreach($res_neprimi as $org) {
+		$celkem_zasluhy += $org["mocnost"];
+		$zasluhy[$org["clovek_ID"]] += $org["mocnost"];
+	}
+	
+	foreach($zasluhy as $org_cid => $org_zasluhy) {
+		$status &= cpdb_exec(
+			"insert into clovek_debata_ibody (clovek_ID, debata_ID, rocnik, role, ibody) values (:clovek_id, :debata_id, :rocnik, 'organizator', :ibody)",
+			array(
+				":clovek_id" => $org_cid,
+				":debata_id" => $debata_id,
+				":rocnik" => $rocnik,
+				":ibody" => $dostanou * $org_zasluhy / $celkem_zasluhy
+			)
+		);
+	}
+	
+	// zaver
 	if ($status) {
 		cpdb_commit();
 	} else {

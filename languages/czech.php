@@ -1,5 +1,9 @@
 <?php
-// czech language definition file
+/*
+ * greybox
+ * $Id: czech.php,v 1.50 2005/01/10 00:09:51 che0 Exp $
+ * czech language definition file
+ */
 
 $lang['release notes'] = 'Tohle je první verze greyboxu, která by už mohla doopravdy něco dělat. Užijte si ji.<br />
 Na chyby si stěžujte v <a href="http://sourceforge.net/tracker/?group_id=108503&amp;atid=650817">Bugzille</a>.<br />
@@ -303,4 +307,5 @@ $lang['clovek.add.achtung'] = 'Prosím ujistěte se, že člověk, kterého se s
 $lang['wins'] = 'výhry';
 $lang['ballots'] = 'balloty';
 $lang['Average ballots (aff:neg): %s:%s'] = 'Průměr výsledku (balloty aff:neg): %s:%s';
+$lang['factor'] = 'faktor';
 ?>

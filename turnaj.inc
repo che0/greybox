@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.15 2005/01/09 00:47:32 che0 Exp $
+ * $Id: turnaj.inc,v 1.16 2005/01/10 00:09:50 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -55,6 +55,8 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 		array("select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek", array()),
 		"clovek_ID");
 	$turnaj_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
+	$turnaj_clovek->form[] = new cpf_text(" " . $lang["factor"] . ": ");
+	$turnaj_clovek->form[] = new cpf_db_textbox("mocnost","mocnost",array("size"=>"3"));
 	$turnaj_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
 	$turnaj_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
 	$turnaj_clovek->render_select();
@@ -63,7 +65,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($turnaj_clovek->form["b2"]);
 	unset($turnaj_clovek->form["link"]);
-	$turnaj_clovek->load_new();
+	$turnaj_clovek->load_this(array("mocnost"=>1));
 	$turnaj_clovek->render_hidden($lang["new person"]);
 	
 } else {
@@ -76,13 +78,14 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	);
 	
 	$role_domain = array("o"=>$lang["organizer"]);
-	if (cpdb_fetch_all("select role, clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using (clovek_ID) where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id), $r_clovek) > 0) {
+	if (cpdb_fetch_all("select role, mocnost, clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni from clovek_turnaj left join clovek using (clovek_ID) where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id), $r_clovek) > 0) {
 		de_html($r_clovek);
-		cph_table_head(array($lang["role"],$lang["person"]),array("class"=>"visible"));
+		cph_table_head(array($lang["role"],$lang["person"],$lang["factor"]),array("class"=>"visible"));
 		foreach ($r_clovek as $clovek) {
 			cph_table_row(array(
 				$role_domain[$clovek["role"]],
-				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"], join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"]))
+				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"], join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
+				$clovek["mocnost"]
 			));
 		}
 		cph_table_end();
