@@ -118,7 +118,7 @@ CREATE TABLE debata (
 CREATE TABLE clovek_debata (
   debata_ID int(10) unsigned NOT NULL default '0',
   clovek_ID int(10) unsigned NOT NULL default '0',
-  role enum('r','o','a1','a2','a3','n1','n2','n3') NOT NULL default 'r',
+  role enum('r','o','a1','a2','a3','n1','n2','n3') character set utf8 NOT NULL default 'r',
   kidy tinyint(3) unsigned default NULL,
   rozhodnuti tinyint(1) default NULL,
   presvedcive tinyint(1) default NULL,
@@ -137,7 +137,7 @@ CREATE TABLE clovek_debata_ibody (
   clovek_ID int(10) unsigned NOT NULL default '0',
   debata_ID int(10) unsigned NOT NULL default '0',
   rocnik tinyint(3) unsigned NOT NULL default '0',
-  role enum('debater','rozhodci','trener','organizator') NOT NULL default 'debater',
+  role enum('debater','rozhodci','trener','organizator') character set utf8 NOT NULL default 'debater',
   ibody decimal(5,3) NOT NULL default '0.000',
   PRIMARY KEY  (clovek_ID, debata_ID, role),
   KEY clovek_ID (clovek_ID),
