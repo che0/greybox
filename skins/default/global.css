@@ -118,3 +118,16 @@ div.warning {
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
+div#infoblock {
+	margin-bottom: 10px;
+}
+
+span#language_info, span#season_info {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+p#login_info  {
+	margin-top: 3px;
+}

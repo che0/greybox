@@ -20,6 +20,8 @@ $GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
 $GLOBALS["page"]->default_page = "default";
 
 $GLOBALS["page"]->pages = array(
+	array("language", $lang["language"]),
+	array("season", $lang["season"]),
 	array("login", $lang["login"]),
 	array("logout", $lang["login"]),
 	array("lide", $lang["people"]),

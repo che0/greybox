@@ -7,6 +7,7 @@ class pg_page {
 	var $links;
 	var $lang_block;
 	var $login_block;
+	var $season_block;
 	var $pages;
 	var $default_page;
 	
@@ -48,8 +49,9 @@ class pg_page {
 
 <body>
 <div id="main_title"><a href="./"><img src="skins/default/images/titul.png" width="288" height="44" alt="greybox" style="border: none"></a><span id="main_title_text">%s</span></div>
-<div id="leftblock"><p class="language">%s</p>
-<p class="login_info">%s</p>
+<div id="leftblock"><div id="infoblock"><span id="language_info">%s</span>
+| <span id="season_info">%s</span>
+<p id="login_info">%s</p></div>
 %s</div><div id="mainbody">',
 		(isset($this->title))
 			? ($GLOBALS["cp_config"]["title"] . " ". $this->title)
@@ -58,6 +60,7 @@ class pg_page {
 		$headers,
 		$this->title,
 		$this->lang_block,
+		$this->season_block,
 		$this->login_block,
 		$links);
 		
