@@ -97,6 +97,7 @@ class pg_page {
 			$this->render_head();
 		}
 		
+		$this->flush_achtungs();
 		$this->render_tail();
 	}
 	
@@ -133,6 +134,7 @@ function pg_flush_achtungs() {
 
 function pg_head() {
 	$GLOBALS["page"]->render_head();
+	$GLOBALS["page"]->flush_achtungs();
 }
 
 

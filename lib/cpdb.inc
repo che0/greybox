@@ -15,7 +15,11 @@ function cpdb_bind($query, $args = array()) {
 		$repl_from[] = $key;
 		
 		if (!is_int($value)) {
-			$repl_to[] = "'" . mysql_real_escape_string($value) . "'";
+			if ($value == "") {
+				$repl_to[] = "NULL";
+			} else {
+				$repl_to[] = "'" . mysql_real_escape_string($value) . "'";
+			}
 		} else {
 			$repl_to[] = $value;
 		}
@@ -73,6 +77,16 @@ function cpdb_fetch_one_row ($query, $args, & $row) {
 	
 }
 
+function cpdb_exec($query, $args) {
+	$my_res = mysql_query(cpdb_bind($query, $args), $GLOBALS["dblink"]);
+	if (!! $my_res) {
+		return true;
+	} else {
+		cpdb_achtung(mysql_error());
+		return false;
+	}
+}
+
 
 function cpdb_transaction() {
 	return mysql_query("start transaction");
@@ -84,6 +98,10 @@ function cpdb_commit() {
 
 function cpdb_rollback() {
 	return mysql_query("rollback");
-}	
+}
+
+function cpdb_insert_id() {
+	return mysql_insert_id();
+}
 
 ?>

@@ -5,7 +5,7 @@
 $lang_choice = (isset ($_REQUEST["lang"])) ? $_REQUEST["lang"] : "cz";
 
 pg_head();
-if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.pridat",$lang["add resolution"]));
+if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.add",$lang["add resolution"]));
 
 
 cph_switch($lang["Language"], "./?page=teze&lang=", array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"), $lang_choice);

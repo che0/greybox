@@ -22,8 +22,10 @@ $GLOBALS["page"]->pages = array(
 	array("clovek", $lang["people"]),
 	array("klub", $lang["clubs"]),
 	array("teze", $lang["resolutions"]),
-	array("teze.pridat", $lang["add resolution"]),
-	array("teze.detaily", $lang["resolution details"])
+	array("teze.add", $lang["add resolution"]),
+	array("teze.detaily", $lang["resolution details"]),
+	array("teze.edit.exec", $lang["edit resolution"]),
+	array("teze.add.exec", $lang["add resolution"])
 );
 
 $GLOBALS["page"]->render();

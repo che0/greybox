@@ -32,7 +32,7 @@ $template->editvar('date_from',$lang['date_from']);
 $template->editvar('date_to',$lang['date_to']);
 $template->editvar('title',$lang['title']);
 $template->editvar('judging',$lang['judging']);
-$template->editvar('coarching',$lang['coarching']);
+$template->editvar('coaching',$lang['coaching']);
 $template->editvar('total',$lang['total']);
 $template->editvar('ipoints_long',$lang['ipoints_long']);
 
@@ -200,7 +200,7 @@ switch ($_GET['akce']) {
 						0 => $lang['access competitions0'],
 						1 => $lang['access competitions1'],
 						2 => $lang['access competitions2']
-						), $result2['prava_souteze'], $lang['access comptetitions_desc']);
+						), $result2['prava_souteze'], $lang['access competitions_desc']);
 					form_pulldown($lang['access debates'], 'prava_debaty',
 						array(
 						0 => $lang['access debates0'],

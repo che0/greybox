@@ -37,10 +37,6 @@ debata:
 	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru
 	pridani/editace/mazani i s navaznymi relacemi
 	
-teze:
-	vypis detailu, bez editace
-	exec edit, add
-	
 homepage:
 	nejaktualnejsi debaty
 	turnaje (do >= date(), data, misto)

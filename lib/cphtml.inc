@@ -51,7 +51,7 @@ function cph_nl() {
 }
 
 function cphs_br() {
-	return cphs_tag_single("br") . "\"";
+	return cphs_tag_single("br");
 }
 
 function cph_br() {

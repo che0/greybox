@@ -236,7 +236,7 @@ class cpf_db_hidden extends cfutral {
 	}
 	
 	function render() {
-		cph_tag_single("input", array_merge(array("type"=>"hidden", "value"=>$this->tx), $this->attr));
+		cph_tag_single("input", array_merge(array("type"=>"hidden", "value"=>$this->value), $this->attr));
 	}
 }
 

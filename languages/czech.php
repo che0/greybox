@@ -155,5 +155,9 @@ $lang['add resolution'] = 'přidej tezi';
 $lang['save'] = 'ulož';
 $lang['resolution details'] = 'detaily teze';
 
-
+$lang['access competitions_desc'] = 'access competitions_desc';
+$lang['official in'] = 'official in';
+$lang['competition'] = 'competition';
+$lang['edit resolution'] = 'edit resolution';
+$lang['update ok'] = 'update ok';
 ?>

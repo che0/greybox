@@ -145,4 +145,17 @@ $lang['club place_desc'] = '';
 
 $lang['release notes'] = 'this is totally developing application, don\'t rely on anything';
 $lang['tail_footnote'] = 'greybox, <a href="http://greybox.sourceforge.net/">greybox.sourceforge.net</a> Copyright &copy Petr Novák 2004<br>Licensed under the terms of <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>';
+$lang['language'] = 'language';
+$lang['Language'] = 'Language';
+$lang['resolutions'] = 'resolutions';
+$lang['resolution'] = 'resolution';
+$lang['details'] = 'details';
+$lang['add resolution'] = 'add resolution';
+$lang['save'] = 'save';
+$lang['resolution details'] = 'resolution details';
+$lang['access competitions_desc'] = 'access competitions_desc';
+$lang['official in'] = 'official in';
+$lang['competition'] = 'competition';
+$lang['edit resolution'] = 'edit resolution';
+$lang['update ok'] = 'update ok';
 ?>

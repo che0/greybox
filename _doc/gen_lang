@@ -1,0 +1,27 @@
+#!/bin/bash
+if [ "$1" = "-p" ]; then
+	print=yes
+	file="$2"
+else
+	print=no
+	file="$1"
+fi
+
+cat * 2>/dev/null \
+| sed 's/\$lang/\n$lang/g' \
+| grep -ho '\$lang\[["'\''][^"'\'']*["'\'']\]' \
+| sed 's/\$lang\[["'\'']//g;s/["'\'']\]//g' \
+| while read line; do
+	if [ "`grep '\$lang\[["'\'']'"$line"'["'\'']\]' "$file"`" = "" ]
+	then
+		if [ $print = yes ]; then
+			echo --- $line
+			grep -n '\$lang\[["'\'']'"$line"'["'\'']\]' *
+		else
+			echo adding \"$line\"
+			ex -c '$d' -c w -c q "$file"
+			echo "\$lang['$line'] = '$line';" >> "$file"
+			echo "?>" >> "$file"
+		fi
+	fi
+done
