@@ -18,12 +18,10 @@ cph_switch($lang["language"], "./?page=teze&jazyk=%s", array("cz"=>"cz", "en"=>"
 cpdb_fetch_all("select teze_ID, tx, not isnull(komentar) as mame_komentar from teze where jazyk = :lang",array(":lang"=>$lang_choice),$result);
 
 de_html($result);
-cph_table_head(array($lang["resolution"],$lang["comment"]),array("class"=>"visible"));
+cph_tag_start("ul");
 foreach ($result as $row) {
-	cph_table_row(array(
-		cphs_link("./?page=teze.detaily&teze_id=" . $row["teze_ID"], $row["tx"]),
-		($row["mame_komentar"] == 1) ? $lang["yes"] : "",
-	));
+	cph_tag("li", array(), cphs_link("./?page=teze.detaily&teze_id=" . $row["teze_ID"], $row["tx"]));
+	cph_nl();
 }
-cph_table_end();
+cph_tag_end("ul");
 ?>
