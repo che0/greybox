@@ -180,7 +180,7 @@ while ($clen = current($clenove)) {
 	$cl_debater = $clen['a_debater'];
 
 	while ($clen = next($clenove)) {
-		// check for added club, either add club, or print & fetch
+		// check for added team, either add team, or print & fetch
 		if ($clen['a_clovek_ID'] == $cl_clovek_ID) {
 			$cl_team .= ", " . cphs_link("./?page=tym&tym_id=" . $clen['a_tym_ID'], $clen['a_tym']);
 		} else {
@@ -197,7 +197,6 @@ while ($clen = current($clenove)) {
 		}
 	}
 	// print last one
-	echo $clen['a_debater'];
 	cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
 	next($clenove);
 }

@@ -76,7 +76,19 @@ $select_debaters = "
 			and clovek.debater = 1
 			%s
 		)
-		union
+		union distinct
+		(
+		select
+			clovek.clovek_ID,
+			concat_ws(' ', clovek.jmeno, clovek.nick, clovek.prijmeni) as clovek,
+			concat_ws(' ', clovek.prijmeni,clovek.jmeno,clovek.nick) as s_clovek
+		from
+			clovek_debata
+			left join clovek using (clovek_ID)
+		where
+			clovek_debata.debata_ID = :debata_id
+		)
+		union distinct
 		(
 		select
 			0 as clovek_ID,
@@ -90,19 +102,19 @@ $select_debaters = "
 // build affirmative debaters domain
 if (isset($debata["aff_ID"])) {
 	// choose affirmatives from the team
-	$sdomain_aff = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["aff_ID"], ":null"=>$lang["N/A"]));
+	$sdomain_aff = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["aff_ID"], ":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
 } else {
 	// choose from all debaters
-	$sdomain_aff = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"]));
+	$sdomain_aff = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
 }
 
 // build negative debaters domain
 if (isset($debata["neg_ID"])) {
 	// choose negatives from the team
-	$sdomain_neg = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["neg_ID"], ":null"=>$lang["N/A"]));
+	$sdomain_neg = array(sprintf($select_debaters,"and clovek_tym.tym_ID = :tym_id"), array(":tym_id"=>$debata["neg_ID"], ":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
 } else {
 	// choose from all debaters
-	$sdomain_neg = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"]));
+	$sdomain_neg = array(sprintf($select_debaters,""), array(":null"=>$lang["N/A"], ":debata_id"=>$debata_id));
 }
 
 // build resolutions domain
@@ -222,6 +234,9 @@ $dpyk->form[] = new cpf_db_listbox_array("vysledek", array(
 ));
 $dpyk->form[] = new cpf_text(" " . $lang["applies only if there are no adjudicators filled in"], array("class"=>"desc"));
 $dpyk->form[] = new cpf_nl;
+$dpyk->form[] = new cpf_text($lang["comment"] . ": ");
+$dpyk->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
+$dpyk->form[] = new cpf_nl;
 
 $dpyk->form[] = new cpf_button("save",$lang["save"]);
 $dpyk->form[] = new cpf_button("delete",$lang["delete"]);
@@ -244,35 +259,40 @@ if (cpdb_fetch_all("select clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.p
 }
 
 // adjudicators/organizers
-$klub_clovek = new cpykhen;
-$klub_clovek->form_attr["action"] = "./?page=debata.clovek.edit.exec";
-$klub_clovek->select = "select dc_ID, clovek_ID, role, rozhodnuti, presvedcive from clovek_debata where debata_ID = :debata_id and find_in_set(role,'r,o') order by role";
-$klub_clovek->select_args = array(":debata_id"=>$debata_id);
-$klub_clovek->form[] = new cpf_hidden("debata_id",$debata_id);
-$klub_clovek->form[] = new cpf_db_hidden("dc_id","dc_ID");
-$klub_clovek->form["role"] = new cpf_db_listbox_array("role", array("r"=>$lang["adjudicator"], "o"=>$lang["organizer"]));
-$klub_clovek->form["select"] = new cpf_db_listbox("clovek_id",
+$dbt_clovek = new cpykhen;
+$dbt_clovek->form_attr["action"] = "./?page=debata.clovek.edit.exec";
+$dbt_clovek->select = "select dc_ID, clovek_ID, role, rozhodnuti + 1 as rozhodnuti, presvedcive + 1 as presvedcive from clovek_debata where debata_ID = :debata_id and find_in_set(role,'r,o') order by role";
+$dbt_clovek->select_args = array(":debata_id"=>$debata_id);
+$dbt_clovek->form[] = new cpf_hidden("debata_id",$debata_id);
+$dbt_clovek->form[] = new cpf_db_hidden("dc_id","dc_ID");
+$dbt_clovek->form["role"] = new cpf_db_listbox_array("role", array("r"=>$lang["adjudicator"], "o"=>$lang["organizer"]));
+$dbt_clovek->form["select"] = new cpf_db_listbox("clovek_id",
 	array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek order by prijmeni, jmeno, nick", array()), "clovek_ID");
-$klub_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
-$klub_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
-$klub_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
-$klub_clovek->render_select();
+$dbt_clovek->form["link"] = new cpf_db_link("clovek_ID","./?page=clovek&clovek_id=%s",$lang["link"]);
+$dbt_clovek->form["roz_tx"] = new cpf_text(" " . $lang["decision"] . ": ");
+$dbt_clovek->form["rozhodnuti"] = new cpf_db_listbox_array("rozhodnuti", array(0=>$lang["N/A"], 2=>$lang["aff"], 1=>$lang["neg"]));
+$dbt_clovek->form["presvedcive"] = new cpf_db_listbox_array("presvedcive", array(0=>$lang["N/A"], 2=>$lang["3:0"], 1=>$lang["2:1"]));
+$dbt_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
+$dbt_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
+$dbt_clovek->render_select();
 
-$klub_clovek->form["select"] = new cpf_db_listbox("clovek_id",
+$dbt_clovek->form["select"] = new cpf_db_listbox("clovek_id",
 	array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from rozhodci left join clovek using(clovek_ID) where rozhodci.rocnik = :rocnik and find_in_set(:jazyk, rozhodci.jazyk) order by prijmeni, jmeno, nick", array(":rocnik"=>$GLOBALS["current_season"], ":jazyk"=>$debata["jazyk"])), "clovek_ID");
-$klub_clovek->form["role"] = new cpf_db_listbox_array("role", array("r"=>$lang["adjudicator"]));
-$klub_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
-unset($klub_clovek->form["b2"]);
-unset($klub_clovek->form["link"]);
-$klub_clovek->init_force();
-$klub_clovek->load_new();
-$klub_clovek->render_hidden($lang["new adjudicator"]);
+$dbt_clovek->form["role"] = new cpf_db_listbox_array("role", array("r"=>$lang["adjudicator"]));
+$dbt_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
+unset($dbt_clovek->form["b2"], $dbt_clovek->form["link"]);
+$dbt_clovek->init_force();
+$dbt_clovek->load_new();
+$dbt_clovek->render_hidden($lang["new adjudicator"]);
 
-$klub_clovek->form["select"] = new cpf_db_listbox("clovek_id",
+$dbt_clovek->form["select"] = new cpf_db_listbox("clovek_id",
 	array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek order by prijmeni, jmeno, nick", array()), "clovek_ID");
-$klub_clovek->form["role"] = new cpf_db_listbox_array("role", array("o"=>$lang["organizer"]));
-$klub_clovek->init_force();
-$klub_clovek->load_new();
-$klub_clovek->render_hidden($lang["new organizer"]);
+$dbt_clovek->form["role"] = new cpf_db_listbox_array("role", array("o"=>$lang["organizer"]));
+$dbt_clovek->form["rozhodnuti"] = new cpf_hidden("rozhodnuti", "");
+$dbt_clovek->form["presvedcive"] = new cpf_hidden("presvedcive", "");
+unset($dbt_clovek->form["roz_tx"]);
+$dbt_clovek->init_force();
+$dbt_clovek->load_new();
+$dbt_clovek->render_hidden($lang["new organizer"]);
 
 ?>

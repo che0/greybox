@@ -56,7 +56,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$members->form["b1"] = new cpf_button("add",$lang["add"]);
 	unset($members->form["b2"], $members->form["clovek2"], $members->form["clovek3"], $members->form["clovek4"]);
 	$members->init_force();
-	$members->load_new();
+	$members->load_this(array("aktivni"=>1));
 	$members->render_hidden($lang["add member"]);
 	
 } else {

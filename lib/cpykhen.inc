@@ -23,6 +23,13 @@ class cpykhen {
 		}
 	}
 	
+	function append_this($values) {
+		$this->init();
+		foreach ($this->form as $element=>$neco) {
+			$this->form[$element]->append_this($values);
+		}
+	}
+	
 	function load_new() {
 		$this->init();
 		foreach ($this->form as $element=>$neco) {
@@ -94,8 +101,12 @@ class cfutral {
 	function init() {
 	}
 	
-	function load_this($values) {
+	function append_this($values) {
 		if (isset($values[$this->field])) $this->value = $values[$this->field];
+	}
+	
+	function load_this($values) {
+		$this->value = $values[$this->field];
 		// echo "__" . $this->field . "=>" . $values[$this->field];
 	}
 	
@@ -179,6 +190,7 @@ class cpf_db_listbox_array extends cfutral {
 		cph_tag_start("select",$this->attr);
 		foreach ($this->domain as $key => $caption) {
 			if ($key == $this->value) {
+				// pg_achtung(sprintf("%s: match %s == %s",$this->field, $key,$this->value));
 				cph_tag("option",array("value" => $key, "selected" => "selected"), htmlspecialchars($caption));
 			} else {
 				cph_tag("option",array("value" => $key), htmlspecialchars($caption));

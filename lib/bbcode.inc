@@ -602,7 +602,7 @@ function do_bbcode_url ($tag_name, $attrs, $elem_contents, $func_param, $openclo
 
 function do_bbcode_img ($tag_name, $attrs, $elem_contents, $func_param, $openclose) {
 	if ($openclose == 'all') {
-		return cphs_tag_single("img",array("src"=>$elem_contents));
+		return cphs_tag_single("img",array("src"=>$elem_contents, "alt"=>"user image"));
 	} else {
 		return false;
 	}

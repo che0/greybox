@@ -34,7 +34,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["delete"])) {
 	// delete
 	
-	if (cpdb_exec("delete from clovek_klub where ck_ID = :ck_id and klub_id = :klub_id", array(":ck_id"=>$ck_id, ":klub_id"=>$klub_id))) {
+	if (cpdb_exec("delete from clovek_klub where ck_ID = :ck_id and klub_ID = :klub_id", array(":ck_id"=>$ck_id, ":klub_id"=>$klub_id))) {
 		ipts_recount_clovek_role($clovek_id, "trener");
 		pg_achtung($lang["coach update ok"]);
 		include("klub.inc");

@@ -95,7 +95,7 @@ function cphs_p($text, $attr = array()) {
 }
 
 function cph_p($text, $attr = array()) {
-	echo cphs_p($text, $attr = array());
+	echo cphs_p($text, $attr);
 }
 
 function cph_h2($text, $attr = array()) {

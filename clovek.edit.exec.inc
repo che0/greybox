@@ -19,7 +19,7 @@ if (!($GLOBALS["cps_lidi"] >= 2
 		return;
 }
 
-if ($klub_id == 0) $klub_id = ""; // "" gets converted to NULL by cpdb_exec
+if ($klub_id == 0) $klub_id = NULL;
 
 if (isset($_REQUEST["add"])) {
 	// add new

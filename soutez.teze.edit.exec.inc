@@ -1,4 +1,5 @@
 <?php
+include("lib/points.inc");
 
 if ($GLOBALS["cps_souteze"] < 2) {
 	pg_achtung($lang["access denied"]);

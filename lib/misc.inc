@@ -53,6 +53,7 @@ function de_html(& $whatever) {
 				de_html($whatever[$key]);
 			}
 		}
+		reset($whatever);
 	} elseif (is_string($whatever)) {
 		$whatever = htmlspecialchars($whatever);
 	}

@@ -14,7 +14,7 @@ switch ($kdo) {
 		// show list of people
 		if ($GLOBALS["cps_lidi"] >= 1) {
 			// if user can add new people, this is the page he can do it
-			cph_p(cphs_link("./?page=clovek&akce=pridej&klub_id=" . $_SESSION["user_klub_ID"], $lang['add person']));
+			cph_p(cphs_link("./?page=clovek.add&klub_id=" . $_SESSION["user_klub_ID"], $lang['add person']));
 		}
 		
 		cpdb_fetch_all("

@@ -15,7 +15,7 @@ function cpdb_bind($query, $args = array()) {
 		$repl_from[] = $key;
 		
 		if (!is_int($value)) {
-			if ($value == "") {
+			if ($value == "" || is_null($value)) {
 				$repl_to[] = "NULL";
 			} else {
 				$repl_to[] = "'" . mysql_real_escape_string($value) . "'";

@@ -261,4 +261,14 @@ $lang['applies only if there are no adjudicators filled in'] = 'applies only if 
 $lang['inherited organizer'] = 'inherited organizer';
 $lang['new adjudicator'] = 'new adjudicator';
 $lang['new organizer'] = 'new organizer';
+$lang['refusing to set adjudicator without a decision'] = 'refusing to set adjudicator without a decision';
+$lang['persuasiveness not set, falling to default 3:0'] = 'persuasiveness not set, falling to default 3:0';
+$lang['debate update ok'] = 'debate update ok';
+$lang['organizer cannot have a decision set, resetting to N/A'] = 'organizer cannot have a decision set, resetting to N/A';
+$lang['adjudicator does not have accreditation for competition language or season'] = 'adjudicator does not have accreditation for competition language or season';
+$lang['speaker %s is not an active debater, dropping'] = 'speaker %s is not an active debater, dropping';
+$lang['speaker %s is not active member of %s team, dropping'] = 'speaker %s is not active member of %s team, dropping';
+$lang['tournament does not match competition, changing competition'] = 'tournament does not match competition, changing competition';
+$lang['debate add ok'] = 'debate add ok';
+$lang['debate deleted ok'] = 'debate deleted ok';
 ?>

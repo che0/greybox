@@ -34,7 +34,7 @@ $clovek_f->form[] = new cpf_text($lang["active debater"] . ": ");
 $clovek_f->form[] = new cpf_db_listbox_array("debater",array(1 => $lang['yes'], 0 => $lang['no']));
 $clovek_f->form[] = new cpf_nl;
 $clovek_f->form[] = new cpf_button("add",$lang["add"]);
-$clovek_f->load_this(array("klub_ID"=>$klub_id));
+$clovek_f->load_this(array("klub_ID"=>$klub_id, "debater"=>1));
 $clovek_f->render();
 
 
