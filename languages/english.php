@@ -41,5 +41,8 @@ $lang['postal'] = 'postal';
 $lang['icq'] = 'icq';
 $lang['jabber'] = 'jabber';
 $lang['web'] = 'web';
+$lang['club'] = 'club';
+$lang['member'] = 'member';
+$lang['coach'] = 'coach';
 
 ?>

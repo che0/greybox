@@ -43,4 +43,9 @@ function get_current_season()
 	global $setup;
 	return $setup['current_season'];
 }
+
+function season_to_str($season)
+{
+	return ($season + 2000) . "/" . ($season + 2001);
+}
 ?>

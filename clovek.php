@@ -190,6 +190,32 @@ switch ($_GET['akce']) {
 			echo $template->make('head');
 			print_comment($result2['komentar']);
 
+			// club
+			echo sprintf("<h2>%s</h2>",$lang['club']);
+			$got_club = 0;
+			if ($result2['klub_ID']) {
+				$query = sprintf('select nazev from klub where klub_ID = %s', $result2['klub_ID']);
+				$result = mysql_query($query);
+				if ($result3 = mysql_fetch_array($result)) {
+					$got_club = 1;
+					printf('<p class="klub">%s: <a href="klub.php?id=%s">%s</a></p>',$lang['member'], $result2['klub_ID'], $result3['nazev']);
+				}
+			}
+			// club positions
+			$query = sprintf('select klub.nazev as a_nazev, klub.klub_ID as a_klub_ID, clovek_klub.rocnik as a_rocnik, clovek_klub.role as a_role from clovek_klub left join klub using (klub_ID) where clovek_klub.clovek_ID = %s order by clovek_klub.rocnik desc',$result2['clovek_ID']);
+			$result = mysql_query($query);
+			while ($result3 = mysql_fetch_array($result)) {
+				$got_club = 1;
+				switch ($result3['a_role']) {
+					case 't':
+						$role = $lang['coach'];
+						break;
+				}
+				printf('<p class="klub">%s: <a href="klub.php?id=%s">%s</a> (%s)</p>', $role, $result3['a_klub_ID'], $result3['a_nazev'], season_to_str($result3['a_rocnik']));
+			}
+			if (! $got_club) { printf ('<p class="klub">%s</p>',$lang['no records']); }
+			
+			// contacts
 			$query = sprintf('select druh, tx from kontakt where clovek_ID = %s and viditelnost <= %s order by druh',$result2['clovek_ID'],$adjacency);
 			$result = mysql_query($query);
 

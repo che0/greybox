@@ -59,5 +59,3 @@
 <!-- BEGIN clovek_detail_kontakty_tail -->
 </table>
 <!-- END clovek_detail_kontakty_tail -->
-
-
