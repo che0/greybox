@@ -99,6 +99,7 @@ CREATE TABLE klub (
   klub_ID int(10) unsigned NOT NULL auto_increment,
   misto varchar(255) default NULL,
   nazev varchar(255) NOT NULL default '',
+  kratky_nazev varchar(32) NOT NULL default '',
   komentar blob,
   PRIMARY KEY  (klub_ID)
 ) TYPE=MyISAM;
