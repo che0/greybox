@@ -7,10 +7,8 @@ prepocitavani IB a vitezstvi debaty
 kontrola integrity
 
 clovek:
-	seznam podle jmena (+obecne klub a tymy) filtr (aktivni debater|aktivni rozhodci)
 	seznam podle IB s tymy a filtrem na vek
-	vypis jednoho s kontakty podle stupne uverejneni
-	ve vypisu i akreditace, poradani turnaju, trenerstvi a ucast na debatach
+	ve cloveka vypisu i akreditace, poradani turnaju, trenerstvi a ucast na debatach
 	pridani noveho, editace
 	editace vlastnich udaju
 

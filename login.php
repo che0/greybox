@@ -19,7 +19,7 @@ if ($_POST['action'] == 'login') {
 	$result = mysql_query($query);
 	
 	if ($result2 = mysql_fetch_array($result)) {
-		body_message('login successful');
+		body_message($lang['login successful']);
 		$template->editvar('page_headers','<meta http-equiv="refresh" content="1;url=\'' . htmlspecialchars(urldecode($_POST['von'])) . '\'">');
 
 		// now set all the session variables

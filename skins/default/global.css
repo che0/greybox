@@ -8,6 +8,10 @@ body {
 	background-position: top left;
 }
 
+th {
+	text-align: left;
+}
+
 div#main_title {
 	height: 44px;
 	width: 100%;

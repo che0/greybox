@@ -16,15 +16,30 @@ $lang['login'] = 'login';
 $lang['username'] = 'login name';
 $lang['password'] = 'password';
 $lang['on login page'] = 'just logging in';
-$lang['loggin out'] = 'just logging out';
+$lang['logging out'] = 'just logging out';
 $lang['access denied'] = 'access denied';
+$lang['login ok'] = 'login ok';
 
 // clovek
+$lang['list'] = 'list';
 $lang['people'] = 'people';
+$lang['everyone'] = 'everyone';
+$lang['judges'] = 'judges';
+$lang['debaters'] = 'debaters';
 $lang['name'] = 'name';
 $lang['club'] = 'club';
 $lang['team'] = 'team';
 $lang['ipoints'] = 'pts';
-$lang['no records'] = 'the are no matching records';
+$lang['place'] = 'place';
+$lang['languages'] = 'lang';
+$lang['no records'] = 'there are no matching records';
+$lang['number of records'] = 'number of records';
+$lang['contacts'] = 'contacts';
+$lang['phone'] = 'phone';
+$lang['email'] = 'e-mail';
+$lang['postal'] = 'postal';
+$lang['icq'] = 'icq';
+$lang['jabber'] = 'jabber';
+$lang['web'] = 'web';
 
 ?>
