@@ -1,6 +1,8 @@
 <?php
 pg_head();
 
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]);
+
 cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,

@@ -86,6 +86,8 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 // debates w/ teams, resolutions, result, link
 cph_h2($lang["debates"]);
 
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s&turnaj_id=%s",$turnaj["soutez_ID"],$turnaj_id), $lang["add debate"]);
+
 cpdb_fetch_all("
 	select
 		tym_aff.tym_ID as aff_ID,

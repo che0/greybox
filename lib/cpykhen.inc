@@ -95,7 +95,7 @@ class cfutral {
 	}
 	
 	function load_this($values) {
-		$this->value = $values[$this->field];
+		if (isset($values[$this->field])) $this->value = $values[$this->field];
 		// echo "__" . $this->field . "=>" . $values[$this->field];
 	}
 	

@@ -158,6 +158,9 @@ if (cpdb_fetch_all("
 	", array(":soutez_id"=>$soutez_id),$r_debaty)) {
 	
 	cph_h2($lang["debates"]);
+	
+	if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link(sprintf("./?page=debata.add&soutez_id=%s",$soutez_id), $lang["add debate"]);
+	
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""),array("class"=>"visible"));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) {

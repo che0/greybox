@@ -49,6 +49,8 @@ pg_head();
 
 if (isset($debata["komentar"])) cph_p($debata["komentar"]);
 
+if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.add",$lang["add debate"]);
+
 $info = $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $debata["soutez_ID"], $debata["soutez"]);
 if (isset($debata["turnaj_ID"])) $info .= cphs_br() . $lang["tournament"] . ": " . cphs_link("./?page=turnaj&turnaj_id=" . $debata["turnaj_ID"], $debata["turnaj"]);
 cph_p($info);
