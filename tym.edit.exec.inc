@@ -15,7 +15,7 @@ if (!($GLOBALS["cps_kluby"] >= 2
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into tym (klub_ID, nazev, komentar) values (:klub_id, :nazev, :komentar)", array(":klub_id"=>$klub_id, ":nazev"=>$nazev, ":komentar"=>$komentar))) {
-		pg_achtung("team insert ok");
+		pg_achtung($lang["team insert ok"]);
 		$_REQUEST["tym_id"] = cpdb_insert_id();
 		include("tym.inc");
 	}
@@ -24,7 +24,7 @@ if (isset($_REQUEST["add"])) {
 	// update
 	
 	if (cpdb_exec("update tym set klub_ID = :klub_id, nazev = :nazev, komentar = :komentar where tym_ID = :tym_id", array(":tym_id"=>$tym_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":klub_id"=>$klub_id))) {
-		pg_achtung("team update ok");
+		pg_achtung($lang["team update ok"]);
 		include("tym.inc");
 	}
 	
@@ -32,7 +32,7 @@ if (isset($_REQUEST["add"])) {
 	// delete
 	
 	if (cpdb_exec("delete from tym where tym_ID = :tym_id", array(":tym_id"=>$tym_id))) {
-		pg_achtung("team delete ok");
+		pg_achtung($lang["team delete ok"]);
 		include("klub.inc");
 	}
 }

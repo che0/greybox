@@ -460,36 +460,7 @@ switch ($_GET['akce']) {
 
 	break;
 	
-	case 'pridej':
-		if ($prava_lidi < 1) {
-			set_title($lang['access denied']);
-			pg_head();
-			print_one_message($lang['access denied']);
-			break;
-		}
-		set_title($lang['add person']);
-		pg_head();
-		
-		echo '<form name="clovek.pridej" action="./?page=clovek&akce=pridej.commit" method="post">' . "\n";
-		form_textbox($lang['name'],'name', 30, '', $lang['name_desc']);
-		form_textbox($lang['surname'],'surname', 30, '', $lang['surname_desc']);
-		form_textbox($lang['nick'],'nick', 30, '', $lang['nick_desc']);
-		$result = mysql_query('select klub_ID, nazev from klub order by kratky_nazev');
-		unset($clubs);
-		$clubs[-1] = $lang['no club'];
-		while ($result3 = mysql_fetch_array($result)) {
-			$clubs[$result3['klub_ID']]=$result3['nazev'];
-		}
-		if ($prava_lidi >= 2) {
-			form_pulldown($lang['club'],'club',$clubs,$_GET['klub'] ? $_GET['klub'] : $_SESSION['user_klub_ID'],$lang['club_desc']);
-		} else {
-			form_nothing($lang['club'],$clubs[$_SESSION['user_klub_ID']]);
-		}
-		form_textbox($lang['born'],'born',10,'',$lang['born_desc']);
-		form_textarea($lang['comment'],'comment','',$lang['comment_desc']);
-		form_pulldown($lang['active debater'],'debater',array(1 => $lang['yes'], 0 => $lang['no']),1,$lang['active debater_desc']);
-		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
-	break;
+
 
 	case 'pridej.commit':
 		if ($prava_lidi < 1) {

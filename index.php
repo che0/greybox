@@ -9,7 +9,7 @@ include_once("lib/session.inc");
 include_once('lib/misc.inc');
 
 $GLOBALS["page"]->links[] = array("./",$lang["link_homepage"]);
-$GLOBALS["page"]->links[] = array("./?page=clovek&akce=vsichni",$lang["link_everyone"]);
+$GLOBALS["page"]->links[] = array("./?page=lide",$lang["link_everyone"]);
 $GLOBALS["page"]->links[] = array("./?page=kluby",$lang["clubs"]);
 $GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
 $GLOBALS["page"]->links[] = array("./?page=souteze",$lang["competitions"]);
@@ -20,7 +20,10 @@ $GLOBALS["page"]->default_page = "default";
 $GLOBALS["page"]->pages = array(
 	array("login", $lang["login"]),
 	array("logout", $lang["login"]),
+	array("lide", $lang["people"]),
 	array("clovek", $lang["people"]),
+	array("clovek.add", $lang["add person"]),
+	array("clovek.edit.exec", $lang["edit person"]),
 	array("klub", $lang["clubs"]),
 	array("klub.add", $lang["add club"]),
 	array("klub.edit.exec", $lang["edit club"]),
@@ -31,7 +34,7 @@ $GLOBALS["page"]->pages = array(
 	array("teze.edit.exec", $lang["edit resolution"]),
 	array("teze.add.exec", $lang["add resolution"]),
 	array("souteze", $lang["competitions"]),
-	array("soutez.detaily", $lang["competition"]),
+	array("soutez", $lang["competition"]),
 	array("soutez.edit.exec", $lang["edit competition"]),
 	array("soutez.add", $lang["add competition"]),
 	array("soutez.teze.edit.exec", $lang["edit official resolution"]),

@@ -1,5 +1,5 @@
 <?php
-// soutez.detaily.inc
+// soutez.inc
 // vypis vsech soutezi v sezone
 
 $soutez_id = $_REQUEST["soutez_id"];

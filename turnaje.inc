@@ -24,7 +24,7 @@ cpdb_fetch_all("
 
 foreach ($turnaje as $turnaj) {
 	cph_table_row(array(
-		cphs_link("./?page=soutez.detaily&soutez_id=" . $turnaj["soutez_ID"], $turnaj["soutez"]),
+		cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], $turnaj["soutez"]),
 		cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["turnaj"]),
 		$turnaj["datum_od"],
 		$turnaj["datum_do"],

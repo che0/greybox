@@ -15,7 +15,7 @@ $datum_do = deformat_date($_REQUEST["datum_do"]);
 if (isset($_REQUEST["add"])) {
 	// add new
 	if (cpdb_exec("insert into turnaj (soutez_ID, nazev, komentar, datum_od, datum_do) values (:soutez_id, :nazev, :komentar, :datum_od, :datum_do)", array(":soutez_id"=>$soutez_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
-		pg_achtung("tournament insert ok");
+		pg_achtung($lang["tournament insert ok"]);
 		$_REQUEST["turnaj_id"] = cpdb_insert_id();
 		include("turnaj.inc");
 	}
@@ -24,7 +24,7 @@ if (isset($_REQUEST["add"])) {
 	// update
 	
 	if (cpdb_exec("update turnaj set soutez_ID = :soutez_id, nazev = :nazev, komentar = :komentar, datum_od = :datum_od, datum_do = :datum_do where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id, ":soutez_id"=>$soutez_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
-		pg_achtung("tournament update ok");
+		pg_achtung($lang["tournament update ok"]);
 		include("turnaj.inc");
 	}
 	
@@ -32,7 +32,7 @@ if (isset($_REQUEST["add"])) {
 	// delete
 	
 	if (cpdb_exec("delete from turnaj where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id))) {
-		pg_achtung("tournament delete ok");
+		pg_achtung($lang["tournament delete ok"]);
 		include("turnaje.inc");
 	}
 }

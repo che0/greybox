@@ -34,7 +34,7 @@ if (cpdb_fetch_all("select soutez.soutez_ID as soutez, nazev from soutez_teze le
 	cph_tag("h2",array(),$lang["official in"]);
 	cph_table_head(array($lang["competition"],""),array("class"=>"visible"));
 	foreach ($souteze as $soutez) {
-		cph_table_row(array($soutez["nazev"], cphs_link("./?page=soutez.detaily&soutez_id=" .  $soutez["soutez"],$lang["details"])));
+		cph_table_row(array($soutez["nazev"], cphs_link("./?page=soutez&soutez_id=" .  $soutez["soutez"],$lang["details"])));
 	}
 	cph_table_end();
 }

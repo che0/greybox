@@ -61,7 +61,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	cph_p(
 		$lang["date_from"] . ": " . format_date($turnaj["datum_od"]) . cphs_br()
 		. $lang["date_to"] . ": " . format_date($turnaj["datum_do"]) . cphs_br()
-		. $lang["competition"] . ": " . cphs_link("./?page=soutez.detaily&soutez_id=" . $turnaj["soutez_ID"], cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$turnaj["soutez_ID"])))
+		. $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $turnaj["soutez_ID"], cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$turnaj["soutez_ID"])))
 	);
 	
 	$role_domain = array("o"=>$lang["organizer"]);

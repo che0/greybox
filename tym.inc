@@ -91,7 +91,7 @@ cpdb_fetch_all("
 cph_table_head(array($lang["competition"],$lang["pts"]),array("class"=>"visible"));
 foreach ($souteze as $soutez) {
 	cph_table_row(array(
-		cphs_link("./?page=soutez.detaily&soutez_id=" . $soutez["soutez_ID"], $soutez["nazev"]),
+		cphs_link("./?page=soutez&soutez_id=" . $soutez["soutez_ID"], $soutez["nazev"]),
 		cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["soutez_ID"],$tym_id),$soutez["body"])
 	));
 }

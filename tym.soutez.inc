@@ -14,7 +14,7 @@ cph_p(
 	$lang["team"] . ": "
 	. cphs_link("./?page=tym&tym_id=" . $tym_id, $tym_name) . cphs_br()
 	. $lang["competition"] . ": "
-	. cphs_link("./?page=soutez.detaily&soutez_id=" . $soutez_id, $soutez_name) . cphs_br()
+	. cphs_link("./?page=soutez&soutez_id=" . $soutez_id, $soutez_name) . cphs_br()
 	. $lang["total points"] . ": "
 	. cpdb_fetch_one_value("select sum(body) from debata_tym left join debata on debata.debata_ID = debata_tym.debata_ID where debata.soutez_ID = :soutez_id and debata_tym.tym_ID = :tym_id", array(":soutez_id"=>$soutez_id, ":tym_id"=>$tym_id))
 );

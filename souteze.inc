@@ -18,7 +18,7 @@ foreach ($souteze as $soutez) {
 		$soutez["jazyk"],
 		$soutez["zamceno"] ? $lang["no"] : $lang["yes"],
 		cpdb_fetch_one_value("select count(*) from debata where soutez_ID = :soutez_ID",array(":soutez_ID"=>$soutez["soutez_ID"])),
-		cphs_link("./?page=soutez.detaily&soutez_id=" . $soutez["soutez_ID"], $lang["details"])
+		cphs_link("./?page=soutez&soutez_id=" . $soutez["soutez_ID"], $lang["details"])
 	));
 }
 
