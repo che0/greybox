@@ -23,7 +23,6 @@ function ipts_recount() {
 function recount_debate($debata_id) {
 	// prepocita vysledky a body v debate
 	// FIXME
-	// if (cpdb_fetch_all("select soutez_ID from soutez_teze where teze.teze_ID = soutez_teze.teze_ID and soutez_ID = :soutez_id and teze_ID = :teze_id",array(":soutez_id"=>$debata["soutez_ID"], ":teze_ID"=>$debata["teze_ID"]), $neco) == 1) { teze je oficialni }
 }
 
 function recount_competition($soutez_id) {

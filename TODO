@@ -9,12 +9,6 @@ kontrola integrity
 stylesheet pro tisk
 do budoucna: hezke URL http://httpd.apache.org/docs-2.0/mod/mod_rewrite.html, Query String
 
-clovek:
-	seznam podle IB s tymy a filtrem na vek
-
-debata:
-	pridani/editace/mazani i s navaznymi relacemi
-	
 homepage:
 	nejaktualnejsi debaty
 	turnaje (do >= date(), data, misto)

@@ -4,7 +4,7 @@ pg_head();
 if ($lang['release notes']) cph_p($lang['release notes']);
 
 if ($_SESSION['is_logged_in']) {
-	cph_tag("h2",array(),cphs_link("./?page=clovek",$_SESSION['user_name']));
+	cph_p(cphs_link("./?page=clovek&clovek_id=" . $_SESSION['user_clovek_ID'] ,$_SESSION['user_name']));
 	
 	$klub_nazev = cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_ID",array(":klub_ID"=>$_SESSION['user_klub_ID']));
 	
