@@ -33,7 +33,7 @@ class cpykhen {
 	function load_new() {
 		$this->init();
 		foreach ($this->form as $element=>$neco) {
-			$this->form[$element]->load_new($values);
+			$this->form[$element]->load_new();
 		}
 	}
 	
