@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: page.inc,v 1.16 2005/01/27 16:16:16 che0 Exp $
+ * $Id: page.inc,v 1.17 2005/03/28 17:56:34 che0 Exp $
  */
 
 include_once("cphtml.inc");
@@ -50,7 +50,7 @@ class pg_page {
 <title>%s</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Language" content="%s" />
-%s<link rel="stylesheet" href="skins/default/global.css" media="screen" type="text/css" />
+%s<link rel="stylesheet" href="skins/default/global.css" media="screen,projection" type="text/css" />
 <link rel="Shortcut Icon" type="image/png" href="skins/default/images/icon.png" />
 <script type="text/javascript" src="lib/form_hiding.js"></script>
 </head>

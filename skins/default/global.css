@@ -36,12 +36,16 @@ div#main_title {
 
 div#main_title img#logo_main {
 	/* main logo */
+	width: 288px;
+	height: 44px;
 }
 
 div#main_title img#logo_right {
 	/* supplemental logo */
 	float: right;
 	margin-right: 5px;
+	width: 133px;
+	height: 44px;
 }
 
 div#main_title span#main_title_text {

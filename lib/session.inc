@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: session.inc,v 1.9 2005/01/09 00:53:08 che0 Exp $
+ * $Id: session.inc,v 1.10 2005/03/28 17:56:34 che0 Exp $
  */
 
 include_once("misc.inc");
@@ -30,7 +30,7 @@ switch ($_SESSION['language']) {
 	
 	default:
 		// = cz, set cz
-		$GLOBALS["page"]->language="cz";
+		$GLOBALS["page"]->language="cs";
 		$GLOBALS["page"]->lang_block = sprintf('cz | <a href="./?page=language&amp;jazyk=en&amp;von=%s">en</a>', $url_von);
 		require('languages/czech.php');
 	break;
