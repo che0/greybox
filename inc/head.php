@@ -12,6 +12,6 @@ $dbpasswd = 'greybox';
 include('inc/template.php');
 $template = new template;
 
-$template->load('global');
+$template->load('default/global');
 $template->editvar('page_headers','');
 ?>
