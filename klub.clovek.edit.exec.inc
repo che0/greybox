@@ -16,7 +16,7 @@ $rocnik = $_REQUEST["rocnik"];
 
 if (isset($_REQUEST["add"])) {
 	// add new
-	if (cpdb_exec("insert into clovek_klub (clovek_ID, klub_ID, role, rocnik) values (:clovek_id, :klub_id, :role)", array(":clovek_id"=>$clovek_id, ":klub_id"=>$klub_id, ":role"=>$role))) {
+	if (cpdb_exec("insert into clovek_klub (clovek_ID, klub_ID, role, rocnik) values (:clovek_id, :klub_id, :role, :rocnik)", array(":clovek_id"=>$clovek_id, ":klub_id"=>$klub_id, ":role"=>$role, ":rocnik"=>$rocnik))) {
 		ipts_recount_clovek_role($clovek_id, "trener");
 		pg_achtung($lang["coach update ok"]);
 		include("klub.inc");

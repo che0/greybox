@@ -214,4 +214,12 @@ $lang['team delete ok'] = 'team delete ok';
 $lang['coach update ok'] = 'coach update ok';
 $lang['no record'] = 'no record';
 $lang['link'] = 'link';
+$lang['club positions'] = 'club positions';
+$lang['accrediation update ok'] = 'accrediation update ok';
+$lang['separate by commas: en,cz'] = 'separate by commas: en,cz';
+$lang['new accreditation'] = 'new accreditation';
+$lang['contact update ok'] = 'contact update ok';
+$lang['new contact'] = 'new contact';
+$lang['type'] = 'type';
+$lang['contact'] = 'contact';
 ?>

@@ -1,7 +1,5 @@
 <?php
 
-//FIXME
-
 $clovek_id = $_REQUEST["clovek_id"];
 $klub_id = $_REQUEST["klub_id"];
 $cur_klub_id = $_REQUEST["cur_klub_id"];

@@ -66,6 +66,7 @@ function cph_table_head($cols, $attr = array()) {
 		cph_tag("th", array(), $col);
 	}
 	cph_tag_end("tr");
+	cph_nl();
 }
 
 function cph_table_row($fields, $attr = array()) {
@@ -74,6 +75,7 @@ function cph_table_row($fields, $attr = array()) {
 		cph_tag("td", array(), $field);
 	}
 	cph_tag_end("tr");
+	cph_nl();
 }
 
 function cph_table_end() {
@@ -89,7 +91,7 @@ function cph_link($href, $text,$attr = array()) {
 }
 
 function cphs_p($text, $attr = array()) {
-	return cphs_tag("p", $attr, $text);
+	return cphs_tag("p", $attr, $text) . "\n";
 }
 
 function cph_p($text, $attr = array()) {
@@ -98,6 +100,7 @@ function cph_p($text, $attr = array()) {
 
 function cph_h2($text, $attr = array()) {
 	cph_tag("h2",$attr, $text);
+	cph_nl();
 }
 
 // choice['value'] = 'choice_caption'
@@ -117,5 +120,7 @@ function cph_switch($caption, $href, $choices, $value) {
 			cph_tag("a",array("href"=>sprintf($href, $c_value)), $c_caption);
 		}
 	}
+	cph_tag_end("p");
+	cph_nl();
 }
 ?>

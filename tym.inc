@@ -12,7 +12,7 @@ pg_head();
 
 if ($GLOBALS["cps_kluby"] >= 2
 	|| ($GLOBALS["cps_kluby"] == 1 && $tym["klub_ID"] == $_SESSION["user_klub_ID"])
-	|| (cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id", array(":clovek_id"=>$_SESSION["user_ID"], ":tym_id"=>$tym_id)) == 1)) {
+	|| (cpdb_fetch_one_value("select aktivni from clovek_tym where clovek_ID = :clovek_id and tym_ID = :tym_id", array(":clovek_id"=>$_SESSION["user_clovek_ID"], ":tym_id"=>$tym_id)) == 1)) {
 
 	// may edit team	
 	$tym_f = new cpykhen;
