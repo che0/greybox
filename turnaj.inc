@@ -57,7 +57,7 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 } else {
 	// just view
 	
-	if (isset($soutez["komentar"])) cph_p($soutez["komentar"]);
+	if (isset($turnaj["komentar"])) cph_p($turnaj["komentar"]);
 	cph_p(
 		$lang["date_from"] . ": " . format_date($turnaj["datum_od"]) . cphs_br()
 		. $lang["date_to"] . ": " . format_date($turnaj["datum_do"]) . cphs_br()

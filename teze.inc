@@ -5,10 +5,10 @@
 $lang_choice = (isset ($_REQUEST["lang"])) ? $_REQUEST["lang"] : "cz";
 
 pg_head();
-if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.add",$lang["add resolution"]));
+if ($GLOBALS["cps_teze"] >= 1) cph_p(cphs_link("./?page=teze.add&lang=" . $lang_choice,$lang["add resolution"]));
 
 
-cph_switch($lang["Language"], "./?page=teze&lang=", array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"), $lang_choice);
+cph_switch($lang["Language"], "./?page=teze&lang=%s", array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"), $lang_choice);
 
 cpdb_fetch_all("select teze_ID, tx, not isnull(komentar) as mame_komentar from teze where jazyk = :lang",array(":lang"=>$lang_choice),$result);
 

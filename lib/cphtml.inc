@@ -101,7 +101,7 @@ function cph_h2($text, $attr = array()) {
 }
 
 // choice['value'] = 'choice_caption'
-function cph_switch($caption, $prefix, $choices, $value) {
+function cph_switch($caption, $href, $choices, $value) {
 	cph_tag_start("p",array("class"=>"cp_switch"));
 	echo $caption . ": ";
 	$first = true;
@@ -114,7 +114,7 @@ function cph_switch($caption, $prefix, $choices, $value) {
 		if ($c_value == $value) {
 			echo $c_caption;
 		} else {
-			cph_tag("a",array("href"=>$prefix . $c_value), $c_caption);
+			cph_tag("a",array("href"=>sprintf($href, $c_value)), $c_caption);
 		}
 	}
 }

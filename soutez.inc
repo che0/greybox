@@ -21,6 +21,9 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_f->form[] = new cpf_text($lang["language"] . ": ");
 	$soutez_f->form[] = new cpf_db_listbox_array("jazyk",array("cz"=>"cz", "en"=>"en", "de"=>"de", "fr"=>"fr"));
 	$soutez_f->form[] = new cpf_nl;
+	$soutez_f->form[] = new cpf_text($lang["season"] . ": ");
+	$soutez_f->form[] = new cpf_db_listbox_array("rocnik",$GLOBALS["season_domain"]);
+	$soutez_f->form[] = new cpf_nl;
 	$soutez_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$soutez_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 	$soutez_f->form[] = new cpf_nl;
@@ -56,7 +59,8 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	// just view
 	
 	if (isset($soutez["komentar"])) cph_p($soutez["komentar"]);
-	cph_p($lang["language"] . ": " . $soutez["jazyk"]);
+	cph_p($lang["language"] . ": " . $soutez["jazyk"] . cph_br()
+		. $lang["season"] . ": " . season_to_str($soutez["rocnik"]));
 	
 	cpdb_fetch_all("select tx, teze.teze_ID from soutez_teze left join teze using (teze_ID) where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id), $r_teze);
 	

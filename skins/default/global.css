@@ -70,6 +70,7 @@ table.visible td, table.visible th {
 	border-bottom-color: #cbcdca;
 	padding-top: 0px;
 	padding-bottom: 0px;
+	padding-right: 5px;
 }
 
 tr.inactive {

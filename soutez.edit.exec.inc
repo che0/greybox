@@ -10,10 +10,11 @@ $jazyk = $_REQUEST["jazyk"];
 $nazev = $_REQUEST["nazev"];
 $komentar = $_REQUEST["komentar"];
 $zamceno = $_REQUEST["zamceno"];
+$rocnik = $_REQUEST["rocnik"];
 
 if (isset($_REQUEST["add"])) {
 	// add new
-	if (cpdb_exec("insert into soutez(nazev, jazyk, komentar, zamceno, rocnik) values (:nazev, :jazyk, :komentar, :zamceno, :rocnik)", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":rocnik" => $GLOBALS["current_season"]))) {
+	if (cpdb_exec("insert into soutez(nazev, jazyk, komentar, zamceno, rocnik) values (:nazev, :jazyk, :komentar, :zamceno, :rocnik)", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":rocnik" => $rocnik))) {
 		pg_achtung($lang["competition insert ok"]);
 		$_REQUEST["soutez_id"] = cpdb_insert_id();
 		include("soutez.inc");
@@ -22,7 +23,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update soutez set nazev = :nazev, jazyk = :jazyk, komentar = :komentar, zamceno = :zamceno where soutez_ID = :soutez_id", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":soutez_id" => $soutez_id))) {
+	if (cpdb_exec("update soutez set nazev = :nazev, jazyk = :jazyk, komentar = :komentar, zamceno = :zamceno, rocnik = :rocnik where soutez_ID = :soutez_id", array(":nazev"=>$nazev, ":jazyk"=>$jazyk, ":komentar"=>$komentar, ":zamceno"=>$zamceno, ":soutez_id" => $soutez_id, ":rocnik" => $rocnik)))) {
 		pg_achtung($lang["competition update ok"]);
 		include("soutez.inc");
 	}

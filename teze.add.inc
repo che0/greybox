@@ -13,6 +13,7 @@ $teze->form[] = new cpf_text($lang["comment"] . ": ");
 $teze->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 $teze->form[] = new cpf_nl;
 $teze->form[] = new cpf_button("add",$lang["add"]);
-$teze->render_new();
+$teze->load_this(array("jazyk"=>$_REQUEST["lang"]));
+$teze->render();
 
 ?>
