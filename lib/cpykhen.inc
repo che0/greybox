@@ -81,15 +81,15 @@ class cpykhen {
 		if ($button_title == "__")	$button_title = $lang["add new"] ? $lang["add new"] : 'add new';
 		$GLOBALS["hidden_forms"] = $GLOBALS["hidden_forms"] + 1;
 		$form_id = "hidden_form_" . $GLOBALS["hidden_forms"];
-		cph_tag_start("div",array("id" => $form_id));
 		cph_tag_start("div",array("id" => $form_id . "_b",
-			"style" => "visibility: hidden; position: absolute; z-index:1"));
+			"style" => "visibility: hidden; position: absolute"));
 		cph_tag_start("form",array("action" => ""));cph_tag_start("div");
 		cph_tag_single("input", array ("type" => "button", 
 			"value" => $button_title, 
 			"onclick" => "c_hide('" . $form_id . "_b'); c_show('" . $form_id . "')"));
 		cph_tag_end("div");cph_tag_end("form");
 		cph_tag_end("div");
+		cph_tag_start("div",array("id" => $form_id));
 	
 		$this->render();
 	
