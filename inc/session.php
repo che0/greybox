@@ -15,10 +15,11 @@
 session_start();
 
 if (isset($_SESSION["is_logged_in"])) {
-	$template->editvar('login_info',$_SESSION['user_longname'] . ' (<a href="logout.php">'.$lang['log out'].'</a>)');
+	$template->editvar('login_info', $_SESSION['user_longname'] . ' (<a href="logout.php">'.$lang['log out'].'</a>)');
 } else {
-	$template->editvar('login_info','anonymous user <a href="login.php">'.$lang['log in'].'</a>');
+	$template->editvar('login_info', $lang['anonymous'] . ' <a href="login.php?von=' . urlencode($_SERVER["PHP_SELF"] . (($_SERVER["QUERY_STRING"] != "") ? ("?". $_SERVER["QUERY_STRING"]) : "")) .'">'.$lang['log in'].'</a>');
 }
 
+echo 
 
 ?>
