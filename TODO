@@ -14,10 +14,6 @@ clovek:
 	u cloveka vypisu poradani turnaju a prehled IB
 	editace akreditaci
 
-klub:
-	seznam aktivnich rozhodcich, treneru
-	pridani/ubirani treneru
-
 debata:
 	page=debata, debata_id
 	vypis vlastnosti a vztahu se zohlednenim zdedenych organizatoru

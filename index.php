@@ -26,6 +26,7 @@ $GLOBALS["page"]->pages = array(
 	array("clovek.edit.exec", $lang["edit person"]),
 	array("klub", $lang["clubs"]),
 	array("klub.add", $lang["add club"]),
+	array("klub.clovek.edit.exec", $lang["edit club"]),
 	array("klub.edit.exec", $lang["edit club"]),
 	array("kluby", $lang["clubs"]),
 	array("teze", $lang["resolutions"]),

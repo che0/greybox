@@ -1,6 +1,8 @@
 <?php
 
+$domain_ck_role = array("t"=>$lang["coach"]);
 $klub_id = $_REQUEST["klub_id"];
+
 
 cpdb_fetch_one_row("select * from klub where klub_ID = :klub_id",array(":klub_id"=>$klub_id), $klub);
 
@@ -30,6 +32,43 @@ if ($can_edit) {
 	$klub_f->form[] = new cpf_button("delete",$lang["delete"]);
 	$klub_f->load_this($klub);
 	$klub_f->render();
+	
+	$klub_clovek = new cpykhen;
+	$klub_clovek->form_attr["action"] = "./?page=klub.clovek.edit.exec";
+	$klub_clovek->select = "select * from clovek_klub where klub_ID = :klub_id";
+	$klub_clovek->select_args = array(":klub_id"=>$klub_id);
+	$klub_clovek->form[] = new cpf_hidden("klub_id",$klub["klub_ID"]);
+	$klub_clovek->form[] = new cpf_db_hidden("ck_id","ck_ID");
+	$klub_clovek->form[] = new cpf_db_listbox_array("role", $domain_ck_role);
+	$klub_clovek->form[] = new cpf_db_listbox_array("rocnik", $GLOBALS["season_domain"]);
+	$klub_clovek->form[] = new cpf_db_listbox("clovek_id",
+		array("select clovek.clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id union distinct select clovek_ID, concat_ws(' ', jmeno, nick, prijmeni) from clovek where klub_ID = :klub_id", array(":klub_id"=>$klub["klub_ID"])),
+		"clovek_ID");
+	$klub_clovek->form["b1"] = new cpf_button("save",$lang["save"]);
+	$klub_clovek->form["b2"] = new cpf_button("delete",$lang["delete"]);
+	$klub_clovek->render_select();
+	
+	$klub_clovek->form["b1"] = new cpf_button("add",$lang["add"]);
+	unset($klub_clovek->form["b2"]);
+	$klub_clovek->load_new();
+	$klub_clovek->render_hidden($lang["new person"]);
+} else {
+	
+	if (isset($klub["komentar"])) cph_p($klub["komentar"]);
+	if (isset($klub["misto"])) cph_p($lang["place"] . ": " . $klub["misto"]);
+	
+	// coaches
+	if (cpdb_fetch_all("select clovek.jmeno, clovek.prijmeni, clovek.nick, clovek.clovek_ID, clovek_klub.rocnik, clovek_klub.role from clovek_klub left join clovek using (clovek_ID) where clovek_klub.klub_ID = :klub_id order by rocnik", array(":klub_id"=>$klub_id), $coaches) > 0) {
+		cph_table_head(array($lang["role"], $lang["season"], $lang["person"]),array("class"=>"visible"));
+		foreach ($coaches as $coach) {
+			cph_table_row(array(
+				$domain_ck_role[$coach["role"]],
+				season_to_str($coach["rocnik"]),
+				cphs_link("./?page=clovek&clovek_id=" . $coach["clovek_ID"], join_name($coach["jmeno"], $coach["nick"], $coach["prijmeni"]))
+			));
+		}
+		cph_table_end();
+	}
 }
 
 // teams
@@ -58,6 +97,7 @@ foreach ($tymy as $tym) {
 	), ($debaters >= 3) ? array() : array("class"=>"inactive"));
 }
 cph_table_end();
+
 
 // members
 cph_h2($lang['members']);
