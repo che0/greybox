@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.6 2005/01/10 01:34:06 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.7 2005/01/10 02:07:43 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
@@ -53,7 +53,7 @@ if ($ukaz == "judges") {
 
 } else {
 	// show point of debaters
-	cph_p($lang["ranks only for full members"]);
+	cph_p($lang["ranks only for full members"], array("class"=>"note"));
 	
 	$ukaz = ($ukaz == "sum") ? "sum" : "avg";
 	

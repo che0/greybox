@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.10 2005/01/10 01:34:06 che0 Exp $
+ * $Id: lide.inc,v 1.11 2005/01/10 02:07:43 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -66,7 +66,7 @@ switch ($kdo) {
 	
 	case 'ibody':
 	// show individual points rankings
-		cph_p($lang["ranks only for full members"]);
+		cph_p($lang["ranks only for full members"], array("class"=>"note"));
 		
 		cpdb_fetch_all("
 			select
