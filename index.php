@@ -10,7 +10,7 @@ include_once('lib/misc.inc');
 
 $GLOBALS["page"]->links[] = array("./",$lang["link_homepage"]);
 $GLOBALS["page"]->links[] = array("./?page=clovek&akce=vsichni",$lang["link_everyone"]);
-$GLOBALS["page"]->links[] = array("./?page=klub",$lang["clubs"]);
+$GLOBALS["page"]->links[] = array("./?page=kluby",$lang["clubs"]);
 $GLOBALS["page"]->links[] = array("./?page=teze",$lang["resolutions"]);
 $GLOBALS["page"]->links[] = array("./?page=souteze",$lang["competitions"]);
 $GLOBALS["page"]->links[] = array("./?page=turnaje",$lang["tournaments"]);
@@ -22,6 +22,9 @@ $GLOBALS["page"]->pages = array(
 	array("logout", $lang["login"]),
 	array("clovek", $lang["people"]),
 	array("klub", $lang["clubs"]),
+	array("klub.add", $lang["add club"]),
+	array("klub.edit.exec", $lang["edit club"]),
+	array("kluby", $lang["clubs"]),
 	array("teze", $lang["resolutions"]),
 	array("teze.add", $lang["add resolution"]),
 	array("teze.detaily", $lang["resolution details"]),
