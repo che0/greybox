@@ -1,6 +1,7 @@
 set foreign_key_checks = 0;
 drop table clovek_debata_ibody;
 drop table clovek_debata;
+drop table liga_tym;
 drop table debata_tym;
 drop table debata;
 drop table clovek_klub;
@@ -14,6 +15,7 @@ drop table tym;
 drop table klub;
 drop table soutez_teze;
 drop table turnaj;
+drop table liga;
 drop table soutez;
 drop table teze;
 set foreign_key_checks = 1;

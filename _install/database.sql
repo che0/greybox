@@ -74,16 +74,31 @@ CREATE TABLE soutez (
 -- Table structure for table `turnaj`
 --
 
+CREATE TABLE `liga` (
+  liga_ID int(10) unsigned NOT NULL auto_increment,
+  rocnik tinyint(3) unsigned NOT NULL default '0',
+  nazev varchar(255) NOT NULL default '',
+  komentar text,
+  PRIMARY KEY  (liga_ID)
+) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Table structure for table `turnaj`
+--
+
 CREATE TABLE turnaj (
   turnaj_ID int(10) unsigned NOT NULL auto_increment,
   soutez_ID int(10) unsigned NOT NULL default '0',
+  liga_ID int(10) unsigned default NULL,
   nazev varchar(255) NOT NULL default '',
   datum_od date NOT NULL default '0000-00-00',
   datum_do date NOT NULL default '0000-00-00',
   komentar text,
   PRIMARY KEY  (turnaj_ID),
   KEY soutez_ID (soutez_ID),
+  KEY liga_ID (liga_ID),
   KEY datum_od (datum_od),
+  CONSTRAINT fk_turnaj_liga FOREIGN KEY (liga_ID) REFERENCES liga (liga_ID) on delete restrict,
   constraint fk_turnaj_soutez foreign key (soutez_ID) references soutez (soutez_ID) on delete restrict
 ) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
 
@@ -96,7 +111,7 @@ CREATE TABLE debata (
   soutez_ID int(10) unsigned NOT NULL default '0',
   turnaj_ID int(10) unsigned default NULL,
   teze_ID int(10) unsigned NOT NULL default '0',
-  datum date NOT NULL default '0000-00-00',
+  datum datetime NOT NULL default '0000-00-00',
   misto varchar(255) default NULL,
   komentar text,
   vitez tinyint(1) NOT NULL default '0',
@@ -204,11 +219,27 @@ CREATE TABLE debata_tym (
   tym_ID int(10) unsigned NOT NULL default '0',
   pozice tinyint(1) NOT NULL default '0',
   body tinyint(3) unsigned default NULL,
+  liga_vytezek decimal(5,3) default NULL,
   PRIMARY KEY  (debata_ID, tym_ID),
   KEY debata_ID (debata_ID),
   KEY tym_ID (tym_ID),
   constraint fk_dt_debata foreign key (debata_ID) references debata (debata_ID) on delete cascade,
   constraint fk_dt_tym foreign key (tym_ID) references tym (tym_ID) on delete restrict
+) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Table structure for table `liga_tym`
+--
+
+CREATE TABLE liga_tym (
+  liga_ID int(10) unsigned NOT NULL default '0',
+  tym_ID int(10) unsigned NOT NULL default '0',
+  liga_vytezek decimal(5,3) NOT NULL default '0.000',
+  skrtnute_debaty varchar(255) default NULL,
+  PRIMARY KEY  (liga_ID,tym_ID),
+  KEY tym_ID (tym_ID),
+  CONSTRAINT fk_lt_liga FOREIGN KEY (liga_ID) REFERENCES liga (liga_ID) ON DELETE CASCADE,
+  CONSTRAINT fk_lt_tym FOREIGN KEY (tym_ID) REFERENCES tym (tym_ID) ON DELETE CASCADE
 ) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --

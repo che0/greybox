@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.edit.exec.inc,v 1.6 2005/01/09 00:47:32 che0 Exp $
+ * $Id: turnaj.edit.exec.inc,v 1.7 2005/03/22 18:18:22 che0 Exp $
  */
 
 if ($GLOBALS["cps_souteze"] < 1) {
@@ -11,19 +11,23 @@ if ($GLOBALS["cps_souteze"] < 1) {
 
 $soutez_id = $_REQUEST["soutez_id"];
 $turnaj_id = $_REQUEST["turnaj_id"];
+$liga_id = $_REQUEST["liga_id"];
 $nazev = $_REQUEST["nazev"];
 $komentar = $_REQUEST["komentar"];
 $datum_od = deformat_date($_REQUEST["datum_od"]);
 $datum_do = deformat_date($_REQUEST["datum_do"]);
+
 
 if ($nazev == "" && !isset($_REQUEST["delete"])) {
 	pg_achtung($lang["a tournament has to have a name"]);
 	return;
 }
 
+if ($liga_id == 0) $liga_id = NULL;
+
 if (isset($_REQUEST["add"])) {
 	// add new
-	if (cpdb_exec("insert into turnaj (soutez_ID, nazev, komentar, datum_od, datum_do) values (:soutez_id, :nazev, :komentar, :datum_od, :datum_do)", array(":soutez_id"=>$soutez_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
+	if (cpdb_exec("insert into turnaj (soutez_ID, liga_ID, nazev, komentar, datum_od, datum_do) values (:soutez_id, :liga_id, :nazev, :komentar, :datum_od, :datum_do)", array(":soutez_id"=>$soutez_id, ":liga_id"=>$liga_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
 		pg_achtung($lang["tournament insert ok"]);
 		$_REQUEST["turnaj_id"] = cpdb_insert_id();
 		include("turnaj.inc");
@@ -32,7 +36,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["save"])) {
 	// update
 	
-	if (cpdb_exec("update turnaj set soutez_ID = :soutez_id, nazev = :nazev, komentar = :komentar, datum_od = :datum_od, datum_do = :datum_do where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id, ":soutez_id"=>$soutez_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
+	if (cpdb_exec("update turnaj set soutez_ID = :soutez_id, liga_ID = :liga_id, nazev = :nazev, komentar = :komentar, datum_od = :datum_od, datum_do = :datum_do where turnaj_ID = :turnaj_id", array(":turnaj_id"=>$turnaj_id, ":soutez_id"=>$soutez_id, ":liga_id"=>$liga_id, ":nazev"=>$nazev, ":komentar"=>$komentar, ":datum_od"=>$datum_od, ":datum_do"=>$datum_do))) {
 		pg_achtung($lang["tournament update ok"]);
 		include("turnaj.inc");
 	}

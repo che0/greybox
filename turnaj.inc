@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.18 2005/03/13 17:18:11 che0 Exp $
+ * $Id: turnaj.inc,v 1.19 2005/03/22 18:18:22 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -32,6 +32,10 @@ if ($GLOBALS["cps_souteze"] >= 1) {
 	$turnaj_f->form[] = new cpf_text($lang["competition"] . ": ");
 	$turnaj_f->form[] = new cpf_db_listbox("soutez_id",array("select soutez_ID, nazev from soutez",array()),"soutez_ID");
 	$turnaj_f->form[] = new cpf_db_link("soutez_ID","./?page=soutez&soutez_id=%s",$lang["link"]);
+	$turnaj_f->form[] = new cpf_nl;
+	$turnaj_f->form[] = new cpf_text($lang["league"] . ": ");
+	$turnaj_f->form[] = new cpf_db_listbox("liga_id",array("select 0, :no_league union select liga_ID, nazev from liga",array(":no_league"=>$lang["no league"])),"liga_ID");
+	$turnaj_f->form[] = new cpf_db_link("liga_ID","./?page=liga&liga_id=%s",$lang["link"]);
 	$turnaj_f->form[] = new cpf_nl;
 	$turnaj_f->form[] = new cpf_text($lang["date_from"] . ": ");
 	$turnaj_f->form[] = new cpf_db_textbox("datum_od");

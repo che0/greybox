@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.59 2005/03/19 22:10:34 che0 Exp $
+ * $Id: czech.php,v 1.60 2005/03/22 18:18:24 che0 Exp $
  * czech language definition file
  */
 
@@ -63,7 +63,7 @@ $lang['accreditations'] = 'akreditace';
 $lang['tournaments'] = 'turnaje';
 $lang['date_from'] = 'od';
 $lang['date_to'] = 'do';
-$lang['title'] = 'turnaj';
+$lang['title'] = 'název';
 $lang['judging'] = 'rozhodování';
 $lang['coaching'] = 'trenování';
 $lang['total'] = 'celkem';
@@ -323,4 +323,13 @@ $lang['include panels'] = 'včetně panelů';
 $lang['single judges'] = 'jen samosoudci';
 $lang['filter'] = 'filtr';
 $lang['yyyy-mm-dd hh:mm:ss'] = 'yyyy-mm-dd hh:mm:ss';
+$lang['league'] = 'liga';
+$lang['add league'] = 'přidání ligy';
+$lang['edit league'] = 'upravit ligu';
+$lang['a league has to have a name'] = 'liga musí mít zadáno jméno';
+$lang['league insert ok'] = 'liga přidána';
+$lang['league update ok'] = 'liga upravena';
+$lang['league delete ok'] = 'liga smazána';
+$lang['n/a'] = 'n/a';
+$lang['no league'] = '-žádná-';
 ?>

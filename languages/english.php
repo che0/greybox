@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.66 2005/03/19 22:10:34 che0 Exp $
+ * $Id: english.php,v 1.67 2005/03/22 18:18:24 che0 Exp $
  * english language definition file
  */
 
@@ -322,4 +322,13 @@ $lang['include panels'] = 'include panels';
 $lang['single judges'] = 'single judges only';
 $lang['filter'] = 'filter';
 $lang['yyyy-mm-dd hh:mm:ss'] = 'yyyy-mm-dd hh:mm:ss';
+$lang['league'] = 'league';
+$lang['add league'] = 'add league';
+$lang['edit league'] = 'edit league';
+$lang['a league has to have a name'] = 'a league has to have a name';
+$lang['league insert ok'] = 'league insert ok';
+$lang['league update ok'] = 'league update ok';
+$lang['league delete ok'] = 'league delete ok';
+$lang['n/a'] = 'n/a';
+$lang['no league'] = 'no league';
 ?>

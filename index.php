@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: index.php,v 1.34 2005/02/12 15:26:09 che0 Exp $
+ * $Id: index.php,v 1.35 2005/03/22 18:18:22 che0 Exp $
  */
 
 include_once("lib/de_magic_quotes.inc");
@@ -57,6 +57,9 @@ $GLOBALS["page"]->pages = array(
 	array("soutez.add", $lang["add competition"], "soutez"),
 	array("soutez.teze.edit.exec", $lang["edit official resolution"], "soutez"),
 	array("tym.soutez", $lang["team in the competition"], "soutez"),
+	array("liga", $lang["league"], "soutez"),
+	array("liga.add", $lang["add league"], "soutez"),
+	array("liga.edit.exec", $lang["edit league"], "soutez"),
 	array("turnaj", $lang["tournament"], "turnaj"),
 	array("turnaj.kidy", $lang["tournament"]."/".$lang["kidy"], "turnaj"),
 	array("turnaj.add", $lang["add tournament"], "turnaj"),
