@@ -378,7 +378,7 @@ switch ($_GET['akce']) {
 			if ($prava_lidi > 0) {
 				// normal user can't change his name
 				$query .= sprintf('jmeno = %s, ', get_text_field($_POST['name']));
-				$qeury .= sprintf('prijmeni = %s, ', get_text_field($_POST['surname']));
+				$query .= sprintf('prijmeni = %s, ', get_text_field($_POST['surname']));
 			}
 			$query .= sprintf('nick = %s, ', get_text_field($_POST['nick']));
 		
