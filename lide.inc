@@ -1,12 +1,12 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.12 2005/01/12 20:29:49 che0 Exp $
+ * $Id: lide.inc,v 1.13 2005/02/12 15:26:09 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 
-$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "stats"=>$lang["stats"]);
+$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "kidy"=>$lang["kidy"], "stats"=>$lang["stats"]);
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
 
 pg_head();
@@ -66,9 +66,7 @@ switch ($kdo) {
 	
 	case 'ibody':
 	// show individual points rankings
-		cph_p($lang["ranks only for full members"], array("class"=>"note"));
-		
-		cpdb_fetch_all("
+		if (! cpdb_fetch_all("
 			select
 				clovek.clovek_ID,
 				clovek.jmeno,
@@ -92,7 +90,14 @@ switch ($kdo) {
 				ibody > 0
 			order by
 				ibody desc, clovek.prijmeni, clovek.jmeno, clovek.nick
-		", array(":rocnik"=>$GLOBALS["current_season"]), $lide);
+		", array(":rocnik"=>$GLOBALS["current_season"]), $lide)) {
+		
+			pg_achtung($lang["no record"]);
+			return;
+		}
+		
+		
+		cph_p($lang["ranks only for full members"], array("class"=>"note"));
 		
 		de_html($lide);
 		cph_table_head(
@@ -118,10 +123,81 @@ switch ($kdo) {
 		cph_table_end();
 	break;
 	
+	case 'kidy':
+		// show kidy rankings
+		
+		if (! cpdb_fetch_all("
+			select
+				clovek.clovek_ID,
+				clovek.jmeno,
+				clovek.nick,
+				clovek.prijmeni,
+				klub.kratky_nazev as klub,
+				klub.klub_ID,
+				avg(kidy) as avg,
+				count(kidy) as samples
+			from
+				clovek
+				left join klub on clovek.klub_ID = klub.klub_ID
+				left join clovek_debata on clovek.clovek_ID = clovek_debata.clovek_ID
+					and find_in_set(clovek_debata.role,'a1,a2,a3,n1,n2,n3')
+				left join debata on clovek_debata.debata_ID = debata.debata_ID
+				left join soutez on debata.soutez_ID = soutez.soutez_ID
+			where
+				clovek.debater = 1
+				and clovek.clen = 1
+				and soutez.rocnik = :rocnik
+			group by
+				clovek_ID, jmeno, nick, prijmeni, klub, klub_ID
+			having
+				samples > 0
+			order by
+				avg desc
+			", array(":rocnik"=>$GLOBALS["current_season"]), $r_kidy)) {
+			
+			pg_achtung($lang["no record"]);
+			return;
+		}
+		
+		cph_p($lang["ranks only for full members"], array("class"=>"note"));
+		
+		de_html($r_kidy);
+		cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+		$count = 0; $rank = 1; $pts = -1;
+		$countF = 0; $rankF = 1; $ptsF = -1;
+		foreach ($r_kidy as $kidy) {
+			$count++;
+			if ($pts != $kidy["avg"]) {
+				$pts = $kidy["avg"];
+				$rank = $count;
+			}
+			$fullrank = ($kidy["samples"] >= $GLOBALS["cp_config"]["min_kidy_rank"]);
+			if ($fullrank) {
+				$countF++;
+				if ($ptsF != $kidy["avg"]) {
+				$ptsF = $kidy["avg"];
+				$rankF = $countF;
+				}
+			}
+			cph_table_row(array(
+				$fullrank ? $rankF : "",
+				$rank,
+				cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
+				cphs_link("./?page=klub&klub_id=" . $kidy["klub_ID"], $kidy["klub"]),
+				$kidy["avg"],
+				$kidy["samples"]
+			),
+				$fullrank ? array() : array("class"=>"inactive") 
+			);
+		}
+		cph_table_end();
+
+	break;
+	
 	case 'debateri':
 		// show list of debaters
 		
-		cpdb_fetch_all("
+		if (! cpdb_fetch_all("
 			select
 				clovek.clovek_ID,
 				clovek.jmeno,
@@ -136,7 +212,11 @@ switch ($kdo) {
 				clovek.debater = 1
 			order by
 				clovek.prijmeni, clovek.jmeno, clovek.nick
-		", array(), $lide);
+		", array(), $lide)) {
+			
+			pg_achtung($lang["no record"]);
+			return;
+		}
 		
 		de_html($lide);
 		cph_table_head(

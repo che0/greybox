@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.26 2005/02/12 14:50:30 che0 Exp $
+ * $Id: klub.inc,v 1.27 2005/02/12 15:26:09 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -162,6 +162,7 @@ cph_p(
 		: ""
 	)
 	. cphs_link("./?page=klub.ib&klub_id=".$klub_id, $lang["points overview"])
+	. " | " . cphs_link("./?page=klub.kidy&klub_id=".$klub_id, $lang["kidy overview"])
 );
 
 cpdb_fetch_all("

@@ -1,16 +1,16 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.7 2005/01/10 02:07:43 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.8 2005/02/12 15:26:09 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
-$ukaz = isset($_REQUEST["ukaz"]) ? $_REQUEST["ukaz"] : "sum";
+$ukaz = isset($_REQUEST["ukaz"]) ? $_REQUEST["ukaz"] : "avg";
 
 $GLOBALS["page"]->title = htmlspecialchars(cpdb_fetch_one_value("select nazev from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id))) . " / " . $lang["kidy"];
 pg_head();
 
-cph_switch($lang["list"], "./?page=soutez.kidy&soutez_id=" . $soutez_id . "&ukaz=%s", array("sum"=>$lang["sum"], "avg"=>$lang["average"], "judges"=>$lang["judges"]), $ukaz);
+cph_switch($lang["list"], "./?page=soutez.kidy&soutez_id=" . $soutez_id . "&ukaz=%s", array("avg"=>$lang["average"], "judges"=>$lang["judges"]), $ukaz);
 
 if ($ukaz == "judges") {
 	// show average point given by the judges
@@ -55,9 +55,7 @@ if ($ukaz == "judges") {
 	// show point of debaters
 	cph_p($lang["ranks only for full members"], array("class"=>"note"));
 	
-	$ukaz = ($ukaz == "sum") ? "sum" : "avg";
-	
-	cpdb_fetch_all(sprintf("
+	cpdb_fetch_all("
 		select
 			clovek.clovek_ID,
 			clovek.jmeno,
@@ -65,7 +63,6 @@ if ($ukaz == "judges") {
 			clovek.prijmeni,
 			klub.kratky_nazev as klub,
 			klub.klub_ID,
-			sum(kidy) as sum,
 			avg(kidy) as avg,
 			count(kidy) as samples
 		from
@@ -83,28 +80,38 @@ if ($ukaz == "judges") {
 		having
 			samples > 0
 		order by
-			%s desc
-		", $ukaz), array(":soutez_id"=>$soutez_id), $r_kidy);
+			avg desc
+		", array(":soutez_id"=>$soutez_id), $r_kidy);
 	
 	de_html($r_kidy);
-	cph_table_head(array($lang["rank"], $lang["debater"], $lang["club"], $lang["sum"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
-	$count = 0; $rank = 1; $pts = -1;
+	cph_table_head(array($lang["rank"], $lang["rank"], $lang["debater"], $lang["club"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+	$countF = 0; $rankF = 1; $ptsF = -1;
 	foreach ($r_kidy as $kidy) {
 		$count++;
-		if ($pts != $kidy[$ukaz]) {
-			$pts = $kidy[$ukaz];
+		if ($pts != $kidy["avg"]) {
+			$pts = $kidy["avg"];
 			$rank = $count;
 		}
+		$fullrank = ($kidy["samples"] >= $GLOBALS["cp_config"]["min_kidy_rank"]);
+		if ($fullrank) {
+			$countF++;
+			if ($ptsF != $kidy["avg"]) {
+			$ptsF = $kidy["avg"];
+			$rankF = $countF;
+			}
+		}
 		cph_table_row(array(
+			$fullrank ? $rankF : "",
 			$rank,
 			cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
 			cphs_link("./?page=klub&klub_id=" . $kidy["klub_ID"], $kidy["klub"]),
-			$kidy["sum"],
 			$kidy["avg"],
 			$kidy["samples"]
-		));
+		),
+			$fullrank ? array() : array("class"=>"inactive") 
+		);
 	}
 	cph_table_end();
 }
-	
+
 ?>

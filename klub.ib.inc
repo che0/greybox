@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.ib.inc,v 1.1 2005/02/12 14:50:30 che0 Exp $
+ * $Id: klub.ib.inc,v 1.2 2005/02/12 15:26:09 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -17,7 +17,6 @@ $GLOBALS["page"]->title = $klub_nazev . " / " . $lang["points overview"];
 pg_head();
 
 // show individual points rankings
-cph_p($lang["ranks only for full members"], array("class"=>"note"));
 
 if (! cpdb_fetch_all("
 	select
@@ -44,6 +43,8 @@ if (! cpdb_fetch_all("
 	pg_achtung($lang["no record"]);
 	return;
 }
+
+cph_p($lang["ranks only for full members"], array("class"=>"note"));
 
 de_html($lide);
 cph_table_head(
