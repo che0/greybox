@@ -2,17 +2,17 @@
 
 include_once("lib/points.inc");
 
-if (!(($GLOBALS["cps_kluby"] >= 2)
-	|| (($GLOBALS["cps_kluby"] == 1) && ($klub_id == $_SESSION['user_klub_ID'])))) {
-	pg_achtung($lang["access denied"]);
-	return;
-}
-
 $ck_id = $_REQUEST["ck_id"];
 $klub_id = $_REQUEST["klub_id"];
 $clovek_id = $_REQUEST["clovek_id"];
 $role = $_REQUEST["role"];
 $rocnik = $_REQUEST["rocnik"];
+
+if (!(($GLOBALS["cps_kluby"] >= 2)
+	|| (($GLOBALS["cps_kluby"] == 1) && ($klub_id == $_SESSION['user_klub_ID'])))) {
+	pg_achtung($lang["access denied"]);
+	return;
+
 
 if (isset($_REQUEST["add"])) {
 	// add new
