@@ -442,7 +442,7 @@ switch ($_GET['akce']) {
 				
 			if (mysql_query($query)) {
 				body_message($lang['edit ok']);
-				header_redirect(sprintf('clovek.php?akce=uprav&id=%s">',$result2['clovek_ID']));
+				header_redirect(sprintf('clovek.php?akce=uprav&id=%s',$result2['clovek_ID']));
 			} else {
 				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
 			}
@@ -509,7 +509,7 @@ switch ($_GET['akce']) {
 
 		if (mysql_query($query)) {
 			body_message($lang['add ok']);
-			header_redirect(sprintf('clovek.php?id=%s">',mysql_insert_id()));
+			header_redirect(sprintf('clovek.php?id=%s',mysql_insert_id()));
 		} else {
 			body_message(sprintf('%s<br>%s',$lang['add failed'],mysql_error()));
 		}
