@@ -1,2 +1,4 @@
+<Files "*.inc">
 RewriteEngine on
 RewriteRule \.inc$ - [F]
+</Files>

@@ -3,4 +3,5 @@ simple installation instructions:
 - copy greybox folder somewhere to web server directory
 - run database.sql SQL script to create basic tables
 - run ruperuser.sql SQL script to create first admin user
+- set correct parameters in lib/config.inc
 - have fun
