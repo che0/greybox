@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: souteze.inc,v 1.9 2005/03/22 18:18:22 che0 Exp $
+ * $Id: souteze.inc,v 1.10 2005/03/23 10:22:02 che0 Exp $
  * vypis vsech soutezi v sezone
  */
 
@@ -21,7 +21,8 @@ if (! cpdb_fetch_all("
 			rocnik,
 			nazev,
 			jazyk,
-			zamceno
+			zamceno,
+			(select count(*) from debata where soutez_ID = soutez.soutez_ID) as debaty
 		from
 			soutez
 		union
@@ -31,7 +32,13 @@ if (! cpdb_fetch_all("
 			rocnik,
 			nazev,
 			'' as jazyk,
-			0 as zamceno
+			0 as zamceno,
+			(
+				select count(debata_ID)
+				from turnaj, debata
+				where turnaj.soutez_ID = soutez.soutez_ID
+					and debata.turnaj_ID = turnaj.turnaj_ID
+			) as debaty
 		from
 			liga
 		order by
@@ -45,7 +52,7 @@ if (! cpdb_fetch_all("
 }
 
 de_html($souteze);
-cph_table_head(array($lang["season"], $lang["competition"], $lang["lang"], $lang["active"] ,$lang["debates"],),array("class"=>"visible"));
+cph_table_head(array($lang["season"], $lang["competition"], $lang["type"], $lang["lang"], $lang["active"] ,$lang["debates"],),array("class"=>"visible"));
 
 foreach ($souteze as $soutez) {
 	if ($soutez["liga"]) {
@@ -53,9 +60,10 @@ foreach ($souteze as $soutez) {
 		cph_table_row(array(
 			season_to_str($soutez["rocnik"]),
 			cphs_link("./?page=liga&liga_id=" . $soutez["ID"], $soutez["nazev"]),
+			$lang["league"],
 			$lang["n/a"],
 			$lang["n/a"],
-			$lang["n/a"]
+			$soutez["debaty"]
 		));
 
 	} else {
@@ -63,9 +71,10 @@ foreach ($souteze as $soutez) {
 		cph_table_row(array(
 			season_to_str($soutez["rocnik"]),
 			cphs_link("./?page=soutez&soutez_id=" . $soutez["ID"], $soutez["nazev"]),
+			$lang["cup"],
 			$soutez["jazyk"],
 			$soutez["zamceno"] ? $lang["no"] : $lang["yes"],
-			cpdb_fetch_one_value("select count(*) from debata where soutez_ID = :soutez_ID",array(":soutez_ID"=>$soutez["ID"]))
+			$soutez["debaty"])
 		));
 	}
 }

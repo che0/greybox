@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.inc,v 1.1 2005/03/22 18:18:22 che0 Exp $
+ * $Id: liga.inc,v 1.2 2005/03/23 10:22:02 che0 Exp $
  */
 
 include_once("i_liga.inc");
@@ -36,53 +36,58 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 }
 
 // teams w/ ratings
-/* FIXME league ratings
 if (cpdb_fetch_all("
 	select
 		tym.tym_ID,
 		tym.nazev,
 		klub.klub_ID,
 		klub.kratky_nazev,
-		sum(debata_tym.body) as bodu,
-		sum((2+debata.presvedcive) * (debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) + (1-debata.presvedcive) * ((1 - debata_tym.pozice) * debata.vitez + (1 - debata.vitez) * debata_tym.pozice)) as ballotu,
-		sum(debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) as vitezstvi
+		liga_tym.liga_vytezek
 	from
-		debata_tym
-		left join tym on tym.tym_ID = debata_tym.tym_ID
+		liga_tym
+		left join tym on tym.tym_ID = liga_tym.tym_ID
 		left join klub on klub.klub_ID = tym.klub_ID
-		left join debata on debata.debata_ID = debata_tym.debata_ID
 	where
-		debata.turnaj_ID = :turnaj_id
-	group by
-		tym.tym_ID, tym.nazev
+		liga_tym.liga_ID = :liga_id
 	order by
-		vitezstvi desc, ballotu desc, bodu desc
-	", array(":turnaj_id"=>$turnaj_id), $ranks)) {
+		liga_vytezek desc
+	", array(":liga_id"=>$liga_id), $ranks)) {
 	
 	cph_h2($lang["teams"]);
 	de_html($ranks);
-	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["wins"], $lang["ballots"], $lang["pts"]), array("class"=>"visible"));
-	$count = 0; $rank = 1; $pts = -1;
+	cph_table_head(array($lang["rank"], $lang["team"], $lang["club"], $lang["tab value"]), array("class"=>"visible"));
+	$count = 0; $rank = 1; $tab = -1;
 	foreach ($ranks as $team_rank) {
 		$count++;
-		if ($pts != $team_rank["vitezstvi"] * 1024 + $team_rank["ballotu"]) {
-			$pts = $team_rank["vitezstvi"] * 1024 + $team_rank["ballotu"];
+		if ($tab != $team_rank["liga_vytezek"]) {
+			$tab = $team_rank["liga_vytezek"];
 			$rank = $count;
 		}
 		cph_table_row(array(
 			$rank,
 			cphs_link("./?page=tym&tym_id=" . $team_rank["tym_ID"], $team_rank["nazev"]),
 			cphs_link("./?page=klub&klub_id=" . $team_rank["klub_ID"], $team_rank["kratky_nazev"]),
-			$team_rank["vitezstvi"],
-			$team_rank["ballotu"],
-			$team_rank["bodu"]
+			cphs_link(sprintf("./?page=tym.liga&tym_id=%s&liga_id=%s",$team_rank["tym_ID"],$liga_id), $team_rank["liga_vytezek"])
 		));
 	}
 	cph_table_end();
 }
-*/
 
 // tournaments
-// FIXME
+if (cpdb_fetch_all("select turnaj_ID, nazev, datum_od, (select count(*) from debata where turnaj_ID = turnaj.turnaj_ID) as debaty from turnaj where liga_ID = :liga_id order by datum_od", array(":liga_id"=>$liga_id),$r_turnaje)) {
+
+	de_html($r_turnaje);
+	cph_h2($lang["tournaments"]);	
+	cph_table_head(array($lang["tournament"],$lang["date"],$lang["debates"]),array("class"=>"visible"));
+	foreach ($r_turnaje as $turnaj) {
+		cph_table_row(array(
+			cphs_link("./?page=turnaj&turnaj_id=" . $turnaj["turnaj_ID"], $turnaj["nazev"]),
+			format_date($turnaj["datum_od"]),
+			$turnaj["debaty"]
+		));
+	}
+	cph_table_end();
+}
+
 
 ?>

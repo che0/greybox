@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.inc,v 1.12 2005/03/19 22:10:33 che0 Exp $
+ * $Id: debata.inc,v 1.13 2005/03/23 10:22:02 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -15,11 +15,13 @@ if (!cpdb_fetch_one_row("
 		klub_aff.klub_ID as aff_klub_ID,
 		klub_aff.nazev as aff_klub,
 		dt_aff.body as aff_body,
+		dt_add.liga_vytezek as aff_vytezek,
 		tym_neg.tym_ID as neg_ID,
 		tym_neg.nazev as neg_tym,
 		klub_neg.klub_ID as neg_klub_ID,
 		klub_neg.nazev as neg_klub,
 		dt_neg.body as neg_body,
+		dt_neg.liga_vytezek as net_vytezek,
 		teze.tx as teze,
 		teze.teze_ID as teze_ID,
 		debata.datum,
@@ -31,7 +33,9 @@ if (!cpdb_fetch_one_row("
 		soutez.soutez_ID,
 		soutez.nazev as soutez,
 		turnaj.turnaj_ID,
-		turnaj.nazev as turnaj
+		turnaj.nazev as turnaj,
+		liga.liga_ID,
+		liga.nazev as liga
 	from
 		debata
 		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
@@ -41,6 +45,7 @@ if (!cpdb_fetch_one_row("
 		left join teze on teze.teze_ID = debata.teze_ID
 		left join soutez on soutez.soutez_ID = debata.soutez_ID
 		left join turnaj on turnaj.turnaj_ID = debata.turnaj_ID
+		left join liga on liga.liga_ID = turnaj.liga_ID
 		left join klub klub_aff on tym_aff.klub_ID = klub_aff.klub_ID
 		left join klub klub_neg on tym_neg.klub_ID = klub_neg.klub_ID
 	where
@@ -62,6 +67,7 @@ if (isset($debata["komentar"])) cph_p($debata["komentar"]);
 
 $info = $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $debata["soutez_ID"], $debata["soutez"]);
 if (isset($debata["turnaj_ID"])) $info .= cphs_br() . $lang["tournament"] . ": " . cphs_link("./?page=turnaj&turnaj_id=" . $debata["turnaj_ID"], $debata["turnaj"]);
+if (isset($debata["liga_ID"])) $info .= cphs_br() . $lang["league"] . ": " . cphs_link("./?page=liga&liga_ID=" . $debata["liga_ID"], $debata["liga"]);
 cph_p($info);
 
 $info = $lang["date"] . ": " . format_full_date($debata["datum"]);
@@ -106,21 +112,25 @@ $a_sieg2 = array_merge($a_sieg, array("colspan"=>"2"));
 $n_sieg2 = array_merge($n_sieg, array("colspan"=>"2"));
 
 cph_tag_start("table",array("class"=>"visible"));
+// table header
 cph_tag("tr",array(),
 	cphs_tag("th", array("colspan"=>"2"), "")
 	. cphs_tag("th", $a_sieg2, $lang["affirmative"])
 	. cphs_tag("th", $n_sieg2, $lang["negative"])
 );
+// clubs
 cph_tag("tr",array(),
 	cphs_tag("th", array("colspan"=>"2"), $lang["club"])
 	. cphs_tag("td", $a_sieg2, cphs_link("./?page=klub&klub_id=" . $debata["aff_klub_ID"], $debata["aff_klub"]))
 	. cphs_tag("td", $n_sieg2, cphs_link("./?page=klub&klub_id=" . $debata["neg_klub_ID"], $debata["neg_klub"]))
 );
+// teams
 cph_tag("tr",array(),
 	cphs_tag("th", array("colspan"=>"2"), $lang["team"])
 	. cphs_tag("td", $a_sieg2, cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"], $debata["aff_tym"]))
 	. cphs_tag("td", $n_sieg2, cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"], $debata["neg_tym"]))
 );
+// debate result + competition points
 cph_tag("tr",array(),
 	cphs_tag("th", array(), $lang["result"]) . cphs_tag("th",array(),$lang["pts"])
 	. cphs_tag("td", $a_sieg, $a_cell)
@@ -128,6 +138,13 @@ cph_tag("tr",array(),
 	. cphs_tag("td", $n_sieg, $n_cell)
 	. cphs_tag("td", $n_sieg, $debata["neg_body"])
 );
+// league points (if there is any league)
+if (isset($debata["liga_ID"])) cph_tag("tr",array(),
+	cphs_tag("th", array(), $lang["result"]) . cphs_tag("th",array(),$lang["league pts"])
+	. cphs_tag("td", $a_sieg2, $debata["aff_vytezek"])
+	. cphs_tag("td", $n_sieg2, $debata["neg_vytezek"])
+);
+// debaters...
 cph_tag("tr",array("class"=>"hr"),
 	cphs_tag("th", array(), $lang["1st speaker"]) . cphs_tag("th",array(),$lang["kidy"])
 	. cphs_tag("td", $a_sieg, cphs_link("./?page=clovek&clovek_id=" . $recnik["a1"]["clovek_ID"], join_name($recnik["a1"]["jmeno"],$recnik["a1"]["nick"],$recnik["a1"]["prijmeni"])))

@@ -220,6 +220,7 @@ CREATE TABLE debata_tym (
   pozice tinyint(1) NOT NULL default '0',
   body tinyint(3) unsigned default NULL,
   liga_vytezek decimal(5,3) default NULL,
+  novy_tab decimal(5,3) default NULL,
   PRIMARY KEY  (debata_ID, tym_ID),
   KEY debata_ID (debata_ID),
   KEY tym_ID (tym_ID),
