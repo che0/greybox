@@ -91,12 +91,12 @@ div#mainbody div#footnote {
 	/* footnote in the main body area */
 	margin-top: 20px;
 	font-size: x-small;
-	color: #dbddda;
+	color: #adafac;
 }
 
 div#mainbody div#footnote a {
 	text-decoration: none;
-	color: #cbcdca;
+	color: #9a9c9a;
 }
 
 table.visible td, table.visible th {
