@@ -20,6 +20,7 @@ if (!cpdb_fetch_one_row("
 		teze.tx as teze,
 		teze.teze_ID as teze_ID,
 		debata.datum,
+		debata.misto,
 		debata.vitez,
 		debata.presvedcive,
 		debata.debata_ID,
