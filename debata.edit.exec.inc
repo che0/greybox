@@ -68,7 +68,16 @@ if (!isset($_REQUEST["delete"])) {
 	}
 
 	// check resolution is in the right language
-	// FIXME
+	if (cpdb_fetch_one_value("select teze.jazyk = soutez.jazyk from soutez, teze where soutez.soutez_ID = :soutez_id and teze.teze_ID = :teze_id", array(":soutez_id"=>$soutez_id, ":teze_id"=>$teze_id)) != 1) {
+		pg_achtung($lang["resolution language does not match competition language"]);
+		return;
+	}
+	
+	// check the competition is active
+	if (cpdb_fetch_one_value("select zamceno from soutez where soutez_ID = :soutez_id", array(":soutez_id"=>$soutez_id)) == 1) {
+		pg_achtung($lang["selected competition is locked"]);
+		return;
+	}
 }
 
 // switch turnaj_ID: 0 => NULL

@@ -32,12 +32,9 @@ if ($GLOBALS["cps_souteze"] >= 2) {
 	$soutez_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$soutez_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 	$soutez_f->form[] = new cpf_nl;
-	/* useless for now
 	$soutez_f->form[] = new cpf_text($lang["active"] . ": ");
 	$soutez_f->form[] = new cpf_db_listbox_array("zamceno",array(0=>$lang["active"], 1=>$lang["locked"]));
 	$soutez_f->form[] = new cpf_nl;
-	*/
-	$soutez_f->form[] = new cpf_hidden("zamceno","0"); // bypass of ^
 	$soutez_f->form[] = new cpf_button("save",$lang["save"]);
 	$soutez_f->form[] = new cpf_button("delete",$lang["delete"]);
 	$soutez_f->load_this($soutez_p);

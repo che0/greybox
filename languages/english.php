@@ -287,4 +287,6 @@ $lang['a club has to have a name'] = 'a club has to have a name';
 $lang['a competition has to have a name'] = 'a competition has to have a name';
 $lang['a tournament has to have a name'] = 'a tournament has to have a name';
 $lang['a team has to have a name'] = 'a team has to have a name';
+$lang['resolution language does not match competition language'] = 'resolution language does not match competition language';
+$lang['selected competition is locked'] = 'selected competition is locked';
 ?>

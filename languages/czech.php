@@ -290,4 +290,6 @@ $lang['a club has to have a name'] = 'klub musí mít zadáno jméno';
 $lang['a competition has to have a name'] = 'soutěž musí mít zadáno jméno';
 $lang['a tournament has to have a name'] = 'turnaj musí mít zadáno jméno';
 $lang['a team has to have a name'] = 'tým musí mít zadáno jméno';
+$lang['resolution language does not match competition language'] = 'teze není v jazyce soutěže';
+$lang['selected competition is locked'] = 'zvolená soutěž je uzamčena';
 ?>
