@@ -1,8 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: tymy.inc,v 1.3 2005/01/09 00:47:33 che0 Exp $
+ * $Id: tymy.inc,v 1.4 2005/01/09 00:53:08 che0 Exp $
  */
+
 pg_head();
 
 if ($GLOBALS["cps_kluby"] >= 2) cph_p(cphs_link("./?page=tym.add" . $klub_id,$lang['add team']));

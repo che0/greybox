@@ -1,10 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: teze.inc,v 1.11 2005/01/09 00:47:32 che0 Exp $
+ * $Id: teze.inc,v 1.12 2005/01/09 00:53:08 che0 Exp $
+ * vypis vsech tezi
  */
-// teze.inc
-// vypis vsech tezi
 
 if (isset($_REQUEST["teze_id"])) {
 	include("teze.detaily.inc");

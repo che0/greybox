@@ -1,10 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: souteze.inc,v 1.6 2005/01/09 00:47:32 che0 Exp $
+ * $Id: souteze.inc,v 1.7 2005/01/09 00:53:08 che0 Exp $
+ * vypis vsech soutezi v sezone
  */
-// souteze.inc
-// vypis vsech soutezi v sezone
 
 pg_head();
 

@@ -1,10 +1,10 @@
 <?php
 /*
  * greybox
- * $Id: kluby.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ * $Id: kluby.inc,v 1.6 2005/01/09 00:53:08 che0 Exp $
+ * print out club list
  */
 
-// print out club list
 pg_head();
 
 if ($GLOBALS["cps_kluby"] >= 2) cph_p(cphs_link("./?page=klub.add",$lang['add club']));

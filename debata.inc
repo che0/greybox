@@ -1,8 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: debata.inc,v 1.10 2005/01/09 00:47:32 che0 Exp $
+ * $Id: debata.inc,v 1.11 2005/01/09 00:53:08 che0 Exp $
  */
+
 include_once("i_domeny.inc");
 
 $debata_id = $_REQUEST["debata_id"];

@@ -1,8 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: session.inc,v 1.8 2005/01/09 00:47:38 che0 Exp $
+ * $Id: session.inc,v 1.9 2005/01/09 00:53:08 che0 Exp $
  */
+
 include_once("misc.inc");
 include_once("cpdb.inc");
 

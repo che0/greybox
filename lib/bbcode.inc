@@ -1,10 +1,10 @@
 <?php
 /*
  * greybox
- * $Id: bbcode.inc,v 1.3 2005/01/09 00:47:37 che0 Exp $
+ * $Id: bbcode.inc,v 1.4 2005/01/09 00:53:08 che0 Exp $
+ * the class was taken from http://www.christian-seiler.de/projekte/php/bbcode/
+ * with a small amount of added code at the bottom to fill in the bbcode tags
  */
-// the class was taken from http://www.christian-seiler.de/projekte/php/bbcode/
-// with a small amount of added code at the bottom to fill in the bbcode tags
 
 /*
   BB code parsing class

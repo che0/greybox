@@ -1,10 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: soutez.inc,v 1.17 2005/01/09 00:47:32 che0 Exp $
+ * $Id: soutez.inc,v 1.18 2005/01/09 00:53:08 che0 Exp $
+ * vypis informaci o soutezi
  */
-// soutez.inc
-// vypis vsech soutezi v sezone
 
 $soutez_id = $_REQUEST["soutez_id"];
 

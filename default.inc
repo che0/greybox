@@ -1,8 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: default.inc,v 1.7 2005/01/09 00:47:32 che0 Exp $
+ * $Id: default.inc,v 1.8 2005/01/09 00:53:08 che0 Exp $
  */
+
 pg_head();
 
 if ($lang['release notes']) cph_p($lang['release notes']);

@@ -1,8 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.exec.inc,v 1.12 2005/01/09 00:47:32 che0 Exp $
+ * $Id: debata.edit.exec.inc,v 1.13 2005/01/09 00:53:08 che0 Exp $
  */
+
 include("lib/points.inc");
 
 if ($GLOBALS["cps_debaty"] < 1) {

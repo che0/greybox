@@ -1,8 +1,9 @@
 <?php
 /*
  * greybox
- * $Id: debata.add.inc,v 1.4 2005/01/09 00:47:32 che0 Exp $
+ * $Id: debata.add.inc,v 1.5 2005/01/09 00:53:08 che0 Exp $
  */
+
 if ($GLOBALS["cps_debaty"] < 1) {
 	pg_achtung($lang["access denied"]);
 	return;
