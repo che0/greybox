@@ -249,5 +249,4 @@ $lang['2nd speaker'] = '2nd speaker';
 $lang['3rd speaker'] = '3rd speaker';
 $lang['adjudicators'] = 'adjudicators';
 $lang['decision'] = 'decision';
-$lang['homepage'] = 'homepage';
 ?>
