@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.edit.exec.inc,v 1.9 2005/01/10 01:34:06 che0 Exp $
+ * $Id: clovek.edit.exec.inc,v 1.10 2005/01/31 16:36:32 che0 Exp $
  */
 
 $clovek_id = $_REQUEST["clovek_id"];
@@ -35,11 +35,6 @@ if ($klub_id == 0) $klub_id = NULL;
 
 if (isset($_REQUEST["add"])) {
 	// add new
-	
-	if ($GLOBALS["cps_lidi"] < 2) {
-		pg_achtung($lang["access denied"]);
-		return;
-	}
 	
 	if (cpdb_exec(
 		"insert into
