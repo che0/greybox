@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.9 2005/01/09 00:47:32 che0 Exp $
+ * $Id: lide.inc,v 1.10 2005/01/10 01:34:06 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -28,6 +28,7 @@ switch ($kdo) {
 				clovek.nick,
 				clovek.prijmeni,
 				clovek.klub_ID,
+				clovek.clen,
 				klub.kratky_nazev as klub,
 				sum(clovek_debata_ibody.ibody) as ibody
 			from 
@@ -45,7 +46,7 @@ switch ($kdo) {
 		
 		de_html($lide);
 		cph_table_head(
-			array($lang["name"], $lang["club"], $lang["ipoints"]),
+			array($lang["name"], $lang["club"], $lang["full member"], 	$lang["ipoints"]),
 			array("class"=>"visible")
 		);
 		
@@ -53,8 +54,11 @@ switch ($kdo) {
 			cph_table_row(array(
 				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"],join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
 				cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],$clovek["klub"]),
+				$clovek["clen"] ? $lang["yes"] : $lang["no"],
 				$clovek["ibody"]
-			));
+			),
+				$clovek["clen"] ? array() : array("class"=>"inactive")
+			);
 		}
 		
 		cph_table_end();
@@ -62,6 +66,7 @@ switch ($kdo) {
 	
 	case 'ibody':
 	// show individual points rankings
+		cph_p($lang["ranks only for full members"]);
 		
 		cpdb_fetch_all("
 			select
@@ -78,6 +83,8 @@ switch ($kdo) {
 				left join clovek_debata_ibody
 					on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
 					and clovek_debata_ibody.rocnik = :rocnik
+			where
+				clovek.clen = 1
 			group by
 				clovek.clovek_ID, clovek.jmeno, clovek.nick,
 				clovek.prijmeni, clovek.klub_ID, klub.kratky_nazev

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.6 2005/01/10 01:34:06 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
@@ -53,6 +53,7 @@ if ($ukaz == "judges") {
 
 } else {
 	// show point of debaters
+	cph_p($lang["ranks only for full members"]);
 	
 	$ukaz = ($ukaz == "sum") ? "sum" : "avg";
 	
@@ -75,6 +76,7 @@ if ($ukaz == "judges") {
 			left join debata on clovek_debata.debata_ID = debata.debata_ID
 		where
 			clovek.debater = 1
+			and clovek.clen = 1
 			and debata.soutez_ID = :soutez_id
 		group by
 			clovek_ID, jmeno, nick, prijmeni, klub, klub_ID

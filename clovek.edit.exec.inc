@@ -1,23 +1,26 @@
 <?php
 /*
  * greybox
- * $Id: clovek.edit.exec.inc,v 1.8 2005/01/09 00:47:32 che0 Exp $
+ * $Id: clovek.edit.exec.inc,v 1.9 2005/01/10 01:34:06 che0 Exp $
  */
 
 $clovek_id = $_REQUEST["clovek_id"];
 $klub_id = $_REQUEST["klub_id"];
-$cur_klub_id = $_REQUEST["cur_klub_id"];
 $jmeno = $_REQUEST["jmeno"];
 $nick = $_REQUEST["nick"];
 $prijmeni = $_REQUEST["prijmeni"];
 $komentar = $_REQUEST["komentar"];
 $narozen = $_REQUEST["narozen"];
 $debater = $_REQUEST["debater"];
+$clen = $_REQUEST["clen"];
+
+cpdb_fetch_one_row("select klub_ID, clen from clovek where clovek_ID = :clovek_id", array(":clovek_id"=>$clovek_id), $cur);
+
 
 if (!($GLOBALS["cps_lidi"] >= 2
 	|| ($GLOBALS["cps_lidi"] == 1 && (
 		($klub_id == $_SESSION["user_klub_ID"])
-		|| ($cur_klub_id == $_SESSION["user_klub_ID"])
+		|| ($cur["klub_ID"] == $_SESSION["user_klub_ID"])
 	)))) {
 		pg_achtung($lang["access denied"]);
 		return;
@@ -32,21 +35,26 @@ if ($klub_id == 0) $klub_id = NULL;
 
 if (isset($_REQUEST["add"])) {
 	// add new
+	
+	if ($GLOBALS["cps_lidi"] < 2) {
+		pg_achtung($lang["access denied"]);
+		return;
+	}
+	
 	if (cpdb_exec(
 		"insert into
-			clovek (klub_ID, jmeno, prijmeni, nick, narozen, debater, komentar)
+			clovek (klub_ID, jmeno, prijmeni, nick, narozen, debater, komentar, clen)
 		values
-			(" . ($GLOBALS["cps_lidi"] < 2 ? ":user_klub_id"  : ":klub_id" ) . ",
-			:jmeno, :prijmeni, :nick, :narozen, :debater, :komentar)
+			(:klub_id, :jmeno, :prijmeni, :nick, :narozen, :debater, :komentar, :clen)
 		",
 		array(
-			":klub_id"=>$klub_id,
-			":user_klub_id"=>$_SESSION["user_klub_ID"],
+			":klub_id"=>$GLOBALS["cps_lidi"] >= 2 ? $klub_id : $_SESSION["user_klub_ID"],
 			":jmeno"=>$jmeno,
 			":prijmeni"=>$prijmeni,
 			":nick"=>$nick,
 			":narozen"=>deformat_date($narozen),
 			":debater"=>$debater,
+			":clen"=> $GLOBALS["cps_lidi"] >= 3 ? $clen : 0,
 			":komentar"=>$komentar
 		)
 	)) {
@@ -64,25 +72,26 @@ if (isset($_REQUEST["add"])) {
 	
 	if (cpdb_exec(
 		"update clovek set
-			klub_ID = " . ($GLOBALS["cps_lidi"] < 2 ? ":user_klub_id"  : ":klub_id" ). ",
+			klub_ID = :klub_id,
 			jmeno = :jmeno,
 			prijmeni = :prijmeni,
 			nick = :nick,
 			narozen = :narozen,
 			debater = :debater,
+			clen = :clen,
 			komentar = :komentar
 		where
 			clovek_ID = :clovek_id
 		" . ($GLOBALS["cps_lidi"] < 2 ? "and klub_ID = :user_klub_id" : ""),
 		array(
 			":clovek_id"=>$clovek_id,
-			":klub_id"=>$klub_id,
-			":user_klub_id"=>$_SESSION["user_klub_ID"],
+			":klub_id"=>$GLOBALS["cps_lidi"] >= 2 ? $klub_id  : $cur["klub_ID"],
 			":jmeno"=>$jmeno,
 			":prijmeni"=>$prijmeni,
 			":nick"=>$nick,
 			":narozen"=>deformat_date($narozen),
 			":debater"=>$debater,
+			":clen"=>$GLOBALS["cps_lidi"] >= 3 ? $clen : $cur["clen"],
 			":komentar"=>$komentar
 		)
 	)) {
@@ -101,7 +110,7 @@ if (isset($_REQUEST["add"])) {
 		" . ($GLOBALS["cps_kluby"] < 2 ? "and klub_ID = :cur_klub_id" : ""),
 		array(
 			":clovek_id"=>$clovek_id,
-			":cur_klub_id"=>$cur_klub_id
+			":cur_klub_id"=>$cur["klub_ID"]
 		)
 	)) {
 		pg_achtung($lang["person delete ok"]);

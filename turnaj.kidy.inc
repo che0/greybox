@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.kidy.inc,v 1.3 2005/01/09 00:47:32 che0 Exp $
+ * $Id: turnaj.kidy.inc,v 1.4 2005/01/10 01:34:06 che0 Exp $
  */
 
 $turnaj_id = $_REQUEST["turnaj_id"];
@@ -15,6 +15,7 @@ cpdb_fetch_all(sprintf("
 		clovek.jmeno,
 		clovek.nick,
 		clovek.prijmeni,
+		clovek.clen,
 		klub.kratky_nazev as klub,
 		klub.klub_ID,
 		avg(kidy) as avg,
@@ -51,7 +52,9 @@ foreach ($r_kidy as $kidy) {
 		cphs_link("./?page=klub&klub_id=" . $kidy["klub_ID"], $kidy["klub"]),
 		$kidy["avg"],
 		$kidy["samples"]
-	));
+	),
+		$kidy["clen"] ? array() : array("class"=>"inactive")
+	);
 }
 cph_table_end();
 

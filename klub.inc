@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.21 2005/01/09 15:06:37 che0 Exp $
+ * $Id: klub.inc,v 1.22 2005/01/10 01:34:06 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -166,6 +166,7 @@ cpdb_fetch_all("
 		clovek.nick as a_nick,
 		clovek.prijmeni as a_prijmeni,
 		clovek.debater as a_debater,
+		clovek.clen as a_clen,
 		tym.tym_ID as a_tym_ID,
 		tym.nazev as a_tym
 	from
@@ -181,7 +182,7 @@ cpdb_fetch_all("
 	",array(":klub_id"=>$klub_id), $clenove);
 
 de_html($clenove);
-cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short']),array("class"=>"visible"));
+cph_table_head(array($lang['name'], $lang['team'], $lang['active debater_short'], $lang["full member"]),array("class"=>"visible"));
 
 while ($clen = current($clenove)) {
 	// first result fetch
@@ -193,13 +194,14 @@ while ($clen = current($clenove)) {
 		$cl_team = '';
 	}
 	$cl_debater = $clen['a_debater'];
+	$cl_clen = $clen['a_clen'];
 
 	while ($clen = next($clenove)) {
 		// check for added team, either add team, or print & fetch
 		if ($clen['a_clovek_ID'] == $cl_clovek_ID) {
 			$cl_team .= ", " . cphs_link("./?page=tym&tym_id=" . $clen['a_tym_ID'], $clen['a_tym']);
 		} else {
-			cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
+			cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no'], $cl_clen ? $lang['yes'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
 			
 			$cl_clovek_ID = $clen['a_clovek_ID'];
 			$cl_name = cphs_link("./?page=clovek&clovek_id=" . $clen['a_clovek_ID'], join_name($clen['a_jmeno'], $clen['a_nick'], $clen['a_prijmeni']));
@@ -209,10 +211,11 @@ while ($clen = current($clenove)) {
 				$cl_team = '';
 			}
 			$cl_debater = $clen['a_debater'];
+			$cl_clen = $clen['a_clen'];
 		}
 	}
 	// print last one
-	cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
+	cph_table_row(array($cl_name, $cl_team, $cl_debater ? $lang['active'] : $lang['no'], $cl_clen ? $lang['yes'] : $lang['no']), $cl_debater ? array() : array("class"=>"inactive"));
 	next($clenove);
 }
 

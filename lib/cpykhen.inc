@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: cpykhen.inc,v 1.18 2005/01/09 00:47:38 che0 Exp $
+ * $Id: cpykhen.inc,v 1.19 2005/01/10 01:34:07 che0 Exp $
  */
 
 include_once("cpdb.inc");
@@ -190,17 +190,25 @@ class cpf_nl extends cfutral {
 
 // clever text from the database
 class cpf_db_text extends cfutral {
+	var $transform; // text transform array
 	
-	function cpf_db_text($field, $attr = array()) {
+	function cpf_db_text($field, $attr = array(), $transform = array()) {
 		$this->field = $field;
 		$this->attr = $attr;
+		$this->transform = $transform;
 	}
 	
 	function render() {
-		if ($this->attr != array()) {
-			cph_tag("span", $this->attr, htmlspecialchars($this->value));
+		if (isset($this->transform[$this->value])) {
+			$value = $this->transform[$this->value];
 		} else {
-			echo htmlspecialchars($this->value);
+			$value = htmlspecialchars($this->value);
+		}
+		
+		if ($this->attr != array()) {
+			cph_tag("span", $this->attr, $value);
+		} else {
+			echo $value;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.add.inc,v 1.5 2005/01/09 00:47:32 che0 Exp $
+ * $Id: clovek.add.inc,v 1.6 2005/01/10 01:34:06 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -39,8 +39,17 @@ $clovek_f->form[] = new cpf_nl;
 $clovek_f->form[] = new cpf_text($lang["active debater"] . ": ");
 $clovek_f->form[] = new cpf_db_listbox_array("debater",array(1 => $lang['yes'], 0 => $lang['no']));
 $clovek_f->form[] = new cpf_nl;
+$clovek_f->form[] = new cpf_text($lang["full member"] . ": ");
+if ($GLOBALS["cps_lidi"] >= 3) {
+	// only admins can edit membership
+	$clovek_f->form[] = new cpf_db_listbox_array("clen", array(1 => $lang['yes'], 0 => $lang['no']));
+} else {
+	$clovek_f->form[] = new cpf_db_text("clen", array(), array(1 => $lang['yes'], 0 => $lang['no']));
+}
+$clovek_f->form[] = new cpf_nl;
+
 $clovek_f->form[] = new cpf_button("add",$lang["add"]);
-$clovek_f->load_this(array("klub_ID"=>$klub_id, "debater"=>1));
+$clovek_f->load_this(array("klub_ID"=>$klub_id, "debater"=>1, "clen"=>0));
 $clovek_f->render();
 
 

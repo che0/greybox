@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.23 2005/01/09 00:53:08 che0 Exp $
+ * $Id: clovek.inc,v 1.24 2005/01/10 01:34:06 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -33,7 +33,6 @@ if ($can_edit) {
 	$clovek_f = new cpykhen;
 	$clovek_f->form_attr["action"] = "./?page=clovek.edit.exec";
 	$clovek_f->form[] = new cpf_hidden("clovek_id",$clovek["clovek_ID"]);
-	$clovek_f->form[] = new cpf_hidden("cur_klub_id",$clovek["klub_ID"]);
 	$clovek_f->form[] = new cpf_text($lang["name"] . ": ");
 	$clovek_f->form[] = new cpf_db_textbox("jmeno");
 	$clovek_f->form[] = new cpf_nl;
@@ -57,6 +56,14 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["active debater"] . ": ");
 	$clovek_f->form[] = new cpf_db_listbox_array("debater",array(1 => $lang['yes'], 0 => $lang['no']));
+	$clovek_f->form[] = new cpf_nl;
+	$clovek_f->form[] = new cpf_text($lang["full member"] . ": ");
+	if ($GLOBALS["cps_lidi"] >= 3) {
+		// only admins can edit membership
+		$clovek_f->form[] = new cpf_db_listbox_array("clen", array(1 => $lang['yes'], 0 => $lang['no']));
+	} else {
+		$clovek_f->form[] = new cpf_db_text("clen", array(), array(1 => $lang['yes'], 0 => $lang['no']));
+	}
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_button("save",$lang["save"]);
 	$clovek_f->form[] = new cpf_button("delete",$lang["delete"]);
@@ -98,15 +105,18 @@ if ($can_edit) {
 	
 	if (isset($clovek["klub_ID"])) cph_p($lang["club"] . ": " . cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_id",array(":klub_id"=>$clovek["klub_ID"]))));
 	
-	cph_p($lang["active debater"] . ": " . ($clovek["debater"] ? $lang["yes"] : $lang["no"]));
+	cph_p($lang["active debater"] . ": " . ($clovek["debater"] ? $lang["yes"] : $lang["no"]) . 
+		cphs_br() . $lang["full member"] . ": " . ($clovek["clen"] ? $lang["yes"] : $lang["no"]));
 	
 } else {
 	// just view
 	
 	if (isset($clovek["klub_ID"])) cph_p($lang["club"] . ": " . cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],cpdb_fetch_one_value("select nazev from klub where klub_ID = :klub_id",array(":klub_id"=>$clovek["klub_ID"]))));
 	
-	cph_p($lang["active debater"] . ": " . ($clovek["debater"] ? $lang["yes"] : $lang["no"]));
+	cph_p($lang["active debater"] . ": " . ($clovek["debater"] ? $lang["yes"] : $lang["no"]) . 
+		cphs_br() . $lang["full member"] . ": " . ($clovek["clen"] ? $lang["yes"] : $lang["no"]));
 }
+
 
 // club positions (coach)
 if (cpdb_fetch_all("
