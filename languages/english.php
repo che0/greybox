@@ -10,6 +10,8 @@ $lang['log out'] = 'log out';
 
 $lang['link_everyone'] = 'people';
 
+$lang['submit'] = 'submit';
+
 // login/logout
 $lang['logout ok'] = 'logout ok';
 $lang['login'] = 'login';
@@ -58,6 +60,16 @@ $lang['judging'] = 'judging';
 $lang['coaching'] = 'coaching';
 $lang['total'] = 'total';
 $lang['ipoints_long'] = 'individual points';
+$lang['add person'] = 'add person';
+$lang['name'] = 'name';
+$lang['name_desc'] = 'first name';
+$lang['surname'] = 'surname';
+$lang['surname_desc'] = '';
+$lang['nick'] = 'nick';
+$lang['nick_desc'] = 'nickname, for easier identification';
+$lang['club_desc'] = 'choose approprite club';
+$lang['born'] = 'born';
+$lang['born_desc'] = 'yyyy-mm-dd';
 
 // index
 $lang['teams'] = 'teams';

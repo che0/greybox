@@ -32,16 +32,48 @@ $template->editvar('coarching',$lang['coarching']);
 $template->editvar('total',$lang['total']);
 $template->editvar('ipoints_long',$lang['ipoints_long']);
 
-switch ($_POST['akce']) {
-	// nothing yet
+if ($_SESSION['is_logged_in']) {
+	$prava_lidi = $_SESSION['user_prava_lidi'];
+} else {
+	$prava_lidi = -1;
 }
 
 switch ($_GET['akce']) {
 	case 'uprav':
 	case 'pridej':
-		// edit someones record or add new one
+		if ($prava_lidi < 1) {
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		set_title($lang['add person']);
+		echo $template->make('head');
+		echo $template->make('clovek_new');
 
-		break;
+		echo '<form name="clovek.pridej" action="clovek.php?akce=pridej.commit" method="post">';
+		form_textbox($lang['name'],'name', 30, '', $lang['name_desc']);
+		form_textbox($lang['surname'],'surname', 30, '', $lang['surname_desc']);
+		form_textbox($lang['nick'],'surname', 30, '', $lang['nick_desc']);
+		$result = mysql_query('select klub_ID, kratky_nazev from klub order by kratky_nazev');
+		unset($clubs);
+		while ($result3 = mysql_fetch_array($result)) {
+			$clubs[$result3['klub_ID']]=$result3['kratky_nazev'];
+		}
+		if ($prava_lidi >= 2) {
+			form_pulldown($lang['club'],'club',$clubs,$_SESSION['user_klub_ID'],$lang['club_desc']);
+		} else {
+			form_nothing($lang['club'],$clubs[$_SESSION['user_klub_ID']]);
+			form_hidden('club',$_SESSION['user_klub_ID']);
+		}
+		form_textbox($lang['born'],born,10,'1999-12-31',$lang['born_desc']);
+		// desc
+		// debater
+		
+		printf('<input type="submit" value="%s" name="Submit"></form>',$lang['submit']);
+
+
+	break;
 
 	case 'vsichni':
 		// show list of people
@@ -150,7 +182,7 @@ switch ($_GET['akce']) {
 		}
 		$template->editvar('line_total',$num_rows);
 		echo $template->make('clovek_list_all_tail');
-		break;
+	break;
 
 	case 'rozhodci':
 		set_title($lang['judges']);
@@ -180,15 +212,14 @@ switch ($_GET['akce']) {
 		if ($one_line == 0) echo $template->make('clovek_list_judges_empty');
 		$template->editvar('line_total',mysql_num_rows($result));
 		echo $template->make('clovek_list_judges_tail');
-		break;
-
-	case 'dummy':
-		// does nothing, can be set above
-		break;
+	break;
 
 	default:
 		if ($_GET['id'] == "") {
-			$_GET['id'] = $_SESSION['user_clovek_ID'];
+			if ($_GET['id'] = $_SESSION['user_clovek_ID'] == "") {
+				echo $template->make('head');
+				break;
+			}
 		}
 		$query = 'select * from clovek where clovek_ID = ' . $_GET['id'];
 		$result = mysql_query($query);
@@ -236,7 +267,7 @@ switch ($_GET['akce']) {
 				switch ($result3['a_role']) {
 					case 't':
 						$role = $lang['coach'];
-						break;
+					break;
 				}
 				$template->editvar('line_role',$role);
 				$template->editvar('line_club',sprintf('<a href="klub.php?id=%s">%s</a>', $result3['a_klub_ID'], $result3['a_nazev']));
@@ -260,27 +291,27 @@ switch ($_GET['akce']) {
 					case 'telefon':
 						$template->editvar('line_type',$lang['phone']);
 						$template->editvar('line_tx',$result3['tx']);
-						break;
+					break;
 					case 'email':
 						$template->editvar('line_type',$lang['email']);
 						$template->editvar('line_tx',sprintf('<a href="mailto:%s">%s</a>',$result3['tx'],$result3['tx']));
-						break;
+					break;
 					case 'adresa':
 						$template->editvar('line_type',$lang['postal']);
 						$template->editvar('line_tx',$result3['tx']);
-						break;
+					break;
 					case 'icq':
 						$template->editvar('line_type',$lang['icq']);
 						$template->editvar('line_tx',sprintf('<a href="http://web.icq.com/wwp?Uin=%s">%s</a>',$result3['tx'],$result3['tx']));
-						break;
+					break;
 					case 'jabber':
 						$template->editvar('line_type',$lang['jabber']);
 						$template->editvar('line_tx',$result3['tx']);
-						break;
+					break;
 					case 'web':
 						$template->editvar('line_type',$lang['web']);
 						$template->editvar('line_tx',sprintf('<a href="%s">%s</a>',$result3['tx'],$result3['tx']));
-						break;
+					break;
 				}
 				echo $template->make('clovek_detail_kontakty_line');
 			}
@@ -345,7 +376,7 @@ switch ($_GET['akce']) {
 			print_body_messages();
 		}	
 		// end of
-		break;
+	break;
 }
 
 echo $template->make('tail');

@@ -105,3 +105,6 @@
 <!-- BEGIN clovek_detail_ibody_tail -->
 </table>
 <!-- END clovek_detail_ibody_tail -->
+
+<!-- BEGIN clovek_new -->
+<!-- END clovek_new -->

@@ -14,6 +14,11 @@ function body_message($text)
 	$body_messages .= "<p class=\"body_message\">" . $text . "</p>\n";
 }
 
+function print_one_message($text)
+{
+	printf('<p class="body_message">%s</p>',$text);
+}
+
 function print_body_messages()
 {
 	global $body_messages;
@@ -53,5 +58,49 @@ function season_to_str($season)
 function format_date($date)
 {
 	return $date;
+}
+
+function form_textbox($title, $name, $size, $default, $desc)
+{
+	if ($title) {
+		printf('%s: ',$title);
+	}
+	printf('<input type="text" name="%s" size="%s" value="%s">', $name, $size, $default);
+	if ($desc) {
+		printf(' <span class="desc">%s</span>',$desc);
+	}
+	printf('<br>');
+}
+
+function form_pulldown($title, $name, $choices, $default, $desc)
+{
+	if ($title) {
+		printf('%s: ',$title);
+	}
+	printf('<select size="1" name="%s">',$name);
+	foreach ($choices as $key) {
+		if ($key == $default) {
+			printf('<option value="%s" selected>%s</option>',$key,$choices[$key]);
+		} else {
+			printf('<option value="%s">%s</option>',$key,$choices[$key]);
+		}
+	}
+	printf('</select>');
+	if ($desc) {
+		printf(' <span class="desc">%s</span>',$desc);
+	}
+	printf('<br>');
+}
+
+function form_hidden($name, $value)
+{
+}
+
+function form_nothing($title, $value)
+{
+	if ($title) {
+		printf('%s: ',$title);
+	}
+	printf('%s<br>',$value);
 }
 ?>
