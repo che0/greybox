@@ -108,12 +108,116 @@ switch ($_GET['akce']) {
 		}
 		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
 		
-		// todo:
 		// kontakty
+		$template->make('clovek_detail_kontakty_head');
+		$query = sprintf('select kontakt_ID, druh, tx from kontakt where clovek_ID = %s', $result2['clovek_ID']);
+		$result = mysql_query($query);
+		
+		unset($druh);
+		$druh['DELETE'] = $lang['delete'];
+		$druh['telefon']= $lang['phone'];
+		$druh['email'] = $lang['email'];
+		$druh['adresa'] = $lang['postal'];
+		$druh['icq'] = $lang['icq'];
+		$druh['jabber'] = $lang['jabber'];
+		$druh['web'] = $lang['web'];
+		
+		while ($result3 = mysql_fetch_array($result)) {
+			echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
+			form_hidden('clovek_ID',$result2['clovek_ID']);	
+			form_hidden('kontakt_ID',$result3['kontakt_ID']);
+			echo '<tr><td>';
+			form_pulldown('','type',$druh,$result3['druh'],'');
+			echo '</td><td>';
+			form_textbox('','tx',30,$result3['tx'],'');
+			echo '</td></tr>' . "\n";
+			printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['submit']);
+		}
+		unset($druh['DELETE']);
+
+		echo '<form name="clovek.pridej" action="clovek.php?akce=uprav.commit.kontakty" method="post">' . "\n";
+		form_hidden('clovek_ID',$result2['clovek_ID']);	
+		form_hidden('kontakt_ID','NEW');
+		echo '<tr><td>';
+		form_pulldown('','type',$druh,$result3['druh'],'');
+		echo '</td><td>';
+		form_textbox('','tx',30,'','');
+		echo '</td></tr>' . "\n";
+		printf('<input type="submit" value="%s" name="Submit"></form>' . "\n",$lang['add']);
+		
+		$template->make('clovek_detail_kontakty_tail');
+
+		// todo:
 		// akreditace
 		// heslo/login/prava
 		
 	break;
+
+	case 'uprav.commit.kontrakty':
+		// gets: clovek_ID, kontakt_ID (can be 'NEW'), druh (can be 'DELETE'), tx;
+		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
+			// kick out people with access level lower than 1, unless the are editing themselves
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		$result = mysql_query(sprintf('select * from clovek where clovek_ID = %s',$_POST['clovek_ID']));
+		if (! $result2 = mysql_fetch_array($result)) {
+			// no found person, go out
+			set_title($lang['no records']);
+			echo $template->make('head');
+			print_one_message($lang['no records']);
+			break;
+		}
+		if (($prava_lidi == 1) && ($_SESSION['user_klub_ID'] != $result2['klub_ID'])) {
+			// people with access level 1 can edit only member of their club
+			set_title($lang['access denied']);
+			echo $template->make('head');
+			print_one_message($lang['access denied']);
+			break;
+		}
+		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+
+		if ($_POST['kontakt_ID'] == 'NEW') {
+			// insert new one
+			$query = sprintf('insert into kontakt (clovek_ID, druh, tx) values (%s, %s, %s)',
+				get_numeric_field($_POST['clovek_ID']),
+				get_text_field($_POST['type']),
+				get_text_field($_POST['tx'])
+			);
+			if (mysql_query($query)) {
+				body_message($lang['edit ok']);
+				$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$result2['clovek_ID']));
+			} else {
+				body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+			}
+		} else {
+			if ($_POST['type'] == 'DELETE') {
+				// delete
+				$query = sprintf('delete from kontakt where kontakt_ID = %s and clovek_ID = %s', $_POST['kontakt_ID'], $_POST['clovek_ID']);
+			
+				if (mysql_query($query)) {
+					body_message($lang['edit ok']);
+					$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$result2['clovek_ID']));
+				} else {
+					body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+				}
+				
+			} else {
+				// edit
+				$query = sprintf('update kontakt set druh = %s, tx = %s where kontakt_ID = %s and clovek_ID = %s', $_POST['type'], $_POST['tx'], $_POST['kontakt_ID'], $_POST['clovek_ID']);
+				
+				if (mysql_query($query)) {
+					body_message($lang['edit ok']);
+					$template->editvar('page_headers',sprintf('<meta http-equiv="refresh" content="1;url=clovek.php?id=%s">',$result2['clovek_ID']));
+				} else {
+					body_message(sprintf('%s<br>%s',$lang['edit failed'],mysql_error()));
+				}
+			}
+		}
+	
+		echo $template->make('head');
 
 	case 'uprav.commit':
 		if (($prava_lidi < 1) && ($_SESSION['user_clovek_ID'] != $_POST['clovek_ID'])) {
@@ -139,6 +243,7 @@ switch ($_GET['akce']) {
 			break;
 		}
 		set_title(sprintf("%s %s",$lang['edit'],join_name($result2['jmeno'],$result2['nick'],$result2['prijmeni'])));
+		echo $template->make('head');
 
 		$query = 'update clovek set ';
 		
@@ -180,7 +285,7 @@ switch ($_GET['akce']) {
 		}
 
 		echo $template->make('head');
-		printf_body_messages();
+		print_body_messages();
 		
 
 	break;

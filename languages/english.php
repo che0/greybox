@@ -82,6 +82,8 @@ $lang['add ok'] = 'add ok';
 $lang['add failed'] = 'add failed';
 $lang['edit ok'] = 'edit ok';
 $lang['edit failed'] = 'edit failed';
+$lang['delete'] = 'delete';
+$lang['add'] = 'add'; // contact
 
 // index
 $lang['teams'] = 'teams';
