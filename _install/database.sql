@@ -126,7 +126,7 @@ CREATE TABLE rozhodci (
   rozhodci_ID int(10) unsigned NOT NULL auto_increment,
   clovek_ID int(10) unsigned NOT NULL default '0',
   misto varchar(255) default NULL,
-  jazyk set('cz','sk','en','de','fr') default NULL,
+  jazyk set('cz','en','de','fr') default NULL,
   rocnik tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (rozhodci_ID),
   KEY clovek_ID (clovek_ID)
@@ -139,7 +139,7 @@ CREATE TABLE rozhodci (
 CREATE TABLE soutez (
   soutez_ID int(10) unsigned NOT NULL auto_increment,
   rocnik tinyint(3) unsigned NOT NULL default '0',
-  jazyk enum('cz','sk','en','de','fr') default NULL,
+  jazyk enum('cz','en','de','fr') default NULL,
   nazev varchar(255) NOT NULL default '',
   komentar blob,
   zamceno tinyint(1) NOT NULL default '0',
@@ -165,9 +165,11 @@ CREATE TABLE soutez_teze (
 
 CREATE TABLE teze (
   teze_ID int(10) unsigned NOT NULL auto_increment,
+  jazyk enum('cz','en','de','fr') NOT NULL default 'cz',
   tx varchar(255) NOT NULL default '',
   komentar blob,
-  PRIMARY KEY  (teze_ID)
+  PRIMARY KEY  (teze_ID),
+  KEY jazyk (jazyk)
 ) TYPE=MyISAM;
 
 --
