@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.8 2005/02/12 15:26:09 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.9 2005/02/15 14:32:45 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
@@ -21,7 +21,8 @@ if ($ukaz == "judges") {
 			nick,
 			prijmeni,
 			avg(cd_hodnoceni.kidy) as avg,
-			count(cd_hodnoceni.kidy) as samples
+			count(cd_hodnoceni.kidy) as samples,
+			std(cd_hodnoceni.kidy) as stddev
 		from
 			clovek
 			left join clovek_debata cd_rozhoduje
@@ -38,15 +39,16 @@ if ($ukaz == "judges") {
 			samples > 0
 		order by
 			avg desc
-		",array(":soutez_id"=>$soutez_id), $r_kidy);
+		", array(":soutez_id"=>$soutez_id), $r_kidy);
 	
 	de_html($r_kidy);
-	cph_table_head(array($lang["name"], $lang["average"], $lang["samples"]),array("class"=>"visible"));
+	cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]),array("class"=>"visible"));
 	foreach ($r_kidy as $kidy) {
 		cph_table_row(array(
 			cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
 			$kidy["avg"],
-			$kidy["samples"]
+			$kidy["samples"],
+			$kidy["stddev"]
 		));
 	}
 	cph_table_end();

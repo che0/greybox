@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.61 2005/02/06 17:37:44 che0 Exp $
+ * $Id: english.php,v 1.62 2005/02/15 14:32:47 che0 Exp $
  * english language definition file
  */
 
@@ -316,4 +316,5 @@ $lang['<15'] = '&lt;15';
 $lang['15-18'] = '15-18';
 $lang['18-26'] = '18-26';
 $lang['26+'] = '26+';
+$lang['stddev'] = 'deviation';
 ?>

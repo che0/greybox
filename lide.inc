@@ -1,12 +1,12 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.14 2005/02/13 12:13:57 che0 Exp $
+ * $Id: lide.inc,v 1.15 2005/02/15 14:32:45 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 
-$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "kidy"=>$lang["kidy"], "stats"=>$lang["stats"]);
+$kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "kidy"=>$lang["kidy"], "kidy_rozhodci"=>$lang["kidy"]." - ".$lang["judges"], "stats"=>$lang["stats"]);
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
 
 pg_head();
@@ -192,6 +192,57 @@ switch ($kdo) {
 		}
 		cph_table_end();
 
+	break;
+	
+	case 'kidy_rozhodci':
+		// show average ranks given by the judges
+		
+		if (! cpdb_fetch_all("
+			select
+				clovek.clovek_ID,
+				jmeno,
+				nick,
+				prijmeni,
+				avg(cd_hodnoceni.kidy) as avg,
+				count(cd_hodnoceni.kidy) as samples,
+				std(cd_hodnoceni.kidy) as stddev
+			from
+				clovek
+				left join clovek_debata cd_rozhoduje
+					on clovek.clovek_ID = cd_rozhoduje.clovek_ID and cd_rozhoduje.role = 'r'
+				left join debata
+					on cd_rozhoduje.debata_ID = debata.debata_ID
+				left join soutez
+					on debata.soutez_ID = soutez.soutez_ID
+				left join clovek_debata cd_hodnoceni
+					on cd_rozhoduje.debata_ID = cd_hodnoceni.debata_ID and find_in_set(cd_hodnoceni.role,'a1,a2,a3,n1,n2,n3')
+			where
+				soutez.rocnik = :rocnik
+			group by
+				clovek.clovek_ID, jmeno, nick, prijmeni
+			having
+				samples > 0
+			order by
+				avg desc
+			", array(":rocnik"=>$GLOBALS["current_season"]), $r_kidy)) {
+			
+			// when there are no results
+			pg_achtung($lang["no record"]);
+			return;
+		}
+		
+		
+		de_html($r_kidy);
+		cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]),array("class"=>"visible"));
+		foreach ($r_kidy as $kidy) {
+			cph_table_row(array(
+				cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
+				$kidy["avg"],
+				$kidy["samples"],
+				$kidy["stddev"]
+			));
+		}
+		cph_table_end();
 	break;
 	
 	case 'debateri':
