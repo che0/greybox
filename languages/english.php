@@ -241,4 +241,10 @@ $lang['3:0'] = '3:0';
 $lang['2:1'] = '2:1';
 $lang['won'] = 'won';
 $lang['debate'] = 'debate';
+$lang['1st speaker'] = '1st speaker';
+$lang['kidy'] = 'kidy';
+$lang['2nd speaker'] = '2nd speaker';
+$lang['3rd speaker'] = '3rd speaker';
+$lang['adjudicators'] = 'adjudicators';
+$lang['decision'] = 'decision';
 ?>
