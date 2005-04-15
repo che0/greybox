@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.24 2005/04/15 09:08:15 che0 Exp $
+ * $Id: turnaj.inc,v 1.25 2005/04/15 10:54:13 che0 Exp $
  */
 
 include_once("i_turnaj.inc");
@@ -144,6 +144,7 @@ if (cpdb_fetch_all("
 		datum,
 		vitez,
 		presvedcive,
+		achtung,
 		debata.debata_ID
 	from
 		debata
@@ -180,7 +181,9 @@ if (cpdb_fetch_all("
 			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 			$result,
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
-		));
+		),
+			$debata["achtung"] ? array("class"=>"achtung") : array()
+		);
 	}
 	cph_table_end();
 }

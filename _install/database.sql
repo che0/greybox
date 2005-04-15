@@ -114,6 +114,7 @@ CREATE TABLE debata (
   datum datetime NOT NULL default '0000-00-00',
   misto varchar(255) default NULL,
   komentar text,
+  achtung tinyint(1) NOT NULL default '0',
   vitez tinyint(1) NOT NULL default '0',
   presvedcive tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (debata_ID),

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.inc,v 1.6 2005/04/15 09:08:15 che0 Exp $
+ * $Id: liga.inc,v 1.7 2005/04/15 10:54:12 che0 Exp $
  */
 
 include_once("i_liga.inc");
@@ -126,6 +126,7 @@ if (cpdb_fetch_all("
 		datum,
 		vitez,
 		presvedcive,
+		achtung,
 		debata.debata_ID
 	from
 		turnaj
@@ -164,7 +165,9 @@ if (cpdb_fetch_all("
 			cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 			$result,
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
-		));
+		),
+			$debata["achtung"] ? array("class"=>"achtung") : array()
+		);
 	}
 	cph_table_end();
 }

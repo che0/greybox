@@ -187,6 +187,10 @@ tr.special.inactive a {
 	text-decoration: underline;
 }
 
+tr.achtung td:first-child {
+	border-left: 3px solid red;
+}
+
 form span.desc, p.note {
 	font-size: small;
 }

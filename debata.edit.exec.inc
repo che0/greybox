@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.exec.inc,v 1.16 2005/04/15 09:08:15 che0 Exp $
+ * $Id: debata.edit.exec.inc,v 1.17 2005/04/15 10:54:12 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -17,6 +17,7 @@ $_SESSION["dbt_cache"]["turnaj_ID"] = $turnaj_id = $_REQUEST["turnaj_id"];
 $_SESSION["dbt_cache"]["datum"] = $datum = $_REQUEST["datum"];
 $_SESSION["dbt_cache"]["misto"] = $misto = $_REQUEST["misto"];
 $_SESSION["dbt_cache"]["komentar"] = $komentar = filter_comment($_REQUEST["komentar"]);
+echo $_SESSION["dbt_cache"]["achtung"] = $achtung = preg_match("/\[ACHTUNG=[^\]]*\]/", $komentar);
 $_SESSION["dbt_cache"]["teze_ID"] = $teze_id = $_REQUEST["teze_id"];
 $_SESSION["dbt_cache"]["aff_ID"] = $teams["aff"]["id"] = $_REQUEST["aff_id"];
 $teams["aff"]["pozice"] = 1;
@@ -138,7 +139,7 @@ if (isset($_REQUEST["add"])) {
 	cpdb_transaction();
 	
 	// add main record
-	$status &= cpdb_exec("insert into debata (soutez_ID, turnaj_ID, teze_ID, datum, misto, komentar, vitez, presvedcive) values (:soutez_id, :turnaj_id, :teze_id, :datum, :misto, :komentar, :vitez, :presvedcive)", array(":soutez_id"=>$soutez_id, ":turnaj_id"=>$turnaj_id, ":teze_id"=>$teze_id, ":datum"=>$datum, ":misto"=>$misto, ":komentar"=>$komentar, ":vitez"=>$vitez, ":presvedcive"=>$presvedcive));
+	$status &= cpdb_exec("insert into debata (soutez_ID, turnaj_ID, teze_ID, datum, misto, komentar, achtung, vitez, presvedcive) values (:soutez_id, :turnaj_id, :teze_id, :datum, :misto, :komentar, :achtung, :vitez, :presvedcive)", array(":soutez_id"=>$soutez_id, ":turnaj_id"=>$turnaj_id, ":teze_id"=>$teze_id, ":datum"=>$datum, ":misto"=>$misto, ":komentar"=>$komentar, ":achtung"=>$achtung, ":vitez"=>$vitez, ":presvedcive"=>$presvedcive));
 	
 	$_REQUEST["debata_id"] = $debata_id = cpdb_insert_id();
 	
@@ -170,7 +171,7 @@ if (isset($_REQUEST["add"])) {
 	cpdb_transaction();
 	
 	// update main record
-	$status &= cpdb_exec("update debata set soutez_ID = :soutez_id, turnaj_ID = :turnaj_id, teze_ID = :teze_id, datum = :datum, misto = :misto, komentar = :komentar, vitez = :vitez, presvedcive = :presvedcive where debata_ID = :debata_id", array(":soutez_id"=>$soutez_id, ":turnaj_id"=>$turnaj_id, ":teze_id"=>$teze_id, ":datum"=>$datum, ":misto"=>$misto, ":komentar"=>$komentar, ":vitez"=>$vitez, ":presvedcive"=>$presvedcive, ":debata_id"=>$debata_id));
+	$status &= cpdb_exec("update debata set soutez_ID = :soutez_id, turnaj_ID = :turnaj_id, teze_ID = :teze_id, datum = :datum, misto = :misto, komentar = :komentar, achtung = :achtung, vitez = :vitez, presvedcive = :presvedcive where debata_ID = :debata_id", array(":soutez_id"=>$soutez_id, ":turnaj_id"=>$turnaj_id, ":teze_id"=>$teze_id, ":datum"=>$datum, ":misto"=>$misto, ":komentar"=>$komentar, ":achtung"=>$achtung, ":vitez"=>$vitez, ":presvedcive"=>$presvedcive, ":debata_id"=>$debata_id));
 	
 	// delete teams
 	$status &= cpdb_exec("delete from debata_tym where debata_ID = :debata_id", array(":debata_id"=>$debata_id));

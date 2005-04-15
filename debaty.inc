@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debaty.inc,v 1.8 2005/03/23 20:05:47 che0 Exp $
+ * $Id: debaty.inc,v 1.9 2005/04/15 10:54:12 che0 Exp $
  */
 
 pg_head();
@@ -20,6 +20,7 @@ if (! cpdb_fetch_all("
 		datum,
 		vitez,
 		presvedcive,
+		achtung,
 		debata.debata_ID
 	from
 		debata
@@ -60,7 +61,9 @@ foreach ($r_debaty as $debata) {
 		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
 		$result,
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
-	));
+	),
+		$debata["achtung"] ? array("class"=>"achtung") : array()
+	);
 }
 cph_table_end();
 ?>
