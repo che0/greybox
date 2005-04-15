@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.edit.exec.inc,v 1.8 2005/03/23 12:52:28 che0 Exp $
+ * $Id: turnaj.edit.exec.inc,v 1.9 2005/04/15 09:08:15 che0 Exp $
  */
 
 include_once("lib/points.inc");
@@ -15,7 +15,7 @@ $soutez_id = $_REQUEST["soutez_id"];
 $turnaj_id = $_REQUEST["turnaj_id"];
 $liga_id = $_REQUEST["liga_id"];
 $nazev = $_REQUEST["nazev"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 $datum_od = deformat_date($_REQUEST["datum_od"]);
 $datum_do = deformat_date($_REQUEST["datum_do"]);
 

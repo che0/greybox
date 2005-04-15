@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.30 2005/03/30 11:07:18 che0 Exp $
+ * $Id: klub.inc,v 1.31 2005/04/15 09:08:15 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -19,7 +19,7 @@ $can_edit = (($GLOBALS["cps_kluby"] >= 2)
 
 $GLOBALS["page"]->title = $klub['nazev'];
 pg_head();
-if (isset($klub["komentar"])) cph_p($klub["komentar"]);
+if (isset($klub["komentar"])) cph_p($klub["komentar"], array("class"=>"komentar"));
 
 if ($can_edit) {
 	$klub_f = new cpykhen;

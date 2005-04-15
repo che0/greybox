@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.edit.exec.inc,v 1.2 2005/03/25 12:56:20 che0 Exp $
+ * $Id: liga.edit.exec.inc,v 1.3 2005/04/15 09:08:15 che0 Exp $
  */
 
 if ($GLOBALS["cps_souteze"] < 2) {
@@ -12,7 +12,7 @@ if ($GLOBALS["cps_souteze"] < 2) {
 $liga_id = $_REQUEST["liga_id"];
 $nazev = $_REQUEST["nazev"];
 $rocnik = $_REQUEST["rocnik"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 
 if ($nazev == "" && !isset($_REQUEST["delete"])) {
 	pg_achtung($lang["a league has to have a name"]);

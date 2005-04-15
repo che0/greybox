@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.edit.exec.inc,v 1.7 2005/01/09 00:47:32 che0 Exp $
+ * $Id: tym.edit.exec.inc,v 1.8 2005/04/15 09:08:15 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -9,7 +9,7 @@ include("lib/points.inc");
 $tym_id = $_REQUEST["tym_id"];
 $klub_id = $_REQUEST["klub_id"];
 $nazev = $_REQUEST["nazev"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 
 if ($nazev == "" && !isset($_REQUEST["delete"])) {
 	pg_achtung($lang["a team has to have a name"]);

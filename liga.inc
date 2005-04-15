@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: liga.inc,v 1.5 2005/03/30 12:20:54 che0 Exp $
+ * $Id: liga.inc,v 1.6 2005/04/15 09:08:15 che0 Exp $
  */
 
 include_once("i_liga.inc");
@@ -17,7 +17,7 @@ $liga = de_html_s($liga_p);
 $GLOBALS["page"]->title = $liga["nazev"];
 pg_head();
 
-if (isset($liga["komentar"])) cph_p($liga["komentar"]);
+if (isset($liga["komentar"])) cph_p($liga["komentar"], array("class"=>"komentar"));
 
 if ($GLOBALS["cps_souteze"] >= 2) {
 	// edit/delete league

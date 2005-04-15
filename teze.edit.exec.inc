@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.edit.exec.inc,v 1.5 2005/03/23 13:10:19 che0 Exp $
+ * $Id: teze.edit.exec.inc,v 1.6 2005/04/15 09:08:15 che0 Exp $
  */
 
 if ($GLOBALS['cps_teze'] < 1) {
@@ -13,7 +13,7 @@ $teze_id = $_REQUEST["teze_id"];
 $tx = $_REQUEST["tx"];
 $tx_short = $_REQUEST["tx_short"];
 $jazyk = $_REQUEST["jazyk"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 
 if (isset($_REQUEST["delete"])) {
 	// delete

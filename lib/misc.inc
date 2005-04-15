@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: misc.inc,v 1.7 2005/03/19 22:10:34 che0 Exp $
+ * $Id: misc.inc,v 1.8 2005/04/15 09:08:17 che0 Exp $
  */
 
 function join_name($first, $nick, $last)
@@ -67,6 +67,10 @@ function de_html(& $whatever) {
 	} elseif (is_string($whatever)) {
 		$whatever = htmlspecialchars($whatever);
 	}
+}
+
+function filter_comment($tx) {
+	return str_replace("[sig]",sprintf("[small]([url=./?page=clovek&clovek_id=%s]%s[/url], %s)[/small]", $_SESSION['user_clovek_ID'], $_SESSION['user_name'], strftime('%Y-%m-%d')), $tx);
 }
 
 

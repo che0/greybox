@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.inc,v 1.22 2005/03/30 11:07:18 che0 Exp $
+ * $Id: soutez.inc,v 1.23 2005/04/15 09:08:15 che0 Exp $
  * vypis informaci o soutezi
  */
 
@@ -15,7 +15,7 @@ if (!cpdb_fetch_one_row("select * from soutez where soutez_ID = :soutez_id", arr
 $soutez = de_html_s($soutez_p);
 $GLOBALS["page"]->title = $soutez["nazev"];
 pg_head();
-if (isset($soutez["komentar"])) cph_p($soutez["komentar"]);
+if (isset($soutez["komentar"])) cph_p($soutez["komentar"], array("class"=>"komentar"));
 
 if ($GLOBALS["cps_souteze"] >= 2) {
 	// edit/delete competition

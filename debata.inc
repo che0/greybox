@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.inc,v 1.15 2005/03/23 20:05:47 che0 Exp $
+ * $Id: debata.inc,v 1.16 2005/04/15 09:08:15 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -63,7 +63,7 @@ pg_head();
 
 if ($GLOBALS["cps_debaty"] >= 1) cph_p(cphs_link("./?page=debata.edit&debata_id=" . $debata["debata_ID"],$lang["edit debate"]));
 
-if (isset($debata["komentar"])) cph_p($debata["komentar"]);
+if (isset($debata["komentar"])) cph_p($debata["komentar"], array("class"=>"komentar"));
 
 $info = $lang["competition"] . ": " . cphs_link("./?page=soutez&soutez_id=" . $debata["soutez_ID"], $debata["soutez"]);
 if (isset($debata["liga_ID"])) $info .= cphs_br() . $lang["league"] . ": " . cphs_link("./?page=liga&liga_id=" . $debata["liga_ID"], $debata["liga"]);

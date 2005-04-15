@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.31 2005/03/30 11:54:01 che0 Exp $
+ * $Id: clovek.inc,v 1.32 2005/04/15 09:08:14 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -16,7 +16,7 @@ $clovek = de_html_s($clovek_p);
 
 $GLOBALS["page"]->title = join_name($clovek["jmeno"], $clovek["nick"], $clovek["prijmeni"]);
 pg_head();
-if (isset($clovek["komentar"])) cph_p($clovek["komentar"]);
+if (isset($clovek["komentar"])) cph_p($clovek["komentar"], array("class"=>"komentar"));
 
 $can_edit =
 	($GLOBALS["cps_lidi"] >= 2)

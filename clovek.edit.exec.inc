@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.edit.exec.inc,v 1.12 2005/03/13 17:18:10 che0 Exp $
+ * $Id: clovek.edit.exec.inc,v 1.13 2005/04/15 09:08:14 che0 Exp $
  */
 
 include_once("lib/points.inc");
@@ -11,7 +11,7 @@ $klub_id = $_REQUEST["klub_id"];
 $jmeno = $_REQUEST["jmeno"];
 $nick = $_REQUEST["nick"];
 $prijmeni = $_REQUEST["prijmeni"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 $narozen = $_REQUEST["narozen"];
 $debater = $_REQUEST["debater"];
 $clen = $_REQUEST["clen"];

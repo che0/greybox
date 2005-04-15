@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.17 2005/03/30 11:07:18 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.18 2005/04/15 09:08:15 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -14,7 +14,7 @@ $teze = de_html_s($teze_p);
 $GLOBALS["page"]->title = mb_substr($teze["tx"],0,56);
 pg_head();
 
-if (isset($teze["komentar"])) cph_p($teze["komentar"]);
+if (isset($teze["komentar"])) cph_p($teze["komentar"], array("class"=>"komentar"));
 
 if ($GLOBALS['cps_teze'] >= 1) {
 	$teze_f = new cpykhen;

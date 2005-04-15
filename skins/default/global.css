@@ -238,3 +238,26 @@ p.cp_switch {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+p.komentar {
+	/* komentar k entite */
+}
+
+p.komentar span.achtung {
+	/* achtung blok - entita je divna */
+	display: block;
+	border: 1px solid red;
+	padding-right: 3px;
+	font-weight: bold;
+	color: red;
+}
+
+p.komentar span.achtung span.achtung {
+	/* vlastni achtung */
+	display: inline;
+	border: none;
+	color: white;
+	background-color: red;
+	padding-left: 3px;
+	padding-right: 5px;
+}

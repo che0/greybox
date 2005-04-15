@@ -1,14 +1,14 @@
 <?php
 /*
  * greybox
- * $Id: klub.edit.exec.inc,v 1.7 2005/01/09 00:47:32 che0 Exp $
+ * $Id: klub.edit.exec.inc,v 1.8 2005/04/15 09:08:15 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
 $misto = $_REQUEST["misto"];
 $nazev = $_REQUEST["nazev"];
 $kratky_nazev = $_REQUEST["kratky_nazev"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 
 if (!(
 	$GLOBALS["cps_kluby"] >= 2

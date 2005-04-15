@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.edit.exec.inc,v 1.6 2005/01/09 00:47:32 che0 Exp $
+ * $Id: soutez.edit.exec.inc,v 1.7 2005/04/15 09:08:15 che0 Exp $
  */
 
 if ($GLOBALS["cps_souteze"] < 2) {
@@ -12,7 +12,7 @@ if ($GLOBALS["cps_souteze"] < 2) {
 $soutez_id = $_REQUEST["soutez_id"];
 $jazyk = $_REQUEST["jazyk"];
 $nazev = $_REQUEST["nazev"];
-$komentar = $_REQUEST["komentar"];
+$komentar = filter_comment($_REQUEST["komentar"]);
 $zamceno = $_REQUEST["zamceno"];
 $rocnik = $_REQUEST["rocnik"];
 

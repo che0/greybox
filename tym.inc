@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.21 2005/03/30 11:07:19 che0 Exp $
+ * $Id: tym.inc,v 1.22 2005/04/15 09:08:16 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -15,7 +15,7 @@ $tym = de_html_s($tym_p);
 $GLOBALS["page"]->title = $tym["nazev"];
 pg_head();
 
-if (isset($tym["komentar"])) cph_p($tym["komentar"]);
+if (isset($tym["komentar"])) cph_p($tym["komentar"], array("class"=>"komentar"));
 
 if ($GLOBALS["cps_kluby"] >= 2
 	|| ($GLOBALS["cps_kluby"] == 1 && $tym["klub_ID"] == $_SESSION["user_klub_ID"])

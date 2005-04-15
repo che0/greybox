@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.23 2005/03/29 10:09:50 che0 Exp $
+ * $Id: turnaj.inc,v 1.24 2005/04/15 09:08:15 che0 Exp $
  */
 
 include_once("i_turnaj.inc");
@@ -17,7 +17,7 @@ $turnaj = de_html_s($turnaj_p);
 $GLOBALS["page"]->title = $turnaj["nazev"];
 pg_head();
 
-if (isset($turnaj["komentar"])) cph_p($turnaj["komentar"]);
+if (isset($turnaj["komentar"])) cph_p($turnaj["komentar"], array("class"=>"komentar"));
 
 if ($GLOBALS["cps_souteze"] >= 1) {
 	// edit/delete competition

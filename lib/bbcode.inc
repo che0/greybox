@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: bbcode.inc,v 1.4 2005/01/09 00:53:08 che0 Exp $
+ * $Id: bbcode.inc,v 1.5 2005/04/15 09:08:16 che0 Exp $
  * the class was taken from http://www.christian-seiler.de/projekte/php/bbcode/
  * with a small amount of added code at the bottom to fill in the bbcode tags
  */
@@ -612,6 +612,16 @@ function do_bbcode_img ($tag_name, $attrs, $elem_contents, $func_param, $openclo
 	}
 }
 
+function do_bbcode_achtung ($tag_name, $attrs, $elem_contents, $func_param, $openclose) {
+	if ($openclose == 'open') {
+		return cphs_tag("span", array("class"=>"achtung"),
+			cphs_tag("span", array("class"=>"achtung"), "ACHTUNG")
+			. ($attrs['default'] ? " " . $attrs['default'] : ""));
+	} else {
+		return false;
+	}
+}
+
 $GLOBALS["bbcode_parser"] = new BBCode ();
 $GLOBALS["bbcode_parser"]->addParser ('htmlspecialchars', array ('block', 'inline', 'link'));
 $GLOBALS["bbcode_parser"]->addParser ('nl2br', array ('block', 'inline', 'link'));
@@ -619,10 +629,15 @@ $GLOBALS["bbcode_parser"]->addCode ('b', 'simple_replace', null, array ('<b>', '
                   'inline', array ('block', 'inline', 'link'), array ());
 $GLOBALS["bbcode_parser"]->addCode ('i', 'simple_replace', null, array ('<i>', '</i>'),
                   'inline', array ('block', 'inline', 'link'), array ());
+$GLOBALS["bbcode_parser"]->addCode ('small', 'simple_replace', null, array ('<small>', '</small>'),
+                  'inline', array ('block', 'inline', 'link'), array ());
 $GLOBALS["bbcode_parser"]->addCode ('url', 'usecontent?', 'do_bbcode_url', array ('default'),
                   'link', array ('block', 'inline'), array ('link'));
 $GLOBALS["bbcode_parser"]->addCode ('img', 'usecontent', 'do_bbcode_img', array ('default'),
                   'link', array ('block', 'inline'), array ('link'));
+$GLOBALS["bbcode_parser"]->addCode ('ACHTUNG', 'usecontent?', 'do_bbcode_achtung', array ('default'),
+                  'block', array ('block', 'inline'), array ('link, inline'));
+$GLOBALS["bbcode_parser"]->setCodeFlag ('ACHTUNG', 'no_close_tag', 'true');
 
 function cp_bbcode($text) {
 	return $GLOBALS["bbcode_parser"]->parse($text);
