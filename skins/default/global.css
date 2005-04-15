@@ -248,6 +248,7 @@ p.komentar span.achtung {
 	display: block;
 	border: 1px solid red;
 	padding-right: 3px;
+	padding-left: 3px;
 	font-weight: bold;
 	color: red;
 }
@@ -258,6 +259,7 @@ p.komentar span.achtung span.achtung {
 	border: none;
 	color: white;
 	background-color: red;
+	margin-left: -3px;
 	padding-left: 3px;
 	padding-right: 5px;
 }
