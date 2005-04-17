@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.liga.inc,v 1.5 2005/04/17 18:10:50 che0 Exp $
+ * $Id: tym.liga.inc,v 1.6 2005/04/17 18:30:59 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -36,6 +36,7 @@ cpdb_fetch_all("
 		datum,
 		vitez,
 		presvedcive,
+		achtung,
 		debata.debata_ID,
 		dt_my.pozice,
 		dt_my.liga_vytezek,
@@ -71,7 +72,7 @@ foreach ($r_debaty as $debata) {
 	
 	$dclass = array();
 	if ($debata["achtung"]) { $dclass[]="achtung"; }
-	if (in_array($debata["debata_ID"], $skrtnute_debaty)) { $dsclass[]="inactive"; }
+	if (in_array($debata["debata_ID"], $skrtnute_debaty)) { $dclass[]="inactive"; }
 	
 	cph_table_row(array(
 		format_date($debata["datum"]),
@@ -83,7 +84,7 @@ foreach ($r_debaty as $debata) {
 		$debata["novy_tab"],
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
 	),
-		$dclass
+		!empty($dclass) ? array("class"=>$dclass) : array()
 	);
 }
 cph_table_end();
