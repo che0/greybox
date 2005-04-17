@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.32 2005/04/15 09:08:14 che0 Exp $
+ * $Id: clovek.inc,v 1.33 2005/04/17 18:10:50 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -377,6 +377,7 @@ if (cpdb_fetch_all("
 		debata.datum,
 		debata.vitez,
 		debata.presvedcive,
+		debata.achtung,
 		debata.debata_ID,
 		clovek_debata.role,
 		clovek_debata.kidy,
@@ -423,7 +424,9 @@ if (cpdb_fetch_all("
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"]),
 			$domain_debata_role[$debata["role"]],
 			$detaily
-		));
+		),
+			$debata["achtung"] ? array("class"=>"achtung") : array()
+		);
 	}
 	cph_table_end();
 }

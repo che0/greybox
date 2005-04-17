@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.22 2005/04/15 09:08:16 che0 Exp $
+ * $Id: tym.inc,v 1.23 2005/04/17 18:10:50 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -92,7 +92,7 @@ if ($GLOBALS["cps_kluby"] >= 2
 	}
 }
 
-
+// competitions
 if (cpdb_fetch_all("
 	select
 		liga.liga_ID as ID,
@@ -143,6 +143,7 @@ if (cpdb_fetch_all("
 	cph_table_end();
 }
 
+// debates
 if (cpdb_fetch_all("
 	select
 		tym_oni.tym_ID as oni_ID,
@@ -156,6 +157,7 @@ if (cpdb_fetch_all("
 		datum,
 		vitez,
 		presvedcive,
+		achtung,
 		debata.debata_ID
 	from
 		debata_tym dt_my
@@ -193,7 +195,9 @@ if (cpdb_fetch_all("
 			$debata["body"],
 			$debata["liga_vytezek"],
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
-		));
+		),
+			$debata["achtung"] ? array("class"=>"achtung") : array()
+		);
 	}
 	cph_table_end();
 }

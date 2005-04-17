@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.soutez.inc,v 1.10 2005/03/23 20:05:48 che0 Exp $
+ * $Id: tym.soutez.inc,v 1.11 2005/04/17 18:10:50 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -35,6 +35,7 @@ cpdb_fetch_all("
 		datum,
 		vitez,
 		presvedcive,
+		achtung,
 		debata.debata_ID
 	from
 		debata_tym dt_my
@@ -71,7 +72,9 @@ foreach ($r_debaty as $debata) {
 		$result,
 		$debata["body"],
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
-	));
+	),
+		$debata["achtung"] ? array("class"=>"achtung") : array()
+	);
 }
 cph_table_end();
 ?>

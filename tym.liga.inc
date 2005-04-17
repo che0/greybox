@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.liga.inc,v 1.4 2005/03/23 20:05:48 che0 Exp $
+ * $Id: tym.liga.inc,v 1.5 2005/04/17 18:10:50 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -69,6 +69,10 @@ foreach ($r_debaty as $debata) {
 	$result .= " ";
 	if ($debata["presvedcive"] == 1) { $result .= $lang["3:0"]; } else { $result .= $lang["2:1"]; }
 	
+	$dclass = array();
+	if ($debata["achtung"]) { $dclass[]="achtung"; }
+	if (in_array($debata["debata_ID"], $skrtnute_debaty)) { $dsclass[]="inactive"; }
+	
 	cph_table_row(array(
 		format_date($debata["datum"]),
 		($debata["pozice"] == 1) ? $lang["aff"] : $lang["neg"],
@@ -78,7 +82,8 @@ foreach ($r_debaty as $debata) {
 		$debata["liga_vytezek"],
 		$debata["novy_tab"],
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
-	), in_array($debata["debata_ID"], $skrtnute_debaty) ? array("class"=>"inactive") : array()
+	),
+		$dclass
 	);
 }
 cph_table_end();
