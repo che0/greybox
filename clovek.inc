@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.34 2005/04/18 01:29:35 che0 Exp $
+ * $Id: clovek.inc,v 1.35 2005/04/18 01:38:32 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -398,7 +398,7 @@ if (cpdb_fetch_all("
 	", array(":clovek_id"=>$clovek_id),$r_debaty)) {
 	
 	de_html($r_debaty);
-	cph_h2($lang["debates"]);
+	cph_h2($lang["debates"], array("id"=>"debaty"));
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""));
 	foreach ($r_debaty as $debata) {
 		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
@@ -463,7 +463,7 @@ if (cpdb_fetch_all("
 	", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]),$r_debaty)) {
 	
 	de_html($r_debaty);
-	cph_h2($lang["points overview"]);
+	cph_h2($lang["points overview"], array("id"=>"ibody"));
 	
 	// totals
 	cpdb_fetch_all("select role, sum(ibody) as ipts from clovek_debata_ibody where clovek_ID = :clovek_id and rocnik = :rocnik group by role with rollup", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]), $r_sum);

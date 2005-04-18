@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.18 2005/03/23 20:05:48 che0 Exp $
+ * $Id: lide.inc,v 1.19 2005/04/18 01:38:32 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -118,7 +118,7 @@ switch ($kdo) {
 				$rank,
 				cphs_link("./?page=clovek&clovek_id=" . $clovek["clovek_ID"],join_name($clovek["jmeno"],$clovek["nick"],$clovek["prijmeni"])),
 				cphs_link("./?page=klub&klub_id=" . $clovek["klub_ID"],$clovek["klub"]),
-				$clovek["ibody"]
+				cphs_link(sprintf("./?page=clovek&clovek_id=%s#ibody", $clovek["clovek_ID"]), $clovek["ibody"])
 			));
 		}
 		
@@ -186,7 +186,7 @@ switch ($kdo) {
 				$rank,
 				cphs_link("./?page=clovek&clovek_id=" . $kidy["clovek_ID"], join_name($kidy["jmeno"],$kidy["nick"],$kidy["prijmeni"])),
 				cphs_link("./?page=klub&klub_id=" . $kidy["klub_ID"], $kidy["klub"]),
-				$kidy["avg"],
+				cphs_link(sprintf("./?page=clovek&clovek_id=%s#debaty", $kidy["clovek_ID"]), $kidy["avg"]),
 				$kidy["samples"]
 			),
 				$fullrank ? array() : array("class"=>"inactive") 
