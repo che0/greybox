@@ -1,3 +1,10 @@
+# greybox .htaccess
+# $Id: .htaccess,v 1.4 2005/04/18 15:16:43 che0 Exp $
+
+# get rid of macig quotes
+php_flag magic_quotes_gpc Off
+
+# secure .inc files
 <Files "*.inc">
 deny from all
 </Files>
