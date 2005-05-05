@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.add.inc,v 1.7 2005/03/30 11:07:18 che0 Exp $
+ * $Id: debata.add.inc,v 1.8 2005/05/05 11:32:51 che0 Exp $
  */
 
 if ($GLOBALS["cps_debaty"] < 1) {
@@ -74,9 +74,9 @@ $sdomain_teze = array(
 	array(":jazyk"=>$_SESSION["dbt_cache"]["jazyk"])
 );
 
-// build competitions domain
+// build competitions domain (we're inserting, so only active one matter)
 $sdomain_souteze = array(
-	"select soutez_ID, nazev from soutez where rocnik = :rocnik",
+	"select soutez_ID, nazev from soutez where rocnik = :rocnik and zamceno = 0",
 	array(":rocnik"=>$GLOBALS["current_season"])
 );
 
