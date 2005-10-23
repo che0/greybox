@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.23 2005/04/17 18:10:50 che0 Exp $
+ * $Id: tym.inc,v 1.24 2005/10/23 15:35:17 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -25,12 +25,12 @@ if ($GLOBALS["cps_kluby"] >= 2
 	$tym_f = new cpykhen;
 	$tym_f->form_attr["action"] = "./?page=tym.edit.exec";
 	$tym_f->form[] = new cpf_db_hidden("tym_id","tym_ID");
-	$tym_f->form[] = new cpf_text($lang["club"] . ": ");
-	$tym_f->form[] = new cpf_db_listbox("klub_id",array("select klub_ID, nazev from klub", array()), "klub_ID");
-	$tym_f->form[] = new cpf_db_link("klub_ID","./?page=klub&klub_id=%s","link");
-	$tym_f->form[] = new cpf_nl;
 	$tym_f->form[] = new cpf_text($lang["team name"] . ": ");
 	$tym_f->form[] = new cpf_db_textbox("nazev","nazev",array("size"=>40,"maxlength"=>255));
+	$tym_f->form[] = new cpf_nl;
+	$tym_f->form[] = new cpf_text($lang["club"] . ": ");
+	$tym_f->form[] = new cpf_db_listbox("klub_id",array("select klub_ID, nazev from klub order by nazev", array()), "klub_ID");
+	$tym_f->form[] = new cpf_db_link("klub_ID","./?page=klub&klub_id=%s","link");
 	$tym_f->form[] = new cpf_nl;
 	$tym_f->form[] = new cpf_text($lang["comment"] . ": ");
 	$tym_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));

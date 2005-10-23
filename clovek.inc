@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.35 2005/04/18 01:38:32 che0 Exp $
+ * $Id: clovek.inc,v 1.36 2005/10/23 15:35:17 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -44,7 +44,10 @@ if ($can_edit) {
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["club"] . ": ");
 	$clovek_f->form[] = new cpf_db_listbox("klub_id",array(
-		"select klub_ID, nazev from klub union select 0, :no_club",array(":no_club"=>$lang["no club"])),"klub_ID");
+		"select klub_ID, nazev from klub
+		union select 0, :no_club
+		order by (klub_ID != 0), nazev
+		",array(":no_club"=>$lang["no club"])),"klub_ID");
 	$clovek_f->form[] = new cpf_db_link("klub_ID","./?page=klub&klub_id=%s",$lang["link"]);
 	$clovek_f->form[] = new cpf_nl;
 	$clovek_f->form[] = new cpf_text($lang["born"] . ": ");
