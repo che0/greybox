@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.inc,v 1.24 2005/10/23 15:35:17 che0 Exp $
+ * $Id: tym.inc,v 1.25 2005/10/24 09:04:47 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -97,6 +97,7 @@ if (cpdb_fetch_all("
 	select
 		liga.liga_ID as ID,
 		liga.nazev,
+		liga.rocnik,
 		liga_tym.liga_vytezek as body,
 		1 as liga
 	from
@@ -109,6 +110,7 @@ if (cpdb_fetch_all("
 	select
 		soutez.soutez_ID as ID,
 		soutez.nazev,
+		soutez.rocnik,
 		sum(debata_tym.body) as body,
 		0 as liga
 	from
@@ -119,22 +121,30 @@ if (cpdb_fetch_all("
 		debata_tym.tym_ID = :tym_id
 	group by
 		soutez.soutez_ID,
-		soutez.nazev
+		soutez.nazev,
+		soutez.rocnik
+
+	order by
+		rocnik desc,
+		liga desc,
+		nazev
 ", array(":tym_id"=>$tym_id), $souteze)) {
 
 	de_html($souteze);
 	cph_h2($lang["competitions"]);
-	cph_table_head(array($lang["competition"],$lang["pts"]."/".$lang["tab value"]));
+	cph_table_head(array($lang["season"], $lang["competition"],$lang["pts"]."/".$lang["tab value"]));
 	foreach ($souteze as $soutez) {
 		if ($soutez["liga"] == 0) {
 			// cup
 			cph_table_row(array(
+				season_to_str($soutez["rocnik"]),
 				cphs_link("./?page=soutez&soutez_id=" . $soutez["ID"], $soutez["nazev"]),
 				cphs_link(sprintf("./?page=tym.soutez&soutez_id=%s&tym_id=%s",$soutez["ID"],$tym_id),intval($soutez["body"]))
 			));
 		} else {
 			// league
 			cph_table_row(array(
+				season_to_str($soutez["rocnik"]),
 				cphs_link("./?page=liga&liga_id=" . $soutez["ID"], $soutez["nazev"]),
 				cphs_link(sprintf("./?page=tym.liga&liga_id=%s&tym_id=%s",$soutez["ID"],$tym_id),$soutez["body"])
 			));

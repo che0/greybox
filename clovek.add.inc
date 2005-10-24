@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.add.inc,v 1.8 2005/10/23 15:35:17 che0 Exp $
+ * $Id: clovek.add.inc,v 1.9 2005/10/24 09:04:47 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -28,10 +28,7 @@ $clovek_f->form[] = new cpf_db_textbox("nick","nick",array("maxlength"=>60));
 $clovek_f->form[] = new cpf_nl;
 $clovek_f->form[] = new cpf_text($lang["club"] . ": ");
 $clovek_f->form[] = new cpf_db_listbox("klub_id",array(
-	"select klub_ID, nazev from klub
-	union select 0, :no_club
-	order by (klub_ID != 0), nazev
-	",array(":no_club"=>$lang["no club"])),"klub_ID");
+	"select klub_ID, nazev from klub union select 0, :no_club as nazev", array(":no_club"=>$lang["no club"])),"klub_ID");
 $clovek_f->form[] = new cpf_nl;
 $clovek_f->form[] = new cpf_text($lang["born"] . ": ");
 $clovek_f->form[] = new cpf_db_textbox("narozen","narozen",array("maxlength"=>10));
