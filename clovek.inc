@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.38 2005/10/27 12:04:49 che0 Exp $
+ * $Id: clovek.inc,v 1.39 2005/10/27 12:23:52 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -414,7 +414,10 @@ if ($total_debaty) {
 		)
 		. (($total_debaty > $cur_debaty) ? " " . cphs_link("./?page=clovek.debaty&clovek_id=" . $clovek_id, $lang["show all"]) : "")
 	);
-	
+}
+
+if ($cur_debaty) {
+	// if there are any current debates
 	
 	de_html($r_debaty);
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""));
