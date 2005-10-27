@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tymy.inc,v 1.8 2005/03/23 20:05:48 che0 Exp $
+ * $Id: tymy.inc,v 1.9 2005/10/27 12:45:44 che0 Exp $
  */
 
 pg_head();
@@ -15,12 +15,11 @@ de_html($tymy);
 cpdb_fetch_all("
 	select
 		clovek_tym.tym_ID,
-		count(clovek.clovek_ID) as pocet_debateru
+		count(clovek.clovek_ID) as pocet_clenu,
+		sum(clovek_tym.aktivni) as pocet_aktivnich
 	from
 		clovek_tym
-		left join clovek on clovek_tym.clovek_ID = clovek.clovek_ID and clovek.debater = 1
-	where
-		clovek_tym.aktivni = 1
+		left join clovek on clovek_tym.clovek_ID = clovek.clovek_ID
 	group by
 		clovek_tym.tym_ID
 	",
@@ -37,17 +36,32 @@ cpdb_fetch_all("
 	",
 	array(), $tym_debaty, "tym_ID");
 
+cpdb_fetch_all("
+	select
+		tym_ID,
+		count(*) as pocet_debat
+	from
+		debata_tym
+		left join debata on debata_tym.debata_ID = debata.debata_ID
+		left join soutez on debata.soutez_ID = soutez.soutez_ID
+	where
+		soutez.rocnik = :rocnik
+	group by
+		tym_ID
+	",
+	array(":rocnik"=>$GLOBALS["current_season"]), $tym_debaty_letos, "tym_ID");
 
-cph_table_head(array($lang["team"],$lang["club"],$lang["debaters"],$lang["debates"]));
+
+cph_table_head(array($lang["team"],$lang["club"],$lang["members"],$lang["debates"]));
 foreach ($tymy as $tym) {
 	cph_table_row(array(
 		cphs_link("./?page=tym&tym_id=" . $tym["tym_ID"], $tym["tym"]),
 		cphs_link("./?page=klub&klub_id=" . $tym["klub_ID"], $tym["klub"]),
-		(int)$tym_debateri[$tym["tym_ID"]]["pocet_debateru"],
-		(int)$tym_debaty[$tym["tym_ID"]]["pocet_debat"]
+		(int)$tym_debateri[$tym["tym_ID"]]["pocet_aktivnich"] . " (" . (int)$tym_debateri[$tym["tym_ID"]]["pocet_clenu"] . ")",
+		(int)$tym_debaty_letos[$tym["tym_ID"]]["pocet_debat"] . " (" . (int)$tym_debaty[$tym["tym_ID"]]["pocet_debat"] . ")"
 	), 
-	(((int)$tym_debateri[$tym["tym_ID"]]["pocet_debateru"] >= 3)
-		&& ((int)$tym_debaty[$tym["tym_ID"]]["pocet_debat"] >= 1))
+	(((int)$tym_debateri[$tym["tym_ID"]]["pocet_aktivnich"] >= 3)
+		&& ((int)$tym_debaty_letos[$tym["tym_ID"]]["pocet_debat"] >= 1))
 		? array() : array("class"=>"inactive"));
 }
 cph_table_end();
