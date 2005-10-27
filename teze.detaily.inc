@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.18 2005/04/15 09:08:15 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.19 2005/10/27 12:04:50 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -42,12 +42,12 @@ if ($GLOBALS['cps_teze'] >= 1) {
 		. cphs_br() . $lang["short text"] . ": " . $teze["tx_short"]);
 }
 
-if (cpdb_fetch_all("select soutez.soutez_ID as soutez, nazev from soutez_teze left join soutez using (soutez_ID) where teze_ID = :teze_id", array(":teze_id" => $teze_id), $souteze) > 0) {
+if (cpdb_fetch_all("select soutez.soutez_ID as soutez, rocnik, nazev from soutez_teze left join soutez using (soutez_ID) where teze_ID = :teze_id", array(":teze_id" => $teze_id), $souteze) > 0) {
 	de_html($souteze);
 	cph_tag("h2",array(),$lang["official in"]);
-	cph_table_head(array($lang["competition"],""));
+	cph_table_head(array($lang["season"], $lang["competition"],""));
 	foreach ($souteze as $soutez) {
-		cph_table_row(array($soutez["nazev"], cphs_link("./?page=soutez&soutez_id=" .  $soutez["soutez"],$lang["details"])));
+		cph_table_row(array(season_to_str($soutez["rocnik"]), $soutez["nazev"], cphs_link("./?page=soutez&soutez_id=" .  $soutez["soutez"],$lang["details"])));
 	}
 	cph_table_end();
 }

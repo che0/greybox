@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.70 2005/03/25 14:29:05 che0 Exp $
+ * $Id: english.php,v 1.71 2005/10/27 12:04:50 che0 Exp $
  * english language definition file
  */
 
@@ -342,4 +342,7 @@ $lang['gain'] = 'gain';
 $lang['new tab'] = 'new tab';
 $lang['short text'] = 'short text';
 $lang['tournament does not match competition, unsetting tournament'] = 'tournament does not match competition, unsetting tournament';
+$lang['show all'] = 'show all';
+$lang['%s total debates, listing %s from season %s.'] = '%s total debates, listing %s from season %s.';
+$lang['%s: %s total debates'] = '%s: %s total debates';
 ?>
