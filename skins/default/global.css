@@ -191,6 +191,11 @@ tr.achtung td:first-child {
 	border-left: 3px solid red;
 }
 
+tr.small_achtung td:first-child {
+	border-left: 2px solid #D7E200;
+}
+
+
 form span.desc, p.note {
 	font-size: small;
 }
