@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.32 2005/11/16 23:33:28 che0 Exp $
+ * $Id: klub.inc,v 1.33 2005/11/16 23:43:58 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -199,7 +199,7 @@ function get_cl_ac_array($clen, $debater, $bez_datnar) {
 	$cl_prm = array();
 	if (!$clen) { $cl_prm[] = "inactive"; }
 	if (!$debater) { $cl_prm[] = "special"; }
-	if ($can_edit && $bez_datnar) { $cl_prm[] = "small_achtung"; }
+	if ($can_edit && $clen && $bez_datnar) { $cl_prm[] = "small_achtung"; }
 	
 	return array("class" => implode(" ", $cl_prm));
 }
