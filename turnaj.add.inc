@@ -1,7 +1,7 @@
-g<?php
+<?php
 /*
  * greybox
- * $Id: turnaj.add.inc,v 1.6 2005/03/29 10:09:50 che0 Exp $
+ * $Id: turnaj.add.inc,v 1.7 2005/11/16 07:45:08 che0 Exp $
  */
 
 include_once("i_turnaj.inc");

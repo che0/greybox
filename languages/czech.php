@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.65 2005/10/27 12:04:50 che0 Exp $
+ * $Id: czech.php,v 1.66 2005/11/16 07:45:09 che0 Exp $
  * czech language definition file
  */
 
@@ -264,7 +264,7 @@ $lang['organizers'] = 'organizátoři';
 $lang['please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual competition'] = 'body a pořadí jsou počítány podle bodování debatního poháru, které se nemusí shodovat s bodováním této soutěže';
 $lang['please note that the points and rankings are computed according to the debate cup system, which may not necessarily be identical to the one used at the actual tournament'] = 'body a pořadí jsou počítány podle bodování debatního poháru, které se nemusí shodovat s bodováním uplatňovaným na turnaji';
 $lang['applies only if there are no adjudicators filled in'] = 'má smysl jen nejsou-li vyplněni rozhodčí';
-$lang['inherited organizer'] = 'zdědený organizátor';
+$lang['inherited organizer'] = 'zděděný organizátor';
 $lang['new adjudicator'] = 'přidat rozhodčího';
 $lang['new organizer'] = 'přidat organizátora';
 $lang['refusing to set adjudicator without a decision'] = 'rozhodčí musí mít nastaveno rozhodnutí';

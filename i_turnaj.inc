@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: i_turnaj.inc,v 1.1 2005/03/29 10:09:50 che0 Exp $
+ * $Id: i_turnaj.inc,v 1.2 2005/11/16 07:45:08 che0 Exp $
  */
 
 function get_pykhen_turnaj() {
@@ -17,7 +17,7 @@ function get_pykhen_turnaj() {
 	$turnaj_f->form[] = new cpf_db_textarea("komentar","komentar",array("rows"=>4, "cols"=>60));
 	$turnaj_f->form[] = new cpf_nl;
 	$turnaj_f->form[] = new cpf_text($lang["competition"] . ": ");
-	$turnaj_f->form[] = new cpf_db_listbox("soutez_id",array("select soutez_ID, nazev from soutez",array()),"soutez_ID");
+	$turnaj_f->form[] = new cpf_db_listbox("soutez_id",array("select soutez_ID, nazev from soutez where rocnik = :rocnik",array(":rocnik"=>$GLOBALS["current_season"])),"soutez_ID");
 	$turnaj_f->form[] = new cpf_nl;
 	$turnaj_f->form[] = new cpf_text($lang["league"] . ": ");
 	$turnaj_f->form[] = new cpf_db_listbox("liga_id",array("select 0, :no_league union select liga_ID, nazev from liga",array(":no_league"=>$lang["no league"])),"liga_ID");
