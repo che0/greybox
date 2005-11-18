@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: soutez.kidy.inc,v 1.13 2005/03/23 20:05:48 che0 Exp $
+ * $Id: soutez.kidy.inc,v 1.14 2005/11/18 02:53:46 che0 Exp $
  */
 
 $soutez_id = $_REQUEST["soutez_id"];
@@ -63,7 +63,8 @@ switch ($ukaz) {
 				left join clovek_debata cd_hodnoceni
 					on cd_rozhoduje.debata_ID = cd_hodnoceni.debata_ID and find_in_set(cd_hodnoceni.role,'a1,a2,a3,n1,n2,n3')
 			where
-				debata.soutez_ID = :soutez_id
+				rozhodci.rocnik = :rocnik
+				and debata.soutez_ID = :soutez_id
 				%s
 			group by
 				clovek.clovek_ID, jmeno, nick, prijmeni
@@ -71,7 +72,7 @@ switch ($ukaz) {
 				samples > 0
 			order by
 				avg desc
-			", $filtr_sql), array(":soutez_id"=>$soutez_id), $r_kidy);
+			", $filtr_sql), array(":soutez_id"=>$soutez_id, ":rocnik"=>$GLOBALS["current_season"]), $r_kidy);
 		
 		de_html($r_kidy);
 		cph_table_head(array($lang["name"], $lang["average"], $lang["samples"], $lang["stddev"]));

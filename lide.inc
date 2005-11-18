@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.19 2005/04/18 01:38:32 che0 Exp $
+ * $Id: lide.inc,v 1.20 2005/11/18 02:53:46 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
@@ -241,7 +241,8 @@ switch ($kdo) {
 				left join clovek_debata cd_hodnoceni
 					on cd_rozhoduje.debata_ID = cd_hodnoceni.debata_ID and find_in_set(cd_hodnoceni.role,'a1,a2,a3,n1,n2,n3')
 			where
-				soutez.rocnik = :rocnik
+				rozhodci.rocnik = :rocnik
+				and soutez.rocnik = :rocnik
 				%s
 			group by
 				clovek.clovek_ID, jmeno, nick, prijmeni
