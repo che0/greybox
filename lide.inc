@@ -1,14 +1,16 @@
 <?php
 /*
  * greybox
- * $Id: lide.inc,v 1.20 2005/11/18 02:53:46 che0 Exp $
+ * $Id: lide.inc,v 1.21 2005/11/18 18:19:27 che0 Exp $
  */
 
 $kdo = isset($_REQUEST["kdo"]) ? $_REQUEST["kdo"] : "vsichni";
 $filtr_rozhodci = ($_REQUEST["filtr"] == "samosoudci") ? "samosoudci" : "s_panely";
+$filtr_ipts = ($_REQUEST["rocnik"] == "letos") ? "letos" : "vsechno";
 
 $kdo_domain = array("vsichni"=>$lang["everyone"], "debateri"=>$lang["debaters"], "rozhodci"=>$lang["judges"], "spravci"=>$lang["administrators"], "ibody"=>$lang["points overview"], "kidy"=>$lang["kidy"], "kidy_rozhodci"=>$lang["kidy"]." - ".$lang["judges"], "stats"=>$lang["stats"]);
 $filtr_domain = array("s_panely"=>$lang["include panels"], "samosoudci"=>$lang["single judges"]);
+$ipts_domain = array("letos"=>season_to_str($GLOBALS["current_season"]), "vsechno"=>$lang["total"]);
 
 $GLOBALS["page"]->title = $kdo_domain[$kdo];
 
@@ -69,7 +71,19 @@ switch ($kdo) {
 	
 	case 'ibody':
 	// show individual points rankings
-		if (! cpdb_fetch_all("
+		cph_switch($lang["season"],"./?page=lide&kdo=ibody&rocnik=%s", $ipts_domain, $filtr_ipts);
+		
+		switch ($filtr_ipts) {
+			case "letos":
+				$season_limit = "and clovek_debata_ibody.rocnik = :rocnik";
+			break;
+			
+			default:
+				$season_limit = "";
+			break;
+		}
+		
+		if (! cpdb_fetch_all(sprintf("
 			select
 				clovek.clovek_ID,
 				clovek.jmeno,
@@ -85,7 +99,7 @@ switch ($kdo) {
 					on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
 			where
 				clovek.clen = 1
-				and clovek_debata_ibody.rocnik = :rocnik
+				%s
 			group by
 				clovek.clovek_ID, clovek.jmeno, clovek.nick,
 				clovek.prijmeni, clovek.klub_ID, klub.kratky_nazev
@@ -93,7 +107,7 @@ switch ($kdo) {
 				ibody > 0
 			order by
 				ibody desc, clovek.prijmeni, clovek.jmeno, clovek.nick
-		", array(":rocnik"=>$GLOBALS["current_season"]), $lide)) {
+		", $season_limit), array(":rocnik"=>$GLOBALS["current_season"]), $lide)) {
 		
 			pg_achtung($lang["no record"]);
 			return;

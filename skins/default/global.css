@@ -195,6 +195,10 @@ tr.small_achtung td:first-child {
 	border-left: 2px solid #D7E200;
 }
 
+tr.hr td {
+	border-top: 1px dotted #cbcdca;
+}
+
 
 form span.desc, p.note {
 	font-size: small;
