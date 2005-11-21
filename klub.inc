@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.33 2005/11/16 23:43:58 che0 Exp $
+ * $Id: klub.inc,v 1.34 2005/11/21 22:39:55 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -86,7 +86,7 @@ if ($can_edit) {
 }
 
 // teams
-if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(*) as pocet_debat from tym left join debata_tym on tym.tym_ID = debata_tym.tym_ID where tym.klub_ID = :klub_id group by tym.tym_ID, tym.nazev",array(":klub_id"=>$klub_id),$tymy)) {
+if (cpdb_fetch_all("select tym.tym_ID, tym.nazev, count(debata_ID) as pocet_debat from tym left join debata_tym on tym.tym_ID = debata_tym.tym_ID where tym.klub_ID = :klub_id group by tym.tym_ID, tym.nazev",array(":klub_id"=>$klub_id),$tymy)) {
 
 	cpdb_fetch_all("
 		select
