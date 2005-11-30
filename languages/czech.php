@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.66 2005/11/16 07:45:09 che0 Exp $
+ * $Id: czech.php,v 1.67 2005/11/30 23:23:13 che0 Exp $
  * czech language definition file
  */
 
@@ -346,4 +346,5 @@ $lang['tournament does not match competition, unsetting tournament'] = 'turnaj n
 $lang['show all'] = 'ukaž všechny';
 $lang['%s total debates, listing %s from season %s.'] = '%s debat celkem, z toho %s v sezóně %s.';
 $lang['%s: %s total debates'] = '%s: celkem %s debat';
+$lang['time of the debate has to be in the past'] = 'čas debaty musí být v minulosti';
 ?>

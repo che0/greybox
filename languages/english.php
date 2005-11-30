@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.71 2005/10/27 12:04:50 che0 Exp $
+ * $Id: english.php,v 1.72 2005/11/30 23:23:13 che0 Exp $
  * english language definition file
  */
 
@@ -345,4 +345,5 @@ $lang['tournament does not match competition, unsetting tournament'] = 'tourname
 $lang['show all'] = 'show all';
 $lang['%s total debates, listing %s from season %s.'] = '%s total debates, listing %s from season %s.';
 $lang['%s: %s total debates'] = '%s: %s total debates';
+$lang['time of the debate has to be in the past'] = 'time of the debate has to be in the past';
 ?>

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.exec.inc,v 1.18 2005/04/15 11:20:48 che0 Exp $
+ * $Id: debata.edit.exec.inc,v 1.19 2005/11/30 23:23:13 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -53,6 +53,11 @@ if (!isset($_REQUEST["delete"])) {
 	// check aff != neg
 	if ($teams["aff"]["id"] == $teams["neg"]["id"]) {
 		pg_achtung($lang["team cannot debate against itself"]);
+		return;
+	}
+	
+	if (strtotime($datum) > time()) {
+		pg_achtung($lang["time of the debate has to be in the past"]);
 		return;
 	}
 	

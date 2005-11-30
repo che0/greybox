@@ -195,7 +195,8 @@ tr.small_achtung td:first-child {
 	border-left: 2px solid #D7E200;
 }
 
-tr.hr td {
+tr.hr td,
+tr.hr th {
 	border-top: 1px dotted #cbcdca;
 }
 
