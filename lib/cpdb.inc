@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: cpdb.inc,v 1.12 2005/01/09 00:47:38 che0 Exp $
+ * $Id: cpdb.inc,v 1.13 2006/04/04 21:49:57 che0 Exp $
  */
 
 function cpdb_achtung($achtung) {
@@ -78,7 +78,7 @@ function cpdb_fetch_one_row ($query, $args, & $row) {
 	}
 	if ($row = mysql_fetch_array($my_res)) {
 		if (mysql_fetch_array($my_res)) {
-			pg_achtung("Internal database fetch problem: unexpected rows");
+			cpdb_achtung("Internal database fetch problem: unexpected rows");
 		}
 		return true;
 	} else {
