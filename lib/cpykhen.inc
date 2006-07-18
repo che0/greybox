@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: cpykhen.inc,v 1.20 2005/03/15 12:39:10 che0 Exp $
+ * $Id: cpykhen.inc,v 1.21 2006/07/18 12:21:05 che0 Exp $
  */
 
 include_once("cpdb.inc");
@@ -99,7 +99,7 @@ class cpykhen {
 	
 		cph_tag_end("div");
 		cph_tag("script",array("type"=>"text/javascript"),"c_show('" . $form_id . "_b'); c_hide('" . $form_id . "');");
-		echo ;
+		echo "";
 	}
 	
 	// executes select query and render one form for each row
