@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.19 2005/10/27 12:04:50 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.20 2006/07/30 17:49:15 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -11,7 +11,7 @@ if (!cpdb_fetch_one_row("select * from teze where teze_ID = :teze_id", array(":t
 	return;
 }
 $teze = de_html_s($teze_p);
-$GLOBALS["page"]->title = mb_substr($teze["tx"],0,56);
+$GLOBALS["page"]->title = substr($teze["tx"],0,56);
 pg_head();
 
 if (isset($teze["komentar"])) cph_p($teze["komentar"], array("class"=>"komentar"));
