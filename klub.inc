@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.35 2006/08/23 19:56:07 che0 Exp $
+ * $Id: klub.inc,v 1.36 2006/08/23 19:58:50 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -128,6 +128,7 @@ if (cpdb_fetch_all("
 	select
 		rozhodci.misto,
 		rozhodci.jazyk,
+		rozhodci.format,
 		clovek.clovek_ID,
 		clovek.jmeno,
 		clovek.nick,
@@ -142,11 +143,12 @@ if (cpdb_fetch_all("
 	
 	de_html($r_rozhodci);
 	cph_h2($lang["adjudicators"]);
-	cph_table_head(array($lang["adjudicator"],$lang["language"],$lang["place"]));
+	cph_table_head(array($lang["adjudicator"],$lang["language"],$lang["format"],$lang["place"]));
 	foreach ($r_rozhodci as $rozhodci) {
 		cph_table_row(array(
 			cphs_link("./?page=clovek&clovek_id=" . $rozhodci["clovek_ID"], join_name($rozhodci["jmeno"], $rozhodci["nick"], $rozhodci["prijmeni"])),
 			$rozhodci["jazyk"],
+			$rozhodci["format"],
 			$rozhodci["misto"]
 		));
 	}
