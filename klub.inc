@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.inc,v 1.34 2005/11/21 22:39:55 che0 Exp $
+ * $Id: klub.inc,v 1.35 2006/08/23 19:56:07 che0 Exp $
  */
 
 $domain_ck_role = array("t"=>$lang["coach"]);
@@ -46,7 +46,7 @@ if ($can_edit) {
 	
 	$klub_clovek = new cpykhen;
 	$klub_clovek->form_attr["action"] = "./?page=klub.clovek.edit.exec";
-	$klub_clovek->select = "select * from clovek_klub where klub_ID = :klub_id";
+	$klub_clovek->select = "select * from clovek_klub where klub_ID = :klub_id order by rocnik";
 	$klub_clovek->select_args = array(":klub_id"=>$klub_id);
 	$klub_clovek->form[] = new cpf_hidden("klub_id",$klub["klub_ID"]);
 	$klub_clovek->form[] = new cpf_db_hidden("clovek_old","clovek_ID");
