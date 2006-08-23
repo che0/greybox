@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: cpykhen.inc,v 1.21 2006/07/18 12:21:05 che0 Exp $
+ * $Id: cpykhen.inc,v 1.22 2006/08/23 13:01:45 che0 Exp $
  */
 
 include_once("cpdb.inc");
@@ -125,7 +125,7 @@ class cpykhen {
 class cfutral {
 	var $value;
 	var $field;
-	var $attr;
+	var $attr = array();
 	
 	function init() {
 	}
