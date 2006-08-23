@@ -277,3 +277,13 @@ p.komentar span.achtung span.achtung {
 	padding-left: 3px;
 	padding-right: 5px;
 }
+
+form {
+	padding: 2px;
+	border: 1px solid transparent;
+}
+
+form:hover {
+	border: 1px dotted #cbcdca;
+	background-color: #f6fff6;
+}

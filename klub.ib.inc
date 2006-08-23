@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: klub.ib.inc,v 1.4 2005/03/23 20:05:47 che0 Exp $
+ * $Id: klub.ib.inc,v 1.5 2006/08/23 17:07:33 che0 Exp $
  */
 
 $klub_id = $_REQUEST["klub_id"];
@@ -25,25 +25,27 @@ cph_p(
 
 if (! cpdb_fetch_all("
 	select
-		clovek.clovek_ID,
-		clovek.jmeno,
-		clovek.nick,
-		clovek.prijmeni,
-		sum(clovek_debata_ibody.ibody) as ibody
-	from 
+		clovek_ID,
+		jmeno,
+		nick,
+		prijmeni,
+		(
+			ifnull((select sum(ibody) from clovek_debata_ibody where clovek_ID = clovek.clovek_ID and rocnik = :rocnik),
+			0)
+			+ ifnull((select sum(ibody) from clovek_ibody where clovek_ID = clovek.clovek_ID and rocnik = :rocnik), 0)
+		) as ibody
+	from
 		clovek
-		left join clovek_debata_ibody
-			on clovek.clovek_ID = clovek_debata_ibody.clovek_ID
-			and clovek_debata_ibody.rocnik = :rocnik
 	where
-		clovek.clen = 1
+		clen = 1
 		and clovek.klub_ID = :klub_id
 	group by
-		clovek.clovek_ID, clovek.jmeno, clovek.nick, clovek.prijmeni
+		clovek_ID, jmeno, nick,
+		prijmeni
 	having
 		ibody > 0
 	order by
-		ibody desc, clovek.prijmeni, clovek.jmeno, clovek.nick
+		ibody desc, prijmeni, jmeno, nick
 ", array(":rocnik"=>$GLOBALS["current_season"], ":klub_id"=>$klub_id), $lide)) {
 	pg_achtung($lang["no record"]);
 	return;

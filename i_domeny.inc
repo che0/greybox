@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: i_domeny.inc,v 1.2 2005/01/09 00:47:32 che0 Exp $
+ * $Id: i_domeny.inc,v 1.3 2006/08/23 17:07:33 che0 Exp $
  */
 
 global $domain_klub_role;
@@ -31,7 +31,8 @@ $domain_ibody_role = array(
 	"debater"=>$lang["debater"],
 	"rozhodci"=>$lang["adjudicator"],
 	"trener"=>$lang["coach"],
-	"organizator"=>$lang["organizer"]
+	"organizator"=>$lang["organizer"],
+	"bonus"=>$lang["bonus"]
 );
 
 global $domain_kontakt_viditelnost;

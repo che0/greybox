@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.67 2005/11/30 23:23:13 che0 Exp $
+ * $Id: czech.php,v 1.68 2006/08/23 17:07:33 che0 Exp $
  * czech language definition file
  */
 
@@ -347,4 +347,12 @@ $lang['show all'] = 'ukaž všechny';
 $lang['%s total debates, listing %s from season %s.'] = '%s debat celkem, z toho %s v sezóně %s.';
 $lang['%s: %s total debates'] = '%s: celkem %s debat';
 $lang['time of the debate has to be in the past'] = 'čas debaty musí být v minulosti';
+$lang['ipoints update ok'] = 'ibody aktualizovány';
+$lang['separate by commas: DL,DP,SD,SD2-2'] = 'oddělujte čárkami: DL,DP,SD,SD2-2';
+$lang['format'] = 'formát';
+$lang['add ipoints'] = 'přidat ibody';
+$lang['ipts'] = 'ibody';
+$lang['bonus'] = 'bonus';
+$lang['bonus ipoints'] = 'bonusové';
+$lang['debate ipoints'] = 'z debat';
 ?>

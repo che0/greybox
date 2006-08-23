@@ -1,4 +1,5 @@
 set foreign_key_checks = 0;
+drop table clovek_ibody;
 drop table clovek_debata_ibody;
 drop table clovek_debata;
 drop table liga_tym;

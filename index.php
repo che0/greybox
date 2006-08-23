@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: index.php,v 1.37 2005/10/27 12:04:49 che0 Exp $
+ * $Id: index.php,v 1.38 2006/08/23 17:07:33 che0 Exp $
  */
 
 include_once("lib/de_magic_quotes.inc");
@@ -36,6 +36,7 @@ $GLOBALS["page"]->pages = array(
 	array("clovek.add", $lang["add person"],"clovek"),
 	array("clovek.edit.exec", $lang["edit person"],"clovek"),
 	array("clovek.pw.edit.exec", $lang["edit person"],"clovek"),
+	array("clovek.ibody.edit.exec", $lang["edit person"],"clovek"),
 	array("clovek.accr.edit.exec", $lang["edit person"],"clovek"),
 	array("clovek.cont.edit.exec", $lang["edit person"],"clovek"),
 	array("clovek.self.exec", $lang["edit person"],"clovek"),

@@ -280,6 +280,7 @@ CREATE TABLE rozhodci (
   rocnik tinyint(3) unsigned NOT NULL default '0',
   misto varchar(255) default NULL,
   jazyk set('cz','en','de','fr') character set utf8 default NULL,
+  format set('DL','DP','SD','SD2-2') character set utf8 default NULL,
   PRIMARY KEY  (clovek_ID, rocnik),
   KEY clovek_ID (clovek_ID),
   constraint fk_rozhodci_clovek foreign key (clovek_ID) references clovek (clovek_ID) on delete cascade
@@ -311,4 +312,18 @@ CREATE TABLE soutez_teze (
   KEY teze_ID (teze_ID),
   constraint fk_st_soutez foreign key (soutez_ID) references soutez (soutez_ID) on delete cascade,
   constraint fk_st_teze foreign key (teze_ID) references teze (teze_ID) on delete restrict
+) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Table structure for table `clovek_ibody`
+--
+CREATE TABLE clovek_ibody (
+  clovek_ibody_ID int(10) unsigned NOT NULL auto_increment,
+  clovek_ID int(10) unsigned NOT NULL default '0',
+  rocnik tinyint(3) unsigned NOT NULL default '0',
+  ibody decimal(5,3) NOT NULL default '0.000',
+  tx varchar(255),
+  PRIMARY KEY (clovek_ibody_ID),
+  KEY clovek_ID (clovek_ID),
+  constraint fk_ibody_clovek foreign key (clovek_ID) references clovek (clovek_ID) on delete cascade
 ) TYPE=InnoDB CHARSET=utf8 COLLATE=utf8_czech_ci;

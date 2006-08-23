@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.40 2005/11/18 18:19:27 che0 Exp $
+ * $Id: clovek.inc,v 1.41 2006/08/23 17:07:33 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -165,6 +165,9 @@ if ($GLOBALS["cps_lidi"] >= 2) {
 	$accr->form[] = new cpf_db_textbox("jazyk");
 	$accr->form[] = new cpf_text(" " . $lang["separate by commas: en,cz"],array("class"=>"desc"));
 	$accr->form[] = new cpf_nl;
+	$accr->form[] = new cpf_db_textbox("format");
+	$accr->form[] = new cpf_text(" " . $lang["separate by commas: DL,DP,SD,SD2-2"],array("class"=>"desc"));
+	$accr->form[] = new cpf_nl;
 	$accr->form[] = new cpf_text($lang["place"] . ": ");
 	$accr->form[] = new cpf_db_textbox("misto","misto",array("maxlength"=>255));
 	$accr->form["b1"] = new cpf_button("save",$lang["save"]);
@@ -177,16 +180,17 @@ if ($GLOBALS["cps_lidi"] >= 2) {
 	$accr->render_hidden($lang["new accreditation"]);
 } else {
 	if (cpdb_fetch_all("
-		select rocnik, misto, jazyk from rozhodci where clovek_ID = :clovek_id order by rocnik",
+		select rocnik, format, misto, jazyk from rozhodci where clovek_ID = :clovek_id order by rocnik",
 		array(":clovek_id"=>$clovek_id),
 		$accrs)) {
 		
 		de_html($accrs);
 		cph_h2($lang["accreditations"]);
-		cph_table_head(array($lang["season"],$lang["language"],$lang["place"]));
+		cph_table_head(array($lang["season"],$lang["format"],$lang["language"],$lang["place"]));
 		foreach ($accrs as $accr) {
 			cph_table_row(array(
 				season_to_str($accr["rocnik"]),
+				$accr["format"],
 				$accr["jazyk"],
 				$accr["misto"]
 			));
@@ -453,8 +457,19 @@ if ($cur_debaty) {
 }
 
 // ipoints overview
-if (cpdb_fetch_all("select rocnik, role, sum(ibody) as ipts from clovek_debata_ibody where clovek_ID = :clovek_id group by rocnik, role with rollup", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]), $r_sum)) {
-	
+$have_ipoints = cpdb_fetch_all("
+	select
+		rocnik,
+		role,
+		sum(ibody) as ipts
+	from (select rocnik, role, ibody from clovek_debata_ibody where clovek_ID = :clovek_id
+		union all
+		select rocnik, 'bonus' as role, ibody from clovek_ibody where clovek_ID = :clovek_id) ibt
+	group by rocnik, role with rollup
+	",
+	array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]), $r_sum);
+
+if ($have_ipoints) {
 	// there are some ipts globally
 	cph_h2($lang["points overview"], array("id"=>"ibody"));
 	cph_table_head(array($lang["season"], $lang["role"],$lang["ipoints"]));
@@ -474,8 +489,54 @@ if (cpdb_fetch_all("select rocnik, role, sum(ibody) as ipts from clovek_debata_i
 		);
 	}
 	cph_table_end();
+}
+
+if ($GLOBALS["cps_lidi"] >= 2) {
+	// can edit all people == can edit bonus ipoints
 	
-	// by debates
+	cph_tag("h3", array(), $lang["bonus ipoints"]);
+	
+	$bipts = new cpykhen;
+	$bipts->form_attr["action"] = "./?page=clovek.ibody.edit.exec";
+	$bipts->select = "select * from clovek_ibody where clovek_ID = :clovek_id";
+	$bipts->select_args = array(":clovek_id"=>$clovek_id);
+	$bipts->form[] = new cpf_hidden("clovek_id",$clovek_id);
+	$bipts->form[] = new cpf_db_hidden("clovek_ibody_id", "clovek_ibody_ID");
+	$bipts->form[] = new cpf_text($lang["season"] . ": ");
+	$bipts->form[] = new cpf_db_listbox_array("rocnik", $GLOBALS["season_domain"]);
+	$bipts->form[] = new cpf_nl();
+	$bipts->form[] = new cpf_text($lang["ipoints"] . ": ");
+	$bipts->form[] = new cpf_db_textbox("ibody","ibody",array("maxlength"=>6));
+	$bipts->form[] = new cpf_nl();
+	$bipts->form[] = new cpf_text($lang["comment"] . ": ");
+	$bipts->form[] = new cpf_db_textbox("tx","tx",array("maxlength"=>255));
+	$bipts->form["b1"] = new cpf_button("save",$lang["save"]);
+	$bipts->form["b2"] = new cpf_button("delete",$lang["delete"]);
+	$bipts->render_select();
+	
+	$bipts->form["b1"] = new cpf_button("add",$lang["add"]);
+	unset($bipts->form["b2"]);
+	$bipts->load_this(array("rocnik"=>$GLOBALS["current_season"]));
+	$bipts->render_hidden($lang["add ipoints"]);
+	
+} elseif (cpdb_fetch_all("select rocnik, ibody, tx from clovek_ibody where clovek_ID = :clovek_id order by rocnik desc", array(":clovek_id"=>$clovek_id), $r_ibody)) {
+	
+	de_html($r_ibody);
+	cph_tag("h3", array(), $lang["bonus ipoints"]);
+	cph_table_head(array($lang["season"], $lang["ipts"], $lang["comment"]));
+
+	foreach ($r_ibody as $ib) {
+		cph_table_row(array(
+			season_to_str($ib["rocnik"]),
+			$ib["ibody"],
+			$ib["tx"]
+		));
+	}
+	cph_table_end();
+}
+
+if (cpdb_fetch_one_value("select exists (select 1 from clovek_debata_ibody where clovek_ID = :clovek_id and rocnik = :rocnik)", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]))) {
+	// there are debate ipoints
 	if(cpdb_fetch_all("
 		select
 			tym_aff.tym_ID as aff_ID,
@@ -507,6 +568,7 @@ if (cpdb_fetch_all("select rocnik, role, sum(ibody) as ipts from clovek_debata_i
 		", array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]),$r_debaty)) {
 		
 		de_html($r_debaty);
+		cph_tag("h3", array(), $lang["debate ipoints"]);
 		cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],$lang["ipoints"]));
 
 		foreach ($r_debaty as $debata) {

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.72 2005/11/30 23:23:13 che0 Exp $
+ * $Id: english.php,v 1.73 2006/08/23 17:07:33 che0 Exp $
  * english language definition file
  */
 
@@ -346,4 +346,12 @@ $lang['show all'] = 'show all';
 $lang['%s total debates, listing %s from season %s.'] = '%s total debates, listing %s from season %s.';
 $lang['%s: %s total debates'] = '%s: %s total debates';
 $lang['time of the debate has to be in the past'] = 'time of the debate has to be in the past';
+$lang['ipoints update ok'] = 'ipoints update ok';
+$lang['separate by commas: DL,DP,SD,SD2-2'] = 'separate by commas: DL,DP,SD,SD2-2';
+$lang['format'] = 'format';
+$lang['add ipoints'] = 'add ipoints';
+$lang['ipts'] = 'ipts';
+$lang['bonus'] = 'bonus';
+$lang['bonus ipoints'] = 'bonus ipoints';
+$lang['debate ipoints'] = 'debate ipoints';
 ?>
