@@ -280,7 +280,9 @@ p.komentar span.achtung span.achtung {
 
 form {
 	padding: 2px;
-	border: 1px solid transparent;
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
 }
 
 form:hover {
