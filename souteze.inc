@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: souteze.inc,v 1.12 2005/03/23 20:05:48 che0 Exp $
+ * $Id: souteze.inc,v 1.13 2007/02/13 21:04:31 che0 Exp $
  * vypis vsech soutezi v sezone
  */
 
@@ -31,7 +31,11 @@ if (! cpdb_fetch_all("
 			liga_ID as ID,
 			rocnik,
 			nazev,
-			'' as jazyk,
+			(
+				select group_concat(distinct jazyk separator ',')
+				from turnaj left join soutez using (soutez_ID)
+				where liga_ID = liga.liga_ID
+			) as jazyk,
 			0 as zamceno,
 			(
 				select count(debata_ID)
@@ -61,7 +65,7 @@ foreach ($souteze as $soutez) {
 			season_to_str($soutez["rocnik"]),
 			cphs_link("./?page=liga&liga_id=" . $soutez["ID"], $soutez["nazev"]),
 			$lang["league"],
-			$lang["n/a"],
+			is_null($soutez["jazyk"]) ? $lang["n/a"] : $soutez["jazyk"],
 			$lang["n/a"],
 			$soutez["debaty"]
 		));
