@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.41 2006/08/23 17:07:33 che0 Exp $
+ * $Id: clovek.inc,v 1.42 2007/02/14 02:43:38 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -389,8 +389,8 @@ $cur_debaty = cpdb_fetch_all("
 		clovek_debata.presvedcive as adj_presvedcive
 	from
 		clovek_debata
-		left join soutez on debata.soutez_ID = soutez.soutez_ID
 		left join debata on debata.debata_ID = clovek_debata.debata_ID
+		left join soutez on debata.soutez_ID = soutez.soutez_ID
 		left join debata_tym dt_aff on dt_aff.debata_ID = debata.debata_ID and dt_aff.pozice = 1
 		left join debata_tym dt_neg on dt_neg.debata_ID = debata.debata_ID and dt_neg.pozice = 0
 		left join tym tym_aff on dt_aff.tym_ID = tym_aff.tym_ID
@@ -405,16 +405,20 @@ $cur_debaty = cpdb_fetch_all("
 );
 
 $total_debaty = cpdb_fetch_one_value(
-	"select count(*) from clovek_debata where clovek_ID = :clovek_id",
+	"select count(distinct debata_ID) from clovek_debata where clovek_ID = :clovek_id",
 	array(":clovek_id"=>$clovek_id));
 
 if ($total_debaty) {
 	// if there are any debates at all...
+	$season_debaty = cpdb_fetch_one_value(
+		"select count(distinct cd.debata_ID) from clovek_debata cd left join debata using (debata_ID) left join soutez using (soutez_ID) where clovek_ID = :clovek_id and rocnik = :rocnik",
+		array(":clovek_id"=>$clovek_id, ":rocnik"=>$GLOBALS["current_season"]));
+	
 	cph_h2($lang["debates"], array("id"=>"debaty"));
 	cph_p(
 		sprintf(
 			$lang["%s total debates, listing %s from season %s."],
-			$total_debaty, $cur_debaty, season_to_str($GLOBALS["current_season"])
+			$total_debaty, $season_debaty, season_to_str($GLOBALS["current_season"])
 		)
 		. (($total_debaty > $cur_debaty) ? " " . cphs_link("./?page=clovek.debaty&clovek_id=" . $clovek_id, $lang["show all"]) : "")
 	);
