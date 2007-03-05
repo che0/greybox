@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.21 2007/03/05 15:31:59 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.22 2007/03/05 15:38:24 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -93,8 +93,8 @@ if (cpdb_fetch_all("
 // average result aff:neg
 cpdb_fetch_one_row("
 	select
-		avg(2 * vitez + vitez * presvedcive + (1-vitez) * (1-presvedcive)) as aff,
-		avg(2 * (1-vitez) + (1-vitez) * presvedcive + vitez * (1-presvedcive)) as neg
+		avg(if (vitez != 2, 2 * vitez + vitez * presvedcive + (1-vitez) * (1-presvedcive), 2)) as aff,
+		avg(if (vitez != 2, 2 * (1-vitez) + (1-vitez) * presvedcive + vitez * (1-presvedcive), 2)) as neg
 	from
 		debata
 	where
