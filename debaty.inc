@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debaty.inc,v 1.9 2005/04/15 10:54:12 che0 Exp $
+ * $Id: debaty.inc,v 1.10 2007/03/05 15:31:59 che0 Exp $
  */
 
 pg_head();
@@ -43,23 +43,12 @@ if (! cpdb_fetch_all("
 de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],""));
 foreach ($r_debaty as $debata) {
-	if ($debata["vitez"] == 1) {
-		$result = $lang["aff"];
-	} else {
-		$result = $lang["neg"];
-	}
-	$result .= " ";
-	if ($debata["presvedcive"] == 1) {
-		$result .= $lang["3:0"];
-	} else {
-		$result .= $lang["2:1"];
-	}
 	cph_table_row(array(
 		format_date($debata["datum"]),
 		cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
 		cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
 		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
-		$result,
+		result_to_str($debata["vitez"], $debata["presvedcive"]),
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
 	),
 		$debata["achtung"] ? array("class"=>"achtung") : array()

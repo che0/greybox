@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: tym.soutez.inc,v 1.11 2005/04/17 18:10:50 che0 Exp $
+ * $Id: tym.soutez.inc,v 1.12 2007/03/05 15:31:59 che0 Exp $
  */
 
 $tym_id = $_REQUEST["tym_id"];
@@ -53,23 +53,12 @@ cpdb_fetch_all("
 de_html($r_debaty);
 cph_table_head(array($lang["date"],$lang["position"],$lang["opponent"],$lang["resolution"],$lang["result"],$lang["pts"],""));
 foreach ($r_debaty as $debata) {
-	if ($debata["vitez"] == 1) {
-		$result = $lang["aff"];
-	} else {
-		$result = $lang["neg"];
-	}
-	$result .= " ";
-	if ($debata["presvedcive"] == 1) {
-		$result .= $lang["3:0"];
-	} else {
-		$result .= $lang["2:1"];
-	}
 	cph_table_row(array(
 		format_date($debata["datum"]),
 		($debata["pozice"] == 1) ? $lang["aff"] : $lang["neg"],
 		cphs_link("./?page=tym&tym_id=" . $debata["oni_ID"],$debata["oni_tym"]),
 		cphs_link("./?page=teze.detaily&teze_id=" . $debata["teze_ID"],$debata["teze_short"],array("title"=>$debata["teze"])),
-		$result,
+		result_for_side($debata["vitez"], $debata["presvedcive"], $debata["pozice"]),
 		$debata["body"],
 		cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["debate details"])
 	),

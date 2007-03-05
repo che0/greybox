@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: english.php,v 1.73 2006/08/23 17:07:33 che0 Exp $
+ * $Id: english.php,v 1.74 2007/03/05 15:31:59 che0 Exp $
  * english language definition file
  */
 
@@ -354,4 +354,8 @@ $lang['ipts'] = 'ipts';
 $lang['bonus'] = 'bonus';
 $lang['bonus ipoints'] = 'bonus ipoints';
 $lang['debate ipoints'] = 'debate ipoints';
+$lang['draw'] = 'draw';
+$lang['lost'] = 'lost';
+$lang['debate %s ended up in draw, that is illegal in a league'] = 'debate %s ended up in draw, that is illegal in a league';
+$lang['league %s: recount failed'] = 'league %s: recount failed';
 ?>

@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.inc,v 1.16 2005/04/15 09:08:15 che0 Exp $
+ * $Id: debata.inc,v 1.17 2007/03/05 15:31:59 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -97,20 +97,30 @@ cpdb_fetch_all("
 
 de_html($recnik);
 $pers = $debata["presvedcive"] ? $lang["3:0"] : $lang["2:1"];
-if ($debata["vitez"] == 1) {
-	$a_sieg = array("class"=>"sieg");
-	$n_sieg = array();
-	$a_cell = $lang["won"] . " " . $pers;
-	$n_cell = "";
-	$a_sieg2p = array("class"=>"sieg points", "colspan"=>"2");
-	$n_sieg2p = array("class"=>"points", "colspan"=>"2");
-} else {
-	$a_sieg = array();
-	$n_sieg = array("class"=>"sieg");
-	$a_cell = "";
-	$n_cell = $lang["won"] . " " . $pers;
-	$a_sieg2p = array("class"=>"points", "colspan"=>"2");
-	$n_sieg2p = array("class"=>"sieg points", "colspan"=>"2");
+switch ($debata["vitez"]) {
+	case DRES_AFF:
+		$a_sieg = array("class"=>"sieg");
+		$n_sieg = array();
+		$a_cell = $lang["won"] . " " . $pers;
+		$n_cell = "";
+		$a_sieg2p = array("class"=>"sieg points", "colspan"=>"2");
+		$n_sieg2p = array("class"=>"points", "colspan"=>"2");
+	break;
+	
+	case DRES_NEG:
+		$a_sieg = array();
+		$n_sieg = array("class"=>"sieg");
+		$a_cell = "";
+		$n_cell = $lang["won"] . " " . $pers;
+		$a_sieg2p = array("class"=>"points", "colspan"=>"2");
+		$n_sieg2p = array("class"=>"sieg points", "colspan"=>"2");
+	break;
+	
+	case DRES_DRAW:
+		$a_sieg = $n_sieg = array();
+		$a_cell = $n_cell = $lang["draw"];
+		$a_sieg2p = $n_sieg2p = array("class"=>"points", "colspan"=>"2");
+	break;
 }
 $a_sieg2 = array_merge($a_sieg, array("colspan"=>"2"));
 $n_sieg2 = array_merge($n_sieg, array("colspan"=>"2"));

@@ -115,7 +115,7 @@ CREATE TABLE debata (
   misto varchar(255) default NULL,
   komentar text,
   achtung tinyint(1) NOT NULL default '0',
-  vitez tinyint(1) NOT NULL default '0',
+  vitez tinyint(1) NOT NULL default '0', -- 0=neg / 1=aff / 2=draw
   presvedcive tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (debata_ID),
   KEY soutez_ID (soutez_ID),

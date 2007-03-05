@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.inc,v 1.14 2005/03/30 11:07:18 che0 Exp $
+ * $Id: debata.edit.inc,v 1.15 2007/03/05 15:31:59 che0 Exp $
  */
 
 if ($GLOBALS["cps_debaty"] < 1) {
@@ -166,10 +166,16 @@ foreach ($recnici as $recnik) {
 	);
 }
 
-// pridani result = [AN][+-]
-$dres = $debata["vitez"] ? "A" : "N";
-$dres .= $debata["presvedcive"] ? "+" : "-";
-$debata["vysledek"] = $dres;
+// pridani result = ([AN][+-])|0
+if ($debata["vitez"] == DRES_DRAW) {
+	// nerozhodny vysledek
+	$debata["vysledek"] = "D";
+} else {
+	// A/N
+	$dres = $debata["vitez"] ? "A" : "N";
+	$dres .= $debata["presvedcive"] ? "+" : "-";
+	$debata["vysledek"] = $dres;
+}
 
 // pykhen na zakladni vlastnosti
 $dpyk = new cpykhen;
@@ -241,7 +247,8 @@ $dpyk->form[] = new cpf_db_listbox_array("vysledek", array(
 	"A+" => $lang["aff"] . " " . $lang["3:0"],
 	"A-" => $lang["aff"] . " " . $lang["2:1"],
 	"N+" => $lang["neg"] . " " . $lang["3:0"],
-	"N-" => $lang["neg"] . " " . $lang["2:1"]
+	"N-" => $lang["neg"] . " " . $lang["2:1"],
+	"D"  => $lang["draw"]
 ));
 $dpyk->form[] = new cpf_text(" " . $lang["applies only if there are no adjudicators filled in"], array("class"=>"desc"));
 $dpyk->form[] = new cpf_nl;

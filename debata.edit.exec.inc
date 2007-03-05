@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: debata.edit.exec.inc,v 1.19 2005/11/30 23:23:13 che0 Exp $
+ * $Id: debata.edit.exec.inc,v 1.20 2007/03/05 15:31:59 che0 Exp $
  */
 
 include("lib/points.inc");
@@ -43,7 +43,11 @@ $_SESSION["dbt_cache"]["n3_kidy"] = $speakers["n3"]["kidy"] = $_REQUEST["n3_kidy
 $speakers["n3"]["tym"] = "neg";
 $_SESSION["dbt_cache"]["vysledek"] = $vysledek = $_REQUEST["vysledek"];
 
-$vitez = substr($vysledek,0,1) == "A" ? 1 : 0;
+switch (substr($vysledek,0,1)) {
+	case "A": $vitez = DRES_AFF; break; // affirmative
+	case "N": $vitez = DRES_NEG; break; // negative
+	case "D": $vitez = DRES_DRAW; break; // draw round
+}
 $presvedcive = substr($vysledek,1,1) == "+" ? 1 : 0;
 
 $datum = deformat_date($datum);

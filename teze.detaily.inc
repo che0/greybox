@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: teze.detaily.inc,v 1.20 2006/07/30 17:49:15 che0 Exp $
+ * $Id: teze.detaily.inc,v 1.21 2007/03/05 15:31:59 che0 Exp $
  */
 
 $teze_id = $_REQUEST["teze_id"];
@@ -79,22 +79,11 @@ if (cpdb_fetch_all("
 	cph_h2($lang["debated"]);
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["result"],""));
 	foreach ($r_debaty as $debata) {
-		if ($debata["vitez"] == 1) {
-			$result = $lang["aff"];
-		} else {
-			$result = $lang["neg"];
-		}
-		$result .= " ";
-		if ($debata["presvedcive"] == 1) {
-			$result .= $lang["3:0"];
-		} else {
-			$result .= $lang["2:1"];
-		}
 		cph_table_row(array(
 			format_date($debata["datum"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["aff_ID"],$debata["aff_tym"]),
 			cphs_link("./?page=tym&tym_id=" . $debata["neg_ID"],$debata["neg_tym"]),
-			$result,
+			result_to_str($debata["vitez"], $debata["presvedcive"]),
 			cphs_link("./?page=debata&debata_id=" . $debata["debata_ID"], $lang["details"])
 		));
 	}

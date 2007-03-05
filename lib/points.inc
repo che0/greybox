@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: points.inc,v 1.14 2005/03/23 12:52:33 che0 Exp $
+ * $Id: points.inc,v 1.15 2007/03/05 15:32:00 che0 Exp $
  */
 
 function iptsr_internal_deb($debata_id) {
@@ -205,9 +205,9 @@ function recount_debate($debata_id) {
 		}
 		if ($pro_aff == $pro_neg) {
 			// tie
-			pg_achtung(sprintf($lang["debate %s: tie votes, leaving default decision: %s"],$debata_id, $debata["vitez"] ? $lang["aff"] : $lang["neg"]), 1);
 			$vitez = $debata["vitez"];
 			$presvedcive = 0;
+			pg_achtung(sprintf($lang["debate %s: tie votes, leaving default decision: %s"], $debata_id, result_to_str($vitez, $presvedcive)), 1);
 		} elseif ($pro_aff > $pro_neg) {
 			// aff win
 			$vitez = 1;
@@ -253,14 +253,24 @@ function recount_debate($debata_id) {
 		", array(":debata_id"=>$debata_id));
 	
 	// count points
-	if ($vitez) {
-		// aff won
-		$points_aff = 7 + $presvedcive + $different_clubs + $official_resolution;
-		$points_neg = 5 - $presvedcive + $different_clubs + $official_resolution;
-	} else {
-		// neg won
-		$points_aff = 5 - $presvedcive + $different_clubs + $official_resolution;
-		$points_neg = 7 + $presvedcive + $different_clubs + $official_resolution;
+	switch ($vitez) {
+		case DRES_NEG:
+			// neg won
+			$points_aff = 5 - $presvedcive + $different_clubs + $official_resolution;
+			$points_neg = 7 + $presvedcive + $different_clubs + $official_resolution;
+		break;
+		
+		case DRES_AFF:
+			// aff won
+			$points_aff = 7 + $presvedcive + $different_clubs + $official_resolution;
+			$points_neg = 5 - $presvedcive + $different_clubs + $official_resolution;
+		break;
+		
+		case DRES_DRAW:
+			// draw;
+			$points_aff = 6 + $different_clubs + $official_resolution;
+			$points_neg = 6 + $different_clubs + $official_resolution;
+		break;
 	}
 	
 	// write changes
@@ -344,6 +354,14 @@ function lg_add_debate($liga_id, $debata_id) {
 	if ($debata["aff_koef"] === NULL) { $debata["aff_koef"] = 25; }
 	if ($debata["neg_koef"] === NULL) { $debata["neg_koef"] = 25; }
 	
+	if ($debata["vitez"] == DRES_DRAW) {
+		// draw debate in league --> illegal
+		pg_achtung(sprintf($lang["debate %s ended up in draw, that is illegal in a league"], $debata_id));
+		$status &= cpdb_exec("update debata_tym set liga_vytezek = 0 where debata_ID = :debata_id",  array(":debata_id"=>$debata_id));
+		return $status;
+	}
+	
+	// all ok, go by normal rules
 	$rezultat_aff = ($debata["vitez"]) ? (40 + 10 * $debata["presvedcive"]) : (10 * (1 - $debata["presvedcive"]));
 	$rezultat_neg = 50 - $rezultat_aff;
 	

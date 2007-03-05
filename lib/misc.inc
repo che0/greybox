@@ -1,8 +1,13 @@
 <?php
 /*
  * greybox
- * $Id: misc.inc,v 1.8 2005/04/15 09:08:17 che0 Exp $
+ * $Id: misc.inc,v 1.9 2007/03/05 15:32:00 che0 Exp $
  */
+
+// debate result constants
+define("DRES_AFF", 1);
+define("DRES_NEG", 0);
+define("DRES_DRAW", 2);
 
 function join_name($first, $nick, $last)
 {
@@ -73,5 +78,42 @@ function filter_comment($tx) {
 	return str_replace("[sig]",sprintf("[small]([url=./?page=clovek&clovek_id=%s]%s[/url], %s)[/small]", $_SESSION['user_clovek_ID'], $_SESSION['user_name'], strftime('%Y-%m-%d')), $tx);
 }
 
+/// debate result to string
+function result_to_str($vitez, $presvedcive) {
+	global $lang;
+	
+	$pers = $presvedcive ? $lang["3:0"] : $lang["2:1"];
+	
+	switch ($vitez) {
+		case DRES_NEG:
+			// negative
+			return $lang["neg"] . " " . $pers;
+		break;
+		
+		case DRES_AFF:
+			// affirmative
+			return $lang["aff"] . " " . $pers;
+		break;
+		
+		case DRES_DRAW:
+			// draw
+			return $lang["draw"];
+		break;
+	}
+}
+
+/// debate result to string, with respect to side
+function result_for_side($vitez, $presvedcive, $strana) {
+	global $lang;
+	
+	$pers = $presvedcive ? $lang["3:0"] : $lang["2:1"];
+	if ($vitez == DRES_DRAW) {
+		return $lang["draw"];
+	} elseif ($vitez == $strana) {
+		return $lang["won"] . " " . $pers;
+	} else {
+		return $lang["lost"] . " " . $pers;
+	}
+}
 
 ?>

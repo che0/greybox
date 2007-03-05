@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: clovek.inc,v 1.42 2007/02/14 02:43:38 che0 Exp $
+ * $Id: clovek.inc,v 1.43 2007/03/05 15:31:59 che0 Exp $
  */
 
 include_once("i_domeny.inc");
@@ -430,18 +430,26 @@ if ($cur_debaty) {
 	de_html($r_debaty);
 	cph_table_head(array($lang["date"],$lang["aff"],$lang["neg"],$lang["resolution"],$lang["result"],"",$lang["role"],""));
 	foreach ($r_debaty as $debata) {
-		if ($debata["vitez"] == 1) { $result = $lang["aff"]; } else { $result = $lang["neg"]; }
-		$result .= " ";
-		if ($debata["presvedcive"] == 1) { $result .= $lang["3:0"]; } else { $result .= $lang["2:1"]; }
 		switch ($debata["role"]) {
 			case "o": // organizer
 				$detaily = "";
+				$result = result_to_str($debata["vitez"], $debata["presvedcive"]);
 			break;
 			case "r": // adjudicator
 				$detaily = ($debata["adj_rozhodnuti"] ? "A" : "N") . ($debata["adj_presvedcive"] ? "+" : "-");
+				$result = result_to_str($debata["vitez"], $debata["presvedcive"]);
 			break;
 			default: // debater
 				$detaily = $debata["kidy"];
+				switch (substr($debata["role"], 0, 1)) {
+					case "a": // affirmative debater
+						$result = result_for_side($debata["vitez"], $debata["presvedcive"], 1);
+					break;
+					
+					case "n": // negative debater
+						$result = result_for_side($debata["vitez"], $debata["presvedcive"], 0);
+					break;
+				}
 			break;
 		}
 		cph_table_row(array(

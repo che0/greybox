@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: czech.php,v 1.68 2006/08/23 17:07:33 che0 Exp $
+ * $Id: czech.php,v 1.69 2007/03/05 15:31:59 che0 Exp $
  * czech language definition file
  */
 
@@ -350,9 +350,13 @@ $lang['time of the debate has to be in the past'] = 'čas debaty musí být v mi
 $lang['ipoints update ok'] = 'ibody aktualizovány';
 $lang['separate by commas: DL,DP,SD,SD2-2'] = 'oddělujte čárkami: DL,DP,SD,SD2-2';
 $lang['format'] = 'formát';
-$lang['add ipoints'] = 'přidat ibody';
-$lang['ipts'] = 'ibody';
+$lang['add ipoints'] = 'přidat IB';
+$lang['ipts'] = 'IB';
 $lang['bonus'] = 'bonus';
 $lang['bonus ipoints'] = 'bonusové';
 $lang['debate ipoints'] = 'z debat';
+$lang['draw'] = 'remíza';
+$lang['lost'] = 'prohráli';
+$lang['debate %s ended up in draw, that is illegal in a league'] = 'ligová debata %s skončila remízou, to by se nemělo státá';
+$lang['league %s: recount failed'] = 'liga %s: přepočet selhal';
 ?>
