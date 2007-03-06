@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.26 2007/03/05 15:31:59 che0 Exp $
+ * $Id: turnaj.inc,v 1.27 2007/03/06 15:26:03 che0 Exp $
  */
 
 include_once("i_turnaj.inc");
@@ -90,8 +90,12 @@ if (cpdb_fetch_all("
 		klub.klub_ID,
 		klub.kratky_nazev,
 		sum(debata_tym.body) as bodu,
-		sum((2+debata.presvedcive) * (debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) + (1-debata.presvedcive) * ((1 - debata_tym.pozice) * debata.vitez + (1 - debata.vitez) * debata_tym.pozice)) as ballotu,
-		sum(debata_tym.pozice * debata.vitez + (1-debata_tym.pozice) * (1-debata.vitez)) as vitezstvi
+		sum(case
+			when debata.vitez = 2 then 2
+			when debata_tym.pozice = debata.vitez then 2 + debata.presvedcive
+			else 1-debata.presvedcive
+		end) as ballotu,
+		sum(if(debata_tym.pozice = debata.vitez, 1, 0)) as vitezstvi
 	from
 		debata_tym
 		left join tym on tym.tym_ID = debata_tym.tym_ID
