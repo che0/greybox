@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: kluby.inc,v 1.8 2005/03/23 20:05:48 che0 Exp $
+ * $Id: kluby.inc,v 1.9 2007/03/06 15:44:08 che0 Exp $
  * print out club list
  */
 
@@ -19,7 +19,7 @@ if (! cpdb_fetch_all("
 			and clovek.debater = 1
 	group by
 		klub_ID, nazev, misto
-	order by nazev
+	order by misto, nazev
 	", array(), $kluby)) {
 	
 	pg_achtung($lang["no record"]);
@@ -39,13 +39,13 @@ cpdb_fetch_all("
 	", array(), $klub_clenove, "klub_ID");
 
 
-cph_table_head(array($lang["club"],$lang["place"],$lang["debaters"],$lang["full members"]));
+cph_table_head(array($lang["place"], $lang["club"],$lang["debaters"],$lang["full members"]));
 
 de_html($kluby);
 foreach ($kluby as $klub) {
 	cph_table_row(array(
-		cphs_link("./?page=klub&klub_id=" . $klub['klub_ID'],$klub['nazev']),
 		$klub["misto"],
+		cphs_link("./?page=klub&klub_id=" . $klub['klub_ID'],$klub['nazev']),
 		$klub["debateri"],
 		$klub_clenove[$klub["klub_ID"]]["clenove"]
 	));
