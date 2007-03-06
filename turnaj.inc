@@ -1,7 +1,7 @@
 <?php
 /*
  * greybox
- * $Id: turnaj.inc,v 1.27 2007/03/06 15:26:03 che0 Exp $
+ * $Id: turnaj.inc,v 1.28 2007/03/06 15:31:15 che0 Exp $
  */
 
 include_once("i_turnaj.inc");
@@ -91,7 +91,7 @@ if (cpdb_fetch_all("
 		klub.kratky_nazev,
 		sum(debata_tym.body) as bodu,
 		sum(case
-			when debata.vitez = 2 then 2
+			when debata.vitez = 2 then 1
 			when debata_tym.pozice = debata.vitez then 2 + debata.presvedcive
 			else 1-debata.presvedcive
 		end) as ballotu,
